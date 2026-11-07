@@ -1451,3 +1451,565 @@
         jam: document.getElementById("fLogJam").value || new Date().toLocaleTimeString('id-ID'),
         divisi: document.getElementById("fLogDivisi").value,
         kategori: document.getElementById("fLogKategori").value,
+        item_terkait: document.getElementById("fLogItem").value,
+        jumlah_biaya: document.getElementById("fLogJumlah").value,
+        detail: document.getElementById("fLogDetail").value,
+        pic: currentUser.username,
+        tindak_lanjut: "Tercatat"
+      };
+
+      closeModal('modalLog');
+      showToast("Menyimpan log...");
+      await postToGas("insert", "LOG_KALENDER", payload);
+      fetchAllData();
+      renderCalendar();
+    }
+
+    // CHECKLIST STASIUN & EDIT TUGAS
+    function renderChecklistStations() {
+      const container = document.getElementById("stationGrid");
+      const stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
+      container.innerHTML = stations.map(st => {
+        const tasks = localData.CHECKLIST.filter(c => c.station === st);
+        return `
+          <div class="station-card">
+            <div class="station-header">
+              <span>Station ${st}</span>
+              <span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span>
+            </div>
+            ${tasks.map(t => `
+              <div class="task-item">
+                <input type="checkbox" class="task-check" ${t.status==='Selesai'?'checked':''} 
+                  onchange="toggleTaskState('${t.task_id}', this.checked)">
+                <div class="task-content" onclick="editTaskPrompt('${t.task_id}', '${t.tugas}')">
+                  <div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div>
+                  <div class="task-sub">Shift ${t.shift} • Target ${t.jam_target} • PIC: ${t.petugas || '-'} (Klik untuk edit)</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function toggleTaskState(id, isChecked) {
+      showToast("Menyimpan checklist...");
+      const task = localData.CHECKLIST.find(c => c.task_id === id);
+      if(task) { task.status = isChecked ? "Selesai" : "Belum"; }
+      renderChecklistStations();
+
+      await postToGas("update", "CHECKLIST", {
+        key: "task_id",
+        val: id,
+        updates: { status: isChecked ? "Selesai" : "Belum", jam_selesai: new Date().toLocaleTimeString('id-ID'), petugas: currentUser.username }
+      });
+      fetchAllData();
+    }
+
+    async function editTaskPrompt(id, oldTask) {
+      const newTask = prompt("Ubah uraian tugas checklist:", oldTask);
+      if(newTask && newTask.trim() !== "") {
+        showToast("Memperbarui tugas...");
+        await postToGas("update", "CHECKLIST", { key: "task_id", val: id, updates: { tugas: newTask } });
+        fetchAllData();
+      }
+    }
+
+    function openNewTaskModal() { openModal('modalTask'); }
+    async function submitNewTask() {
+      const payload = {
+        task_id: "CHK-" + Date.now().toString().slice(-5),
+        tanggal: new Date().toISOString().split('T')[0],
+        shift: document.getElementById("fTaskShift").value,
+        station: document.getElementById("fTaskStation").value,
+        fase: document.getElementById("fTaskFase").value,
+        jam_target: document.getElementById("fTaskJam").value,
+        tugas: document.getElementById("fTaskUraian").value,
+        status: "Belum",
+        petugas: currentUser.username
+      };
+      closeModal('modalTask');
+      showToast("Menambahkan tugas...");
+      await postToGas("insert", "CHECKLIST", payload);
+      fetchAllData();
+    }
+
+    // STOK INVENTARIS
+    function renderStokTable() {
+      const filter = document.getElementById("stokFilter").value;
+      const data = (filter === "SEMUA") ? localData.STOK : localData.STOK.filter(s => s.divisi === filter);
+      document.getElementById("stokTableBody").innerHTML = data.map(s => {
+        // Otomatis hitung di sisi client jika formula sheet belum dievaluasi
+        const gudang = cleanMoney(s.stok_gudang);
+        const sisa = cleanMoney(s.sisa_sore);
+        const min = cleanMoney(s.min_stok);
+        const mikro = sisa || (cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2));
+        const total = cleanMoney(s.total_makro) || (gudang + mikro);
+        const status = s.status || (total <= min ? "RESTOCK" : "AMAN");
+
+        return `
+          <tr>
+            <td><code>${s.item_id}</code></td>
+            <td>${s.divisi}</td>
+            <td><strong>${s.nama_barang}</strong></td>
+            <td>${s.satuan}</td>
+            <td>${min}</td>
+            <td>${gudang}</td>
+            <td>${cleanMoney(s.tersedia_pagi)}</td>
+            <td>${cleanMoney(s.refill_s1)}</td>
+            <td>${cleanMoney(s.refill_s2)}</td>
+            <td><strong>${sisa}</strong></td>
+            <td>${total}</td>
+            <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span></td>
+            <td>
+              <div style="display:flex; gap:0.3rem;">
+                <input type="number" style="width:60px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
+                  placeholder="Opname" onchange="quickUpdateOpname('${s.item_id}', this.value)">
+                <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editStokModal('${s.item_id}')">Edit</button>
+                <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteStokItem('${s.item_id}')">Hapus</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function quickUpdateOpname(id, val) {
+      if(!val) return;
+      showToast("Menyimpan opname...");
+      await postToGas("update", "STOK", { key: "item_id", val: id, updates: { sisa_sore: Number(val) } });
+      fetchAllData();
+    }
+
+    function openNewStokModal() {
+      document.getElementById("modalStokTitle").innerText = "Tambah Barang Inventaris Baru";
+      document.getElementById("fStkEditId").value = "";
+      document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0];
+      document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fStkNama").value = "";
+      document.getElementById("fStkSatuan").value = "";
+      openModal('modalStok');
+    }
+
+    function editStokModal(id) {
+      const item = localData.STOK.find(s => s.item_id === id);
+      if(!item) return;
+      document.getElementById("modalStokTitle").innerText = "Edit Barang: " + id;
+      document.getElementById("fStkEditId").value = id;
+      document.getElementById("fStkTanggal").value = item.tgl_update || new Date().toISOString().split('T')[0];
+      document.getElementById("fStkJam").value = item.jam_update || new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fStkDivisi").value = item.divisi;
+      document.getElementById("fStkKategori").value = item.kategori;
+      document.getElementById("fStkNama").value = item.nama_barang;
+      document.getElementById("fStkSatuan").value = item.satuan;
+      document.getElementById("fStkMin").value = cleanMoney(item.min_stok);
+      document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang);
+      openModal('modalStok');
+    }
+
+    async function submitStokForm() {
+      const editId = document.getElementById("fStkEditId").value;
+      const div = document.getElementById("fStkDivisi").value;
+      const prefix = div === "BARISTA" ? "BAR" : (div === "KITCHEN" ? "KIT" : "SRV");
+
+      if(editId) {
+        closeModal('modalStok');
+        showToast("Menyimpan perubahan...");
+        await postToGas("update", "STOK", {
+          key: "item_id",
+          val: editId,
+          updates: {
+            divisi: div,
+            kategori: document.getElementById("fStkKategori").value,
+            nama_barang: document.getElementById("fStkNama").value,
+            satuan: document.getElementById("fStkSatuan").value,
+            min_stok: Number(document.getElementById("fStkMin").value),
+            stok_gudang: Number(document.getElementById("fStkGudang").value),
+            tgl_update: document.getElementById("fStkTanggal").value,
+            jam_update: document.getElementById("fStkJam").value
+          }
+        });
+      } else {
+        const newId = `${prefix}-${Date.now().toString().slice(-4)}`;
+        const payload = {
+          item_id: newId,
+          divisi: div,
+          kategori: document.getElementById("fStkKategori").value,
+          nama_barang: document.getElementById("fStkNama").value,
+          satuan: document.getElementById("fStkSatuan").value,
+          min_stok: Number(document.getElementById("fStkMin").value),
+          stok_gudang: Number(document.getElementById("fStkGudang").value),
+          tersedia_pagi: 0,
+          refill_s1: 0,
+          refill_s2: 0,
+          sisa_sore: 0,
+          tgl_update: document.getElementById("fStkTanggal").value,
+          jam_update: document.getElementById("fStkJam").value
+        };
+        closeModal('modalStok');
+        showToast("Menambahkan barang...");
+        await postToGas("insert", "STOK", payload);
+      }
+      fetchAllData();
+    }
+
+    async function deleteStokItem(id) {
+      if(confirm(`Yakin ingin menghapus barang ${id}?`)) {
+        showToast("Menghapus barang...");
+        await postToGas("delete", "STOK", { key: "item_id", val: id });
+        fetchAllData();
+      }
+    }
+
+    // DENOMINASI KASIR INDONESIA LENGKAP & FORMULA SELISIH
+    function calcCashDenom() {
+      const d100 = (Number(document.getElementById("d100k").value) || 0) * 100000;
+      const d50 = (Number(document.getElementById("d50k").value) || 0) * 50000;
+      const d20 = (Number(document.getElementById("d20k").value) || 0) * 20000;
+      const d10 = (Number(document.getElementById("d10k").value) || 0) * 10000;
+      const d5 = (Number(document.getElementById("d5k").value) || 0) * 5000;
+      const d2 = (Number(document.getElementById("d2k").value) || 0) * 2000;
+      const d1 = (Number(document.getElementById("d1k").value) || 0) * 1000;
+
+      // Koin Rupiah
+      const k1000 = (Number(document.getElementById("k1000").value) || 0) * 1000;
+      const k500 = (Number(document.getElementById("k500").value) || 0) * 500;
+      const k200 = (Number(document.getElementById("k200").value) || 0) * 200;
+      const k100 = (Number(document.getElementById("k100").value) || 0) * 100;
+
+      const totalFisik = d100 + d50 + d20 + d10 + d5 + d2 + d1 + k1000 + k500 + k200 + k100;
+      document.getElementById("fStFisikTotal").value = "Rp " + totalFisik.toLocaleString('id-ID');
+
+      const modal = Number(document.getElementById("fStModal").value) || 0;
+      const tunai = Number(document.getElementById("fStTunai").value) || 0;
+      const pengeluaran = Number(document.getElementById("fStPengeluaran").value) || 0;
+      
+      // Target Seharusnya = Modal Awal + Penjualan Tunai - Pengeluaran Kas Kecil
+      const targetSeharusnya = modal + tunai - pengeluaran;
+      const selisih = totalFisik - targetSeharusnya;
+
+      const selEl = document.getElementById("fStSelisih");
+      selEl.value = "Rp " + selisih.toLocaleString('id-ID');
+      selEl.style.color = selisih === 0 ? "var(--success)" : "var(--danger)";
+    }
+
+    async function submitHandover() {
+      const payload = {
+        id: "ST-" + Date.now().toString().slice(-5),
+        tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0],
+        jam: document.getElementById("fStJam").value || new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':'),
+        tahap: document.getElementById("fStTahap").value,
+        petugas_serah: currentUser.username,
+        petugas_terima: "Shift Lanjutan",
+        kas_modal_awal: Number(document.getElementById("fStModal").value),
+        tunai_masuk: Number(document.getElementById("fStTunai").value),
+        pengeluaran_kas_kecil: Number(document.getElementById("fStPengeluaran").value),
+        total_fisik_laci: document.getElementById("fStFisikTotal").value,
+        selisih_kas: document.getElementById("fStSelisih").value,
+        non_tunai_qris: Number(document.getElementById("fStNonTunai").value),
+        online_food: Number(document.getElementById("fStOnline").value),
+        prep_barista: document.getElementById("fStPrepBar").value,
+        prep_kitchen: document.getElementById("fStPrepKit").value,
+        prep_server: document.getElementById("fStPrepSrv").value,
+        catatan_evaluasi: document.getElementById("fStCatatan").value
+      };
+
+      closeModal('modalHandover');
+      showToast("Menyimpan serah terima...");
+      await postToGas("insert", "SERAH_TERIMA", payload);
+      fetchAllData();
+    }
+
+    function renderHandoverTable() {
+      document.getElementById("stTableBody").innerHTML = localData.SERAH_TERIMA.map(st => `
+        <tr>
+          <td><code>${st.id}</code></td>
+          <td>${st.jam || '-'}</td>
+          <td>${st.tahap}</td>
+          <td>${st.petugas_serah}</td>
+          <td>Rp ${cleanMoney(st.kas_modal_awal).toLocaleString('id-ID')}</td>
+          <td>Rp ${cleanMoney(st.tunai_masuk).toLocaleString('id-ID')}</td>
+          <td><strong>${st.total_fisik_laci||'-'}</strong></td>
+          <td style="color:${cleanMoney(st.selisih_kas)===0?'var(--success)':'var(--danger)'};">${st.selisih_kas||'Rp 0'}</td>
+          <td>Rp ${cleanMoney(st.non_tunai_qris).toLocaleString('id-ID')}</td>
+          <td style="font-size:0.75rem;">${st.prep_barista||'-'}</td>
+          <td style="font-size:0.75rem;">${st.prep_kitchen||'-'}</td>
+          <td style="font-size:0.75rem;">${st.prep_server||'-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    // DAILY REPORT & WHATSAPP
+    function renderDailyReportTable() {
+      document.getElementById("drTableBody").innerHTML = localData.DAILY_REPORT.map(dr => `
+        <tr>
+          <td><code>${dr.report_id}</code></td>
+          <td>${dr.tanggal}</td>
+          <td>Rp ${cleanMoney(dr.total_omset).toLocaleString('id-ID')}</td>
+          <td>Rp ${cleanMoney(dr.qris_edc).toLocaleString('id-ID')}</td>
+          <td>Rp ${cleanMoney(dr.online_food).toLocaleString('id-ID')}</td>
+          <td>Rp ${cleanMoney(dr.target_harian).toLocaleString('id-ID')}</td>
+          <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td>
+          <td style="font-size:0.75rem;">Kalibrasi: ${dr.kalibrasi_beans||'-'}, Waste: ${dr.waste_bahan||'-'}</td>
+          <td style="font-size:0.75rem;">${dr.evaluasi_harian||'-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function sendWhatsAppDaily() {
+      const today = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
+      const text = `*DAILY REPORT OPERASIONAL — HOLLO COFFEE & ROASTERY'S*%0A` +
+        `📅 *Tanggal:* ${today}%0A` +
+        `👤 *PIC Pelapor:* ${currentUser.nama_lengkap} (${currentUser.role})%0A%0A` +
+        `*1. RINGKASAN REVENUE & KAS LACI:*%0A` +
+        `• Modal Awal Kas: Rp 300.000%0A` +
+        `• Penjualan Tunai: Rp 1.450.000%0A` +
+        `• Non-Tunai (EDC/QRIS): Rp 2.850.000%0A` +
+        `• Online Food: Rp 1.800.000%0A` +
+        `• Status Kas Laci: *COCOK (0 Selisih)*%0A%0A` +
+        `*2. PREP KURANG UNTUK SHIFT BERIKUTNYA:*%0A` +
+        `• *Barista:* Susu Greenfields sisa 2 pack, restock es batu%0A` +
+        `• *Kitchen:* Defrost ayam fillet, siapkan saus konslet%0A` +
+        `• *Server:* Sedotan & tisu meja perlu restock%0A%0A` +
+        `*3. QC & EVALUASI OPERASIONAL:*%0A` +
+        `• Kalibrasi Espresso: 18.2g in, 38g out, 26 detik (Optimal)%0A` +
+        `• Waste Bahan: Brokoli 200g afkir layu%0A` +
+        `• Evaluasi: Operasional dan kebersihan stasiun prima.%0A%0A` +
+        `_Laporan sah terkirim melalui Sistem Terintegrasi Kafe._`;
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+
+    // MENU & HPP (FIXED NaN & 7240%)
+    function filterMenuCategory(cat) {
+      document.getElementById("btnMenuMinuman").classList.toggle("active", cat==='Minuman');
+      document.getElementById("btnMenuMakanan").classList.toggle("active", cat==='Makanan');
+      renderMenuTable(cat);
+    }
+
+    function renderMenuTable(jenis) {
+      const data = localData.MENU.filter(m => m.jenis === jenis);
+      document.getElementById("menuTableBody").innerHTML = data.map(m => {
+        const hpp = cleanMoney(m.hpp);
+        const jual = cleanMoney(m.harga_jual);
+        const marginRp = cleanMoney(m.margin_rp) || (jual - hpp);
+        const marginPct = cleanPercent(m.margin_pct) || ((marginRp/jual)*100).toFixed(1)+'%';
+        const foodCostPct = cleanPercent(m.food_cost_pct) || ((hpp/jual)*100).toFixed(1)+'%';
+
+        return `
+          <tr>
+            <td><code>${m.menu_id}</code></td>
+            <td>${m.kategori}</td>
+            <td onclick="editMenuModal('${m.menu_id}')" style="cursor:pointer;"><strong>${m.nama_produk}</strong></td>
+            <td>Rp ${hpp.toLocaleString('id-ID')}</td>
+            <td>Rp ${jual.toLocaleString('id-ID')}</td>
+            <td>Rp ${marginRp.toLocaleString('id-ID')}</td>
+            <td>${marginPct}</td>
+            <td>${foodCostPct}</td>
+            <td>
+              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editMenuModal('${m.menu_id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openNewMenuModal() {
+      document.getElementById("modalMenuTitle").innerText = "Tambah Menu Produk Baru";
+      document.getElementById("fMenuEditId").value = "";
+      document.getElementById("fMenuNama").value = "";
+      document.getElementById("fMenuKategori").value = "";
+      document.getElementById("fMenuHpp").value = 5000;
+      document.getElementById("fMenuHarga").value = 20000;
+      openModal('modalMenu');
+    }
+
+    function editMenuModal(id) {
+      const item = localData.MENU.find(m => m.menu_id === id);
+      if(!item) return;
+      document.getElementById("modalMenuTitle").innerText = "Edit Menu: " + id;
+      document.getElementById("fMenuEditId").value = id;
+      document.getElementById("fMenuJenis").value = item.jenis;
+      document.getElementById("fMenuKategori").value = item.kategori;
+      document.getElementById("fMenuNama").value = item.nama_produk;
+      document.getElementById("fMenuHpp").value = cleanMoney(item.hpp);
+      document.getElementById("fMenuHarga").value = cleanMoney(item.harga_jual);
+      openModal('modalMenu');
+    }
+
+    function syncMenuDivisi() {
+      // Automatic helper
+    }
+
+    async function submitMenuForm() {
+      const editId = document.getElementById("fMenuEditId").value;
+      const jenis = document.getElementById("fMenuJenis").value;
+      const div = jenis === "Minuman" ? "BARISTA" : "KITCHEN";
+
+      if(editId) {
+        closeModal('modalMenu');
+        showToast("Menyimpan menu...");
+        await postToGas("update", "MENU", {
+          key: "menu_id",
+          val: editId,
+          updates: {
+            jenis: jenis,
+            divisi: div,
+            kategori: document.getElementById("fMenuKategori").value,
+            nama_produk: document.getElementById("fMenuNama").value,
+            hpp: Number(document.getElementById("fMenuHpp").value),
+            harga_jual: Number(document.getElementById("fMenuHarga").value)
+          }
+        });
+      } else {
+        const newId = "MNU-" + Date.now().toString().slice(-4);
+        const payload = {
+          menu_id: newId,
+          jenis: jenis,
+          divisi: div,
+          kategori: document.getElementById("fMenuKategori").value,
+          nama_produk: document.getElementById("fMenuNama").value,
+          hpp: Number(document.getElementById("fMenuHpp").value),
+          harga_jual: Number(document.getElementById("fMenuHarga").value)
+        };
+        closeModal('modalMenu');
+        showToast("Menambahkan menu...");
+        await postToGas("insert", "MENU", payload);
+      }
+      fetchAllData();
+    }
+
+    async function deleteMenuItem(id) {
+      if(confirm(`Hapus menu ${id}?`)) {
+        showToast("Menghapus menu...");
+        await postToGas("delete", "MENU", { key: "menu_id", val: id });
+        fetchAllData();
+      }
+    }
+
+    // DATA PERUSAHAAN (VAULT KARYAWAN & PIN)
+    function renderVaultTable() {
+      document.getElementById("vaultTableBody").innerHTML = localData.USERS.map(u => `
+        <tr>
+          <td><code>${u.user_id}</code></td>
+          <td><strong>${u.username}</strong></td>
+          <td onclick="editUserModal('${u.user_id}')" style="cursor:pointer;">${u.nama_lengkap}</td>
+          <td>${u.role}</td>
+          <td>Level ${u.level}</td>
+          <td>${u.divisi}</td>
+          <td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
+          <td>
+            <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editUserModal('${u.user_id}')">Edit</button>
+            <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteUserItem('${u.user_id}')">Hapus</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openNewUserModal() {
+      document.getElementById("modalUserTitle").innerText = "Tambah Karyawan Baru";
+      document.getElementById("fUserEditId").value = "";
+      document.getElementById("fUserUsername").value = "";
+      document.getElementById("fUserNamaLengkap").value = "";
+      document.getElementById("fUserPin").value = "1234";
+      openModal('modalUser');
+    }
+
+    function editUserModal(id) {
+      const u = localData.USERS.find(x => x.user_id === id);
+      if(!u) return;
+      document.getElementById("modalUserTitle").innerText = "Edit Karyawan: " + u.username;
+      document.getElementById("fUserEditId").value = u.user_id;
+      document.getElementById("fUserUsername").value = u.username;
+      document.getElementById("fUserNamaLengkap").value = u.nama_lengkap;
+      document.getElementById("fUserRole").value = u.role;
+      document.getElementById("fUserDivisi").value = u.divisi;
+      document.getElementById("fUserPin").value = u.pin;
+      openModal('modalUser');
+    }
+
+    function syncUserLevel() {
+      const role = document.getElementById("fUserRole").value;
+      const divSel = document.getElementById("fUserDivisi");
+      if(role === "BARISTA" || role === "HEAD") divSel.value = "BARISTA";
+      else if(role === "KITCHEN") divSel.value = "KITCHEN";
+      else if(role === "SERVER") divSel.value = "SERVER";
+      else divSel.value = "MANAJEMEN";
+    }
+
+    async function submitUserForm() {
+      const editId = document.getElementById("fUserEditId").value;
+      const role = document.getElementById("fUserRole").value;
+      let level = 1;
+      if(role === "HEAD") level = 2;
+      else if(role === "PURCHASING" || role === "HRD") level = 3;
+      else if(role === "MANAGER") level = 4;
+      else if(role === "OWNER") level = 5;
+      else if(role === "RAJA_UTAMA") level = 6;
+
+      const payload = {
+        username: document.getElementById("fUserUsername").value.toLowerCase().trim(),
+        nama_lengkap: document.getElementById("fUserNamaLengkap").value,
+        role: role,
+        level: level,
+        divisi: document.getElementById("fUserDivisi").value,
+        pin: document.getElementById("fUserPin").value.trim(),
+        status: "Aktif",
+        akses_perusahaan: level >= 4 ? "YA" : "TIDAK"
+      };
+
+      closeModal('modalUser');
+      showToast("Menyimpan karyawan...");
+      if(editId) {
+        await postToGas("update", "USERS", { key: "user_id", val: editId, updates: payload });
+      } else {
+        payload.user_id = "USR-" + Date.now().toString().slice(-4);
+        payload.tipe_kerja = "Tetap";
+        await postToGas("insert", "USERS", payload);
+      }
+      fetchAllData();
+    }
+
+    async function deleteUserItem(id) {
+      if(confirm(`Yakin ingin menghapus karyawan ${id}?`)) {
+        showToast("Menghapus karyawan...");
+        await postToGas("delete", "USERS", { key: "user_id", val: id });
+        fetchAllData();
+      }
+    }
+
+    // GENERIC POST
+    async function postToGas(action, sheet, payloadOrData) {
+      if(!API_URL) return;
+      let bodyData = { action: action, sheet: sheet };
+      if(action === "insert") bodyData.data = payloadOrData;
+      else if(action === "update") { bodyData.key = payloadOrData.key; bodyData.val = payloadOrData.val; bodyData.updates = payloadOrData.updates; }
+      else if(action === "delete") { bodyData.key = payloadOrData.key; bodyData.val = payloadOrData.val; }
+
+      await fetch(API_URL, { method: "POST", body: JSON.stringify(bodyData) });
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = "flex"; }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; }
+
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+      document.getElementById("themeBtn").innerText = isDark ? "Dark" : "Light";
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3000);
+    }
+
+    window.onload = () => {
+      if(API_URL) document.getElementById("directApiInput").value = API_URL;
+      if (currentUser) unlockPortal();
+      else document.getElementById("gatekeeper").style.display = "flex";
+    };
+  </script>
+</body>
+</html>
