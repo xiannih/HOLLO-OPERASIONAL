@@ -147,7 +147,7 @@
     .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
     .btn-wa { background: #25D366; color: #fff; border-color: #25D366; }
 
-    /* NAVIGATION */
+    /* NAVIGATION BAR */
     nav {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -173,7 +173,7 @@
     /* MAIN CONTAINER */
     main { padding: 1.75rem 2rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
 
-    /* KPI & CHARTS */
+    /* KPI CARDS */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -214,7 +214,7 @@
       .charts-grid { grid-template-columns: 1fr; }
     }
 
-    /* CALENDAR */
+    /* KALENDER */
     .cal-header-bar {
       display: flex;
       justify-content: space-between;
@@ -250,7 +250,7 @@
       transition: var(--transition);
     }
 
-    .cal-cell:hover { border-color: var(--accent); }
+    .cal-cell:hover { border-color: var(--accent); background: var(--surface-elevated); }
     .cal-cell.today { border: 2px solid var(--accent); background: var(--surface-elevated); }
 
     .cal-date-num { font-weight: 700; font-size: 0.85rem; }
@@ -260,7 +260,7 @@
     .badge-off { background: rgba(239,68,68,0.15); color: var(--danger); }
     .badge-log { background: rgba(245,158,11,0.15); color: var(--warning); }
 
-    /* CHECKLIST STATION VIEW */
+    /* CHECKLIST STATION */
     .station-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -339,16 +339,16 @@
     .tag-restock { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
     .tag-safe { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
 
-    /* MODAL */
+    /* MODAL POPUPS (Z-INDEX TERTINGGI 99999) */
     .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.85);
       backdrop-filter: blur(8px);
       align-items: center;
       justify-content: center;
-      z-index: 9999;
+      z-index: 99999;
     }
 
     .modal {
@@ -403,7 +403,7 @@
       opacity: 0;
       pointer-events: none;
       transition: var(--transition);
-      z-index: 10000;
+      z-index: 100000;
     }
     #toast.show { opacity: 1; transform: translateY(-5px); }
   </style>
@@ -1143,7 +1143,7 @@
       });
     }
 
-    // KALENDER LOGIKA LENGKAP
+    // KALENDER DENGAN DAY INSPECTOR ASLI (TIDAK ADA ALERT DUMMY LAGI)
     function changeMonth(delta) {
       calDate.setMonth(calDate.getMonth() + delta);
       renderCalendar();
@@ -1393,7 +1393,6 @@
       const prefix = div === "BARISTA" ? "BAR" : (div === "KITCHEN" ? "KIT" : "SRV");
 
       if(editId) {
-        // UPDATE
         closeModal('modalStok');
         showToast("Menyimpan perubahan...");
         await postToGas("update", "STOK", {
@@ -1409,7 +1408,6 @@
           }
         });
       } else {
-        // INSERT BARU
         const newId = `${prefix}-${Date.now().toString().slice(-4)}`;
         const payload = {
           item_id: newId,
@@ -1592,7 +1590,7 @@
       }
     }
 
-    // GENERIC POST HELPER
+    // GENERIC POST HELPER (MENCEGAH CORS BLOCKED)
     async function postToGas(action, sheet, payloadOrData) {
       if(!API_URL) return;
       let bodyData = { action: action, sheet: sheet };
