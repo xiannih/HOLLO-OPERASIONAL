@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOLLO COFFEE & ROASTERY'S — Executive Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #09090b;
+      --surface: #121215;
+      --surface-hover: #1a1a20;
+      --border: #27272a;
+      --border-subtle: #1e1e24;
+      --text: #fafafa;
+      --text-muted: #8e8e93;
+      --accent: #ffffff;
+      --accent-invert: #000000;
+      --danger: #ef4444;
+      --success: #10b981;
+      --radius: 8px;
+      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="light"] {
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --surface-hover: #f1f3f5;
+      --border: #e4e4e7;
+      --border-subtle: #f1f1f4;
+      --text: #09090b;
+      --text-muted: #71717a;
+      --accent: #000000;
+      --accent-invert: #ffffff;
+      --danger: #dc2626;
+      --success: #059669;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; transition: var(--transition); }
+
+    /* HEADER */
+    header {
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .badge {
+      font-size: 0.68rem;
+      padding: 0.2rem 0.5rem;
+      background: var(--surface-hover);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .controls { display: flex; gap: 0.5rem; }
+
+    .btn {
+      padding: 0.5rem 0.9rem;
+      border-radius: var(--radius);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn:hover { background: var(--surface-hover); border-color: var(--text-muted); }
+    .btn-solid { background: var(--accent); color: var(--accent-invert); border-color: var(--accent); }
+    .btn-solid:hover { opacity: 0.9; }
+    .btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.4); }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
+
+    /* NAVBAR */
+    nav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 0.25rem;
+      padding: 0.25rem 2rem;
+      overflow-x: auto;
+    }
+
+    .nav-tab {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-tab.active { color: var(--text); border-color: var(--accent); font-weight: 600; }
+
+    /* MAIN VIEW */
+    main { padding: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; flex: 1; }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .search-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.5rem 0.85rem;
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      min-width: 260px;
+    }
+
+    /* TABLE */
+    .table-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow-x: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; }
+    th {
+      background: var(--surface-hover);
+      color: var(--text-muted);
+      padding: 0.85rem 1rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+    }
+    td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+    tr:hover td { background: var(--surface-hover); }
+
+    .tag {
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .tag-restock { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
+    .tag-safe { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
+
+    /* MODAL */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      width: 90%;
+      max-width: 500px;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: var(--radius);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      outline: none;
+    }
+
+    /* TOAST */
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 0.75rem 1.25rem;
+      background: var(--accent);
+      color: var(--accent-invert);
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transition);
+      z-index: 300;
+    }
+    #toast.show { opacity: 1; transform: translateY(-5px); }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      HOLLO COFFEE & ROASTERY'S
+      <span class="badge" id="activeShiftBadge">CORE ACTIVE</span>
+    </div>
+    <div class="controls">
+      <button class="btn" id="themeBtn" onclick="toggleTheme()">Light Mode</button>
+      <button class="btn btn-solid" onclick="openConfig()">⚙ Setup API</button>
+    </div>
+  </header>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-tab active" onclick="navigate('tab-perusahaan', 'DATA_PERUSAHAAN')">Data Perusahaan</div>
+    <div class="nav-tab" onclick="navigate('tab-users', 'USERS')">Karyawan & Staff</div>
+    <div class="nav-tab" onclick="navigate('tab-menu', 'MENU')">Menu & HPP</div>
+    <div class="nav-tab" onclick="navigate('tab-stok', 'STOK')">Inventaris Stok</div>
+    <div class="nav-tab" onclick="navigate('tab-checklist', 'CHECKLIST')">Checklist Operasional</div>
+  </nav>
+
+  <!-- CONTAINER UTAMA -->
+  <main>
+    <!-- TOOLBAR ATAS -->
+    <div class="toolbar">
+      <input type="text" class="search-box" id="globalSearch" placeholder="Cari di tabel ini..." onkeyup="filterTable()">
+      <div style="display:flex; gap:0.5rem;">
+        <button class="btn" onclick="refreshCurrentTab()">↻ Segarkan Data</button>
+        <button class="btn btn-solid" onclick="openCreateModal()">+ Tambah Item</button>
+      </div>
+    </div>
+
+    <!-- TABLE WRAPPER -->
+    <div class="table-card">
+      <table id="dynamicTable">
+        <thead id="tableHead"></thead>
+        <tbody id="tableBody">
+          <tr><td style="text-align: center; color: var(--text-muted); padding: 3rem;">Memuat data dari Google Sheet...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- MODAL EDIT / CREATE DATA -->
+  <div class="modal-backdrop" id="crudModal">
+    <div class="modal">
+      <h3 id="modalTitle" style="margin-bottom: 1.25rem; font-family: 'Space Grotesk', sans-serif;">Ubah Data</h3>
+      <div id="modalFormContent"></div>
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1.5rem;">
+        <button class="btn" onclick="closeCrudModal()">Batal</button>
+        <button class="btn btn-solid" onclick="saveRecord()">Simpan ke Sheet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIG -->
+  <div class="modal-backdrop" id="configModal">
+    <div class="modal">
+      <h3 style="margin-bottom: 1rem;">Pengaturan Web App Google Script</h3>
+      <div class="form-group">
+        <label>URL WEB APP GOOGLE SCRIPT (/exec)</label>
+        <input type="text" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec">
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 0.5rem;">
+        <button class="btn" onclick="closeConfig()">Tutup</button>
+        <button class="btn btn-solid" onclick="saveGasUrl()">Simpan URL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFIKASI -->
+  <div id="toast">Notifikasi</div>
+
+  <script>
+    let GAS_URL = localStorage.getItem("HOLLO_API_URL") || "";
+    let currentSheet = "DATA_PERUSAHAAN";
+    let cachedRows = [];
+    let activeKey = "";
+    let editingId = null;
+
+    // Theme Toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute("data-theme") === "dark";
+      html.setAttribute("data-theme", isDark ? "light" : "dark");
+      document.getElementById("themeBtn").innerText = isDark ? "Dark Mode" : "Light Mode";
+    }
+
+    // Modal Control
+    function openConfig() {
+      document.getElementById("gasUrlInput").value = GAS_URL;
+      document.getElementById("configModal").style.display = "flex";
+    }
+    function closeConfig() { document.getElementById("configModal").style.display = "none"; }
+    function closeCrudModal() { document.getElementById("crudModal").style.display = "none"; }
+
+    function saveGasUrl() {
+      GAS_URL = document.getElementById("gasUrlInput").value.trim();
+      localStorage.setItem("HOLLO_API_URL", GAS_URL);
+      closeConfig();
+      showToast("URL API Tersimpan!");
+      loadData(currentSheet);
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerText = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3000);
+    }
+
+    // Navigasi Tab
+    function navigate(tabId, sheetName) {
+      document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+      event.target.classList.add("active");
+      currentSheet = sheetName;
+      loadData(sheetName);
+    }
+
+    function refreshCurrentTab() { loadData(currentSheet); }
+
+    // READ ENGINE
+    async function loadData(sheetName) {
+      if(!GAS_URL) { openConfig(); return; }
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = `<tr><td style="text-align: center; color: var(--text-muted); padding: 2rem;">Menyinkronkan data dari sheet...</td></tr>`;
+
+      try {
+        const res = await fetch(`${GAS_URL}?action=read&sheet=${sheetName}`);
+        const json = await res.json();
+        if(json.success && json.data.length > 0) {
+          cachedRows = json.data;
+          renderTable(json.data);
+        } else {
+          tbody.innerHTML = `<tr><td style="text-align:center; padding: 2rem;">Tidak ada data pada sheet ini.</td></tr>`;
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td style="text-align:center; color: var(--danger); padding: 2rem;">Gagal sinkron: Periksa URL Web App GAS Anda.</td></tr>`;
+      }
+    }
+
+    // RENDER TABEL DINAMIS
+    function renderTable(data) {
+      const cols = Object.keys(data[0]);
+      activeKey = cols[0]; // Kolom pertama sebagai Primary Key
+
+      // Render Head
+      const thead = document.getElementById("tableHead");
+      thead.innerHTML = `<tr>` + cols.map(c => `<th>${c.replace(/_/g, ' ')}</th>`).join('') + `<th>AKSI</th></tr>`;
+
+      // Render Body
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = data.map((r, i) => `
+        <tr>
+          ${cols.map(c => `<td>${formatCell(c, r[c])}</td>`).join('')}
+          <td>
+            <div style="display: flex; gap: 0.35rem;">
+              <button class="btn" style="padding: 0.25rem 0.5rem; font-size: 0.72rem;" onclick="openEditModal(${i})">Ubah</button>
+              <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.72rem;" onclick="deleteRow('${r[activeKey]}')">Hapus</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function formatCell(col, val) {
+      if(val === "AMAN") return `<span class="tag tag-safe">AMAN</span>`;
+      if(val === "RESTOCK") return `<span class="tag tag-restock">RESTOCK</span>`;
+      if(val === "Selesai") return `<span class="tag tag-safe">Selesai</span>`;
+      if(val === "Belum") return `<span class="tag tag-restock">Belum</span>`;
+      return val || "-";
+    }
+
+    // PENCARIAN CLIENT-SIDE
+    function filterTable() {
+      const q = document.getElementById("globalSearch").value.toLowerCase();
+      const filtered = cachedRows.filter(r => Object.values(r).some(v => String(v).toLowerCase().includes(q)));
+      renderTable(filtered);
+    }
+
+    // FORM CREATE / EDIT (TIDAK MERUSAK RUMUS)
+    function openEditModal(rowIdx) {
+      const item = cachedRows[rowIdx];
+      editingId = item[activeKey];
+      document.getElementById("modalTitle").innerText = `Ubah ${activeKey}: ${editingId}`;
+
+      const cols = Object.keys(item);
+      const container = document.getElementById("modalFormContent");
+      // Saring kolom formula agar tidak bisa diubah manual
+      const formulaCols = ['margin_rp', 'margin_pct', 'food_cost_pct', 'stok_mikro', 'total_makro', 'status'];
+      
+      container.innerHTML = cols.filter(c => !formulaCols.includes(c)).map(c => `
+        <div class="form-group">
+          <label>${c.toUpperCase()}</label>
+          <input type="text" id="form_${c}" value="${item[c] || ''}" ${c === activeKey ? 'disabled' : ''}>
+        </div>
+      `).join('');
+
+      document.getElementById("crudModal").style.display = "flex";
+    }
+
+    function openCreateModal() {
+      editingId = null;
+      document.getElementById("modalTitle").innerText = `Tambah Item Baru (${currentSheet})`;
+      const cols = Object.keys(cachedRows[0] || {});
+      const formulaCols = ['margin_rp', 'margin_pct', 'food_cost_pct', 'stok_mikro', 'total_makro', 'status'];
+
+      document.getElementById("modalFormContent").innerHTML = cols.filter(c => !formulaCols.includes(c)).map(c => `
+        <div class="form-group">
+          <label>${c.toUpperCase()}</label>
+          <input type="text" id="form_${c}" placeholder="Masukkan nilai...">
+        </div>
+      `).join('');
+
+      document.getElementById("crudModal").style.display = "flex";
+    }
+
+    // SAVE ENGINE (UPDATE / INSERT)
+    async function saveRecord() {
+      const inputs = document.querySelectorAll("#modalFormContent input");
+      let payloadData = {};
+      inputs.forEach(inp => {
+        const key = inp.id.replace("form_", "");
+        payloadData[key] = inp.value;
+      });
+
+      closeCrudModal();
+      showToast("Menyimpan ke Google Sheet...");
+
+      if(editingId) {
+        // UPDATE
+        await fetch(GAS_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "update",
+            sheet: currentSheet,
+            key: activeKey,
+            val: editingId,
+            updates: payloadData
+          })
+        });
+      } else {
+        // INSERT
+        await fetch(GAS_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "insert",
+            sheet: currentSheet,
+            data: payloadData
+          })
+        });
+      }
+      showToast("Data Tersimpan Rapi!");
+      loadData(currentSheet);
+    }
+
+    // DELETE ROW SECARA BERSIH
+    async function deleteRow(id) {
+      if(confirm(`Yakin ingin menghapus baris ${activeKey} = ${id}? Data pada sheet akan ikut terhapus.`)) {
+        showToast("Menghapus baris...");
+        await fetch(GAS_URL, {
+          method: "POST",
+          body: JSON.stringify({
+            action: "delete",
+            sheet: currentSheet,
+            key: activeKey,
+            val: id
+          })
+        });
+        showToast("Baris Terhapus!");
+        loadData(currentSheet);
+      }
+    }
+
+    window.onload = () => {
+      if(GAS_URL) loadData(currentSheet);
+    };
+  </script>
+</body>
+</html>
