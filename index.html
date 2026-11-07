@@ -434,7 +434,7 @@
 </head>
 <body>
 
-  <!-- 1. GATEKEEPER LOCK SCREEN (AMAN TANPA BOCORAN PIN) -->
+  <!-- 1. GATEKEEPER LOCK SCREEN -->
   <div id="gatekeeper">
     <div class="lock-card">
       <div class="lock-title">HOLLO COFFEE & ROASTERY'S</div>
@@ -729,7 +729,7 @@
         <div>
           <h3>Data Perusahaan & Master Vault Karyawan</h3>
           <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
-            Terkunci khusus Level >= 4. Seluruh PIN akun dan parameter legalitas dikelola dari sini.
+            Terkunci khusus Level >= 4. Klik baris karyawan untuk mengedit atau menambahkan orang baru.
           </p>
         </div>
         <button class="btn btn-solid" onclick="openNewUserModal()">+ Tambah Karyawan Baru</button>
@@ -975,11 +975,11 @@
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>Minimum Stok</label>
-          <input type="number" id="fStkMin" value="5">
+          <input type="text" id="fStkMin" value="5" oninput="formatLiveRupiahInput(this)">
         </div>
         <div class="form-group">
           <label>Stok Gudang (Makro)</label>
-          <input type="number" id="fStkGudang" value="10">
+          <input type="text" id="fStkGudang" value="10" oninput="formatLiveRupiahInput(this)">
         </div>
       </div>
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
@@ -989,7 +989,7 @@
     </div>
   </div>
 
-  <!-- MODAL: SERAH TERIMA & KAS LACI (PEMISAHAN JELAS OMSET & AUDIT KAS) -->
+  <!-- MODAL: SERAH TERIMA & KAS LACI (TRANSPARAN + FORMAT LIVE TITIK) -->
   <div class="modal-backdrop" id="modalHandover">
     <div class="modal">
       <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem; font-family:'Space Grotesk',sans-serif;">Serah Terima Kasir & Audit Kas</h3>
@@ -1014,46 +1014,46 @@
         </select>
       </div>
 
-      <!-- BAGIAN A: TOTAL OMSET PENJUALAN (SEMUA SALURAN) -->
+      <!-- BAGIAN 1: TOTAL OMSET PENJUALAN -->
       <div class="section-title-box">1. Total Omset Penjualan Shift Ini (Pemasukan Usaha)</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Penjualan Tunai</label>
-          <input type="number" id="fStTunai" value="200000" oninput="calcCashDenom()">
+          <label>Penjualan Tunai (Rp)</label>
+          <input type="text" id="fStTunai" value="200.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
         <div class="form-group">
-          <label>QRIS / EDC</label>
-          <input type="number" id="fStNonTunai" value="200000" oninput="calcCashDenom()">
+          <label>QRIS / EDC (Rp)</label>
+          <input type="text" id="fStNonTunai" value="200.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
         <div class="form-group">
-          <label>Online Food</label>
-          <input type="number" id="fStOnline" value="0" oninput="calcCashDenom()">
+          <label>Online Food (Rp)</label>
+          <input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
       </div>
-      <div class="calc-row" style="background:var(--surface-elevated); padding:0.5rem; border-radius:4px; font-weight:700;">
-        <span>Total Omset Shift (Masuk ke Daily Report):</span>
+      <div class="calc-row" style="background:var(--surface-elevated); padding:0.6rem; border-radius:6px; font-weight:700;">
+        <span>Total Omset Penjualan Shift Ini:</span>
         <span id="fStOmsetShiftText" style="color:var(--success);">Rp 400.000</span>
       </div>
 
-      <!-- BAGIAN B: AUDIT KAS FISIK LACI (UANG LEMBARAN & KOIN) -->
-      <div class="section-title-box">2. Audit Kas Laci Fisik (Uang Tunai di Tangan)</div>
+      <!-- BAGIAN 2: AUDIT KAS FISIK LACI -->
+      <div class="section-title-box">2. Audit Kas Laci Fisik (Uang Tunai di Laci)</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Modal Kasir Awal</label>
-          <input type="number" id="fStModal" value="110000" oninput="calcCashDenom()">
+          <label>Modal Kasir Awal (Rp)</label>
+          <input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
         <div class="form-group">
-          <label>Pengeluaran Kas Kecil</label>
-          <input type="number" id="fStPengeluaran" value="5000" oninput="calcCashDenom()">
+          <label>Pengeluaran Kas Kecil (Rp)</label>
+          <input type="text" id="fStPengeluaran" value="5.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
       </div>
 
       <div class="calc-explain-box">
-        <div class="calc-row"><span>Modal Awal:</span><span id="boxModalText">Rp 110.000</span></div>
-        <div class="calc-row"><span>+ Tunai Masuk:</span><span id="boxTunaiText">+ Rp 200.000</span></div>
+        <div class="calc-row"><span>Modal Awal Kasir:</span><span id="boxModalText">Rp 110.000</span></div>
+        <div class="calc-row"><span>+ Uang Tunai Masuk:</span><span id="boxTunaiText">+ Rp 200.000</span></div>
         <div class="calc-row"><span>- Kas Kecil Keluar:</span><span id="boxKeluarText">- Rp 5.000</span></div>
         <div class="calc-row total">
-          <span>Target Uang Fisik Harus Ada di Laci:</span>
+          <span>Target Fisik Harus Ada di Laci:</span>
           <span id="boxTargetText" style="color:var(--accent);">Rp 305.000</span>
         </div>
       </div>
@@ -1061,18 +1061,18 @@
       <div class="form-group">
         <label>Rincian Pecahan Uang Kertas di Laci</label>
         <div class="denom-grid">
-          <div class="denom-item"><label>100k</label><input type="number" id="d100k" value="0" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>50k</label><input type="number" id="d50k" value="0" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>20k</label><input type="number" id="d20k" value="0" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>10k</label><input type="number" id="d10k" value="0" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>5k</label><input type="number" id="d5k" value="0" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>100k</label><input type="number" id="d100k" value="1" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>50k</label><input type="number" id="d50k" value="3" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>20k</label><input type="number" id="d20k" value="2" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>10k</label><input type="number" id="d10k" value="1" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>5k</label><input type="number" id="d5k" value="1" oninput="calcCashDenom()"></div>
           <div class="denom-item"><label>2k</label><input type="number" id="d2k" value="0" oninput="calcCashDenom()"></div>
           <div class="denom-item"><label>1k</label><input type="number" id="d1k" value="0" oninput="calcCashDenom()"></div>
         </div>
       </div>
 
       <div class="form-group">
-        <label>Rincian Pecahan Uang Koin</label>
+        <label>Rincian Pecahan Uang Koin (Indonesia)</label>
         <div class="denom-grid" style="grid-template-columns: repeat(4, 1fr);">
           <div class="denom-item"><label>Koin 1000</label><input type="number" id="k1000" value="0" oninput="calcCashDenom()"></div>
           <div class="denom-item"><label>Koin 500</label><input type="number" id="k500" value="0" oninput="calcCashDenom()"></div>
@@ -1092,7 +1092,7 @@
         </div>
       </div>
 
-      <!-- BAGIAN C: CATATAN PREP DIPISAH 3 DIVISI -->
+      <!-- BAGIAN 3: CATATAN PREP DIPISAH 3 DIVISI -->
       <div class="section-title-box">3. Catatan Prep Kurang untuk Shift Berikutnya</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
@@ -1139,7 +1139,7 @@
         </div>
         <div class="form-group">
           <label>Target Omset Harian (Rp)</label>
-          <input type="number" id="fDrTarget" value="1000000">
+          <input type="text" id="fDrTarget" value="1.000.000" oninput="formatLiveRupiahInput(this)">
         </div>
       </div>
 
@@ -1147,22 +1147,22 @@
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>Total Rev Shift 1 (Rp)</label>
-          <input type="number" id="fDrRevS1" value="0">
+          <input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
         <div class="form-group">
           <label>Total Rev Shift 2 (Rp)</label>
-          <input type="number" id="fDrRevS2" value="0">
+          <input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
       </div>
 
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>Total EDC / QRIS (Rp)</label>
-          <input type="number" id="fDrQrisEdc" value="0">
+          <input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
         <div class="form-group">
           <label>Total Online Food (Rp)</label>
-          <input type="number" id="fDrOnlineFood" value="0">
+          <input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
       </div>
 
@@ -1170,11 +1170,11 @@
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>Total Kas Kecil Keluar (Rp)</label>
-          <input type="number" id="fDrKasKeluar" value="0">
+          <input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
         <div class="form-group">
           <label>Total Selisih Audit Kasir (Rp)</label>
-          <input type="number" id="fDrSelisihAudit" value="0">
+          <input type="text" id="fDrSelisihAudit" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
       </div>
 
@@ -1238,11 +1238,11 @@
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>HPP (Modal Bahan Rp)</label>
-          <input type="number" id="fMenuHpp" value="5000">
+          <input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this)">
         </div>
         <div class="form-group">
           <label>Harga Jual (Rp)</label>
-          <input type="number" id="fMenuHarga" value="22000">
+          <input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this)">
         </div>
       </div>
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
@@ -1319,17 +1319,35 @@
     let chartSalesInst = null;
     let chartChecklistInst = null;
 
-    // HELPER FORMAT UANG RUPIAH DENGAN TITIK
+    // FUNGSI PEMBERSIH ANGKA (KEBAL TITIK RIBUAN INDONESIA)
     function cleanMoney(val) {
-      if (!val) return 0;
+      if (val === null || val === undefined || val === '') return 0;
       if (typeof val === 'number') return val;
-      const cleaned = String(val).replace(/[^0-9.-]/g, '');
-      return parseFloat(cleaned) || 0;
+      let str = String(val).trim().replace(/Rp/gi, '').trim();
+      
+      // Jika memiliki format titik ribuan Indonesia (contoh "305.000"), hilangkan titiknya!
+      if (str.includes('.') && str.includes(',')) {
+        str = str.replace(/\./g, '').replace(/,/g, '.');
+      } else if (str.includes('.')) {
+        str = str.replace(/\./g, '');
+      } else if (str.includes(',')) {
+        str = str.replace(/,/g, '.');
+      }
+      const num = parseFloat(str);
+      return isNaN(num) ? 0 : num;
     }
 
     function formatRupiah(val) {
       const num = cleanMoney(val);
-      return "Rp " + num.toLocaleString('id-ID');
+      return "Rp " + Math.round(num).toLocaleString('id-ID');
+    }
+
+    function formatLiveRupiahInput(input) {
+      const val = cleanMoney(input.value);
+      if (val === 0 && input.value.trim() === '') {
+        return;
+      }
+      input.value = Math.round(val).toLocaleString('id-ID');
     }
 
     function cleanPercent(val) {
@@ -1383,7 +1401,7 @@
       }
     }
 
-    // AUTH LOGIN VIA GET
+    // LOGIN VIA GET
     async function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
@@ -1391,7 +1409,7 @@
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
       if (!API_URL) { alert("Tempelkan URL Webhook Spreadsheet terlebih dahulu!"); return; }
 
-      showToast("Memverifikasi kredensial...");
+      showToast("Memverifikasi...");
       try {
         const res = await fetch(`${API_URL}?action=verify_pin&username=${encodeURIComponent(u)}&pin=${encodeURIComponent(p)}`);
         const json = await res.json();
@@ -1479,7 +1497,7 @@
       sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
     }
 
-    // DASHBOARD & CHARTS
+    // DASHBOARD & CHARTS (TARIKAN OMSET REAL DARI SERAH TERIMA)
     function renderDashboard() {
       const todayStr = new Date().toISOString().split('T')[0];
       const todayHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr || h.tanggal === "2026-11-07");
@@ -1880,14 +1898,15 @@
             <td>${s.divisi}</td>
             <td><strong>${s.nama_barang}</strong></td>
             <td>${s.satuan}</td>
-            <td>${gudang}</td>
-            <td>${mikro}</td>
+            <td>${gudang.toLocaleString('id-ID')}</td>
+            <td>${mikro.toLocaleString('id-ID')}</td>
             <td>
-              <input type="number" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
-                value="${sisa || ''}" placeholder="0" onchange="quickUpdateOpname('${s.item_id}', this.value)">
+              <input type="text" style="width:75px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
+                value="${sisa ? sisa.toLocaleString('id-ID') : ''}" placeholder="0" 
+                oninput="formatLiveRupiahInput(this)" onchange="quickUpdateOpname('${s.item_id}', this.value)">
             </td>
-            <td><strong>${total}</strong></td>
-            <td>${min}</td>
+            <td><strong>${total.toLocaleString('id-ID')}</strong></td>
+            <td>${min.toLocaleString('id-ID')}</td>
             <td>
               <span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span>
               <div style="font-size:0.68rem; color:${diff<=0?'var(--danger)':'var(--text-muted)'}; margin-top:0.2rem;">${diffText} ${s.satuan}</div>
@@ -1905,7 +1924,7 @@
 
     async function quickUpdateOpname(id, val) {
       showToast("Menyimpan opname...");
-      await postToGas("update", "STOK", { key: "item_id", val: id, updates: { sisa_sore: Number(val) } });
+      await postToGas("update", "STOK", { key: "item_id", val: id, updates: { sisa_sore: cleanMoney(val) } });
       fetchAllData();
     }
 
@@ -1930,8 +1949,8 @@
       document.getElementById("fStkKategori").value = item.kategori;
       document.getElementById("fStkNama").value = item.nama_barang;
       document.getElementById("fStkSatuan").value = item.satuan;
-      document.getElementById("fStkMin").value = cleanMoney(item.min_stok);
-      document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang);
+      document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID');
+      document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID');
       openModal('modalStok');
     }
 
@@ -1951,8 +1970,8 @@
             kategori: document.getElementById("fStkKategori").value,
             nama_barang: document.getElementById("fStkNama").value,
             satuan: document.getElementById("fStkSatuan").value,
-            min_stok: Number(document.getElementById("fStkMin").value),
-            stok_gudang: Number(document.getElementById("fStkGudang").value),
+            min_stok: cleanMoney(document.getElementById("fStkMin").value),
+            stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
             tgl_update: document.getElementById("fStkTanggal").value,
             jam_update: document.getElementById("fStkJam").value
           }
@@ -1965,8 +1984,8 @@
           kategori: document.getElementById("fStkKategori").value,
           nama_barang: document.getElementById("fStkNama").value,
           satuan: document.getElementById("fStkSatuan").value,
-          min_stok: Number(document.getElementById("fStkMin").value),
-          stok_gudang: Number(document.getElementById("fStkGudang").value),
+          min_stok: cleanMoney(document.getElementById("fStkMin").value),
+          stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
           tersedia_pagi: 0,
           refill_s1: 0,
           refill_s2: 0,
@@ -1991,14 +2010,12 @@
 
     // DENOMINASI, OMSET & AUDIT KASIR TRANSPARAN
     function calcCashDenom() {
-      // 1. Kalkulasi Total Omset Shift
-      const tunai = Number(document.getElementById("fStTunai").value) || 0;
-      const nonTunai = Number(document.getElementById("fStNonTunai").value) || 0;
-      const online = Number(document.getElementById("fStOnline").value) || 0;
+      const tunai = cleanMoney(document.getElementById("fStTunai").value);
+      const nonTunai = cleanMoney(document.getElementById("fStNonTunai").value);
+      const online = cleanMoney(document.getElementById("fStOnline").value);
       const omsetShift = tunai + nonTunai + online;
       document.getElementById("fStOmsetShiftText").innerText = formatRupiah(omsetShift);
 
-      // 2. Kalkulasi Fisik Lembaran & Koin
       const d100 = (Number(document.getElementById("d100k").value) || 0) * 100000;
       const d50 = (Number(document.getElementById("d50k").value) || 0) * 50000;
       const d20 = (Number(document.getElementById("d20k").value) || 0) * 20000;
@@ -2015,9 +2032,8 @@
       const totalFisik = d100 + d50 + d20 + d10 + d5 + d2 + d1 + k1000 + k500 + k200 + k100;
       document.getElementById("fStFisikTotal").value = formatRupiah(totalFisik);
 
-      // 3. Audit Uang Kas Laci
-      const modal = Number(document.getElementById("fStModal").value) || 0;
-      const pengeluaran = Number(document.getElementById("fStPengeluaran").value) || 0;
+      const modal = cleanMoney(document.getElementById("fStModal").value);
+      const pengeluaran = cleanMoney(document.getElementById("fStPengeluaran").value);
       
       const targetSeharusnyaLaci = modal + tunai - pengeluaran;
       const selisih = totalFisik - targetSeharusnyaLaci;
@@ -2042,12 +2058,25 @@
       document.getElementById("fStEditId").value = "";
       document.getElementById("fStTanggal").value = new Date().toISOString().split('T')[0];
       document.getElementById("fStJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
-      document.getElementById("fStModal").value = 110000;
-      document.getElementById("fStTunai").value = 200000;
-      document.getElementById("fStNonTunai").value = 200000;
-      document.getElementById("fStOnline").value = 0;
-      document.getElementById("fStPengeluaran").value = 5000;
-      document.querySelectorAll("#modalHandover .denom-grid input").forEach(i => i.value = 0);
+      document.getElementById("fStModal").value = "110.000";
+      document.getElementById("fStTunai").value = "200.000";
+      document.getElementById("fStNonTunai").value = "200.000";
+      document.getElementById("fStOnline").value = "0";
+      document.getElementById("fStPengeluaran").value = "5.000";
+      
+      // Default pecahan dihitung pas Rp 305.000
+      document.getElementById("d100k").value = 1;
+      document.getElementById("d50k").value = 3;
+      document.getElementById("d20k").value = 2;
+      document.getElementById("d10k").value = 1;
+      document.getElementById("d5k").value = 1;
+      document.getElementById("d2k").value = 0;
+      document.getElementById("d1k").value = 0;
+      document.getElementById("k1000").value = 0;
+      document.getElementById("k500").value = 0;
+      document.getElementById("k200").value = 0;
+      document.getElementById("k100").value = 0;
+
       calcCashDenom();
       openModal('modalHandover');
     }
@@ -2060,11 +2089,11 @@
       document.getElementById("fStTanggal").value = st.tanggal;
       document.getElementById("fStJam").value = st.jam;
       document.getElementById("fStTahap").value = st.tahap;
-      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_awal);
-      document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai);
-      document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris);
-      document.getElementById("fStOnline").value = cleanMoney(st.online_food);
-      document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil);
+      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_awal).toLocaleString('id-ID');
+      document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai).toLocaleString('id-ID');
+      document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID');
+      document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
+      document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil).toLocaleString('id-ID');
       document.getElementById("fStPrepBar").value = st.prep_barista || "";
       document.getElementById("fStPrepKit").value = st.prep_kitchen || "";
       document.getElementById("fStPrepSrv").value = st.prep_server || "";
@@ -2075,9 +2104,9 @@
 
     async function submitHandoverForm() {
       const editId = document.getElementById("fStEditId").value;
-      const tunai = Number(document.getElementById("fStTunai").value);
-      const nontunai = Number(document.getElementById("fStNonTunai").value);
-      const online = Number(document.getElementById("fStOnline").value);
+      const tunai = cleanMoney(document.getElementById("fStTunai").value);
+      const nontunai = cleanMoney(document.getElementById("fStNonTunai").value);
+      const online = cleanMoney(document.getElementById("fStOnline").value);
 
       const payload = {
         tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0],
@@ -2089,8 +2118,8 @@
         non_tunai_qris: nontunai,
         online_food: online,
         total_omset_shift: tunai + nontunai + online,
-        kas_modal_awal: Number(document.getElementById("fStModal").value),
-        pengeluaran_kas_kecil: Number(document.getElementById("fStPengeluaran").value),
+        kas_modal_awal: cleanMoney(document.getElementById("fStModal").value),
+        pengeluaran_kas_kecil: cleanMoney(document.getElementById("fStPengeluaran").value),
         target_fisik_laci: cleanMoney(document.getElementById("boxTargetText").innerText),
         total_fisik_laci: cleanMoney(document.getElementById("fStFisikTotal").value),
         selisih_laci: cleanMoney(document.getElementById("fStSelisih").value),
@@ -2163,13 +2192,13 @@
       document.getElementById("modalDrTitle").innerText = "Edit Daily Report: " + id;
       document.getElementById("fDrEditId").value = id;
       document.getElementById("fDrTanggal").value = dr.tanggal;
-      document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1);
-      document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2);
-      document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc);
-      document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food);
-      document.getElementById("fDrTarget").value = cleanMoney(dr.target_harian) || 1000000;
-      document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar);
-      document.getElementById("fDrSelisihAudit").value = cleanMoney(dr.selisih_kas_audit);
+      document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
+      document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2).toLocaleString('id-ID');
+      document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc).toLocaleString('id-ID');
+      document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID');
+      document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 1000000).toLocaleString('id-ID');
+      document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar).toLocaleString('id-ID');
+      document.getElementById("fDrSelisihAudit").value = cleanMoney(dr.selisih_kas_audit).toLocaleString('id-ID');
       document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || "";
       document.getElementById("fDrWaste").value = dr.waste_bahan || "";
       document.getElementById("fDrCrew").value = dr.crew_meals || "";
@@ -2200,12 +2229,12 @@
         if(h.catatan_evaluasi) evalText.push(h.catatan_evaluasi);
       });
 
-      document.getElementById("fDrRevS1").value = s1;
-      document.getElementById("fDrRevS2").value = s2;
-      document.getElementById("fDrQrisEdc").value = qris;
-      document.getElementById("fDrOnlineFood").value = online;
-      document.getElementById("fDrKasKeluar").value = keluar;
-      document.getElementById("fDrSelisihAudit").value = selisih;
+      document.getElementById("fDrRevS1").value = s1.toLocaleString('id-ID');
+      document.getElementById("fDrRevS2").value = s2.toLocaleString('id-ID');
+      document.getElementById("fDrQrisEdc").value = qris.toLocaleString('id-ID');
+      document.getElementById("fDrOnlineFood").value = online.toLocaleString('id-ID');
+      document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID');
+      document.getElementById("fDrSelisihAudit").value = selisih.toLocaleString('id-ID');
       
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
       const wasteLogs = logs.filter(l => l.kategori.includes("Waste"));
@@ -2225,9 +2254,9 @@
 
     async function submitDailyReportForm() {
       const editId = document.getElementById("fDrEditId").value;
-      const s1 = Number(document.getElementById("fDrRevS1").value);
-      const s2 = Number(document.getElementById("fDrRevS2").value);
-      const target = Number(document.getElementById("fDrTarget").value) || 1000000;
+      const s1 = cleanMoney(document.getElementById("fDrRevS1").value);
+      const s2 = cleanMoney(document.getElementById("fDrRevS2").value);
+      const target = cleanMoney(document.getElementById("fDrTarget").value) || 1000000;
       const total = s1 + s2;
       const pct = target > 0 ? ((total/target)*100).toFixed(1)+'%' : '100%';
 
@@ -2236,12 +2265,12 @@
         rev_shift1: s1,
         rev_shift2: s2,
         total_omset: total,
-        qris_edc: Number(document.getElementById("fDrQrisEdc").value),
-        online_food: Number(document.getElementById("fDrOnlineFood").value),
+        qris_edc: cleanMoney(document.getElementById("fDrQrisEdc").value),
+        online_food: cleanMoney(document.getElementById("fDrOnlineFood").value),
         target_harian: target,
         capaian_pct: pct,
-        total_kas_keluar: Number(document.getElementById("fDrKasKeluar").value),
-        selisih_kas_audit: Number(document.getElementById("fDrSelisihAudit").value),
+        total_kas_keluar: cleanMoney(document.getElementById("fDrKasKeluar").value),
+        selisih_kas_audit: cleanMoney(document.getElementById("fDrSelisihAudit").value),
         kalibrasi_beans: document.getElementById("fDrKalibrasi").value,
         waste_bahan: document.getElementById("fDrWaste").value,
         crew_meals: document.getElementById("fDrCrew").value,
@@ -2399,8 +2428,8 @@
       document.getElementById("fMenuEditId").value = "";
       document.getElementById("fMenuNama").value = "";
       document.getElementById("fMenuKategori").value = "";
-      document.getElementById("fMenuHpp").value = 5000;
-      document.getElementById("fMenuHarga").value = 22000;
+      document.getElementById("fMenuHpp").value = "5.000";
+      document.getElementById("fMenuHarga").value = "22.000";
       openModal('modalMenu');
     }
 
@@ -2412,8 +2441,8 @@
       document.getElementById("fMenuJenis").value = item.jenis;
       document.getElementById("fMenuKategori").value = item.kategori;
       document.getElementById("fMenuNama").value = item.nama_produk;
-      document.getElementById("fMenuHpp").value = cleanMoney(item.hpp);
-      document.getElementById("fMenuHarga").value = cleanMoney(item.harga_jual);
+      document.getElementById("fMenuHpp").value = cleanMoney(item.hpp).toLocaleString('id-ID');
+      document.getElementById("fMenuHarga").value = cleanMoney(item.harga_jual).toLocaleString('id-ID');
       openModal('modalMenu');
     }
 
@@ -2433,8 +2462,8 @@
             divisi: div,
             kategori: document.getElementById("fMenuKategori").value,
             nama_produk: document.getElementById("fMenuNama").value,
-            hpp: Number(document.getElementById("fMenuHpp").value),
-            harga_jual: Number(document.getElementById("fMenuHarga").value)
+            hpp: cleanMoney(document.getElementById("fMenuHpp").value),
+            harga_jual: cleanMoney(document.getElementById("fMenuHarga").value)
           }
         });
       } else {
@@ -2445,8 +2474,8 @@
           divisi: div,
           kategori: document.getElementById("fMenuKategori").value,
           nama_produk: document.getElementById("fMenuNama").value,
-          hpp: Number(document.getElementById("fMenuHpp").value),
-          harga_jual: Number(document.getElementById("fMenuHarga").value)
+          hpp: cleanMoney(document.getElementById("fMenuHpp").value),
+          harga_jual: cleanMoney(document.getElementById("fMenuHarga").value)
         };
         closeModal('modalMenu');
         showToast("Menambahkan menu...");
