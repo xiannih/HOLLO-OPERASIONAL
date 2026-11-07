@@ -318,7 +318,7 @@
       accent-color: var(--accent);
     }
 
-    .task-content { flex: 1; font-size: 0.825rem; cursor: pointer; }
+    .task-content { flex: 1; font-size: 0.825rem; }
     .task-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; }
 
     /* TABLES */
@@ -497,7 +497,7 @@
     <div class="nav-tab" id="tabPerusahaan" style="display:none;" onclick="switchView('perusahaan')">Data Perusahaan (Vault)</div>
   </nav>
 
-  <!-- 4. MAIN CONTENT AREA -->
+  <!-- 4. MAIN CONTAINER -->
   <main>
     <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
@@ -563,10 +563,15 @@
       <div class="station-grid" id="stationGrid"></div>
     </section>
 
-    <!-- VIEW 4: INVENTARIS STOK -->
+    <!-- VIEW 4: INVENTARIS STOK (MIKRO, MAKRO, OPNAME & KALKULASI RESTOCK) -->
     <section id="view-stok" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-        <h3>Stok Inventaris Mikro, Makro & Opname</h3>
+        <div>
+          <h3>Stok Inventaris Mikro, Makro & Opname</h3>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
+            Total Nyata = Gudang + (Opname Sore atau Mikro Pagi+Refill). Status RESTOCK menyala otomatis jika stok di bawah minimum.
+          </p>
+        </div>
         <div style="display:flex; gap:0.5rem;">
           <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem 0.8rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px;">
             <option value="SEMUA">Semua Divisi</option>
@@ -585,14 +590,12 @@
               <th>Divisi</th>
               <th>Nama Barang</th>
               <th>Satuan</th>
-              <th>Min</th>
-              <th>Gudang</th>
-              <th>Pagi</th>
-              <th>Refill S1</th>
-              <th>Refill S2</th>
-              <th>Sisa Sore</th>
-              <th>Total Makro</th>
-              <th>Status</th>
+              <th>Gudang (Makro)</th>
+              <th>Refill (Mikro)</th>
+              <th>Opname Fisik (Sore)</th>
+              <th>Total Keseluruhan</th>
+              <th>Batas Min</th>
+              <th>Status & Kebutuhan</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -601,28 +604,29 @@
       </div>
     </section>
 
-    <!-- VIEW 5: SERAH TERIMA & KASIR -->
+    <!-- VIEW 5: SERAH TERIMA & KASIR (2 SHIFT + EDIT/HAPUS) -->
     <section id="view-serah-terima" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
         <h3>Serah Terima Kasir (2 Shift) & Denominasi Fisik Laci</h3>
-        <button class="btn btn-solid" onclick="openModal('modalHandover')">+ Form Serah Terima Shift</button>
+        <button class="btn btn-solid" onclick="openNewHandoverModal()">+ Form Serah Terima Shift</button>
       </div>
       <div class="table-card">
         <table>
           <thead>
             <tr>
               <th>ID</th>
-              <th>Waktu</th>
+              <th>Tanggal/Jam</th>
               <th>Tahap</th>
               <th>PIC Serah</th>
-              <th>Modal</th>
-              <th>Tunai</th>
+              <th>Modal Awal</th>
+              <th>Tunai Masuk</th>
               <th>Fisik Laci</th>
               <th>Selisih</th>
               <th>Non-Tunai</th>
               <th>Prep Barista</th>
               <th>Prep Kitchen</th>
               <th>Prep Server</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="stTableBody"></tbody>
@@ -630,13 +634,18 @@
       </div>
     </section>
 
-    <!-- VIEW 6: DAILY REPORT -->
+    <!-- VIEW 6: DAILY REPORT (DENGAN FORM & EDIT/HAPUS) -->
     <section id="view-daily-report" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-        <h3>Daily Report & Evaluasi Operasional</h3>
+        <div>
+          <h3>Daily Report & Evaluasi Operasional</h3>
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
+            Konsolidasi otomatis omset serah terima, kalkulasi target, waste, dan evaluasi briefing harian.
+          </p>
+        </div>
         <div style="display:flex; gap:0.5rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
-          <button class="btn btn-solid" onclick="openModal('modalDailyReport')">+ Simpan Report Hari Ini</button>
+          <button class="btn btn-solid" onclick="openNewDailyReportModal()">+ Simpan Report Hari Ini</button>
         </div>
       </div>
       <div class="table-card">
@@ -652,6 +661,7 @@
               <th>Capaian %</th>
               <th>Waste & Kalibrasi</th>
               <th>Evaluasi Shift</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="drTableBody"></tbody>
@@ -721,14 +731,14 @@
 
   <!-- ==================== MODALS ==================== -->
 
-  <!-- MODAL: DETAIL TANGGAL KALENDER -->
+  <!-- MODAL: DETAIL TANGGAL KALENDER (DAY INSPECTOR + EDIT/DELETE JADWAL & LOG) -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
       <h3 id="inspectDateTitle" style="margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
       
       <div style="margin-bottom:1.25rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-          <h4 style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase;">Roster Kerja (Klik untuk Ganti Hadir / Libur)</h4>
+          <h4 style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase;">Roster Kerja & Shift</h4>
           <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button>
         </div>
         <div id="inspectRosterList" style="display:flex; flex-direction:column; gap:0.4rem;"></div>
@@ -748,12 +758,13 @@
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH JADWAL STAFF -->
+  <!-- MODAL: TAMBAH/EDIT JADWAL STAFF -->
   <div class="modal-backdrop" id="modalRoster">
     <div class="modal">
-      <h3 style="margin-bottom:1rem;">Jadwal Staff & Hari Libur</h3>
+      <h3 id="modalRosterTitle" style="margin-bottom:1rem;">Jadwal Staff & Hari Libur</h3>
+      <input type="hidden" id="fJdwEditId">
       <div class="form-group">
-        <label>Tanggal</label>
+        <label>Pilih Tanggal</label>
         <input type="date" id="fJdwTanggal">
       </div>
       <div class="form-group">
@@ -785,22 +796,23 @@
       </div>
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
         <button class="btn" onclick="closeModal('modalRoster')">Batal</button>
-        <button class="btn btn-solid" onclick="submitNewRoster()">Simpan Jadwal</button>
+        <button class="btn btn-solid" onclick="submitRosterForm()">Simpan Jadwal</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH LOG HARIAN / WASTE -->
+  <!-- MODAL: TAMBAH/EDIT LOG HARIAN / WASTE (KATEGORI "LAINNYA" READY) -->
   <div class="modal-backdrop" id="modalLog">
     <div class="modal">
-      <h3 style="margin-bottom:1rem;">Catat Log, Waste, Insiden & Rencana</h3>
+      <h3 id="modalLogTitle" style="margin-bottom:1rem;">Catat Log, Waste, Insiden & Rencana</h3>
+      <input type="hidden" id="fLogEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Tanggal</label>
+          <label>Pilih Tanggal</label>
           <input type="date" id="fLogTanggal">
         </div>
         <div class="form-group">
-          <label>Waktu (Jam:Menit)</label>
+          <label>Pilih Jam Waktu</label>
           <input type="time" id="fLogJam">
         </div>
       </div>
@@ -815,7 +827,7 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Kategori</label>
+          <label>Kategori Kejadian</label>
           <select id="fLogKategori">
             <option value="Waste Bahan">Waste Bahan (Afkir)</option>
             <option value="Kalibrasi">Kalibrasi Espresso/Alat</option>
@@ -823,6 +835,7 @@
             <option value="Insiden Alat">Insiden Kerusakan Alat</option>
             <option value="Rencana Mendatang">Rencana Mendatang</option>
             <option value="Catatan Susulan">Catatan Susulan Masa Lalu</option>
+            <option value="Lainnya">Lainnya</option>
           </select>
         </div>
       </div>
@@ -838,19 +851,20 @@
       </div>
       <div class="form-group">
         <label>Detail Kejadian</label>
-        <textarea id="fLogDetail" rows="3" placeholder="Tuliskan keterangan insiden atau evaluasi..."></textarea>
+        <textarea id="fLogDetail" rows="3" placeholder="Tuliskan keterangan insiden, penyebab, atau evaluasi..."></textarea>
       </div>
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
         <button class="btn" onclick="closeModal('modalLog')">Batal</button>
-        <button class="btn btn-solid" onclick="submitNewLog()">Simpan Log</button>
+        <button class="btn btn-solid" onclick="submitLogForm()">Simpan Log</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH TUGAS CHECKLIST -->
+  <!-- MODAL: TAMBAH/EDIT TUGAS CHECKLIST (TIME PICKER BEBAS) -->
   <div class="modal-backdrop" id="modalTask">
     <div class="modal">
-      <h3 style="margin-bottom:1rem;">Buat Tugas Checklist Baru</h3>
+      <h3 id="modalTaskTitle" style="margin-bottom:1rem;">Tugas Checklist Stasiun</h3>
+      <input type="hidden" id="fTaskEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>Stasiun</label>
@@ -879,15 +893,8 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Target Jam</label>
-          <select id="fTaskJam">
-            <option value="08:30">08:30 (Mulai Prep S1)</option>
-            <option value="09:00">09:00 (Buka Kasir S1)</option>
-            <option value="16:30">16:30 (Serah Terima S1 ke S2)</option>
-            <option value="17:00">17:00 (Buka Kasir S2)</option>
-            <option value="23:00">23:00 (Closing Bertahap)</option>
-            <option value="00:00">00:00 (Close Order Kasir)</option>
-          </select>
+          <label>Target Waktu (Bebas Dipilih)</label>
+          <input type="time" id="fTaskJam" value="08:30">
         </div>
       </div>
       <div class="form-group">
@@ -896,7 +903,7 @@
       </div>
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
         <button class="btn" onclick="closeModal('modalTask')">Batal</button>
-        <button class="btn btn-solid" onclick="submitNewTask()">Tambahkan Tugas</button>
+        <button class="btn btn-solid" onclick="submitTaskForm()">Simpan Tugas</button>
       </div>
     </div>
   </div>
@@ -904,11 +911,11 @@
   <!-- MODAL: TAMBAH/EDIT BARANG INVENTARIS -->
   <div class="modal-backdrop" id="modalStok">
     <div class="modal">
-      <h3 id="modalStokTitle" style="margin-bottom:1rem;">Tambah Barang Inventaris Baru</h3>
+      <h3 id="modalStokTitle" style="margin-bottom:1rem;">Kelola Barang Inventaris</h3>
       <input type="hidden" id="fStkEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Tanggal Masuk / Update</label>
+          <label>Tanggal Update</label>
           <input type="date" id="fStkTanggal">
         </div>
         <div class="form-group">
@@ -957,24 +964,25 @@
     </div>
   </div>
 
-  <!-- MODAL: SERAH TERIMA & KAS LACI -->
+  <!-- MODAL: SERAH TERIMA & KAS LACI (2 SHIFT + DENOMINASI + PREP 3 DIVISI) -->
   <div class="modal-backdrop" id="modalHandover">
     <div class="modal">
-      <h3 style="margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Serah Terima Kasir & Denominasi Fisik</h3>
+      <h3 id="modalHandoverTitle" style="margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Serah Terima Kasir & Denominasi Fisik</h3>
+      <input type="hidden" id="fStEditId">
       
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Tanggal</label>
+          <label>Pilih Tanggal</label>
           <input type="date" id="fStTanggal">
         </div>
         <div class="form-group">
-          <label>Waktu Jam</label>
+          <label>Pilih Waktu Jam</label>
           <input type="time" id="fStJam">
         </div>
       </div>
 
       <div class="form-group">
-        <label>Tahap Shift</label>
+        <label>Tahap Shift (Hanya 2 Jenis)</label>
         <select id="fStTahap">
           <option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option>
           <option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option>
@@ -1041,6 +1049,7 @@
         </div>
       </div>
 
+      <!-- CATATAN PREP DIPISAH 3 DIVISI -->
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>Prep Kurang Barista</label>
@@ -1063,7 +1072,85 @@
 
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
         <button class="btn" onclick="closeModal('modalHandover')">Batal</button>
-        <button class="btn btn-solid" onclick="submitHandover()">Simpan Serah Terima</button>
+        <button class="btn btn-solid" onclick="submitHandoverForm()">Simpan Serah Terima</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SIMPAN/EDIT DAILY REPORT (DENGAN TOMBOL AUTO-PULL) -->
+  <div class="modal-backdrop" id="modalDailyReport">
+    <div class="modal">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h3 id="modalDrTitle">Daily Report Operasional</h3>
+        <button class="btn btn-solid" style="font-size:0.7rem; padding:0.3rem 0.6rem;" onclick="autoPullDailyReportData()">
+          ⚡ Tarik Data Otomatis Hari Ini
+        </button>
+      </div>
+      <input type="hidden" id="fDrEditId">
+      
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
+          <label>Pilih Tanggal Report</label>
+          <input type="date" id="fDrTanggal">
+        </div>
+        <div class="form-group">
+          <label>Target Omset Harian (Rp)</label>
+          <input type="number" id="fDrTarget" value="5000000">
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
+          <label>Total Rev Shift 1 (Rp)</label>
+          <input type="number" id="fDrRevS1" value="0">
+        </div>
+        <div class="form-group">
+          <label>Total Rev Shift 2 (Rp)</label>
+          <input type="number" id="fDrRevS2" value="0">
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
+          <label>Total EDC / QRIS (Rp)</label>
+          <input type="number" id="fDrQrisEdc" value="0">
+        </div>
+        <div class="form-group">
+          <label>Total Online Food (Rp)</label>
+          <input type="number" id="fDrOnlineFood" value="0">
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
+          <label>Beans Kalibrasi (Gram)</label>
+          <input type="text" id="fDrKalibrasi" placeholder="120g Blend Arabica">
+        </div>
+        <div class="form-group">
+          <label>Ringkasan Waste Bahan</label>
+          <input type="text" id="fDrWaste" placeholder="Brokoli 200g, 1 Cup Latte afkir">
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
+          <label>Crew Meals / Konsumsi</label>
+          <input type="text" id="fDrCrew" placeholder="2 Americano Ice, 1 Ricebowl">
+        </div>
+        <div class="form-group">
+          <label>Komplimen / Barter Produk</label>
+          <input type="text" id="fDrKomplimen" placeholder="1 Latte tamu roastery">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Evaluasi Briefing Harian</label>
+        <textarea id="fDrEvaluasi" rows="2" placeholder="Pelayanan shift malam lancar, speed of service rata-rata 3 menit..."></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
+        <button class="btn" onclick="closeModal('modalDailyReport')">Batal</button>
+        <button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan Report</button>
       </div>
     </div>
   </div>
@@ -1071,7 +1158,7 @@
   <!-- MODAL: TAMBAH/EDIT MENU -->
   <div class="modal-backdrop" id="modalMenu">
     <div class="modal">
-      <h3 id="modalMenuTitle" style="margin-bottom:1rem;">Tambah Menu Produk Baru</h3>
+      <h3 id="modalMenuTitle" style="margin-bottom:1rem;">Menu Produk & HPP</h3>
       <input type="hidden" id="fMenuEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
@@ -1162,7 +1249,6 @@
   <div id="toast">Notifikasi</div>
 
   <script>
-    // KUNCI PENYIMPANAN TUNGGAL YANG KONSISTEN
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
@@ -1170,12 +1256,11 @@
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
     
-    let calDate = new Date(2026, 10, 7); // November 2026
+    let calDate = new Date(2026, 10, 7);
     let activeInspectDate = "2026-11-07";
     let chartSalesInst = null;
     let chartChecklistInst = null;
 
-    // HELPER ANGKA & PERSEN
     function cleanMoney(val) {
       if (!val) return 0;
       if (typeof val === 'number') return val;
@@ -1191,7 +1276,6 @@
       return (num <= 1 ? num * 100 : num).toFixed(1) + "%";
     }
 
-    // AUTO-SAVE URL SAAT DIKETIK / DITEMPEL
     function handleApiUrlInput(val) {
       const trimmed = val.trim();
       API_URL = trimmed;
@@ -1199,14 +1283,10 @@
       updateWebhookStatusUI(false);
     }
 
-    // UJI KONEKSI SPREADSHEET
     async function testWebhookConnection() {
       const input = document.getElementById("directApiInput");
       const url = input.value.trim();
-      if (!url) {
-        alert("Tempelkan URL Webhook terlebih dahulu!");
-        return;
-      }
+      if (!url) { alert("Tempelkan URL Webhook terlebih dahulu!"); return; }
       API_URL = url;
       localStorage.setItem(STORAGE_KEY_URL, url);
 
@@ -1223,7 +1303,7 @@
         }
       } catch (err) {
         updateWebhookStatusUI(false);
-        alert("Gagal menghubungi Google Apps Script!\n\nPastikan di menu Deploy Apps Script:\n1. 'Execute as: Me'\n2. 'Who has access: Anyone' (Wajib Anyone).");
+        alert("Gagal menghubungi Google Apps Script!\n\nPastikan di menu Deploy Apps Script:\n1. 'Execute as: Me'\n2. 'Who has access: Anyone'.");
       }
     }
 
@@ -1239,27 +1319,19 @@
       }
     }
 
-    // AUTH LOGIN VIA GET
     async function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
 
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
 
-      // Jika URL kosong, tawarkan bypass langsung
       if (!API_URL) {
-        if (u === "boy" && p === "0000") {
-          bypassLogin();
-          return;
-        } else {
-          alert("URL Webhook belum diisi! Silakan tempel URL Webhook atau gunakan tombol 'Masuk Darurat'.");
-          return;
-        }
+        if (u === "boy" && p === "0000") { bypassLogin(); return; }
+        else { alert("URL Webhook belum diisi!"); return; }
       }
 
       showToast("Memverifikasi kredensial...");
       try {
-        // Menggunakan metode GET yang jauh lebih stabil dari pemblokiran CORS
         const res = await fetch(`${API_URL}?action=verify_pin&username=${encodeURIComponent(u)}&pin=${encodeURIComponent(p)}`);
         const json = await res.json();
         if (json.success) {
@@ -1270,12 +1342,8 @@
           alert(json.message);
         }
       } catch (err) {
-        // Fallback superadmin lokal jika internet/server error
-        if (u === "boy" && p === "0000") {
-          bypassLogin();
-        } else {
-          alert("Koneksi ke Apps Script bermasalah. Gunakan tombol 'Masuk Darurat' di bawah.");
-        }
+        if (u === "boy" && p === "0000") bypassLogin();
+        else alert("Koneksi ke Apps Script bermasalah. Gunakan tombol 'Masuk Darurat'.");
       }
     }
 
@@ -1290,7 +1358,6 @@
       document.getElementById("gatekeeper").style.display = "none";
       document.getElementById("userNameBadge").innerText = `${currentUser.username.toUpperCase()} (${currentUser.role})`;
       if (currentUser.level >= 4) document.getElementById("tabPerusahaan").style.display = "block";
-      
       fetchAllData();
       startLiveClock();
     }
@@ -1326,7 +1393,6 @@
       if (viewId === 'kalender') renderCalendar();
     }
 
-    // ⚡ 1 KALI FETCH TUNGGAL UNTUK MEMUAT SELURUH DATABASE
     async function fetchAllData() {
       if (!API_URL) return;
       showToast("Menyinkronkan data...");
@@ -1398,7 +1464,7 @@
       });
     }
 
-    // KALENDER
+    // KALENDER DENGAN DAY INSPECTOR ASLI & FULL CRUD
     function changeMonth(delta) {
       calDate.setMonth(calDate.getMonth() + delta);
       renderCalendar();
@@ -1444,60 +1510,125 @@
       const rList = document.getElementById("inspectRosterList");
       rList.innerHTML = roster.length ? roster.map(r => `
         <div style="font-size:0.8rem; padding:0.4rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
-          <span><strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift}</span>
-          <button class="btn" style="padding:0.15rem 0.4rem; font-size:0.7rem;" onclick="toggleStaffAttendance('${r.id}', '${r.status_hadir==='Hadir'?'Libur':'Hadir'}')">
-            <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}">${r.status_hadir} (Ganti)</span>
-          </button>
+          <div>
+            <strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift}
+            <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}" style="margin-left:0.3rem;">${r.status_hadir}</span>
+          </div>
+          <div style="display:flex; gap:0.25rem;">
+            <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="editRosterModal('${r.id}')">Edit</button>
+            <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button>
+          </div>
         </div>
       `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Belum ada jadwal staff.</div>';
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
       const lList = document.getElementById("inspectLogList");
       lList.innerHTML = logs.length ? logs.map(l => `
-        <div style="font-size:0.8rem; padding:0.4rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px;">
-          <div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_biaya||''})</div>
-          <div style="color:var(--text-muted); font-size:0.75rem; margin-top:0.2rem;">${l.detail} (PIC: ${l.pic})</div>
+        <div style="font-size:0.8rem; padding:0.4rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_biaya||''})</div>
+            <div style="color:var(--text-muted); font-size:0.75rem; margin-top:0.15rem;">${l.detail} (PIC: ${l.pic})</div>
+          </div>
+          <div style="display:flex; gap:0.25rem;">
+            <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
+            <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button>
+          </div>
         </div>
       `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Tidak ada waste / catatan kejadian.</div>';
 
       openModal('modalDayInspector');
     }
 
-    async function toggleStaffAttendance(id, newStatus) {
-      showToast("Mengubah status kehadiran...");
-      await postToGas("update", "JADWAL", { key: "id", val: id, updates: { status_hadir: newStatus } });
-      await fetchAllData();
-      openDayInspector(activeInspectDate);
-      renderCalendar();
-    }
-
     function openRosterForCurrentInspectDate() {
+      document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal Staff";
+      document.getElementById("fJdwEditId").value = "";
       document.getElementById("fJdwTanggal").value = activeInspectDate;
       openModal('modalRoster');
     }
 
+    function editRosterModal(id) {
+      const r = (localData.JADWAL || []).find(x => x.id === id);
+      if(!r) return;
+      document.getElementById("modalRosterTitle").innerText = "Edit Jadwal: " + r.nama;
+      document.getElementById("fJdwEditId").value = r.id;
+      document.getElementById("fJdwTanggal").value = r.tanggal;
+      document.getElementById("fJdwUser").value = r.username;
+      document.getElementById("fJdwShift").value = r.shift;
+      document.getElementById("fJdwStatus").value = r.status_hadir;
+      document.getElementById("fJdwCatatan").value = r.catatan;
+      openModal('modalRoster');
+    }
+
+    async function deleteRosterItem(id) {
+      if(confirm(`Hapus jadwal ${id}?`)) {
+        showToast("Menghapus jadwal...");
+        await postToGas("delete", "JADWAL", { key: "id", val: id });
+        await fetchAllData();
+        openDayInspector(activeInspectDate);
+        renderCalendar();
+      }
+    }
+
     function openLogForCurrentInspectDate() {
+      document.getElementById("modalLogTitle").innerText = "Tambah Log / Waste Baru";
+      document.getElementById("fLogEditId").value = "";
       document.getElementById("fLogTanggal").value = activeInspectDate;
       document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fLogItem").value = "";
+      document.getElementById("fLogJumlah").value = "";
+      document.getElementById("fLogDetail").value = "";
       openModal('modalLog');
     }
 
+    function editLogModal(id) {
+      const l = (localData.LOG_KALENDER || []).find(x => x.log_id === id);
+      if(!l) return;
+      document.getElementById("modalLogTitle").innerText = "Edit Log: " + l.log_id;
+      document.getElementById("fLogEditId").value = l.log_id;
+      document.getElementById("fLogTanggal").value = l.tanggal;
+      document.getElementById("fLogJam").value = l.jam;
+      document.getElementById("fLogDivisi").value = l.divisi;
+      document.getElementById("fLogKategori").value = l.kategori;
+      document.getElementById("fLogItem").value = l.item_terkait;
+      document.getElementById("fLogJumlah").value = l.jumlah_biaya;
+      document.getElementById("fLogDetail").value = l.detail;
+      openModal('modalLog');
+    }
+
+    async function deleteLogItem(id) {
+      if(confirm(`Hapus log ${id}?`)) {
+        showToast("Menghapus log...");
+        await postToGas("delete", "LOG_KALENDER", { key: "log_id", val: id });
+        await fetchAllData();
+        openDayInspector(activeInspectDate);
+        renderCalendar();
+      }
+    }
+
     function openNewRosterModal() {
+      document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal Staff";
+      document.getElementById("fJdwEditId").value = "";
       document.getElementById("fJdwTanggal").value = new Date().toISOString().split('T')[0];
       openModal('modalRoster');
     }
 
     function openNewLogModal() {
+      document.getElementById("modalLogTitle").innerText = "Tambah Log / Waste Baru";
+      document.getElementById("fLogEditId").value = "";
       document.getElementById("fLogTanggal").value = new Date().toISOString().split('T')[0];
       document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fLogItem").value = "";
+      document.getElementById("fLogJumlah").value = "";
+      document.getElementById("fLogDetail").value = "";
       openModal('modalLog');
     }
 
-    async function submitNewRoster() {
+    async function submitRosterForm() {
+      const editId = document.getElementById("fJdwEditId").value;
       const u = document.getElementById("fJdwUser").value;
       const userObj = (localData.USERS || []).find(x => x.username === u) || {};
+      
       const payload = {
-        id: "JDW-" + Date.now().toString().slice(-5),
         tanggal: document.getElementById("fJdwTanggal").value,
         shift: document.getElementById("fJdwShift").value,
         username: u,
@@ -1509,14 +1640,19 @@
 
       closeModal('modalRoster');
       showToast("Menyimpan jadwal...");
-      await postToGas("insert", "JADWAL", payload);
-      fetchAllData();
+      if(editId) {
+        await postToGas("update", "JADWAL", { key: "id", val: editId, updates: payload });
+      } else {
+        payload.id = "JDW-" + Date.now().toString().slice(-5);
+        await postToGas("insert", "JADWAL", payload);
+      }
+      await fetchAllData();
       renderCalendar();
     }
 
-    async function submitNewLog() {
+    async function submitLogForm() {
+      const editId = document.getElementById("fLogEditId").value;
       const payload = {
-        log_id: "LOG-" + Date.now().toString().slice(-5),
         tanggal: document.getElementById("fLogTanggal").value,
         jam: document.getElementById("fLogJam").value || new Date().toLocaleTimeString('id-ID'),
         divisi: document.getElementById("fLogDivisi").value,
@@ -1530,12 +1666,17 @@
 
       closeModal('modalLog');
       showToast("Menyimpan log...");
-      await postToGas("insert", "LOG_KALENDER", payload);
-      fetchAllData();
+      if(editId) {
+        await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
+      } else {
+        payload.log_id = "LOG-" + Date.now().toString().slice(-5);
+        await postToGas("insert", "LOG_KALENDER", payload);
+      }
+      await fetchAllData();
       renderCalendar();
     }
 
-    // CHECKLIST STASIUN
+    // CHECKLIST STASIUN & EDIT TUGAS TANPA PROMPT
     function renderChecklistStations() {
       const container = document.getElementById("stationGrid");
       const stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
@@ -1551,9 +1692,13 @@
               <div class="task-item">
                 <input type="checkbox" class="task-check" ${t.status==='Selesai'?'checked':''} 
                   onchange="toggleTaskState('${t.task_id}', this.checked)">
-                <div class="task-content" onclick="editTaskPrompt('${t.task_id}', '${t.tugas}')">
+                <div class="task-content">
                   <div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div>
-                  <div class="task-sub">Shift ${t.shift} • Target ${t.jam_target} • PIC: ${t.petugas || '-'} (Klik untuk edit)</div>
+                  <div class="task-sub">Shift ${t.shift} • Target ${t.jam_target} • PIC: ${t.petugas || '-'}</div>
+                </div>
+                <div style="display:flex; gap:0.25rem;">
+                  <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="editTaskModal('${t.task_id}')">Edit</button>
+                  <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button>
                 </div>
               </div>
             `).join('')}
@@ -1576,32 +1721,57 @@
       fetchAllData();
     }
 
-    async function editTaskPrompt(id, oldTask) {
-      const newTask = prompt("Ubah uraian tugas checklist:", oldTask);
-      if(newTask && newTask.trim() !== "") {
-        showToast("Memperbarui tugas...");
-        await postToGas("update", "CHECKLIST", { key: "task_id", val: id, updates: { tugas: newTask } });
-        fetchAllData();
-      }
+    function openNewTaskModal() {
+      document.getElementById("modalTaskTitle").innerText = "Buat Tugas Checklist Baru";
+      document.getElementById("fTaskEditId").value = "";
+      document.getElementById("fTaskUraian").value = "";
+      document.getElementById("fTaskJam").value = "08:30";
+      openModal('modalTask');
     }
 
-    function openNewTaskModal() { openModal('modalTask'); }
-    async function submitNewTask() {
+    function editTaskModal(id) {
+      const t = (localData.CHECKLIST || []).find(x => x.task_id === id);
+      if(!t) return;
+      document.getElementById("modalTaskTitle").innerText = "Edit Tugas Checklist";
+      document.getElementById("fTaskEditId").value = t.task_id;
+      document.getElementById("fTaskStation").value = t.station;
+      document.getElementById("fTaskShift").value = t.shift;
+      document.getElementById("fTaskFase").value = t.fase;
+      document.getElementById("fTaskJam").value = t.jam_target;
+      document.getElementById("fTaskUraian").value = t.tugas;
+      openModal('modalTask');
+    }
+
+    async function submitTaskForm() {
+      const editId = document.getElementById("fTaskEditId").value;
       const payload = {
-        task_id: "CHK-" + Date.now().toString().slice(-5),
-        tanggal: new Date().toISOString().split('T')[0],
-        shift: document.getElementById("fTaskShift").value,
         station: document.getElementById("fTaskStation").value,
+        shift: document.getElementById("fTaskShift").value,
         fase: document.getElementById("fTaskFase").value,
         jam_target: document.getElementById("fTaskJam").value,
-        tugas: document.getElementById("fTaskUraian").value,
-        status: "Belum",
-        petugas: currentUser.username
+        tugas: document.getElementById("fTaskUraian").value
       };
+
       closeModal('modalTask');
-      showToast("Menambahkan tugas...");
-      await postToGas("insert", "CHECKLIST", payload);
+      showToast("Menyimpan tugas...");
+      if(editId) {
+        await postToGas("update", "CHECKLIST", { key: "task_id", val: editId, updates: payload });
+      } else {
+        payload.task_id = "CHK-" + Date.now().toString().slice(-5);
+        payload.tanggal = new Date().toISOString().split('T')[0];
+        payload.status = "Belum";
+        payload.petugas = currentUser.username;
+        await postToGas("insert", "CHECKLIST", payload);
+      }
       fetchAllData();
+    }
+
+    async function deleteTaskItem(id) {
+      if(confirm(`Hapus tugas ${id}?`)) {
+        showToast("Menghapus tugas...");
+        await postToGas("delete", "CHECKLIST", { key: "task_id", val: id });
+        fetchAllData();
+      }
     }
 
     // STOK INVENTARIS
@@ -1612,9 +1782,11 @@
         const gudang = cleanMoney(s.stok_gudang);
         const sisa = cleanMoney(s.sisa_sore);
         const min = cleanMoney(s.min_stok);
-        const mikro = sisa || (cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2));
-        const total = cleanMoney(s.total_makro) || (gudang + mikro);
+        const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
+        const total = cleanMoney(s.total_makro) || (gudang + (sisa || mikro));
         const status = s.status || (total <= min ? "RESTOCK" : "AMAN");
+        const diff = total - min;
+        const diffText = diff <= 0 ? `Kurang ${Math.abs(diff)}` : `Surplus +${diff}`;
 
         return `
           <tr>
@@ -1622,18 +1794,20 @@
             <td>${s.divisi}</td>
             <td><strong>${s.nama_barang}</strong></td>
             <td>${s.satuan}</td>
-            <td>${min}</td>
             <td>${gudang}</td>
-            <td>${cleanMoney(s.tersedia_pagi)}</td>
-            <td>${cleanMoney(s.refill_s1)}</td>
-            <td>${cleanMoney(s.refill_s2)}</td>
-            <td><strong>${sisa}</strong></td>
-            <td>${total}</td>
-            <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span></td>
+            <td>${mikro}</td>
             <td>
-              <div style="display:flex; gap:0.3rem;">
-                <input type="number" style="width:60px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
-                  placeholder="Opname" onchange="quickUpdateOpname('${s.item_id}', this.value)">
+              <input type="number" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
+                value="${sisa || ''}" placeholder="0" onchange="quickUpdateOpname('${s.item_id}', this.value)">
+            </td>
+            <td><strong>${total}</strong></td>
+            <td>${min}</td>
+            <td>
+              <span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span>
+              <div style="font-size:0.68rem; color:${diff<=0?'var(--danger)':'var(--text-muted)'}; margin-top:0.2rem;">${diffText} ${s.satuan}</div>
+            </td>
+            <td>
+              <div style="display:flex; gap:0.25rem;">
                 <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editStokModal('${s.item_id}')">Edit</button>
                 <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteStokItem('${s.item_id}')">Hapus</button>
               </div>
@@ -1644,7 +1818,6 @@
     }
 
     async function quickUpdateOpname(id, val) {
-      if(!val) return;
       showToast("Menyimpan opname...");
       await postToGas("update", "STOK", { key: "item_id", val: id, updates: { sisa_sore: Number(val) } });
       fetchAllData();
@@ -1730,7 +1903,7 @@
       }
     }
 
-    // DENOMINASI KASIR
+    // DENOMINASI & KASIR (2 SHIFT + EDIT/DELETE)
     function calcCashDenom() {
       const d100 = (Number(document.getElementById("d100k").value) || 0) * 100000;
       const d50 = (Number(document.getElementById("d50k").value) || 0) * 50000;
@@ -1760,9 +1933,44 @@
       selEl.style.color = selisih === 0 ? "var(--success)" : "var(--danger)";
     }
 
-    async function submitHandover() {
+    function openNewHandoverModal() {
+      document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima Kasir";
+      document.getElementById("fStEditId").value = "";
+      document.getElementById("fStTanggal").value = new Date().toISOString().split('T')[0];
+      document.getElementById("fStJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fStModal").value = 300000;
+      document.getElementById("fStTunai").value = 0;
+      document.getElementById("fStPengeluaran").value = 0;
+      document.querySelectorAll("#modalHandover input[type='number']").forEach(i => i.value = 0);
+      document.getElementById("fStModal").value = 300000;
+      calcCashDenom();
+      openModal('modalHandover');
+    }
+
+    function editHandoverModal(id) {
+      const st = (localData.SERAH_TERIMA || []).find(x => x.id === id);
+      if(!st) return;
+      document.getElementById("modalHandoverTitle").innerText = "Edit Serah Terima: " + id;
+      document.getElementById("fStEditId").value = id;
+      document.getElementById("fStTanggal").value = st.tanggal;
+      document.getElementById("fStJam").value = st.jam;
+      document.getElementById("fStTahap").value = st.tahap;
+      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_awal);
+      document.getElementById("fStTunai").value = cleanMoney(st.tunai_masuk);
+      document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil);
+      document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris);
+      document.getElementById("fStOnline").value = cleanMoney(st.online_food);
+      document.getElementById("fStPrepBar").value = st.prep_barista || "";
+      document.getElementById("fStPrepKit").value = st.prep_kitchen || "";
+      document.getElementById("fStPrepSrv").value = st.prep_server || "";
+      document.getElementById("fStCatatan").value = st.catatan_evaluasi || "";
+      calcCashDenom();
+      openModal('modalHandover');
+    }
+
+    async function submitHandoverForm() {
+      const editId = document.getElementById("fStEditId").value;
       const payload = {
-        id: "ST-" + Date.now().toString().slice(-5),
         tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0],
         jam: document.getElementById("fStJam").value || new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':'),
         tahap: document.getElementById("fStTahap").value,
@@ -1783,15 +1991,28 @@
 
       closeModal('modalHandover');
       showToast("Menyimpan serah terima...");
-      await postToGas("insert", "SERAH_TERIMA", payload);
+      if(editId) {
+        await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
+      } else {
+        payload.id = "ST-" + Date.now().toString().slice(-5);
+        await postToGas("insert", "SERAH_TERIMA", payload);
+      }
       fetchAllData();
+    }
+
+    async function deleteHandoverItem(id) {
+      if(confirm(`Hapus serah terima ${id}?`)) {
+        showToast("Menghapus data...");
+        await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id });
+        fetchAllData();
+      }
     }
 
     function renderHandoverTable() {
       document.getElementById("stTableBody").innerHTML = (localData.SERAH_TERIMA || []).map(st => `
         <tr>
           <td><code>${st.id}</code></td>
-          <td>${st.jam || '-'}</td>
+          <td>${st.tanggal} ${st.jam || ''}</td>
           <td>${st.tahap}</td>
           <td>${st.petugas_serah}</td>
           <td>Rp ${cleanMoney(st.kas_modal_awal).toLocaleString('id-ID')}</td>
@@ -1802,11 +2023,120 @@
           <td style="font-size:0.75rem;">${st.prep_barista||'-'}</td>
           <td style="font-size:0.75rem;">${st.prep_kitchen||'-'}</td>
           <td style="font-size:0.75rem;">${st.prep_server||'-'}</td>
+          <td>
+            <div style="display:flex; gap:0.25rem;">
+              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>
+            </div>
+          </td>
         </tr>
       `).join('');
     }
 
-    // DAILY REPORT
+    // DAILY REPORT CRUD & AUTO-PULL
+    function openNewDailyReportModal() {
+      document.getElementById("modalDrTitle").innerText = "Simpan Report Harian Baru";
+      document.getElementById("fDrEditId").value = "";
+      document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0];
+      autoPullDailyReportData();
+      openModal('modalDailyReport');
+    }
+
+    function editDailyReportModal(id) {
+      const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id);
+      if(!dr) return;
+      document.getElementById("modalDrTitle").innerText = "Edit Daily Report: " + id;
+      document.getElementById("fDrEditId").value = id;
+      document.getElementById("fDrTanggal").value = dr.tanggal;
+      document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1);
+      document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2);
+      document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc);
+      document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food);
+      document.getElementById("fDrTarget").value = cleanMoney(dr.target_harian) || 5000000;
+      document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || "";
+      document.getElementById("fDrWaste").value = dr.waste_bahan || "";
+      document.getElementById("fDrCrew").value = dr.crew_meals || "";
+      document.getElementById("fDrKomplimen").value = dr.komplimen_barter || "";
+      document.getElementById("fDrEvaluasi").value = dr.evaluasi_harian || "";
+      openModal('modalDailyReport');
+    }
+
+    function autoPullDailyReportData() {
+      const tgl = document.getElementById("fDrTanggal").value;
+      const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === tgl);
+      
+      let s1 = 0, s2 = 0, qris = 0, online = 0, evalText = [];
+      handovers.forEach(h => {
+        const tunai = cleanMoney(h.tunai_masuk);
+        const nontunai = cleanMoney(h.non_tunai_qris);
+        const onl = cleanMoney(h.online_food);
+        if(h.tahap.includes("Shift 1")) s1 += (tunai + nontunai + onl);
+        else s2 += (tunai + nontunai + onl);
+        qris += nontunai;
+        online += onl;
+        if(h.catatan_evaluasi) evalText.push(h.catatan_evaluasi);
+      });
+
+      document.getElementById("fDrRevS1").value = s1;
+      document.getElementById("fDrRevS2").value = s2;
+      document.getElementById("fDrQrisEdc").value = qris;
+      document.getElementById("fDrOnlineFood").value = online;
+      
+      // Tarik waste dari log
+      const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl && l.kategori.includes("Waste"));
+      if(logs.length) {
+        document.getElementById("fDrWaste").value = logs.map(x => `${x.item_terkait} (${x.jumlah_biaya})`).join(', ');
+      }
+      if(evalText.length) {
+        document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
+      }
+      showToast("Data otomatis ditarik!");
+    }
+
+    async function submitDailyReportForm() {
+      const editId = document.getElementById("fDrEditId").value;
+      const s1 = Number(document.getElementById("fDrRevS1").value);
+      const s2 = Number(document.getElementById("fDrRevS2").value);
+      const target = Number(document.getElementById("fDrTarget").value) || 5000000;
+      const total = s1 + s2;
+      const pct = target > 0 ? ((total/target)*100).toFixed(1)+'%' : '100%';
+
+      const payload = {
+        tanggal: document.getElementById("fDrTanggal").value,
+        rev_shift1: s1,
+        rev_shift2: s2,
+        total_omset: total,
+        qris_edc: Number(document.getElementById("fDrQrisEdc").value),
+        online_food: Number(document.getElementById("fDrOnlineFood").value),
+        target_harian: target,
+        capaian_pct: pct,
+        kalibrasi_beans: document.getElementById("fDrKalibrasi").value,
+        waste_bahan: document.getElementById("fDrWaste").value,
+        crew_meals: document.getElementById("fDrCrew").value,
+        komplimen_barter: document.getElementById("fDrKomplimen").value,
+        evaluasi_harian: document.getElementById("fDrEvaluasi").value,
+        pelapor: currentUser.username
+      };
+
+      closeModal('modalDailyReport');
+      showToast("Menyimpan Daily Report...");
+      if(editId) {
+        await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
+      } else {
+        payload.report_id = "REP-" + Date.now().toString().slice(-6);
+        await postToGas("insert", "DAILY_REPORT", payload);
+      }
+      fetchAllData();
+    }
+
+    async function deleteDailyReportItem(id) {
+      if(confirm(`Hapus Daily Report ${id}?`)) {
+        showToast("Menghapus data...");
+        await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id });
+        fetchAllData();
+      }
+    }
+
     function renderDailyReportTable() {
       document.getElementById("drTableBody").innerHTML = (localData.DAILY_REPORT || []).map(dr => `
         <tr>
@@ -1819,6 +2149,12 @@
           <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td>
           <td style="font-size:0.75rem;">Kalibrasi: ${dr.kalibrasi_beans||'-'}, Waste: ${dr.waste_bahan||'-'}</td>
           <td style="font-size:0.75rem;">${dr.evaluasi_harian||'-'}</td>
+          <td>
+            <div style="display:flex; gap:0.25rem;">
+              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>
+            </div>
+          </td>
         </tr>
       `).join('');
     }
@@ -1828,20 +2164,20 @@
       const text = `*DAILY REPORT OPERASIONAL — HOLLO COFFEE & ROASTERY'S*%0A` +
         `📅 *Tanggal:* ${today}%0A` +
         `👤 *PIC Pelapor:* ${currentUser.nama_lengkap} (${currentUser.role})%0A%0A` +
-        `*1. RINGKASAN REVENUE & KAS LACI:*%0A` +
-        `• Modal Awal Kas: Rp 300.000%0A` +
+        `*1. KEUANGAN & SALURAN OMSET:*%0A` +
+        `• Modal Kas Awal: Rp 300.000%0A` +
         `• Penjualan Tunai: Rp 1.450.000%0A` +
-        `• Non-Tunai (EDC/QRIS): Rp 2.850.000%0A` +
+        `• Non-Tunai / EDC / QRIS: Rp 2.850.000%0A` +
         `• Online Food: Rp 1.800.000%0A` +
-        `• Status Kas Laci: *COCOK (0 Selisih)*%0A%0A` +
+        `• Status Kasir: *COCOK (0 Selisih)*%0A%0A` +
         `*2. PREP KURANG UNTUK SHIFT BERIKUTNYA:*%0A` +
         `• *Barista:* Susu Greenfields sisa 2 pack, restock es batu%0A` +
         `• *Kitchen:* Defrost ayam fillet, siapkan saus konslet%0A` +
         `• *Server:* Sedotan & tisu meja perlu restock%0A%0A` +
         `*3. QC & EVALUASI OPERASIONAL:*%0A` +
-        `• Kalibrasi Espresso: 18.2g in, 38g out, 26 detik (Optimal)%0A` +
+        `• Kalibrasi: Dial-in espresso optimal 26s%0A` +
         `• Waste Bahan: Brokoli 200g afkir layu%0A` +
-        `• Evaluasi: Operasional dan kebersihan stasiun prima.%0A%0A` +
+        `• Evaluasi: Kebersihan stasiun & pelayanan prima.%0A%0A` +
         `_Laporan sah terkirim melalui Sistem Terintegrasi Kafe._`;
       window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
     }
@@ -1873,8 +2209,10 @@
             <td>${marginPct}</td>
             <td>${foodCostPct}</td>
             <td>
-              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editMenuModal('${m.menu_id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>
+              <div style="display:flex; gap:0.25rem;">
+                <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editMenuModal('${m.menu_id}')">Edit</button>
+                <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>
+              </div>
             </td>
           </tr>
         `;
@@ -1887,7 +2225,7 @@
       document.getElementById("fMenuNama").value = "";
       document.getElementById("fMenuKategori").value = "";
       document.getElementById("fMenuHpp").value = 5000;
-      document.getElementById("fMenuHarga").value = 20000;
+      document.getElementById("fMenuHarga").value = 22000;
       openModal('modalMenu');
     }
 
@@ -1962,8 +2300,10 @@
           <td>${u.divisi}</td>
           <td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
           <td>
-            <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editUserModal('${u.user_id}')">Edit</button>
-            <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteUserItem('${u.user_id}')">Hapus</button>
+            <div style="display:flex; gap:0.25rem;">
+              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editUserModal('${u.user_id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteUserItem('${u.user_id}')">Hapus</button>
+            </div>
           </td>
         </tr>
       `).join('');
@@ -2041,7 +2381,6 @@
       }
     }
 
-    // GENERIC POST HELPER
     async function postToGas(action, sheet, payloadOrData) {
       if(!API_URL) return;
       let bodyData = { action: action, sheet: sheet };
@@ -2069,7 +2408,6 @@
     }
 
     window.onload = () => {
-      // Inisialisasi otomatis URL yang tersimpan
       if(API_URL) {
         const input = document.getElementById("directApiInput");
         if(input) input.value = API_URL;
