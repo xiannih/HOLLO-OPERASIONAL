@@ -44,7 +44,7 @@
       --warning: #d97706;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; transition: var(--transition); overflow-x: hidden; }
 
     #gatekeeper {
@@ -55,14 +55,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .lock-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 2.5rem 2rem;
+      padding: 2.25rem 1.75rem;
       width: 100%;
       max-width: 420px;
       text-align: center;
@@ -80,21 +80,8 @@
 
     .lock-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; }
 
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 0.25rem 0.6rem;
-      border-radius: 9999px;
-      margin-bottom: 0.75rem;
-    }
-    .status-badge.online { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
-    .status-badge.offline { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
-
     header {
-      padding: 0.85rem 2rem;
+      padding: 0.75rem 1.5rem;
       border-bottom: 1px solid var(--border);
       background: var(--surface);
       display: flex;
@@ -106,39 +93,27 @@
       backdrop-filter: blur(10px);
     }
 
-    .brand-wrap { display: flex; align-items: center; gap: 0.75rem; }
-    .brand-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
+    .brand-wrap { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+    .brand-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; text-transform: uppercase; }
 
     .live-clock-pill {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       background: var(--surface-elevated);
       border: 1px solid var(--border);
-      padding: 0.3rem 0.65rem;
+      padding: 0.25rem 0.55rem;
       border-radius: 9999px;
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 600;
     }
 
-    .live-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 8px var(--success);
-    }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
 
     .btn {
-      padding: 0.5rem 0.9rem;
+      padding: 0.45rem 0.8rem;
       border-radius: var(--radius-sm);
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
       border: 1px solid var(--border);
@@ -147,14 +122,13 @@
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.35rem;
+      white-space: nowrap;
     }
 
     .btn:hover { background: var(--surface-elevated); border-color: var(--text-muted); }
     .btn-solid { background: var(--accent); color: var(--accent-invert); border-color: var(--accent); }
-    .btn-solid:hover { opacity: 0.9; }
     .btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
-    .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
     .btn-wa { background: #25D366; color: #fff; border-color: #25D366; }
 
     nav {
@@ -162,13 +136,15 @@
       border-bottom: 1px solid var(--border);
       display: flex;
       gap: 0.25rem;
-      padding: 0.25rem 2rem;
+      padding: 0.25rem 1rem;
       overflow-x: auto;
+      scrollbar-width: none;
     }
+    nav::-webkit-scrollbar { display: none; }
 
     .nav-tab {
-      padding: 0.75rem 1.15rem;
-      font-size: 0.85rem;
+      padding: 0.7rem 1rem;
+      font-size: 0.82rem;
       font-weight: 500;
       color: var(--text-muted);
       cursor: pointer;
@@ -176,260 +152,104 @@
       transition: var(--transition);
       white-space: nowrap;
     }
-
     .nav-tab.active { color: var(--text); border-color: var(--accent); font-weight: 600; }
 
-    main { padding: 1.75rem 2rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
+    main { padding: 1.25rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
 
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
     }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; }
+    .card-title { font-size: 0.72rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+    .card-val { font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
 
-    .card-title {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-      margin-bottom: 0.35rem;
-    }
+    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    @media (max-width: 850px) { .charts-grid { grid-template-columns: 1fr; } }
 
-    .card-val {
-      font-size: 1.6rem;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-    }
-
-    .charts-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    @media (max-width: 900px) {
-      .charts-grid { grid-template-columns: 1fr; }
-    }
-
-    .cal-header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 0.4rem;
-    }
-
-    .cal-day-name {
-      text-align: center;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      padding-bottom: 0.5rem;
-      text-transform: uppercase;
-    }
+    .cal-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.35rem; }
+    .cal-day-name { text-align: center; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); padding-bottom: 0.4rem; text-transform: uppercase; }
 
     .cal-cell {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      min-height: 95px;
-      padding: 0.6rem 0.5rem;
+      min-height: 85px;
+      padding: 0.5rem 0.4rem;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: var(--transition);
     }
-
     .cal-cell:hover { border-color: var(--accent); background: var(--surface-elevated); }
     .cal-cell.today { border: 2px solid var(--accent); background: var(--surface-elevated); }
-
-    .cal-date-num { font-weight: 700; font-size: 0.85rem; }
-    .cal-tags-wrap { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.3rem; }
-    .cal-badge { font-size: 0.65rem; padding: 0.15rem 0.3rem; border-radius: 3px; font-weight: 600; }
+    .cal-date-num { font-weight: 700; font-size: 0.82rem; }
+    .cal-tags-wrap { display: flex; flex-direction: column; gap: 0.15rem; margin-top: 0.25rem; }
+    .cal-badge { font-size: 0.62rem; padding: 0.12rem 0.25rem; border-radius: 3px; font-weight: 600; }
     .badge-shift { background: rgba(255,255,255,0.08); color: var(--text); }
     .badge-off { background: rgba(239,68,68,0.15); color: var(--danger); }
     .badge-log { background: rgba(245,158,11,0.15); color: var(--warning); }
 
-    .station-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.25rem;
-    }
+    .station-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
+    .station-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; display: flex; flex-direction: column; gap: 0.65rem; }
+    .station-header { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.45rem; display: flex; justify-content: space-between; align-items: center; }
 
-    .station-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    .task-item { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.45rem 0; border-bottom: 1px solid var(--border-subtle); }
+    .task-check { margin-top: 0.15rem; width: 17px; height: 17px; cursor: pointer; accent-color: var(--accent); }
+    .task-content { flex: 1; font-size: 0.8rem; }
+    .task-sub { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.15rem; }
 
-    .station-header {
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 0.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .task-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .task-check {
-      margin-top: 0.2rem;
-      width: 17px;
-      height: 17px;
-      cursor: pointer;
-      accent-color: var(--accent);
-    }
-
-    .task-content { flex: 1; font-size: 0.825rem; }
-    .task-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; }
-
-    .table-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow-x: auto;
-    }
-
-    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; text-align: left; }
-    th {
-      background: var(--surface-elevated);
-      color: var(--text-muted);
-      padding: 0.85rem 1rem;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      font-weight: 600;
-      border-bottom: 1px solid var(--border);
-    }
-    td { padding: 0.85rem 1rem; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; }
+    .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; }
+    th { background: var(--surface-elevated); color: var(--text-muted); padding: 0.75rem 0.85rem; font-size: 0.72rem; text-transform: uppercase; font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; white-space: nowrap; }
     tr:hover td { background: var(--surface-elevated); }
 
-    .tag {
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
+    .tag { padding: 0.18rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; }
     .tag-restock { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
     .tag-safe { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
 
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(8px);
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-    }
+    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 99999; padding: 0.75rem; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; width: 100%; max-width: 620px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
 
-    .modal {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
-      width: 90%;
-      max-width: 640px;
-      max-height: 88vh;
-      overflow-y: auto;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    }
-
-    .form-group { margin-bottom: 1rem; text-align: left; }
-    .form-group label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase; }
+    .form-group { margin-bottom: 0.85rem; text-align: left; }
+    .form-group label { display: block; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 600; text-transform: uppercase; }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      padding: 0.65rem 0.85rem;
+      padding: 0.6rem 0.75rem;
       border-radius: var(--radius-sm);
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--text);
       outline: none;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
     }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
 
-    .section-title-box {
-      background: var(--surface-elevated);
-      border-left: 3px solid var(--accent);
-      padding: 0.4rem 0.65rem;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin: 1.25rem 0 0.75rem 0;
-    }
+    .section-title-box { background: var(--surface-elevated); border-left: 3px solid var(--accent); padding: 0.35rem 0.55rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin: 1rem 0 0.65rem 0; }
+    .calc-explain-box { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.65rem; margin-bottom: 0.85rem; font-size: 0.75rem; }
+    .calc-row { display: flex; justify-content: space-between; margin-bottom: 0.2rem; }
+    .calc-row.total { font-weight: 700; border-top: 1px solid var(--border); padding-top: 0.3rem; margin-top: 0.3rem; }
 
-    .denom-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
-      gap: 0.4rem;
-      background: var(--surface-elevated);
-      padding: 0.85rem;
-      border-radius: var(--radius-sm);
-      margin-bottom: 1rem;
-    }
-    .denom-item label { font-size: 0.68rem; font-weight: 700; color: var(--text-muted); }
-    .denom-item input { width: 100%; padding: 0.3rem; font-size: 0.85rem; }
-
-    .calc-explain-box {
-      background: var(--surface-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      font-size: 0.78rem;
-    }
-    .calc-row { display: flex; justify-content: space-between; margin-bottom: 0.25rem; }
-    .calc-row.total { font-weight: 700; border-top: 1px solid var(--border); padding-top: 0.35rem; margin-top: 0.35rem; }
-
-    #toast {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      padding: 0.75rem 1.25rem;
-      background: var(--accent);
-      color: var(--accent-invert);
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-weight: 600;
-      opacity: 0;
-      pointer-events: none;
-      transition: var(--transition);
-      z-index: 100000;
-    }
+    #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.65rem 1.15rem; background: var(--accent); color: var(--accent-invert); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; opacity: 0; pointer-events: none; transition: var(--transition); z-index: 100000; }
     #toast.show { opacity: 1; transform: translateY(-5px); }
+
+    /* RESPONSIVE LAYOUT UNTUK HP */
+    @media (max-width: 650px) {
+      header { padding: 0.65rem 1rem; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+      .brand-wrap { width: 100%; justify-content: space-between; }
+      main { padding: 0.85rem; }
+      .modal { padding: 1.15rem; }
+      .cal-cell { min-height: 70px; padding: 0.35rem 0.25rem; }
+      .cal-tags-wrap { display: none; } /* Ringkas tampilan kalender di HP */
+      .cal-date-num { font-size: 0.75rem; text-align: center; }
+      .cal-cell.has-data::after { content: "•"; color: var(--warning); font-size: 1.2rem; text-align: center; line-height: 0.5; }
+    }
   </style>
 </head>
 <body>
@@ -440,22 +260,6 @@
       <div class="lock-title">HOLLO COFFEE & ROASTERY'S</div>
       <div class="lock-sub">Executive Operations & Control Suite</div>
       
-      <div style="background:var(--surface-elevated); border:1px solid var(--border); padding:0.85rem; border-radius:var(--radius-sm); margin-bottom:1.5rem; text-align:left;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem;">
-          <label style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">URL WEBHOOK SPREADSHEET (/exec)</label>
-          <span id="webhookStatusBadge" class="status-badge offline">● Belum Terhubung</span>
-        </div>
-        <input type="text" id="directApiInput" placeholder="https://script.google.com/macros/s/.../exec" 
-          oninput="handleApiUrlInput(this.value)" 
-          style="width:100%; font-size:0.75rem; padding:0.45rem; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:4px;">
-        
-        <div style="display:flex; gap:0.4rem; margin-top:0.5rem;">
-          <button class="btn btn-solid" style="flex:1; justify-content:center; font-size:0.72rem; padding:0.4rem;" onclick="testWebhookConnection()">
-            ⚡ Tes & Simpan Koneksi
-          </button>
-        </div>
-      </div>
-
       <div class="form-group">
         <label>USERNAME</label>
         <input type="text" id="loginUser" placeholder="Masukkan username">
@@ -483,8 +287,8 @@
         <span id="liveShiftIndicator">SHIFT 1 (PREP)</span>
       </div>
     </div>
-    <div style="display:flex; gap:0.5rem; align-items:center;">
-      <button class="btn" onclick="refreshAllData()">↻ Segarkan Data</button>
+    <div style="display:flex; gap:0.4rem; align-items:center; width:100%; justify-content:flex-end; flex-wrap:wrap;">
+      <button class="btn" onclick="refreshAllData()">↻ Refresh</button>
       <button class="btn" id="themeBtn" onclick="toggleTheme()">Light</button>
       <span class="btn" style="border:none; font-size:0.75rem;" id="userNameBadge">STAFF</span>
       <button class="btn btn-danger" onclick="logout()">⏻ Kunci</button>
@@ -500,54 +304,44 @@
     <div class="nav-tab" onclick="switchView('serah-terima')">Kasir & Serah Terima</div>
     <div class="nav-tab" onclick="switchView('daily-report')">Daily Report</div>
     <div class="nav-tab" onclick="switchView('menu')">Menu & HPP</div>
-    <div class="nav-tab" id="tabPerusahaan" style="display:none;" onclick="switchView('perusahaan')">Data Perusahaan (Vault)</div>
+    <div class="nav-tab" id="tabPerusahaan" style="display:none;" onclick="switchView('perusahaan')">Data Perusahaan</div>
   </nav>
 
   <!-- 4. MAIN CONTAINER -->
   <main>
     <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
-      <div style="margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
-        <div>
-          <h3>Dashboard Operasional Terpadu</h3>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
-            Sumber data: Real-time dari sheet Serah Terima (Omset), Inventaris Stok, Checklist & Jadwal.
-          </p>
-        </div>
-        <span class="tag tag-safe">Status Sistem: Sinkron Aktif</span>
-      </div>
-
       <div class="kpi-grid">
         <div class="card">
           <div class="card-title">Capaian Target MTD</div>
           <div class="card-val" id="kpiTargetMtd">Rp 0</div>
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.3rem;" id="kpiTargetSub">Target Bulanan: Rp 150.000.000</div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Target Bulanan: Rp 150.000.000</div>
         </div>
         <div class="card">
-          <div class="card-title">Penjualan Hari Ini (Total Omset)</div>
+          <div class="card-title">Total Penjualan Hari Ini (Omset)</div>
           <div class="card-val" id="kpiSalesToday">Rp 0</div>
-          <div style="font-size:0.75rem; color:var(--success); margin-top:0.3rem;">Tunai + QRIS/EDC + Online Food</div>
+          <div style="font-size:0.72rem; color:var(--success); margin-top:0.25rem;">Tunai + QRIS/EDC + Online</div>
         </div>
         <div class="card">
           <div class="card-title">Stok Perlu Restock</div>
           <div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div>
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.3rem;">Di bawah batas minimum</div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Di bawah batas minimum</div>
         </div>
         <div class="card">
           <div class="card-title">Checklist Selesai</div>
           <div class="card-val" id="kpiChecklistProgress">0%</div>
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.3rem;">Seluruh Stasiun Kerja</div>
+          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Seluruh Stasiun Kerja</div>
         </div>
       </div>
 
       <div class="charts-grid">
         <div class="card">
           <div class="card-title">Breakdown Penjualan Saluran Pembayaran</div>
-          <canvas id="chartSales" style="max-height: 250px; margin-top: 1rem;"></canvas>
+          <canvas id="chartSales" style="max-height: 250px; margin-top: 0.75rem;"></canvas>
         </div>
         <div class="card">
           <div class="card-title">Progres Checklist Stasiun</div>
-          <canvas id="chartChecklist" style="max-height: 250px; margin-top: 1rem;"></canvas>
+          <canvas id="chartChecklist" style="max-height: 250px; margin-top: 0.75rem;"></canvas>
         </div>
       </div>
     </section>
@@ -561,7 +355,7 @@
             <button class="btn" onclick="changeMonth(-1)">◀</button>
             <button class="btn" onclick="changeMonth(1)">▶</button>
           </div>
-          <div style="display:flex; gap:0.5rem;">
+          <div style="display:flex; gap:0.4rem;">
             <button class="btn" onclick="openNewLogModal()">+ Tambah Log / Waste</button>
             <button class="btn btn-solid" onclick="openNewRosterModal()">+ Tambah Jadwal Staff</button>
           </div>
@@ -572,7 +366,7 @@
 
     <!-- VIEW 3: CHECKLIST STASIUN -->
     <section id="view-checklist" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <h3>Checklist Shift Harian per Stasiun</h3>
         <button class="btn btn-solid" onclick="openNewTaskModal()">+ Buat Tugas Baru</button>
       </div>
@@ -581,21 +375,21 @@
 
     <!-- VIEW 4: INVENTARIS STOK -->
     <section id="view-stok" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
           <h3>Stok Inventaris Mikro, Makro & Opname</h3>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
             Total Nyata = Gudang + (Opname Fisik Sore atau Mikro Pagi+Refill).
           </p>
         </div>
-        <div style="display:flex; gap:0.5rem;">
-          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem 0.8rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px;">
+        <div style="display:flex; gap:0.4rem;">
+          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem 0.6rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.78rem;">
             <option value="SEMUA">Semua Divisi</option>
             <option value="BARISTA">Barista</option>
             <option value="KITCHEN">Kitchen</option>
             <option value="SERVER">Server</option>
           </select>
-          <button class="btn btn-solid" onclick="openNewStokModal()">+ Tambah Barang Baru</button>
+          <button class="btn btn-solid" onclick="openNewStokModal()">+ Tambah Barang</button>
         </div>
       </div>
       <div class="table-card">
@@ -620,13 +414,13 @@
       </div>
     </section>
 
-    <!-- VIEW 5: SERAH TERIMA & KASIR -->
+    <!-- VIEW 5: SERAH TERIMA & KASIR (BERSIH TANPA SELISIH) -->
     <section id="view-serah-terima" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
-          <h3>Serah Terima Kasir (2 Shift) & Denominasi Fisik Laci</h3>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
-            Memisahkan jelas antara Total Omset (Pemasukan Usaha) dan Audit Kas Laci.
+          <h3>Serah Terima Kasir & Rekap Kas Laci</h3>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
+            Pemasukan Omset = Tunai + EDC/QRIS + Online. Uang Kas Laci = Modal + Tunai - Kas Kecil.
           </p>
         </div>
         <button class="btn btn-solid" onclick="openNewHandoverModal()">+ Form Serah Terima Shift</button>
@@ -643,12 +437,10 @@
               <th>Tunai Masuk</th>
               <th>EDC / QRIS</th>
               <th>Online Food</th>
-              <th>Target Fisik Laci</th>
-              <th>Fisik Terhitung</th>
-              <th>Selisih Kas Laci</th>
-              <th>Prep Barista</th>
-              <th>Prep Kitchen</th>
-              <th>Prep Server</th>
+              <th>Kas Kecil Keluar</th>
+              <th>Keterangan Kas Keluar</th>
+              <th>Sisa Fisik di Laci</th>
+              <th>Prep Kurang / Kebutuhan Besok</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -659,14 +451,14 @@
 
     <!-- VIEW 6: DAILY REPORT -->
     <section id="view-daily-report" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
           <h3>Daily Report & Evaluasi Operasional</h3>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
-            Konsolidasi lengkap seluruh data kasir, online food, waste, staffing, dan prep harian.
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
+            Konsolidasi lengkap seluruh data kasir, pengeluaran kas kecil, waste, kalibrasi & briefing.
           </p>
         </div>
-        <div style="display:flex; gap:0.5rem;">
+        <div style="display:flex; gap:0.4rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
           <button class="btn btn-solid" onclick="openNewDailyReportModal()">+ Simpan Report Hari Ini</button>
         </div>
@@ -683,7 +475,7 @@
               <th>Target Harian</th>
               <th>Capaian %</th>
               <th>Kas Kecil Keluar</th>
-              <th>Selisih Audit Kasir</th>
+              <th>Rincian Pengeluaran</th>
               <th>Waste & Kalibrasi</th>
               <th>Evaluasi Shift</th>
               <th>Aksi</th>
@@ -696,8 +488,8 @@
 
     <!-- VIEW 7: MENU & HPP -->
     <section id="view-menu" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-        <div style="display:flex; gap:0.5rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+        <div style="display:flex; gap:0.4rem;">
           <button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button>
           <button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button>
         </div>
@@ -723,12 +515,12 @@
       </div>
     </section>
 
-    <!-- VIEW 8: DATA PERUSAHAAN (VAULT RAHASIA) -->
+    <!-- VIEW 8: DATA PERUSAHAAN (VAULT) -->
     <section id="view-perusahaan" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
           <h3>Data Perusahaan & Master Vault Karyawan</h3>
-          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
             Terkunci khusus Level >= 4. Klik baris karyawan untuk mengedit atau menambahkan orang baru.
           </p>
         </div>
@@ -763,18 +555,18 @@
       
       <div style="margin-bottom:1.25rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-          <h4 style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase;">Roster Kerja & Shift</h4>
+          <h4 style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Roster Kerja & Shift</h4>
           <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button>
         </div>
-        <div id="inspectRosterList" style="display:flex; flex-direction:column; gap:0.4rem;"></div>
+        <div id="inspectRosterList" style="display:flex; flex-direction:column; gap:0.35rem;"></div>
       </div>
 
       <div style="margin-bottom:1.5rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-          <h4 style="font-size:0.8rem; color:var(--text-muted); text-transform:uppercase;">Log Insiden, Waste & Catatan</h4>
+          <h4 style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Log Insiden, Waste & Catatan</h4>
           <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button>
         </div>
-        <div id="inspectLogList" style="display:flex; flex-direction:column; gap:0.4rem;"></div>
+        <div id="inspectLogList" style="display:flex; flex-direction:column; gap:0.35rem;"></div>
       </div>
 
       <div style="display:flex; justify-content:flex-end;">
@@ -989,10 +781,10 @@
     </div>
   </div>
 
-  <!-- MODAL: SERAH TERIMA & KAS LACI (TRANSPARAN + FORMAT LIVE TITIK) -->
+  <!-- MODAL: SERAH TERIMA & KAS LACI (BERSIH DARI SELISIH - DENGAN KETERANGAN PENGELUARAN) -->
   <div class="modal-backdrop" id="modalHandover">
     <div class="modal">
-      <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem; font-family:'Space Grotesk',sans-serif;">Serah Terima Kasir & Audit Kas</h3>
+      <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem; font-family:'Space Grotesk',sans-serif;">Serah Terima Kasir & Rekap Kas Laci</h3>
       <input type="hidden" id="fStEditId">
       
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
@@ -1008,7 +800,7 @@
 
       <div class="form-group">
         <label>Tahap Shift</label>
-        <select id="fStTahap">
+        <select id="fStTahap" onchange="toggleHandoverNotesLabel()">
           <option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option>
           <option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option>
         </select>
@@ -1018,34 +810,39 @@
       <div class="section-title-box">1. Total Omset Penjualan Shift Ini (Pemasukan Usaha)</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Penjualan Tunai (Rp)</label>
+          <label>Penjualan Tunai</label>
           <input type="text" id="fStTunai" value="200.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
         <div class="form-group">
-          <label>QRIS / EDC (Rp)</label>
+          <label>QRIS / EDC</label>
           <input type="text" id="fStNonTunai" value="200.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
         <div class="form-group">
-          <label>Online Food (Rp)</label>
+          <label>Online Food</label>
           <input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
       </div>
-      <div class="calc-row" style="background:var(--surface-elevated); padding:0.6rem; border-radius:6px; font-weight:700;">
-        <span>Total Omset Penjualan Shift Ini:</span>
+      <div class="calc-row" style="background:var(--surface-elevated); padding:0.5rem 0.75rem; border-radius:6px; font-weight:700;">
+        <span>Total Omset Shift (Masuk ke Daily Report):</span>
         <span id="fStOmsetShiftText" style="color:var(--success);">Rp 400.000</span>
       </div>
 
-      <!-- BAGIAN 2: AUDIT KAS FISIK LACI -->
-      <div class="section-title-box">2. Audit Kas Laci Fisik (Uang Tunai di Laci)</div>
+      <!-- BAGIAN 2: AUDIT KAS FISIK LACI (UANG DI TANGAN) -->
+      <div class="section-title-box">2. Rekap Fisik Uang di Laci Kasir</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Modal Kasir Awal (Rp)</label>
+          <label>Modal Kasir Awal</label>
           <input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
         <div class="form-group">
-          <label>Pengeluaran Kas Kecil (Rp)</label>
+          <label>Pengeluaran Kas Kecil</label>
           <input type="text" id="fStPengeluaran" value="5.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
+      </div>
+
+      <div class="form-group">
+        <label>Keterangan Pengeluaran Kas Kecil (Wajib Diisi)</label>
+        <input type="text" id="fStKetPengeluaran" placeholder="Contoh: Beli es batu kristal 2 pack, lakban & galon air">
       </div>
 
       <div class="calc-explain-box">
@@ -1053,47 +850,13 @@
         <div class="calc-row"><span>+ Uang Tunai Masuk:</span><span id="boxTunaiText">+ Rp 200.000</span></div>
         <div class="calc-row"><span>- Kas Kecil Keluar:</span><span id="boxKeluarText">- Rp 5.000</span></div>
         <div class="calc-row total">
-          <span>Target Fisik Harus Ada di Laci:</span>
-          <span id="boxTargetText" style="color:var(--accent);">Rp 305.000</span>
+          <span>Total Sisa Uang Fisik Kasir di Laci:</span>
+          <span id="boxTargetText" style="color:var(--success); font-size:0.95rem;">Rp 305.000</span>
         </div>
       </div>
 
-      <div class="form-group">
-        <label>Rincian Pecahan Uang Kertas di Laci</label>
-        <div class="denom-grid">
-          <div class="denom-item"><label>100k</label><input type="number" id="d100k" value="1" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>50k</label><input type="number" id="d50k" value="3" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>20k</label><input type="number" id="d20k" value="2" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>10k</label><input type="number" id="d10k" value="1" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>5k</label><input type="number" id="d5k" value="1" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>2k</label><input type="number" id="d2k" value="0" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>1k</label><input type="number" id="d1k" value="0" oninput="calcCashDenom()"></div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Rincian Pecahan Uang Koin (Indonesia)</label>
-        <div class="denom-grid" style="grid-template-columns: repeat(4, 1fr);">
-          <div class="denom-item"><label>Koin 1000</label><input type="number" id="k1000" value="0" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>Koin 500</label><input type="number" id="k500" value="0" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>Koin 200</label><input type="number" id="k200" value="0" oninput="calcCashDenom()"></div>
-          <div class="denom-item"><label>Koin 100</label><input type="number" id="k100" value="0" oninput="calcCashDenom()"></div>
-        </div>
-      </div>
-
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Total Fisik Laci Dihitung</label>
-          <input type="text" id="fStFisikTotal" readonly style="font-weight:700; color:var(--success);">
-        </div>
-        <div class="form-group">
-          <label>Selisih Audit Kasir (Fisik - Target)</label>
-          <input type="text" id="fStSelisih" readonly style="font-weight:700;">
-        </div>
-      </div>
-
-      <!-- BAGIAN 3: CATATAN PREP DIPISAH 3 DIVISI -->
-      <div class="section-title-box">3. Catatan Prep Kurang untuk Shift Berikutnya</div>
+      <!-- BAGIAN 3: PREP KURANG & KEBUTUHAN BESOK (DIBEDAKAN SORE VS MALAM) -->
+      <div class="section-title-box" id="handoverNotesHeader">3. Catatan Prep Kurang untuk Shift 2</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>Prep Kurang Barista</label>
@@ -1110,7 +873,7 @@
       </div>
 
       <div class="form-group">
-        <label>Catatan Tambahan Kasir / Evaluasi</label>
+        <label id="evalLabel">Catatan Tambahan / Evaluasi Kasir</label>
         <textarea id="fStCatatan" rows="2" placeholder="Uang receh 2000 menipis, bon gantung meja 4..."></textarea>
       </div>
 
@@ -1124,9 +887,9 @@
   <!-- MODAL: DAILY REPORT (MEGA AUTO-PULL) -->
   <div class="modal-backdrop" id="modalDailyReport">
     <div class="modal">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
         <h3 id="modalDrTitle">Daily Report Operasional</h3>
-        <button class="btn btn-solid" style="font-size:0.7rem; padding:0.3rem 0.6rem;" onclick="autoPullDailyReportData()">
+        <button class="btn btn-solid" style="font-size:0.72rem; padding:0.35rem 0.65rem;" onclick="autoPullDailyReportData()">
           ⚡ Tarik Data Otomatis Lengkap
         </button>
       </div>
@@ -1146,39 +909,39 @@
       <div class="section-title-box">1. Konsolidasi Omset Penjualan (Semua Saluran)</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Total Rev Shift 1 (Rp)</label>
+          <label>Omset Shift 1 (Siang)</label>
           <input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
         <div class="form-group">
-          <label>Total Rev Shift 2 (Rp)</label>
+          <label>Omset Shift 2 (Malam)</label>
           <input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
       </div>
 
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Total EDC / QRIS (Rp)</label>
+          <label>Total EDC / QRIS (Bank)</label>
           <input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
         <div class="form-group">
-          <label>Total Online Food (Rp)</label>
+          <label>Total Online Food (Portal)</label>
           <input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
       </div>
 
-      <div class="section-title-box">2. Audit Pengeluaran Kas Kecil & Selisih Kasir</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+      <div class="section-title-box">2. Rekap Kas Kecil Keluar Hari Ini</div>
+      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Total Kas Kecil Keluar (Rp)</label>
+          <label>Total Kas Keluar (Rp)</label>
           <input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)">
         </div>
         <div class="form-group">
-          <label>Total Selisih Audit Kasir (Rp)</label>
-          <input type="text" id="fDrSelisihAudit" value="0" oninput="formatLiveRupiahInput(this)">
+          <label>Rincian Pengeluaran Kasir</label>
+          <input type="text" id="fDrKetKasKeluar" placeholder="Contoh: Beli es batu, lakban, galon air">
         </div>
       </div>
 
-      <div class="section-title-box">3. Quality Control, Waste & Evaluasi</div>
+      <div class="section-title-box">3. Quality Control, Waste & Kejadian Hari Ini</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
           <label>Beans Kalibrasi (Gram)</label>
@@ -1192,18 +955,29 @@
 
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
+          <label>Barang Masuk (Restock)</label>
+          <input type="text" id="fDrBarangMasuk" placeholder="Susu Greenfields 20 pack, Cup 12oz">
+        </div>
+        <div class="form-group">
+          <label>Insiden / Kerusakan Alat</label>
+          <input type="text" id="fDrInsiden" placeholder="Tidak ada insiden / Kompor burner 2 mati">
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
           <label>Crew Meals / Konsumsi</label>
           <input type="text" id="fDrCrew" placeholder="2 Americano Ice, 1 Ricebowl">
         </div>
         <div class="form-group">
-          <label>Komplimen / Barter Produk</label>
+          <label>Komplimen / Barter</label>
           <input type="text" id="fDrKomplimen" placeholder="1 Latte tamu roastery">
         </div>
       </div>
 
       <div class="form-group">
-        <label>Evaluasi Briefing Harian</label>
-        <textarea id="fDrEvaluasi" rows="2" placeholder="Pelayanan shift malam lancar, speed of service rata-rata 3 menit..."></textarea>
+        <label>Evaluasi Briefing Malam & Catatan Besok Pagi</label>
+        <textarea id="fDrEvaluasi" rows="2" placeholder="Pelayanan shift malam lancar, shift 1 besok pagi wajib defrost ayam & restock susu..."></textarea>
       </div>
 
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
@@ -1307,10 +1081,15 @@
   <div id="toast">Notifikasi</div>
 
   <script>
+    // =========================================================================
+    // 💡 PASANG URL WEBHOOK EXEC ANDA DI SINI (SEKALI SAJA UNTUK SEMUA PERANGKAT)
+    // =========================================================================
+    const DEFAULT_API_URL = "https://script.google.com/macros/s/AKfycbwMz1TVxu__oJbIS5HdxH3DThuu5urtltf2VJo7eYfeb-T9o3ch4g5PvYHY8CbKB83d/exec"; // Ganti dengan URL /exec Anda jika perlu
+    
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
-    let API_URL = localStorage.getItem(STORAGE_KEY_URL) || "";
+    let API_URL = localStorage.getItem(STORAGE_KEY_URL) || (DEFAULT_API_URL.includes("AKfycb") ? DEFAULT_API_URL : "");
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
     
@@ -1319,7 +1098,7 @@
     let chartSalesInst = null;
     let chartChecklistInst = null;
 
-    // FUNGSI PEMBERSIH ANGKA (KEBAL TITIK RIBUAN INDONESIA)
+    // FUNGSI PEMBERSIH ANGKA (ANTI TITIK TERPOTONG JAVASCRIPT)
     function cleanMoney(val) {
       if (val === null || val === undefined || val === '') return 0;
       if (typeof val === 'number') return val;
@@ -1344,9 +1123,7 @@
 
     function formatLiveRupiahInput(input) {
       const val = cleanMoney(input.value);
-      if (val === 0 && input.value.trim() === '') {
-        return;
-      }
+      if (val === 0 && input.value.trim() === '') return;
       input.value = Math.round(val).toLocaleString('id-ID');
     }
 
@@ -1358,56 +1135,21 @@
       return (num <= 1 ? num * 100 : num).toFixed(1) + "%";
     }
 
-    function handleApiUrlInput(val) {
-      const trimmed = val.trim();
-      API_URL = trimmed;
-      localStorage.setItem(STORAGE_KEY_URL, trimmed);
-      updateWebhookStatusUI(false);
-    }
-
-    async function testWebhookConnection() {
-      const input = document.getElementById("directApiInput");
-      const url = input.value.trim();
-      if (!url) { alert("Tempelkan URL Webhook terlebih dahulu!"); return; }
-      API_URL = url;
-      localStorage.setItem(STORAGE_KEY_URL, url);
-
-      showToast("Menguji koneksi ke Google Sheets...");
-      try {
-        const res = await fetch(`${url}?action=ping`);
-        const json = await res.json();
-        if (json.success) {
-          updateWebhookStatusUI(true);
-          showToast("Koneksi Berhasil! Spreadsheet Terhubung.");
-        } else {
-          updateWebhookStatusUI(false);
-          alert("Respon gagal: " + json.message);
-        }
-      } catch (err) {
-        updateWebhookStatusUI(false);
-        alert("Gagal menghubungi Google Apps Script!\n\nPastikan di menu Deploy Apps Script:\n1. 'Execute as: Me'\n2. 'Who has access: Anyone'.");
-      }
-    }
-
-    function updateWebhookStatusUI(isOnline) {
-      const badge = document.getElementById("webhookStatusBadge");
-      if (!badge) return;
-      if (isOnline) {
-        badge.className = "status-badge online";
-        badge.innerText = "● Terhubung";
-      } else {
-        badge.className = "status-badge offline";
-        badge.innerText = "● Belum Terhubung";
-      }
-    }
-
     // LOGIN VIA GET
     async function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
 
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
-      if (!API_URL) { alert("Tempelkan URL Webhook Spreadsheet terlebih dahulu!"); return; }
+      if (!API_URL) {
+        const inputUrl = prompt("Masukkan URL Webhook Google Script Anda (/exec):");
+        if (inputUrl && inputUrl.trim() !== "") {
+          API_URL = inputUrl.trim();
+          localStorage.setItem(STORAGE_KEY_URL, API_URL);
+        } else {
+          return;
+        }
+      }
 
       showToast("Memverifikasi...");
       try {
@@ -1466,6 +1208,7 @@
       if (viewId === 'kalender') renderCalendar();
     }
 
+    // ⚡ SINGLE-CALL DATA PULL
     async function fetchAllData() {
       if (!API_URL) return;
       showToast("Menyinkronkan data...");
@@ -1497,7 +1240,7 @@
       sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
     }
 
-    // DASHBOARD & CHARTS (TARIKAN OMSET REAL DARI SERAH TERIMA)
+    // DASHBOARD & CHARTS
     function renderDashboard() {
       const todayStr = new Date().toISOString().split('T')[0];
       const todayHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr || h.tanggal === "2026-11-07");
@@ -1591,9 +1334,10 @@
         const s2 = roster.filter(j => j.shift === '2');
         const off = roster.filter(j => j.status_hadir === 'Libur');
         const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
+        const hasData = (roster.length > 0 || logs.length > 0);
 
         grid.innerHTML += `
-          <div class="cal-cell" onclick="openDayInspector('${dateStr}')">
+          <div class="cal-cell ${hasData ? 'has-data' : ''}" onclick="openDayInspector('${dateStr}')">
             <div class="cal-date-num">${day}</div>
             <div class="cal-tags-wrap">
               ${s1.length ? `<span class="cal-badge badge-shift">S1: ${s1.map(x=>x.nama).join(',')}</span>` : ''}
@@ -2008,7 +1752,7 @@
       }
     }
 
-    // DENOMINASI, OMSET & AUDIT KASIR TRANSPARAN
+    // REKAP KASIR BERSIH (TANPA SELISIH MEMBINGUNGKAN)
     function calcCashDenom() {
       const tunai = cleanMoney(document.getElementById("fStTunai").value);
       const nonTunai = cleanMoney(document.getElementById("fStNonTunai").value);
@@ -2016,40 +1760,27 @@
       const omsetShift = tunai + nonTunai + online;
       document.getElementById("fStOmsetShiftText").innerText = formatRupiah(omsetShift);
 
-      const d100 = (Number(document.getElementById("d100k").value) || 0) * 100000;
-      const d50 = (Number(document.getElementById("d50k").value) || 0) * 50000;
-      const d20 = (Number(document.getElementById("d20k").value) || 0) * 20000;
-      const d10 = (Number(document.getElementById("d10k").value) || 0) * 10000;
-      const d5 = (Number(document.getElementById("d5k").value) || 0) * 5000;
-      const d2 = (Number(document.getElementById("d2k").value) || 0) * 2000;
-      const d1 = (Number(document.getElementById("d1k").value) || 0) * 1000;
-
-      const k1000 = (Number(document.getElementById("k1000").value) || 0) * 1000;
-      const k500 = (Number(document.getElementById("k500").value) || 0) * 500;
-      const k200 = (Number(document.getElementById("k200").value) || 0) * 200;
-      const k100 = (Number(document.getElementById("k100").value) || 0) * 100;
-
-      const totalFisik = d100 + d50 + d20 + d10 + d5 + d2 + d1 + k1000 + k500 + k200 + k100;
-      document.getElementById("fStFisikTotal").value = formatRupiah(totalFisik);
-
       const modal = cleanMoney(document.getElementById("fStModal").value);
       const pengeluaran = cleanMoney(document.getElementById("fStPengeluaran").value);
       
-      const targetSeharusnyaLaci = modal + tunai - pengeluaran;
-      const selisih = totalFisik - targetSeharusnyaLaci;
+      const sisaFisikLaci = modal + tunai - pengeluaran;
 
       document.getElementById("boxModalText").innerText = formatRupiah(modal);
       document.getElementById("boxTunaiText").innerText = "+ " + formatRupiah(tunai);
       document.getElementById("boxKeluarText").innerText = "- " + formatRupiah(pengeluaran);
-      document.getElementById("boxTargetText").innerText = formatRupiah(targetSeharusnyaLaci);
+      document.getElementById("boxTargetText").innerText = formatRupiah(sisaFisikLaci);
+    }
 
-      const selEl = document.getElementById("fStSelisih");
-      if (selisih === 0) {
-        selEl.value = "COCOK (Rp 0)";
-        selEl.style.color = "var(--success)";
+    function toggleHandoverNotesLabel() {
+      const tahap = document.getElementById("fStTahap").value;
+      const header = document.getElementById("handoverNotesHeader");
+      const evalLabel = document.getElementById("evalLabel");
+      if (tahap.includes("Closing")) {
+        header.innerText = "3. Catatan Prep untuk Besok Pagi & Kebutuhan Belanja";
+        evalLabel.innerText = "Evaluasi Harian Kafe & Pengadaan Barang Besok";
       } else {
-        selEl.value = (selisih > 0 ? "LEBIH + " : "MINUS ") + formatRupiah(Math.abs(selisih));
-        selEl.style.color = selisih > 0 ? "var(--warning)" : "var(--danger)";
+        header.innerText = "3. Catatan Prep Kurang untuk Shift 2 Sore Ini";
+        evalLabel.innerText = "Catatan Tambahan Kasir / Evaluasi Shift 1";
       }
     }
 
@@ -2063,20 +1794,8 @@
       document.getElementById("fStNonTunai").value = "200.000";
       document.getElementById("fStOnline").value = "0";
       document.getElementById("fStPengeluaran").value = "5.000";
-      
-      // Default pecahan dihitung pas Rp 305.000
-      document.getElementById("d100k").value = 1;
-      document.getElementById("d50k").value = 3;
-      document.getElementById("d20k").value = 2;
-      document.getElementById("d10k").value = 1;
-      document.getElementById("d5k").value = 1;
-      document.getElementById("d2k").value = 0;
-      document.getElementById("d1k").value = 0;
-      document.getElementById("k1000").value = 0;
-      document.getElementById("k500").value = 0;
-      document.getElementById("k200").value = 0;
-      document.getElementById("k100").value = 0;
-
+      document.getElementById("fStKetPengeluaran").value = "Beli es batu kristal & lakban";
+      toggleHandoverNotesLabel();
       calcCashDenom();
       openModal('modalHandover');
     }
@@ -2094,10 +1813,12 @@
       document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID');
       document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
       document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil).toLocaleString('id-ID');
+      document.getElementById("fStKetPengeluaran").value = st.keterangan_pengeluaran || "";
       document.getElementById("fStPrepBar").value = st.prep_barista || "";
       document.getElementById("fStPrepKit").value = st.prep_kitchen || "";
       document.getElementById("fStPrepSrv").value = st.prep_server || "";
       document.getElementById("fStCatatan").value = st.catatan_evaluasi || "";
+      toggleHandoverNotesLabel();
       calcCashDenom();
       openModal('modalHandover');
     }
@@ -2120,9 +1841,8 @@
         total_omset_shift: tunai + nontunai + online,
         kas_modal_awal: cleanMoney(document.getElementById("fStModal").value),
         pengeluaran_kas_kecil: cleanMoney(document.getElementById("fStPengeluaran").value),
-        target_fisik_laci: cleanMoney(document.getElementById("boxTargetText").innerText),
-        total_fisik_laci: cleanMoney(document.getElementById("fStFisikTotal").value),
-        selisih_laci: cleanMoney(document.getElementById("fStSelisih").value),
+        keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
+        sisa_fisik_laci: cleanMoney(document.getElementById("boxTargetText").innerText),
         prep_barista: document.getElementById("fStPrepBar").value,
         prep_kitchen: document.getElementById("fStPrepKit").value,
         prep_server: document.getElementById("fStPrepSrv").value,
@@ -2159,14 +1879,10 @@
           <td>${formatRupiah(st.penjualan_tunai)}</td>
           <td>${formatRupiah(st.non_tunai_qris)}</td>
           <td>${formatRupiah(st.online_food)}</td>
-          <td>${formatRupiah(st.target_fisik_laci)}</td>
-          <td><strong>${formatRupiah(st.total_fisik_laci)}</strong></td>
-          <td style="color:${String(st.selisih_laci).includes('-')?'var(--danger)':'var(--success)'}; font-weight:700;">
-            ${formatRupiah(st.selisih_laci)}
-          </td>
-          <td style="font-size:0.75rem;">${st.prep_barista||'-'}</td>
-          <td style="font-size:0.75rem;">${st.prep_kitchen||'-'}</td>
-          <td style="font-size:0.75rem;">${st.prep_server||'-'}</td>
+          <td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
+          <td style="font-size:0.75rem;">${st.keterangan_pengeluaran||'-'}</td>
+          <td style="font-weight:700; color:var(--success);">${formatRupiah(st.sisa_fisik_laci)}</td>
+          <td style="font-size:0.75rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
           <td>
             <div style="display:flex; gap:0.25rem;">
               <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
@@ -2177,7 +1893,7 @@
       `).join('');
     }
 
-    // DAILY REPORT AUTO-PULL & CRUD LENGKAP
+    // DAILY REPORT AUTO-PULL (LENGKAP SEMUA KATEGORI KALENDER)
     function openNewDailyReportModal() {
       document.getElementById("modalDrTitle").innerText = "Simpan Report Harian Baru";
       document.getElementById("fDrEditId").value = "";
@@ -2198,9 +1914,11 @@
       document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID');
       document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 1000000).toLocaleString('id-ID');
       document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar).toLocaleString('id-ID');
-      document.getElementById("fDrSelisihAudit").value = cleanMoney(dr.selisih_kas_audit).toLocaleString('id-ID');
+      document.getElementById("fDrKetKasKeluar").value = dr.rincian_pengeluaran || "";
       document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || "";
       document.getElementById("fDrWaste").value = dr.waste_bahan || "";
+      document.getElementById("fDrBarangMasuk").value = dr.barang_masuk || "";
+      document.getElementById("fDrInsiden").value = dr.insiden_alat || "";
       document.getElementById("fDrCrew").value = dr.crew_meals || "";
       document.getElementById("fDrKomplimen").value = dr.komplimen_barter || "";
       document.getElementById("fDrEvaluasi").value = dr.evaluasi_harian || "";
@@ -2211,7 +1929,7 @@
       const tgl = document.getElementById("fDrTanggal").value;
       const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === tgl);
       
-      let s1 = 0, s2 = 0, qris = 0, online = 0, keluar = 0, selisih = 0, evalText = [];
+      let s1 = 0, s2 = 0, qris = 0, online = 0, keluar = 0, ketKeluar = [], evalText = [];
       handovers.forEach(h => {
         const tunai = cleanMoney(h.penjualan_tunai);
         const nt = cleanMoney(h.non_tunai_qris);
@@ -2224,8 +1942,7 @@
         qris += nt;
         online += onl;
         keluar += cleanMoney(h.pengeluaran_kas_kecil);
-        selisih += cleanMoney(h.selisih_laci);
-
+        if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
         if(h.catatan_evaluasi) evalText.push(h.catatan_evaluasi);
       });
 
@@ -2234,22 +1951,24 @@
       document.getElementById("fDrQrisEdc").value = qris.toLocaleString('id-ID');
       document.getElementById("fDrOnlineFood").value = online.toLocaleString('id-ID');
       document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID');
-      document.getElementById("fDrSelisihAudit").value = selisih.toLocaleString('id-ID');
+      document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
       
+      // Tarik SEMUA log kejadian dari kalender hari ini
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
       const wasteLogs = logs.filter(l => l.kategori.includes("Waste"));
       const calibLogs = logs.filter(l => l.kategori.includes("Kalibrasi"));
+      const inLogs = logs.filter(l => l.kategori.includes("Barang Masuk"));
+      const incLogs = logs.filter(l => l.kategori.includes("Insiden"));
       
-      if(wasteLogs.length) {
-        document.getElementById("fDrWaste").value = wasteLogs.map(x => `${x.item_terkait} (${x.jumlah_biaya})`).join(', ');
-      }
-      if(calibLogs.length) {
-        document.getElementById("fDrKalibrasi").value = calibLogs.map(x => `${x.item_terkait} (${x.jumlah_biaya})`).join(', ');
-      }
+      document.getElementById("fDrWaste").value = wasteLogs.length ? wasteLogs.map(x => `${x.item_terkait} (${x.jumlah_biaya})`).join(', ') : "Tidak ada waste";
+      document.getElementById("fDrKalibrasi").value = calibLogs.length ? calibLogs.map(x => `${x.item_terkait} (${x.jumlah_biaya})`).join(', ') : "Dial-in optimal 26s";
+      document.getElementById("fDrBarangMasuk").value = inLogs.length ? inLogs.map(x => `${x.item_terkait} (${x.jumlah_biaya})`).join(', ') : "Tidak ada barang masuk";
+      document.getElementById("fDrInsiden").value = incLogs.length ? incLogs.map(x => `${x.detail}`).join(', ') : "Operasional alat lancar";
+
       if(evalText.length) {
         document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
       }
-      showToast("Data otomatis ditarik dari seluruh lini!");
+      showToast("Seluruh lini log otomatis ditarik!");
     }
 
     async function submitDailyReportForm() {
@@ -2270,9 +1989,11 @@
         target_harian: target,
         capaian_pct: pct,
         total_kas_keluar: cleanMoney(document.getElementById("fDrKasKeluar").value),
-        selisih_kas_audit: cleanMoney(document.getElementById("fDrSelisihAudit").value),
+        rincian_pengeluaran: document.getElementById("fDrKetKasKeluar").value,
         kalibrasi_beans: document.getElementById("fDrKalibrasi").value,
         waste_bahan: document.getElementById("fDrWaste").value,
+        barang_masuk: document.getElementById("fDrBarangMasuk").value,
+        insiden_alat: document.getElementById("fDrInsiden").value,
         crew_meals: document.getElementById("fDrCrew").value,
         komplimen_barter: document.getElementById("fDrKomplimen").value,
         evaluasi_harian: document.getElementById("fDrEvaluasi").value,
@@ -2309,10 +2030,8 @@
           <td>${formatRupiah(dr.target_harian)}</td>
           <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td>
           <td>${formatRupiah(dr.total_kas_keluar)}</td>
-          <td style="color:${cleanMoney(dr.selisih_kas_audit)===0?'var(--success)':'var(--danger)'}; font-weight:700;">
-            ${formatRupiah(dr.selisih_kas_audit)}
-          </td>
-          <td style="font-size:0.75rem;">Kalibrasi: ${dr.kalibrasi_beans||'-'}, Waste: ${dr.waste_bahan||'-'}</td>
+          <td style="font-size:0.75rem;">${dr.rincian_pengeluaran||'-'}</td>
+          <td style="font-size:0.75rem;">${dr.kalibrasi_beans||'-'}, Waste: ${dr.waste_bahan||'-'}</td>
           <td style="font-size:0.75rem;">${dr.evaluasi_harian||'-'}</td>
           <td>
             <div style="display:flex; gap:0.25rem;">
@@ -2324,25 +2043,26 @@
       `).join('');
     }
 
-    // MEGA WHATSAPP EXECUTIVE BROADCAST
+    // MEGA WHATSAPP EXECUTIVE BROADCAST DENGAN DATA LENGKAP SINKRON
     function sendWhatsAppDaily() {
       const todayStr = new Date().toISOString().split('T')[0];
       const todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
 
       const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr || h.tanggal === "2026-11-07");
-      let tunai = 0, qris = 0, online = 0, modal = 0, keluar = 0, selisihList = [], prepBar = [], prepKit = [], prepSrv = [];
+      let tunai = 0, qris = 0, online = 0, modal = 0, keluar = 0, ketKeluar = [], prepBar = [], prepKit = [], prepSrv = [];
       handovers.forEach(h => {
         tunai += cleanMoney(h.penjualan_tunai);
         qris += cleanMoney(h.non_tunai_qris);
         online += cleanMoney(h.online_food);
         modal += cleanMoney(h.kas_modal_awal);
         keluar += cleanMoney(h.pengeluaran_kas_kecil);
-        if(h.selisih_laci) selisihList.push(formatRupiah(h.selisih_laci));
+        if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
         if(h.prep_barista) prepBar.push(h.prep_barista);
         if(h.prep_kitchen) prepKit.push(h.prep_kitchen);
         if(h.prep_server) prepSrv.push(h.prep_server);
       });
       const totalOmset = tunai + qris + online;
+      const sisaKasLaci = modal + tunai - keluar;
 
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === todayStr || j.tanggal === "2026-11-07");
       const s1 = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
@@ -2350,8 +2070,9 @@
       const off = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === todayStr || l.tanggal === "2026-11-07");
-      const wasteItems = logs.filter(l => l.kategori.includes("Waste")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_biaya})`).join('%0A') || '• Tidak ada waste hari ini';
-      const calibItems = logs.filter(l => l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail}`).join('%0A') || '• Dial-in espresso optimal';
+      const wasteItems = logs.filter(l => l.kategori.includes("Waste")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_biaya})`).join('%0A') || '• Tidak ada waste';
+      const calibItems = logs.filter(l => l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail}`).join('%0A') || '• Dial-in espresso optimal 26s';
+      const inItems = logs.filter(l => l.kategori.includes("Barang Masuk")).map(x => `• ${x.item_terkait}: ${x.detail}`).join('%0A') || '• Tidak ada barang masuk';
 
       const restockItems = (localData.STOK || []).filter(s => {
         const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.sisa_sore));
@@ -2365,21 +2086,23 @@
         `• Penjualan Tunai: ${formatRupiah(tunai)}%0A` +
         `• Non-Tunai (EDC/QRIS): ${formatRupiah(qris)}%0A` +
         `• Online Food (Go/Grab/Shopee): ${formatRupiah(online)}%0A` +
-        `• *TOTAL REVENUE OMSET: ${formatRupiah(totalOmset)}*%0A` +
-        `• Pengeluaran Kas Kecil: ${formatRupiah(keluar)}%0A` +
-        `• Status Audit Fisik Laci: ${selisihList.join(' | ') || 'COCOK (Rp 0)'}%0A%0A` +
-        `*2. ROSTER TIM & KEHADIRAN:*%0A` +
+        `• *TOTAL REVENUE OMSET: ${formatRupiah(totalOmset)}*%0A%0A` +
+        `*2. REKAP FISIK UANG KAS LACI:*%0A` +
+        `• Modal Kas Awal: ${formatRupiah(modal)}%0A` +
+        `• Kas Kecil Keluar: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})%0A` +
+        `• *Sisa Uang Fisik di Laci: ${formatRupiah(sisaKasLaci)}*%0A%0A` +
+        `*3. ROSTER TIM & KEHADIRAN:*%0A` +
         `• Shift 1: ${s1}%0A` +
         `• Shift 2: ${s2}%0A` +
         `• Off / Libur: ${off}%0A%0A` +
-        `*3. PREP KURANG & KEBUTUHAN BESOK:*%0A` +
+        `*4. PREP KURANG & KEBUTUHAN BESOK:*%0A` +
         `• *Barista:* ${prepBar.join('; ') || 'Prep lengkap'}%0A` +
         `• *Kitchen:* ${prepKit.join('; ') || 'Prep lengkap'}%0A` +
         `• *Server:* ${prepSrv.join('; ') || 'Perlengkapan lengkap'}%0A%0A` +
-        `*4. QUALITY CONTROL & KALIBRASI:*%0A` +
-        `${calibItems}%0A%0A` +
-        `*5. LOG WASTE & KERUSAKAN BAHAN:*%0A` +
-        `${wasteItems}%0A%0A` +
+        `*5. QC, KALIBRASI & LOG KEJADIAN:*%0A` +
+        `${calibItems}%0A` +
+        `${wasteItems}%0A` +
+        `${inItems}%0A%0A` +
         `*6. STOK KRITIS (PERLU RESTOCK SEGERA):*%0A` +
         `${restockItems}%0A%0A` +
         `_Laporan operasional resmi HOLLO Operations Portal._`;
@@ -2612,12 +2335,14 @@
     }
 
     window.onload = () => {
-      if(API_URL) {
-        const input = document.getElementById("directApiInput");
-        if(input) input.value = API_URL;
-        updateWebhookStatusUI(true);
+      // Ambil API URL dari parameter link (?api=...) jika ada
+      const urlParams = new URLSearchParams(window.location.search);
+      const apiParam = urlParams.get('api');
+      if (apiParam) {
+        API_URL = apiParam;
+        localStorage.setItem(STORAGE_KEY_URL, apiParam);
       }
-      
+
       if (currentUser) {
         unlockPortal();
       } else {
