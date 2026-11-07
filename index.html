@@ -24,11 +24,10 @@
       --danger: #ef4444;
       --success: #10b981;
       --warning: #f59e0b;
-      --radius: 12px;
-      --radius-sm: 8px;
+      --radius: 10px;
+      --radius-sm: 6px;
       --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
     [data-theme="light"] {
       --bg: #f4f4f5;
       --surface: #ffffff;
@@ -43,151 +42,49 @@
       --success: #059669;
       --warning: #d97706;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
     html, body { width: 100%; max-width: 100vw; overflow-x: hidden; background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; transition: var(--transition); }
 
-    #gatekeeper {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1.25rem;
-    }
-
-    .lock-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 2.25rem 1.75rem;
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    }
-
-    .lock-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 0.25rem;
-    }
-
+    /* GATEKEEPER */
+    #gatekeeper { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1.25rem; }
+    .lock-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.25rem 1.75rem; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+    .lock-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.25rem; }
     .lock-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; }
 
-    header {
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(10px);
-    }
-
+    /* HEADER */
+    header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
     .brand-wrap { display: flex; align-items: center; gap: 0.6rem; }
     .brand-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; text-transform: uppercase; }
-
-    .live-clock-pill {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: var(--surface-elevated);
-      border: 1px solid var(--border);
-      padding: 0.25rem 0.55rem;
-      border-radius: 9999px;
-      font-size: 0.72rem;
-      font-weight: 600;
-    }
-
+    .live-clock-pill { display: flex; align-items: center; gap: 0.4rem; background: var(--surface-elevated); border: 1px solid var(--border); padding: 0.25rem 0.55rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; }
     .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
 
-    .btn {
-      padding: 0.45rem 0.8rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.78rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text);
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      white-space: nowrap;
-    }
-
+    /* BUTTONS */
+    .btn { padding: 0.45rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text); transition: var(--transition); display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap; }
     .btn:hover { background: var(--surface-elevated); border-color: var(--text-muted); }
     .btn-solid { background: var(--accent); color: var(--accent-invert); border-color: var(--accent); }
     .btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
     .btn-wa { background: #25D366; color: #fff; border-color: #25D366; }
 
-    nav {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      gap: 0.25rem;
-      padding: 0.25rem 1rem;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
+    /* NAV */
+    nav { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 0.25rem; padding: 0.25rem 1rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
     nav::-webkit-scrollbar { display: none; }
-
-    .nav-tab {
-      padding: 0.7rem 1rem;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
+    .nav-tab { padding: 0.7rem 1rem; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: var(--transition); white-space: nowrap; }
     .nav-tab.active { color: var(--text); border-color: var(--accent); font-weight: 600; }
 
+    /* LAYOUT */
     main { padding: 1.25rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
-
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.85rem;
-      margin-bottom: 1.25rem;
-    }
-
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; }
     .card-title { font-size: 0.72rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.3rem; }
     .card-val { font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
-
     .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
 
+    /* CALENDAR */
     .cal-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.35rem; }
     .cal-day-name { text-align: center; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); padding-bottom: 0.4rem; text-transform: uppercase; }
-
-    .cal-cell {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      min-height: 85px;
-      padding: 0.5rem 0.4rem;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: var(--transition);
-    }
+    .cal-cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); min-height: 85px; padding: 0.5rem 0.4rem; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition); }
     .cal-cell:hover { border-color: var(--accent); background: var(--surface-elevated); }
-    .cal-cell.today { border: 2px solid var(--accent); background: var(--surface-elevated); }
     .cal-date-num { font-weight: 700; font-size: 0.82rem; }
     .cal-tags-wrap { display: flex; flex-direction: column; gap: 0.15rem; margin-top: 0.25rem; }
     .cal-badge { font-size: 0.62rem; padding: 0.12rem 0.25rem; border-radius: 3px; font-weight: 600; }
@@ -195,42 +92,32 @@
     .badge-off { background: rgba(239,68,68,0.15); color: var(--danger); }
     .badge-log { background: rgba(245,158,11,0.15); color: var(--warning); }
 
+    /* CHECKLIST */
     .station-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
     .station-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; display: flex; flex-direction: column; gap: 0.65rem; }
     .station-header { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.45rem; display: flex; justify-content: space-between; align-items: center; }
-
     .task-item { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.45rem 0; border-bottom: 1px solid var(--border-subtle); }
     .task-check { margin-top: 0.15rem; width: 17px; height: 17px; cursor: pointer; accent-color: var(--accent); }
     .task-content { flex: 1; font-size: 0.8rem; }
     .task-sub { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.15rem; }
 
+    /* TABLE */
     .table-card { width: 100%; max-width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch; }
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; }
     th { background: var(--surface-elevated); color: var(--text-muted); padding: 0.75rem 0.85rem; font-size: 0.72rem; text-transform: uppercase; font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
     td { padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; white-space: nowrap; }
     tr:hover td { background: var(--surface-elevated); }
-
     .tag { padding: 0.18rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; }
     .tag-restock { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
     .tag-safe { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
 
+    /* MODAL */
     .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 99999; padding: 0.75rem; }
     .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-
     .form-group { margin-bottom: 0.85rem; text-align: left; }
     .form-group label { display: block; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 600; text-transform: uppercase; }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 0.6rem 0.75rem;
-      border-radius: var(--radius-sm);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-      outline: none;
-      font-size: 0.82rem;
-    }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.6rem 0.75rem; border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border); color: var(--text); outline: none; font-size: 0.82rem; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
-
     .section-title-box { background: var(--surface-elevated); border-left: 3px solid var(--accent); padding: 0.35rem 0.55rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin: 1rem 0 0.65rem 0; }
     .calc-explain-box { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.65rem; margin-bottom: 0.85rem; font-size: 0.75rem; }
     .calc-row { display: flex; justify-content: space-between; margin-bottom: 0.2rem; }
@@ -239,15 +126,14 @@
     #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.65rem 1.15rem; background: var(--accent); color: var(--accent-invert); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; opacity: 0; pointer-events: none; transition: var(--transition); z-index: 100000; }
     #toast.show { opacity: 1; transform: translateY(-5px); }
 
-    /* RESPONSIVE LAYOUT UNTUK HP (BEBAS OFFSET) */
+    /* MOBILE ZERO-OFFSET */
     @media (max-width: 768px) {
       header { padding: 0.65rem 1rem; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
       .brand-wrap { width: 100%; justify-content: space-between; }
       main { padding: 0.75rem; }
       .modal { padding: 1.15rem; max-width: 96%; }
       .modal div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
-      .kpi-grid { grid-template-columns: 1fr; }
-      .charts-grid { grid-template-columns: 1fr; }
+      .kpi-grid, .charts-grid { grid-template-columns: 1fr; }
       .cal-cell { min-height: 65px; padding: 0.35rem 0.2rem; }
       .cal-tags-wrap { display: none; }
       .cal-date-num { font-size: 0.75rem; text-align: center; }
@@ -262,17 +148,14 @@
     <div class="lock-card">
       <div class="lock-title">HOLLO COFFEE & ROASTERY'S</div>
       <div class="lock-sub">Executive Operations & Control Suite</div>
-      
       <div class="form-group">
         <label>USERNAME</label>
         <input type="text" id="loginUser" placeholder="Masukkan username">
       </div>
-      
       <div class="form-group">
         <label>PIN AKSES (4 DIGIT)</label>
         <input type="password" id="loginPin" placeholder="••••" maxlength="6" style="letter-spacing: 0.4em; font-size: 1.2rem; text-align: center;">
       </div>
-
       <button class="btn btn-solid" style="width: 100%; justify-content: center; padding: 0.75rem; margin-top: 0.5rem;" onclick="handlePinLogin()">
         Buka Akses Sistem
       </button>
@@ -336,7 +219,6 @@
           <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Seluruh Stasiun Kerja</div>
         </div>
       </div>
-
       <div class="charts-grid">
         <div class="card">
           <div class="card-title">Breakdown Penjualan Saluran Pembayaran</div>
@@ -349,7 +231,7 @@
       </div>
     </section>
 
-    <!-- VIEW 2: KALENDER & ROSTER DINAMIS -->
+    <!-- VIEW 2: KALENDER -->
     <section id="view-kalender" style="display:none;">
       <div class="card" style="margin-bottom:1.5rem;">
         <div class="cal-header-bar">
@@ -367,7 +249,7 @@
       </div>
     </section>
 
-    <!-- VIEW 3: CHECKLIST STASIUN -->
+    <!-- VIEW 3: CHECKLIST -->
     <section id="view-checklist" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <h3>Checklist Shift Harian per Stasiun</h3>
@@ -376,13 +258,13 @@
       <div class="station-grid" id="stationGrid"></div>
     </section>
 
-    <!-- VIEW 4: INVENTARIS STOK -->
+    <!-- VIEW 4: INVENTARIS STOK DENGAN OPNAME SHIFT 1 & 2 -->
     <section id="view-stok" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
-          <h3>Stok Inventaris Mikro, Makro & Opname</h3>
+          <h3>Stok Inventaris Mikro, Makro & Opname 2 Shift</h3>
           <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
-            Total Nyata = Gudang + (Opname Fisik Sore atau Mikro Pagi+Refill).
+            Total Nyata = Gudang + (Opname S2 Malam atau S1 Sore atau Mikro Pagi+Refill).
           </p>
         </div>
         <div style="display:flex; gap:0.4rem;">
@@ -405,7 +287,8 @@
               <th>Satuan</th>
               <th>Gudang (Makro)</th>
               <th>Refill (Mikro)</th>
-              <th>Opname Fisik (Sore)</th>
+              <th>Opname S1 (16:30)</th>
+              <th>Opname S2 (00:00)</th>
               <th>Total Keseluruhan</th>
               <th>Batas Min</th>
               <th>Status & Kebutuhan</th>
@@ -417,13 +300,13 @@
       </div>
     </section>
 
-    <!-- VIEW 5: SERAH TERIMA & KASIR (AKUNTANSI BERSIH) -->
+    <!-- VIEW 5: SERAH TERIMA & KASIR (BEBAS DARI SELISIH - SISTEM IMPREST) -->
     <section id="view-serah-terima" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
-          <h3>Serah Terima Kasir & Rekap Kas Laci</h3>
+          <h3>Serah Terima Kasir & Rekap Kas Laci (Sistem Imprest)</h3>
           <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
-            Pemasukan Omset = Tunai + EDC/QRIS + Online. Uang Kas Laci = Modal + Tunai - Kas Kecil.
+            Modal kasir selalu tinggal di laci. Penjualan tunai bersih ditarik ke amplop setoran.
           </p>
         </div>
         <button class="btn btn-solid" onclick="openNewHandoverModal()">+ Form Serah Terima Shift</button>
@@ -439,10 +322,10 @@
               <th>Total Omset Shift</th>
               <th>Tunai Masuk</th>
               <th>EDC / QRIS</th>
-              <th>Online Food</th>
               <th>Kas Kecil Keluar</th>
-              <th>Keterangan Kas Keluar</th>
-              <th>Sisa Fisik di Laci</th>
+              <th>Keterangan Pengeluaran</th>
+              <th>Uang Setor Bersih</th>
+              <th>Modal Stay di Laci</th>
               <th>Prep Kurang / Kebutuhan Besok</th>
               <th>Aksi</th>
             </tr>
@@ -555,7 +438,6 @@
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
       <h3 id="inspectDateTitle" style="margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
-      
       <div style="margin-bottom:1.25rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
           <h4 style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Roster Kerja & Shift</h4>
@@ -563,7 +445,6 @@
         </div>
         <div id="inspectRosterList" style="display:flex; flex-direction:column; gap:0.35rem;"></div>
       </div>
-
       <div style="margin-bottom:1.5rem;">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
           <h4 style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Log Insiden, Waste & Catatan</h4>
@@ -571,7 +452,6 @@
         </div>
         <div id="inspectLogList" style="display:flex; flex-direction:column; gap:0.35rem;"></div>
       </div>
-
       <div style="display:flex; justify-content:flex-end;">
         <button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button>
       </div>
@@ -784,7 +664,7 @@
     </div>
   </div>
 
-  <!-- MODAL: SERAH TERIMA & KAS LACI -->
+  <!-- MODAL: SERAH TERIMA & KAS LACI (BEBAS DARI SELISIH - SISTEM IMPREST) -->
   <div class="modal-backdrop" id="modalHandover">
     <div class="modal">
       <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem; font-family:'Space Grotesk',sans-serif;">Serah Terima Kasir & Rekap Kas Laci</h3>
@@ -830,11 +710,11 @@
         <span id="fStOmsetShiftText" style="color:var(--success);">Rp 400.000</span>
       </div>
 
-      <!-- BAGIAN 2: AUDIT KAS FISIK LACI -->
-      <div class="section-title-box">2. Rekap Fisik Uang di Laci Kasir</div>
+      <!-- BAGIAN 2: AUDIT KAS FISIK LACI (UANG DI TANGAN) -->
+      <div class="section-title-box">2. Rekap Fisik Uang di Laci Kasir (Sistem Imprest)</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group">
-          <label>Modal Kasir Awal</label>
+          <label>Modal Kasir Awal (Selalu Stay)</label>
           <input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
         </div>
         <div class="form-group">
@@ -849,12 +729,15 @@
       </div>
 
       <div class="calc-explain-box">
-        <div class="calc-row"><span>Modal Awal Kasir:</span><span id="boxModalText">Rp 110.000</span></div>
-        <div class="calc-row"><span>+ Uang Tunai Masuk:</span><span id="boxTunaiText">+ Rp 200.000</span></div>
+        <div class="calc-row"><span>Uang Tunai Penjualan Masuk:</span><span id="boxTunaiText">Rp 200.000</span></div>
         <div class="calc-row"><span>- Kas Kecil Keluar:</span><span id="boxKeluarText">- Rp 5.000</span></div>
         <div class="calc-row total">
-          <span>Total Sisa Uang Fisik Kasir di Laci:</span>
-          <span id="boxTargetText" style="color:var(--success); font-size:0.95rem;">Rp 305.000</span>
+          <span>Uang Setoran Tunai Bersih (Masuk Amplop/Brankas):</span>
+          <span id="boxSetoranText" style="color:var(--warning); font-size:0.95rem;">Rp 195.000</span>
+        </div>
+        <div class="calc-row" style="margin-top:0.4rem; padding-top:0.4rem; border-top:1px dashed var(--border);">
+          <span>Uang Modal Tetap Ditinggal di Laci (Stay):</span>
+          <span id="boxModalText" style="color:var(--success); font-weight:700;">Rp 110.000</span>
         </div>
       </div>
 
@@ -1116,7 +999,6 @@
       if (val === null || val === undefined || val === '') return 0;
       if (typeof val === 'number') return val;
       let str = String(val).trim().replace(/Rp/gi, '').trim();
-      
       if (str.includes('.') && str.includes(',')) {
         str = str.replace(/\./g, '').replace(/,/g, '.');
       } else if (str.includes('.')) {
@@ -1182,7 +1064,6 @@
       document.getElementById("gatekeeper").style.display = "none";
       document.getElementById("userNameBadge").innerText = `${currentUser.username.toUpperCase()} (${currentUser.role})`;
       if (currentUser.level >= 4) document.getElementById("tabPerusahaan").style.display = "block";
-      
       fetchAllData();
       startLiveClock();
     }
@@ -1212,10 +1093,8 @@
     function switchView(viewId) {
       document.querySelectorAll("nav .nav-tab").forEach(t => t.classList.remove("active"));
       event.target.classList.add("active");
-      
       const views = ['dashboard', 'kalender', 'checklist', 'stok', 'serah-terima', 'daily-report', 'menu', 'perusahaan'];
       views.forEach(v => document.getElementById("view-" + v).style.display = (v === viewId) ? "block" : "none");
-
       if (viewId === 'kalender') renderCalendar();
     }
 
@@ -1254,29 +1133,22 @@
       const todayStr = new Date().toISOString().split('T')[0];
       const todayHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr || h.tanggal === "2026-11-07");
       
-      let salesToday = 0;
-      let tunaiTotal = 0;
-      let nonTunaiTotal = 0;
-      let onlineTotal = 0;
-
+      let salesToday = 0, tunaiTotal = 0, nonTunaiTotal = 0, onlineTotal = 0;
       todayHandovers.forEach(h => {
         const t = cleanMoney(h.penjualan_tunai);
         const nt = cleanMoney(h.non_tunai_qris);
         const onl = cleanMoney(h.online_food);
-        tunaiTotal += t;
-        nonTunaiTotal += nt;
-        onlineTotal += onl;
+        tunaiTotal += t; nonTunaiTotal += nt; onlineTotal += onl;
         salesToday += (t + nt + onl);
       });
 
       document.getElementById("kpiSalesToday").innerText = formatRupiah(salesToday || 400000);
-
       let mtdTotal = 0;
       (localData.DAILY_REPORT || []).forEach(d => mtdTotal += cleanMoney(d.total_omset));
       document.getElementById("kpiTargetMtd").innerText = formatRupiah(mtdTotal || salesToday || 400000);
 
       const restock = (localData.STOK || []).filter(s => {
-        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.sisa_sore));
+        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
         return total <= cleanMoney(s.min_stok);
       }).length;
       document.getElementById("kpiRestockCount").innerText = `${restock} Item`;
@@ -1483,7 +1355,6 @@
       const editId = document.getElementById("fJdwEditId").value;
       const u = document.getElementById("fJdwUser").value;
       const userObj = (localData.USERS || []).find(x => x.username === u) || {};
-      
       const payload = {
         tanggal: document.getElementById("fJdwTanggal").value,
         shift: document.getElementById("fJdwShift").value,
@@ -1493,7 +1364,6 @@
         status_hadir: document.getElementById("fJdwStatus").value,
         catatan: document.getElementById("fJdwCatatan").value
       };
-
       closeModal('modalRoster');
       showToast("Menyimpan jadwal...");
       if(editId) {
@@ -1519,7 +1389,6 @@
         pic: currentUser.username,
         tindak_lanjut: "Tercatat"
       };
-
       closeModal('modalLog');
       showToast("Menyimpan log...");
       if(editId) {
@@ -1532,7 +1401,7 @@
       renderCalendar();
     }
 
-    // CHECKLIST STASIUN
+    // CHECKLIST
     function renderChecklistStations() {
       const container = document.getElementById("stationGrid");
       const stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
@@ -1546,8 +1415,7 @@
             </div>
             ${tasks.map(t => `
               <div class="task-item">
-                <input type="checkbox" class="task-check" ${t.status==='Selesai'?'checked':''} 
-                  onchange="toggleTaskState('${t.task_id}', this.checked)">
+                <input type="checkbox" class="task-check" ${t.status==='Selesai'?'checked':''} onchange="toggleTaskState('${t.task_id}', this.checked)">
                 <div class="task-content">
                   <div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div>
                   <div class="task-sub">Shift ${t.shift} • Target ${t.jam_target} • PIC: ${t.petugas || '-'}</div>
@@ -1568,10 +1436,8 @@
       const task = (localData.CHECKLIST || []).find(c => c.task_id === id);
       if(task) { task.status = isChecked ? "Selesai" : "Belum"; }
       renderChecklistStations();
-
       await postToGas("update", "CHECKLIST", {
-        key: "task_id",
-        val: id,
+        key: "task_id", val: id,
         updates: { status: isChecked ? "Selesai" : "Belum", jam_selesai: new Date().toLocaleTimeString('id-ID'), petugas: currentUser.username }
       });
       fetchAllData();
@@ -1607,7 +1473,6 @@
         jam_target: document.getElementById("fTaskJam").value,
         tugas: document.getElementById("fTaskUraian").value
       };
-
       closeModal('modalTask');
       showToast("Menyimpan tugas...");
       if(editId) {
@@ -1630,17 +1495,21 @@
       }
     }
 
-    // STOK INVENTARIS
+    // STOK DENGAN OPNAME SHIFT 1 & SHIFT 2
     function renderStokTable() {
       const filter = document.getElementById("stokFilter").value;
       const data = (filter === "SEMUA") ? (localData.STOK || []) : (localData.STOK || []).filter(s => s.divisi === filter);
       document.getElementById("stokTableBody").innerHTML = data.map(s => {
         const gudang = cleanMoney(s.stok_gudang);
-        const sisa = cleanMoney(s.sisa_sore);
+        const op1 = cleanMoney(s.opname_s1);
+        const op2 = cleanMoney(s.opname_s2);
         const min = cleanMoney(s.min_stok);
         const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
-        const total = cleanMoney(s.total_makro) || (gudang + (sisa || mikro));
-        const status = s.status || (total <= min ? "RESTOCK" : "AMAN");
+        
+        // Prioritas total nyata: Opname S2 (malam) -> jika belum, Opname S1 (sore) -> jika belum, Mikro
+        const sisaAktual = op2 > 0 ? op2 : (op1 > 0 ? op1 : mikro);
+        const total = gudang + sisaAktual;
+        const status = total <= min ? "RESTOCK" : "AMAN";
         const diff = total - min;
         const diffText = diff <= 0 ? `Kurang ${Math.abs(diff)}` : `Surplus +${diff}`;
 
@@ -1653,9 +1522,14 @@
             <td>${gudang.toLocaleString('id-ID')}</td>
             <td>${mikro.toLocaleString('id-ID')}</td>
             <td>
-              <input type="text" style="width:75px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
-                value="${sisa ? sisa.toLocaleString('id-ID') : ''}" placeholder="0" 
-                oninput="formatLiveRupiahInput(this)" onchange="quickUpdateOpname('${s.item_id}', this.value)">
+              <input type="text" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
+                value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" 
+                oninput="formatLiveRupiahInput(this)" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)">
+            </td>
+            <td>
+              <input type="text" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
+                value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" 
+                oninput="formatLiveRupiahInput(this)" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)">
             </td>
             <td><strong>${total.toLocaleString('id-ID')}</strong></td>
             <td>${min.toLocaleString('id-ID')}</td>
@@ -1674,9 +1548,11 @@
       }).join('');
     }
 
-    async function quickUpdateOpname(id, val) {
+    async function quickUpdateOpnameShift(id, fieldName, val) {
       showToast("Menyimpan opname...");
-      await postToGas("update", "STOK", { key: "item_id", val: id, updates: { sisa_sore: cleanMoney(val) } });
+      let updates = {};
+      updates[fieldName] = cleanMoney(val);
+      await postToGas("update", "STOK", { key: "item_id", val: id, updates: updates });
       fetchAllData();
     }
 
@@ -1715,35 +1591,24 @@
         closeModal('modalStok');
         showToast("Menyimpan perubahan...");
         await postToGas("update", "STOK", {
-          key: "item_id",
-          val: editId,
+          key: "item_id", val: editId,
           updates: {
-            divisi: div,
-            kategori: document.getElementById("fStkKategori").value,
-            nama_barang: document.getElementById("fStkNama").value,
-            satuan: document.getElementById("fStkSatuan").value,
+            divisi: div, kategori: document.getElementById("fStkKategori").value,
+            nama_barang: document.getElementById("fStkNama").value, satuan: document.getElementById("fStkSatuan").value,
             min_stok: cleanMoney(document.getElementById("fStkMin").value),
             stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
-            tgl_update: document.getElementById("fStkTanggal").value,
-            jam_update: document.getElementById("fStkJam").value
+            tgl_update: document.getElementById("fStkTanggal").value, jam_update: document.getElementById("fStkJam").value
           }
         });
       } else {
         const newId = `${prefix}-${Date.now().toString().slice(-4)}`;
         const payload = {
-          item_id: newId,
-          divisi: div,
-          kategori: document.getElementById("fStkKategori").value,
-          nama_barang: document.getElementById("fStkNama").value,
-          satuan: document.getElementById("fStkSatuan").value,
+          item_id: newId, divisi: div, kategori: document.getElementById("fStkKategori").value,
+          nama_barang: document.getElementById("fStkNama").value, satuan: document.getElementById("fStkSatuan").value,
           min_stok: cleanMoney(document.getElementById("fStkMin").value),
           stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
-          tersedia_pagi: 0,
-          refill_s1: 0,
-          refill_s2: 0,
-          sisa_sore: 0,
-          tgl_update: document.getElementById("fStkTanggal").value,
-          jam_update: document.getElementById("fStkJam").value
+          tersedia_pagi: 0, refill_s1: 0, refill_s2: 0, opname_s1: 0, opname_s2: 0,
+          tgl_update: document.getElementById("fStkTanggal").value, jam_update: document.getElementById("fStkJam").value
         };
         closeModal('modalStok');
         showToast("Menambahkan barang...");
@@ -1753,30 +1618,29 @@
     }
 
     async function deleteStokItem(id) {
-      if(confirm(`Yakin ingin menghapus barang ${id}?`)) {
+      if(confirm(`Hapus barang ${id}?`)) {
         showToast("Menghapus barang...");
         await postToGas("delete", "STOK", { key: "item_id", val: id });
         fetchAllData();
       }
     }
 
-    // SERAH TERIMA & KAS LACI
+    // SERAH TERIMA & KASIR (SISTEM IMPREST)
     function calcCashDenom() {
       const tunai = cleanMoney(document.getElementById("fStTunai").value);
       const nonTunai = cleanMoney(document.getElementById("fStNonTunai").value);
       const online = cleanMoney(document.getElementById("fStOnline").value);
-      const omsetShift = tunai + nonTunai + online;
-      document.getElementById("fStOmsetShiftText").innerText = formatRupiah(omsetShift);
-
       const modal = cleanMoney(document.getElementById("fStModal").value);
       const pengeluaran = cleanMoney(document.getElementById("fStPengeluaran").value);
-      
-      const sisaFisikLaci = modal + tunai - pengeluaran;
 
-      document.getElementById("boxModalText").innerText = formatRupiah(modal);
-      document.getElementById("boxTunaiText").innerText = "+ " + formatRupiah(tunai);
+      const omsetShift = tunai + nonTunai + online;
+      const setoranBersih = tunai - pengeluaran;
+
+      document.getElementById("fStOmsetShiftText").innerText = formatRupiah(omsetShift);
+      document.getElementById("boxTunaiText").innerText = formatRupiah(tunai);
       document.getElementById("boxKeluarText").innerText = "- " + formatRupiah(pengeluaran);
-      document.getElementById("boxTargetText").innerText = formatRupiah(sisaFisikLaci);
+      document.getElementById("boxSetoranText").innerText = formatRupiah(setoranBersih);
+      document.getElementById("boxModalText").innerText = formatRupiah(modal);
     }
 
     function toggleHandoverNotesLabel() {
@@ -1816,7 +1680,7 @@
       document.getElementById("fStTanggal").value = st.tanggal;
       document.getElementById("fStJam").value = st.jam;
       document.getElementById("fStTahap").value = st.tahap;
-      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_awal).toLocaleString('id-ID');
+      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_stay).toLocaleString('id-ID');
       document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai).toLocaleString('id-ID');
       document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID');
       document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
@@ -1836,6 +1700,8 @@
       const tunai = cleanMoney(document.getElementById("fStTunai").value);
       const nontunai = cleanMoney(document.getElementById("fStNonTunai").value);
       const online = cleanMoney(document.getElementById("fStOnline").value);
+      const modal = cleanMoney(document.getElementById("fStModal").value);
+      const keluar = cleanMoney(document.getElementById("fStPengeluaran").value);
 
       const payload = {
         tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0],
@@ -1847,10 +1713,10 @@
         non_tunai_qris: nontunai,
         online_food: online,
         total_omset_shift: tunai + nontunai + online,
-        kas_modal_awal: cleanMoney(document.getElementById("fStModal").value),
-        pengeluaran_kas_kecil: cleanMoney(document.getElementById("fStPengeluaran").value),
+        kas_modal_stay: modal,
+        pengeluaran_kas_kecil: keluar,
         keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
-        sisa_fisik_laci: cleanMoney(document.getElementById("boxTargetText").innerText),
+        uang_setor_bersih: tunai - keluar,
         prep_barista: document.getElementById("fStPrepBar").value,
         prep_kitchen: document.getElementById("fStPrepKit").value,
         prep_server: document.getElementById("fStPrepSrv").value,
@@ -1886,10 +1752,10 @@
           <td><strong>${formatRupiah(st.total_omset_shift || (cleanMoney(st.penjualan_tunai)+cleanMoney(st.non_tunai_qris)+cleanMoney(st.online_food)))}</strong></td>
           <td>${formatRupiah(st.penjualan_tunai)}</td>
           <td>${formatRupiah(st.non_tunai_qris)}</td>
-          <td>${formatRupiah(st.online_food)}</td>
           <td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
           <td style="font-size:0.75rem;">${st.keterangan_pengeluaran||'-'}</td>
-          <td style="font-weight:700; color:var(--success);">${formatRupiah(st.sisa_fisik_laci)}</td>
+          <td style="font-weight:700; color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
+          <td style="font-weight:700; color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
           <td style="font-size:0.75rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
           <td>
             <div style="display:flex; gap:0.25rem;">
@@ -1901,7 +1767,7 @@
       `).join('');
     }
 
-    // DAILY REPORT AUTO-PULL MENYELURUH (LENGKAP DENGAN ROSTER TIM)
+    // DAILY REPORT AUTO-PULL MENYELURUH
     function openNewDailyReportModal() {
       document.getElementById("modalDrTitle").innerText = "Simpan Report Harian Baru";
       document.getElementById("fDrEditId").value = "";
@@ -1935,7 +1801,6 @@
       document.getElementById("fDrStaffS1").value = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
       document.getElementById("fDrStaffS2").value = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
       document.getElementById("fDrStaffOff").value = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
-      
       openModal('modalDailyReport');
     }
 
@@ -1967,13 +1832,11 @@
       document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID');
       document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
       
-      // 1. Tarik Staf dari Jadwal
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === tgl);
       document.getElementById("fDrStaffS1").value = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
       document.getElementById("fDrStaffS2").value = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
       document.getElementById("fDrStaffOff").value = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
 
-      // 2. Tarik SEMUA log kejadian dari kalender hari ini
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
       const wasteLogs = logs.filter(l => l.kategori.includes("Waste"));
       const calibLogs = logs.filter(l => l.kategori.includes("Kalibrasi"));
@@ -1985,9 +1848,7 @@
       document.getElementById("fDrBarangMasuk").value = inLogs.length ? inLogs.map(x => `${x.item_terkait} (${x.jumlah_biaya})`).join('; ') : "Tidak ada barang masuk";
       document.getElementById("fDrInsiden").value = incLogs.length ? incLogs.map(x => `${x.detail}`).join('; ') : "Operasional alat lancar";
 
-      if(evalText.length) {
-        document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
-      }
+      if(evalText.length) document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
       showToast("Seluruh lini log otomatis ditarik!");
     }
 
@@ -2063,19 +1924,18 @@
       `).join('');
     }
 
-    // MEGA WHATSAPP BROADCAST (100% BEBAS DARI BUG AMPERSAND POTONG)
+    // MEGA WHATSAPP BROADCAST (100% UTUH BEBAS POTONG)
     function sendWhatsAppDaily() {
       const todayStr = new Date().toISOString().split('T')[0];
       const todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
 
-      // 1. Ambil data serah terima
       const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr || h.tanggal === "2026-11-07");
       let tunai = 0, qris = 0, online = 0, modal = 0, keluar = 0, ketKeluar = [], prepBar = [], prepKit = [], prepSrv = [];
       handovers.forEach(h => {
         tunai += cleanMoney(h.penjualan_tunai);
         qris += cleanMoney(h.non_tunai_qris);
         online += cleanMoney(h.online_food);
-        modal += cleanMoney(h.kas_modal_awal);
+        modal += cleanMoney(h.kas_modal_stay);
         keluar += cleanMoney(h.pengeluaran_kas_kecil);
         if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
         if(h.prep_barista) prepBar.push(h.prep_barista);
@@ -2083,27 +1943,23 @@
         if(h.prep_server) prepSrv.push(h.prep_server);
       });
       const totalOmset = tunai + qris + online;
-      const sisaKasLaci = modal + tunai - keluar;
+      const setoranBersih = tunai - keluar;
 
-      // 2. Ambil data staf dari jadwal
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === todayStr || j.tanggal === "2026-11-07");
       const s1 = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
       const s2 = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
       const off = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
 
-      // 3. Ambil data log kalender
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === todayStr || l.tanggal === "2026-11-07");
       const wasteItems = logs.filter(l => l.kategori.includes("Waste")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_biaya})`).join('\n') || '• Tidak ada waste';
       const calibItems = logs.filter(l => l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail}`).join('\n') || '• Dial-in espresso optimal 26s';
       const inItems = logs.filter(l => l.kategori.includes("Barang Masuk")).map(x => `• ${x.item_terkait}: ${x.detail}`).join('\n') || '• Tidak ada barang masuk';
 
-      // 4. Ambil stok kritis
       const restockItems = (localData.STOK || []).filter(s => {
-        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.sisa_sore));
+        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
         return total <= cleanMoney(s.min_stok);
-      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.sisa_sore)||cleanMoney(s.stok_gudang)} ${s.satuan})`).join('\n') || '• Semua stok aman di atas limit';
+      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || '• Semua stok aman di atas limit';
 
-      // Susun pesan teks bersih
       const fullMessage = 
         `*LAPORAN OPERASIONAL HARIAN — HOLLO COFFEE*\n` +
         `📅 Tanggal: ${todayFormatted}\n` +
@@ -2114,10 +1970,10 @@
         `• Non-Tunai (EDC/QRIS): ${formatRupiah(qris)}\n` +
         `• Online Food (Go/Grab/Shopee): ${formatRupiah(online)}\n` +
         `• *TOTAL REVENUE OMSET: ${formatRupiah(totalOmset)}*\n\n` +
-        `*2. REKAP FISIK UANG KAS LACI:*\n` +
-        `• Modal Kas Awal: ${formatRupiah(modal)}\n` +
-        `• Kas Kecil Keluar: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
-        `• *Sisa Uang Fisik di Laci: ${formatRupiah(sisaKasLaci)}*\n\n` +
+        `*2. REKAP FISIK UANG KAS LACI (SISTEM IMPREST):*\n` +
+        `• Modal Awal Kasir (Stay di Laci): ${formatRupiah(modal || 110000)}\n` +
+        `• Pengeluaran Kas Kecil: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
+        `• *Uang Setoran Tunai Bersih (Amplop): ${formatRupiah(setoranBersih)}*\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
         `*3. ROSTER TIM & KEHADIRAN:*\n` +
         `• Shift 1: ${s1}\n` +
@@ -2138,7 +1994,6 @@
         `${restockItems}\n\n` +
         `_Laporan sah terkirim melalui Sistem Terintegrasi Kafe._`;
 
-      // ENCODE KESELURUHAN AGAR TIDAK TERPOTONG AMPERSAND (&)
       const encodedUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(fullMessage);
       window.open(encodedUrl, '_blank');
     }
@@ -2212,12 +2067,9 @@
         closeModal('modalMenu');
         showToast("Menyimpan menu...");
         await postToGas("update", "MENU", {
-          key: "menu_id",
-          val: editId,
+          key: "menu_id", val: editId,
           updates: {
-            jenis: jenis,
-            divisi: div,
-            kategori: document.getElementById("fMenuKategori").value,
+            jenis: jenis, divisi: div, kategori: document.getElementById("fMenuKategori").value,
             nama_produk: document.getElementById("fMenuNama").value,
             hpp: cleanMoney(document.getElementById("fMenuHpp").value),
             harga_jual: cleanMoney(document.getElementById("fMenuHarga").value)
@@ -2226,10 +2078,7 @@
       } else {
         const newId = "MNU-" + Date.now().toString().slice(-4);
         const payload = {
-          menu_id: newId,
-          jenis: jenis,
-          divisi: div,
-          kategori: document.getElementById("fMenuKategori").value,
+          menu_id: newId, jenis: jenis, divisi: div, kategori: document.getElementById("fMenuKategori").value,
           nama_produk: document.getElementById("fMenuNama").value,
           hpp: cleanMoney(document.getElementById("fMenuHpp").value),
           harga_jual: cleanMoney(document.getElementById("fMenuHarga").value)
@@ -2375,7 +2224,6 @@
         API_URL = apiParam;
         localStorage.setItem(STORAGE_KEY_URL, apiParam);
       }
-
       if (currentUser) {
         unlockPortal();
       } else {
