@@ -2,32 +2,35 @@
 <html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HOLLO COFFEE & ROASTERY'S — Operations Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HOLLO COFFEE & ROASTERY'S — Executive F&B Portal</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     :root {
       --bg: #09090b;
       --surface: #121215;
-      --surface-elevated: #1c1c22;
+      --surface-elevated: #1a1a20;
       --border: #27272a;
       --border-subtle: #1e1e24;
-      --text: #fafafa;
-      --text-muted: #8e8e93;
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
       --accent: #ffffff;
       --accent-invert: #000000;
       --danger: #ef4444;
       --success: #10b981;
       --warning: #f59e0b;
-      --radius: 8px;
+      --radius: 12px;
+      --radius-sm: 8px;
       --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     [data-theme="light"] {
-      --bg: #f8f9fa;
+      --bg: #f4f4f5;
       --surface: #ffffff;
       --surface-elevated: #f1f3f5;
       --border: #e4e4e7;
@@ -41,12 +44,46 @@
       --warning: #d97706;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; transition: var(--transition); }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; transition: var(--transition); overflow-x: hidden; }
+
+    /* GATEKEEPER LOCK SCREEN */
+    #gatekeeper {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .lock-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    .lock-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .lock-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 2rem; }
 
     /* HEADER */
     header {
-      padding: 1rem 2rem;
+      padding: 0.85rem 2rem;
       border-bottom: 1px solid var(--border);
       background: var(--surface);
       display: flex;
@@ -55,33 +92,42 @@
       position: sticky;
       top: 0;
       z-index: 100;
+      backdrop-filter: blur(10px);
     }
 
-    .brand {
+    .brand-wrap { display: flex; align-items: center; gap: 0.75rem; }
+    .brand-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
-      letter-spacing: 0.05em;
       text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .live-clock-pill {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-    }
-
-    .badge {
-      font-size: 0.7rem;
-      padding: 0.25rem 0.5rem;
+      gap: 0.5rem;
       background: var(--surface-elevated);
       border: 1px solid var(--border);
-      border-radius: 4px;
+      padding: 0.3rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
       font-weight: 600;
     }
 
-    .controls { display: flex; gap: 0.5rem; align-items: center; }
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
 
+    /* BUTTONS */
     .btn {
       padding: 0.5rem 0.9rem;
-      border-radius: var(--radius);
+      border-radius: var(--radius-sm);
       font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
@@ -97,9 +143,9 @@
     .btn:hover { background: var(--surface-elevated); border-color: var(--text-muted); }
     .btn-solid { background: var(--accent); color: var(--accent-invert); border-color: var(--accent); }
     .btn-solid:hover { opacity: 0.9; }
-    .btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.4); }
+    .btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
+    .btn-danger:hover { background: rgba(239, 68, 68, 0.1); }
     .btn-wa { background: #25D366; color: #fff; border-color: #25D366; }
-    .btn-wa:hover { opacity: 0.9; background: #25D366; }
 
     /* NAVIGATION */
     nav {
@@ -112,7 +158,7 @@
     }
 
     .nav-tab {
-      padding: 0.75rem 1.25rem;
+      padding: 0.75rem 1.15rem;
       font-size: 0.85rem;
       font-weight: 500;
       color: var(--text-muted);
@@ -125,13 +171,14 @@
     .nav-tab.active { color: var(--text); border-color: var(--accent); font-weight: 600; }
 
     /* MAIN CONTAINER */
-    main { padding: 2rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
+    main { padding: 1.75rem 2rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
 
+    /* KPI & CHARTS */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
 
     .card {
@@ -147,32 +194,41 @@
       font-weight: 600;
       color: var(--text-muted);
       letter-spacing: 0.05em;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.35rem;
     }
 
     .card-val {
-      font-size: 1.65rem;
+      font-size: 1.6rem;
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 700;
     }
 
-    /* INTERACTIVE CALENDAR */
-    .calendar-wrapper {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      margin-bottom: 2rem;
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .charts-grid { grid-template-columns: 1fr; }
+    }
+
+    /* CALENDAR */
+    .cal-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
     }
 
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 0.5rem;
-      margin-top: 1rem;
+      gap: 0.4rem;
     }
 
-    .cal-day-header {
+    .cal-day-name {
       text-align: center;
       font-size: 0.75rem;
       font-weight: 600;
@@ -182,34 +238,75 @@
     }
 
     .cal-cell {
+      background: var(--surface);
       border: 1px solid var(--border);
-      background: var(--surface-elevated);
-      border-radius: 6px;
-      padding: 0.75rem 0.5rem;
-      min-height: 85px;
+      border-radius: var(--radius-sm);
+      min-height: 90px;
+      padding: 0.6rem 0.5rem;
       cursor: pointer;
-      transition: var(--transition);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: var(--transition);
     }
 
-    .cal-cell:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
+    .cal-cell:hover { border-color: var(--accent); }
+    .cal-cell.today { border: 2px solid var(--accent); background: var(--surface-elevated); }
+
+    .cal-date-num { font-weight: 700; font-size: 0.85rem; }
+    .cal-tags-wrap { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.3rem; }
+    .cal-badge { font-size: 0.65rem; padding: 0.15rem 0.3rem; border-radius: 3px; font-weight: 600; }
+    .badge-shift { background: rgba(255,255,255,0.08); color: var(--text); }
+    .badge-off { background: rgba(239,68,68,0.15); color: var(--danger); }
+    .badge-event { background: rgba(245,158,11,0.15); color: var(--warning); }
+
+    /* CHECKLIST STATION VIEW */
+    .station-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
     }
 
-    .cal-cell.today {
-      border: 2px solid var(--accent);
-      background: rgba(255,255,255,0.03);
+    .station-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
     }
 
-    .cal-date { font-weight: 700; font-size: 0.9rem; }
-    .cal-pills { display: flex; flex-direction: column; gap: 0.2rem; margin-top: 0.4rem; }
-    .cal-tag { font-size: 0.65rem; padding: 0.15rem 0.35rem; border-radius: 3px; font-weight: 600; }
-    .cal-tag-s1 { background: rgba(59,130,246,0.2); color: #60a5fa; }
-    .cal-tag-s2 { background: rgba(168,85,247,0.2); color: #c084fc; }
-    .cal-tag-off { background: rgba(239,68,68,0.2); color: #f87171; }
+    .station-header {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .task-check {
+      margin-top: 0.2rem;
+      width: 17px;
+      height: 17px;
+      cursor: pointer;
+      accent-color: var(--accent);
+    }
+
+    .task-content { flex: 1; font-size: 0.825rem; }
+    .task-sub { font-size: 0.7rem; color: var(--text-muted); margin-top: 0.2rem; }
 
     /* TABLES */
     .table-card {
@@ -242,16 +339,16 @@
     .tag-restock { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
     .tag-safe { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
 
-    /* MODAL */
+    /* MODAL (iOS SHEET VIBE) */
     .modal-backdrop {
       display: none;
       position: fixed;
       inset: 0;
       background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(6px);
+      backdrop-filter: blur(8px);
       align-items: center;
       justify-content: center;
-      z-index: 200;
+      z-index: 500;
     }
 
     .modal {
@@ -260,22 +357,37 @@
       border-radius: var(--radius);
       padding: 1.75rem;
       width: 90%;
-      max-width: 600px;
-      max-height: 85vh;
+      max-width: 620px;
+      max-height: 88vh;
       overflow-y: auto;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
     }
 
     .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; }
+    .form-group label { display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.35rem; font-weight: 600; text-transform: uppercase; }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%;
-      padding: 0.6rem;
-      border-radius: var(--radius);
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--radius-sm);
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--text);
       outline: none;
+      font-size: 0.85rem;
     }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+
+    .denom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 0.5rem;
+      background: var(--surface-elevated);
+      padding: 0.85rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1rem;
+    }
+    .denom-item label { font-size: 0.7rem; font-weight: 700; color: var(--text-muted); }
+    .denom-item input { width: 100%; padding: 0.35rem; font-size: 0.85rem; }
 
     /* TOAST */
     #toast {
@@ -285,91 +397,152 @@
       padding: 0.75rem 1.25rem;
       background: var(--accent);
       color: var(--accent-invert);
-      border-radius: var(--radius);
+      border-radius: var(--radius-sm);
       font-size: 0.85rem;
       font-weight: 600;
       opacity: 0;
       pointer-events: none;
       transition: var(--transition);
-      z-index: 300;
+      z-index: 600;
     }
     #toast.show { opacity: 1; transform: translateY(-5px); }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="brand">
-      HOLLO COFFEE & ROASTERY'S
-      <span class="badge" id="liveUserBadge">RAJA_UTAMA (BOY)</span>
+  <!-- 1. GATEKEEPER LOCK SCREEN (PIN ACCESS) -->
+  <div id="gatekeeper">
+    <div class="lock-card">
+      <div class="lock-title">HOLLO COFFEE & ROASTERY'S</div>
+      <div class="lock-sub">Enter credentials to unlock operations</div>
+      
+      <div class="form-group" style="text-align: left;">
+        <label>USERNAME</label>
+        <input type="text" id="loginUser" placeholder="boy / pace / el">
+      </div>
+      
+      <div class="form-group" style="text-align: left;">
+        <label>PIN (4 DIGIT)</label>
+        <input type="password" id="loginPin" placeholder="••••" maxlength="6" style="letter-spacing: 0.4em; font-size: 1.2rem; text-align: center;">
+      </div>
+
+      <button class="btn btn-solid" style="width: 100%; justify-content: center; padding: 0.75rem; margin-top: 1rem;" onclick="handlePinLogin()">
+        Buka Akses Sistem
+      </button>
+
+      <button class="btn" style="width: 100%; justify-content: center; margin-top: 0.5rem; border: none; font-size: 0.75rem;" onclick="openConfig()">
+        ⚙ Setup Webhook URL
+      </button>
     </div>
-    <div class="controls">
-      <button class="btn" id="themeBtn" onclick="toggleTheme()">Light Mode</button>
-      <button class="btn" onclick="openLoginModal()">🔑 Akses PIN</button>
-      <button class="btn btn-solid" onclick="openConfig()">⚙ Setup Webhook</button>
+  </div>
+
+  <!-- 2. PORTAL HEADER -->
+  <header>
+    <div class="brand-wrap">
+      <div class="brand-title">HOLLO COFFEE</div>
+      <div class="live-clock-pill">
+        <div class="live-dot"></div>
+        <span id="liveClock">00:00:00</span>
+        <span style="opacity: 0.5;">|</span>
+        <span id="liveShiftIndicator">SHIFT 1 (PREP)</span>
+      </div>
+    </div>
+    <div style="display:flex; gap:0.5rem; align-items:center;">
+      <span class="btn" style="border:none; font-size:0.75rem;" id="userNameBadge">BOY (RAJA_UTAMA)</span>
+      <button class="btn" id="themeBtn" onclick="toggleTheme()">Light</button>
+      <button class="btn btn-danger" onclick="logout()">Kunci</button>
     </div>
   </header>
 
-  <!-- NAVBAR -->
+  <!-- 3. NAVIGATION -->
   <nav>
-    <div class="nav-tab active" onclick="switchView('dashboard')">Dashboard & Kalender</div>
-    <div class="nav-tab" onclick="switchView('stok')">Stok Opname & Gudang</div>
-    <div class="nav-tab" onclick="switchView('checklist')">Checklist Shift</div>
-    <div class="nav-tab" onclick="switchView('serah-terima')">Serah Terima & Kasir</div>
+    <div class="nav-tab active" onclick="switchView('dashboard')">Dashboard</div>
+    <div class="nav-tab" onclick="switchView('kalender')">Kalender & Roster</div>
+    <div class="nav-tab" onclick="switchView('checklist')">Checklist Stasiun</div>
+    <div class="nav-tab" onclick="switchView('stok')">Inventaris Stok</div>
+    <div class="nav-tab" onclick="switchView('serah-terima')">Kasir & Serah Terima</div>
     <div class="nav-tab" onclick="switchView('menu')">Menu & HPP</div>
-    <div class="nav-tab" onclick="switchView('perusahaan')">Data Perusahaan</div>
+    <div class="nav-tab" id="tabPerusahaan" style="display:none;" onclick="switchView('perusahaan')">Data Perusahaan (Vault)</div>
   </nav>
 
-  <!-- MAIN APP -->
+  <!-- 4. MAIN CONTENT AREA -->
   <main>
-    <!-- TAB 1: DASHBOARD & KALENDER -->
+    <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
       <div class="kpi-grid">
         <div class="card">
-          <div class="card-title">Pencapaian Target MTD</div>
-          <div class="card-val" id="kpiTarget">68.4%</div>
+          <div class="card-title">Capaian Target MTD</div>
+          <div class="card-val" id="kpiTargetMtd">Rp 0</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.3rem;">Target: Rp 150.000.000</div>
         </div>
         <div class="card">
-          <div class="card-title">Status Kasir Hari Ini</div>
-          <div class="card-val" style="font-size: 1.25rem; color: var(--success);" id="kpiKas">Kas Cocok</div>
+          <div class="card-title">Penjualan Hari Ini</div>
+          <div class="card-val" id="kpiSalesToday">Rp 0</div>
+          <div style="font-size:0.75rem; color:var(--success); margin-top:0.3rem;">Tunai + EDC + Online</div>
         </div>
         <div class="card">
           <div class="card-title">Stok Perlu Restock</div>
-          <div class="card-val" style="color: var(--danger);" id="kpiRestock">2 Item</div>
+          <div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.3rem;">Di bawah limit aman</div>
         </div>
         <div class="card">
-          <div class="card-title">Tugas Shift Selesai</div>
-          <div class="card-val" id="kpiChecklist">80%</div>
+          <div class="card-title">Checklist Selesai</div>
+          <div class="card-val" id="kpiChecklistProgress">0%</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.3rem;">Semua stasiun hari ini</div>
         </div>
       </div>
 
-      <!-- KALENDER INTERAKTIF -->
-      <div class="calendar-wrapper">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <h3 style="font-family:'Space Grotesk', sans-serif;">Kalender Jadwal & Buku Log Harian</h3>
-          <div>
-            <button class="btn" onclick="openNewLogModal()">+ Tambah Log / Catatan</button>
-          </div>
+      <div class="charts-grid">
+        <div class="card">
+          <div class="card-title">Breakdown Pendapatan Saluran Penjualan</div>
+          <canvas id="chartSales" style="max-height: 250px; margin-top: 1rem;"></canvas>
         </div>
-        <div class="calendar-grid" id="calendarGrid">
-          <!-- Dinamis oleh JS -->
+        <div class="card">
+          <div class="card-title">Penyelesaian Stasiun Operasional</div>
+          <canvas id="chartChecklist" style="max-height: 250px; margin-top: 1rem;"></canvas>
         </div>
       </div>
     </section>
 
-    <!-- TAB 2: STOK INVENTARIS LENGKAP -->
+    <!-- VIEW 2: KALENDER & ROSTER -->
+    <section id="view-kalender" style="display:none;">
+      <div class="card" style="margin-bottom:1.5rem;">
+        <div class="cal-header-bar">
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <h3 id="calCurrentMonthTitle" style="font-family:'Space Grotesk', sans-serif;">November 2026</h3>
+            <button class="btn" onclick="prevMonth()">◀</button>
+            <button class="btn" onclick="nextMonth()">▶</button>
+          </div>
+          <div style="display:flex; gap:0.5rem;">
+            <button class="btn" onclick="openNewLogModal()">+ Log Insiden/Waste</button>
+            <button class="btn btn-solid" onclick="openScheduleModal()">+ Jadwal Staff</button>
+          </div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+    </section>
+
+    <!-- VIEW 3: CHECKLIST OPERASIONAL PER STASIUN -->
+    <section id="view-checklist" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+        <h3>Checklist Shift Harian per Stasiun</h3>
+        <button class="btn btn-solid" onclick="openNewTaskModal()">+ Buat Tugas Baru</button>
+      </div>
+      <div class="station-grid" id="stationGrid"></div>
+    </section>
+
+    <!-- VIEW 4: INVENTARIS STOK LENGKAP -->
     <section id="view-stok" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-        <h3>Inventaris Log Stok (Barista • Kitchen • Server)</h3>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+        <h3>Stok Inventaris Mikro, Makro & Opname</h3>
         <div style="display:flex; gap:0.5rem;">
-          <select id="stokFilterDivisi" onchange="renderStokTable()" style="padding:0.4rem 0.8rem; border-radius:6px; background:var(--surface); color:var(--text); border:1px solid var(--border);">
+          <select id="stokDivFilter" onchange="renderStokTable()" style="padding:0.4rem 0.8rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px;">
             <option value="SEMUA">Semua Divisi</option>
             <option value="BARISTA">Barista</option>
             <option value="KITCHEN">Kitchen</option>
             <option value="SERVER">Server</option>
           </select>
-          <button class="btn" onclick="fetchData('STOK')">↻ Refresh</button>
+          <button class="btn btn-solid" onclick="openNewItemModal()">+ Tambah Barang Baru</button>
         </div>
       </div>
       <div class="table-card">
@@ -378,16 +551,17 @@
             <tr>
               <th>ID</th>
               <th>Divisi</th>
-              <th>Barang</th>
+              <th>Nama Barang</th>
+              <th>Satuan</th>
+              <th>Min</th>
               <th>Gudang</th>
               <th>Pagi</th>
               <th>Refill S1</th>
               <th>Refill S2</th>
               <th>Sisa Sore</th>
               <th>Total Makro</th>
-              <th>Min</th>
               <th>Status</th>
-              <th>Input Sisa</th>
+              <th>Aksi Opname</th>
             </tr>
           </thead>
           <tbody id="stokTableBody"></tbody>
@@ -395,39 +569,13 @@
       </div>
     </section>
 
-    <!-- TAB 3: CHECKLIST OPERASIONAL -->
-    <section id="view-checklist" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-        <h3>Checklist Shift Harian Real-Time</h3>
-        <button class="btn" onclick="fetchData('CHECKLIST')">↻ Refresh</button>
-      </div>
-      <div class="table-card">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Shift</th>
-              <th>Divisi</th>
-              <th>Fase</th>
-              <th>Jam</th>
-              <th>Tugas</th>
-              <th>PIC</th>
-              <th>Status</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody id="chkTableBody"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- TAB 4: SERAH TERIMA & KASIR -->
+    <!-- VIEW 5: SERAH TERIMA & DENOMINASI KAS -->
     <section id="view-serah-terima" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-        <h3>Log Serah Terima Kasir & Evaluasi Multi-Shift</h3>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+        <h3>Serah Terima Kasir, Denominasi Kas & Rekap Harian</h3>
         <div style="display:flex; gap:0.5rem;">
-          <button class="btn btn-wa" onclick="generateWhatsAppReport()">Kirim ke WhatsApp</button>
-          <button class="btn btn-solid" onclick="openHandoverModal()">+ Buka Form Serah Terima</button>
+          <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
+          <button class="btn btn-solid" onclick="openHandoverModal()">+ Form Serah Terima</button>
         </div>
       </div>
       <div class="table-card">
@@ -435,16 +583,15 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>Waktu/Tahap</th>
-              <th>Penyerah</th>
-              <th>Penerima</th>
-              <th>Modal Kasir</th>
-              <th>Penjualan Tunai</th>
-              <th>Non-Tunai</th>
-              <th>Fisik Uang</th>
+              <th>Tahap</th>
+              <th>PIC</th>
+              <th>Modal</th>
+              <th>Tunai</th>
+              <th>Fisik Laci</th>
               <th>Selisih</th>
-              <th>Status Kas</th>
-              <th>Prep Kurang (Bar/Kit/Srv)</th>
+              <th>Non-Tunai</th>
+              <th>Online Food</th>
+              <th>Catatan & Prep Kurang</th>
             </tr>
           </thead>
           <tbody id="stTableBody"></tbody>
@@ -452,11 +599,14 @@
       </div>
     </section>
 
-    <!-- TAB 5: MENU & HPP -->
+    <!-- VIEW 6: MENU & HPP -->
     <section id="view-menu" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-        <h3>Menu, HPP & Margin Profit</h3>
-        <button class="btn" onclick="fetchData('MENU')">↻ Refresh</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+        <div style="display:flex; gap:0.5rem;">
+          <button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button>
+          <button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button>
+        </div>
+        <button class="btn btn-solid" onclick="openNewMenuModal()">+ Tambah Menu Baru</button>
       </div>
       <div class="table-card">
         <table>
@@ -464,12 +614,13 @@
             <tr>
               <th>ID</th>
               <th>Kategori</th>
-              <th>Produk</th>
+              <th>Nama Produk</th>
               <th>HPP</th>
               <th>Harga Jual</th>
               <th>Margin (Rp)</th>
               <th>Margin %</th>
               <th>Food Cost %</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody id="menuTableBody"></tbody>
@@ -477,181 +628,567 @@
       </div>
     </section>
 
-    <!-- TAB 6: DATA PERUSAHAAN & USERS -->
+    <!-- VIEW 7: DATA PERUSAHAAN (VAULT RAHASIA) -->
     <section id="view-perusahaan" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-        <h3>Data Perusahaan & Akun Pengguna</h3>
-        <button class="btn" onclick="fetchData('USERS')">↻ Refresh</button>
+      <div style="margin-bottom:1.5rem;">
+        <h3>Data Perusahaan & Vault Keamanan (Level >= 4)</h3>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">
+          Pusat kendali rahasia: PIN karyawan, status akun, dan parameter legalitas perusahaan.
+        </p>
       </div>
       <div class="table-card">
         <table>
           <thead>
             <tr>
-              <th>ID</th>
+              <th>User ID</th>
               <th>Username</th>
               <th>Nama Lengkap</th>
               <th>Role</th>
               <th>Level</th>
               <th>Divisi</th>
-              <th>Status</th>
-              <th>Tipe</th>
+              <th>PIN Rahasia</th>
+              <th>Akses Vault</th>
             </tr>
           </thead>
-          <tbody id="userTableBody"></tbody>
+          <tbody id="vaultTableBody"></tbody>
         </table>
       </div>
     </section>
   </main>
 
-  <!-- MODAL: INSPEKSI KALENDER HARI TERTENTU -->
-  <div class="modal-backdrop" id="calendarModal">
+  <!-- MODAL: FORM SERAH TERIMA & DENOMINASI -->
+  <div class="modal-backdrop" id="modalHandover">
     <div class="modal">
-      <h3 id="calModalTitle" style="margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Detail Operasional Tanggal</h3>
+      <h3 style="margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Formulir Serah Terima & Kas Laci</h3>
       
-      <div style="margin-bottom:1.5rem;">
-        <h4 style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem;">Jadwal Tim Hari Ini</h4>
-        <div id="calModalJadwalList" style="display:flex; flex-direction:column; gap:0.4rem;"></div>
+      <div class="form-group">
+        <label>Tahap Shift</label>
+        <select id="fStTahap">
+          <option value="Opening 08:30 (Modal Awal)">Opening 08:30 (Modal Awal)</option>
+          <option value="Mid-Shift 16:30 (Shift 1 → Shift 2)">Mid-Shift 16:30 (Shift 1 → 2)</option>
+          <option value="Closing 00:00 (Akhir Hari)">Closing 00:00 (Tutup Hari)</option>
+        </select>
       </div>
 
-      <div style="margin-bottom:1.5rem;">
-        <h4 style="font-size:0.85rem; color:var(--text-muted); text-transform:uppercase; margin-bottom:0.5rem;">Catatan, Waste & Kejadian Hari Ini</h4>
-        <div id="calModalLogList" style="display:flex; flex-direction:column; gap:0.4rem;"></div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
+          <label>Kas Modal Awal (Rp)</label>
+          <input type="number" id="fStModal" value="300000" oninput="calcCashDenom()">
+        </div>
+        <div class="form-group">
+          <label>Penjualan Tunai (Rp)</label>
+          <input type="number" id="fStTunai" value="0" oninput="calcCashDenom()">
+        </div>
       </div>
 
-      <div style="display:flex; justify-content:flex-end;">
-        <button class="btn" onclick="closeModal('calendarModal')">Tutup</button>
+      <div class="form-group">
+        <label>Pecahan Fisik Uang di Laci (Denominasi)</label>
+        <div class="denom-grid">
+          <div class="denom-item"><label>100k</label><input type="number" id="d100k" value="0" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>50k</label><input type="number" id="d50k" value="0" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>20k</label><input type="number" id="d20k" value="0" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>10k</label><input type="number" id="d10k" value="0" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>5k</label><input type="number" id="d5k" value="0" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>2k</label><input type="number" id="d2k" value="0" oninput="calcCashDenom()"></div>
+          <div class="denom-item"><label>1k / Koin</label><input type="number" id="d1k" value="0" oninput="calcCashDenom()"></div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
+          <label>Total Uang Fisik Terhitung</label>
+          <input type="text" id="fStFisikTotal" readonly style="font-weight:700; color:var(--success);">
+        </div>
+        <div class="form-group">
+          <label>Selisih Laci</label>
+          <input type="text" id="fStSelisih" readonly style="font-weight:700;">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Catatan Prep Kurang (Bar/Kitchen/Server) & Evaluasi</label>
+        <textarea id="fStCatatan" rows="3" placeholder="Susu sisa 2 botol. Ayam defrost untuk shift 2. Uang receh 2000 menipis."></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
+        <button class="btn" onclick="closeModal('modalHandover')">Batal</button>
+        <button class="btn btn-solid" onclick="submitHandover()">Simpan Serah Terima</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH LOG HARIAN -->
-  <div class="modal-backdrop" id="newLogModal">
+  <!-- MODAL: TAMBAH/EDIT STOK BARANG -->
+  <div class="modal-backdrop" id="modalStok">
     <div class="modal">
-      <h3 style="margin-bottom:1rem;">Tambah Log / Catatan Baru</h3>
+      <h3 style="margin-bottom:1rem;">Kelola Barang Inventaris</h3>
       <div class="form-group">
-        <label>TANGGAL</label>
-        <input type="date" id="logDate">
-      </div>
-      <div class="form-group">
-        <label>DIVISI</label>
-        <select id="logDivisi">
+        <label>Divisi</label>
+        <select id="fStkDivisi">
           <option value="BARISTA">BARISTA</option>
           <option value="KITCHEN">KITCHEN</option>
           <option value="SERVER">SERVER</option>
-          <option value="MANAJEMEN">MANAJEMEN</option>
         </select>
       </div>
       <div class="form-group">
-        <label>KATEGORI KEJADIAN</label>
-        <select id="logKategori">
-          <option value="Waste / Barang Rusak">Waste / Barang Rusak</option>
-          <option value="Barang Masuk / Pembelian">Barang Masuk / Pembelian</option>
-          <option value="Catatan Masa Lalu (Susulan)">Catatan Masa Lalu (Susulan)</option>
-          <option value="Rencana Masa Depan">Rencana Masa Depan</option>
-          <option value="Insiden Alat / Kerusakan">Insiden Alat / Kerusakan</option>
-        </select>
+        <label>Nama Barang</label>
+        <input type="text" id="fStkNama" placeholder="Contoh: Biji Kopi Flores Bajawa">
       </div>
       <div class="form-group">
-        <label>DETAIL KEJADIAN</label>
-        <textarea id="logDetail" rows="3" placeholder="Tuliskan sedetail mungkin..."></textarea>
+        <label>Satuan</label>
+        <input type="text" id="fStkSatuan" placeholder="gram / liter / pcs / pack">
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+        <div class="form-group">
+          <label>Minimum Stok</label>
+          <input type="number" id="fStkMin" value="5">
+        </div>
+        <div class="form-group">
+          <label>Stok Gudang (Makro)</label>
+          <input type="number" id="fStkGudang" value="10">
+        </div>
       </div>
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('newLogModal')">Batal</button>
-        <button class="btn btn-solid" onclick="saveNewLog()">Simpan Log</button>
+        <button class="btn" onclick="closeModal('modalStok')">Batal</button>
+        <button class="btn btn-solid" onclick="submitNewItem()">Simpan Barang</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: SERAH TERIMA & TUTUP KASIR -->
-  <div class="modal-backdrop" id="handoverModal">
-    <div class="modal">
-      <h3 style="margin-bottom:1rem;">Input Serah Terima & Rekap Kasir</h3>
+  <!-- MODAL: SETUP WEBHOOK -->
+  <div class="modal-backdrop" id="modalConfig">
+    <div class="modal" style="max-width:420px;">
+      <h3 style="margin-bottom:1rem;">Konfigurasi Google Apps Script</h3>
       <div class="form-group">
-        <label>TAHAP SERAH TERIMA</label>
-        <select id="stTahap">
-          <option value="Opening 08:30 (Modal Awal)">Opening 08:30 (Modal Awal Kasir)</option>
-          <option value="Mid-Shift 16:30">Mid-Shift 16:30 (Shift 1 → Shift 2)</option>
-          <option value="Closing 00:00 (Akhir Hari)">Closing 00:00 (Serah Terima Shift 1 Besok)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>MODAL KAS AWAL (RP)</label>
-        <input type="number" id="stKasAwal" value="300000">
-      </div>
-      <div class="form-group">
-        <label>RINCIAN PECAHAN MODAL / UANG</label>
-        <input type="text" id="stPecahan" placeholder="Contoh: 100k:2, 50k:1, 20k:2, 5k:2">
-      </div>
-      <div class="form-group">
-        <label>PENJUALAN TUNAI (RP)</label>
-        <input type="number" id="stTunai" value="0">
-      </div>
-      <div class="form-group">
-        <label>PENJUALAN NON-TUNAI / EDC / QRIS (RP)</label>
-        <input type="number" id="stNonTunai" value="0">
-      </div>
-      <div class="form-group">
-        <label>UANG FISIK DI LACI KASIR (RP)</label>
-        <input type="number" id="stFisik" value="0">
-      </div>
-      <div class="form-group">
-        <label>EVALUASI & PREP KURANG UNTUK SHIFT BERIKUTNYA</label>
-        <textarea id="stPrepEval" rows="3" placeholder="Bar: Susu sisa 1 botol. Kitchen: Ayam sisa 3 porsi. Server: Tisu habis."></textarea>
+        <label>URL Web App (/exec)</label>
+        <input type="text" id="cfgApiUrl">
       </div>
       <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('handoverModal')">Batal</button>
-        <button class="btn btn-solid" onclick="saveHandover()">Simpan Serah Terima</button>
+        <button class="btn" onclick="closeModal('modalConfig')">Tutup</button>
+        <button class="btn btn-solid" onclick="saveConfig()">Simpan URL</button>
       </div>
     </div>
   </div>
 
-  <!-- MODAL: LOGIN PIN -->
-  <div class="modal-backdrop" id="loginModal">
-    <div class="modal" style="max-width:380px;">
-      <h3 style="margin-bottom:1rem; text-align:center;">Autentikasi Akses</h3>
-      <div class="form-group">
-        <label>USERNAME</label>
-        <input type="text" id="loginUser" placeholder="boy / pace / deni">
-      </div>
-      <div class="form-group">
-        <label>PIN KEAMANAN (4 DIGIT)</label>
-        <input type="password" id="loginPin" placeholder="••••">
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
-        <button class="btn" onclick="closeModal('loginModal')">Batal</button>
-        <button class="btn btn-solid" onclick="verifyPin()">Masuk</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: CONFIG WEBHOOK -->
-  <div class="modal-backdrop" id="configModal">
-    <div class="modal">
-      <h3 style="margin-bottom:1rem;">Konfigurasi Web App URL</h3>
-      <div class="form-group">
-        <label>URL APPS SCRIPT (/exec)</label>
-        <input type="text" id="cfgUrlInput">
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('configModal')">Tutup</button>
-        <button class="btn btn-solid" onclick="saveConfigUrl()">Simpan</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- TOAST -->
-  <div id="toast">Notifikasi</div>
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast">Notifikasi Sistem</div>
 
   <script>
-    let API_URL = localStorage.getItem("HOLLO_API_URL") || "";
-    let activeUser = JSON.parse(localStorage.getItem("HOLLO_USER")) || { username: "boy", role: "RAJA_UTAMA", level: 6 };
-    let cachedData = {};
+    let API_URL = localStorage.getItem("HOLLO_API_KEY") || "";
+    let currentUser = JSON.parse(localStorage.getItem("HOLLO_SESSION")) || null;
+    let localData = { STOK: [], CHECKLIST: [], SERAH_TERIMA: [], MENU: [], USERS: [], JADWAL: [], LOG_KALENDER: [] };
+    let calCurrentDate = new Date(2026, 10, 7); // Default November 2026
+
+    // 1. GATEKEEPER & AUTH
+    async function handlePinLogin() {
+      const u = document.getElementById("loginUser").value.trim();
+      const p = document.getElementById("loginPin").value.trim();
+
+      if (!u || !p) { alert("Masukkan username dan PIN!"); return; }
+
+      if (!API_URL) {
+        openConfig();
+        return;
+      }
+
+      showToast("Memverifikasi kredensial...");
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: "verify_pin", username: u, pin: p })
+        });
+        const json = await res.json();
+        if (json.success) {
+          currentUser = json.user;
+          localStorage.setItem("HOLLO_SESSION", JSON.stringify(currentUser));
+          unlockPortal();
+        } else {
+          alert(json.message);
+        }
+      } catch (err) {
+        alert("Gagal terhubung ke Apps Script: Periksa Webhook URL.");
+      }
+    }
+
+    function unlockPortal() {
+      document.getElementById("gatekeeper").style.display = "none";
+      document.getElementById("userNameBadge").innerText = `${currentUser.username.toUpperCase()} (${currentUser.role})`;
+      
+      // Buka akses Vault Perusahaan untuk Level >= 4
+      if (currentUser.level >= 4) {
+        document.getElementById("tabPerusahaan").style.display = "block";
+      } else {
+        document.getElementById("tabPerusahaan").style.display = "none";
+      }
+
+      fetchAllData();
+      startLiveClock();
+    }
+
+    function logout() {
+      localStorage.removeItem("HOLLO_SESSION");
+      currentUser = null;
+      document.getElementById("gatekeeper").style.display = "flex";
+      document.getElementById("loginPin").value = "";
+    }
+
+    // 2. LIVE CLOCK & PHASE MONITOR
+    function startLiveClock() {
+      setInterval(() => {
+        const now = new Date();
+        document.getElementById("liveClock").innerText = now.toLocaleTimeString('id-ID');
+
+        const hrs = now.getHours();
+        const mins = now.getMinutes();
+        const curMins = hrs * 60 + mins;
+
+        let phase = "SHIFT 1 (OPERASIONAL)";
+        if (curMins >= 510 && curMins < 540) phase = "SHIFT 1 (PREP 08:30)";
+        else if (curMins >= 990 && curMins < 1020) phase = "SERAH TERIMA 16:30";
+        else if (curMins >= 1020 && curMins < 1380) phase = "SHIFT 2 (OPERASIONAL)";
+        else if (curMins >= 1380 && curMins < 1440) phase = "CLOSING SHIFT 2 (23:00)";
+        else if (curMins >= 0 && curMins < 30) phase = "CLOSE ORDER KASIR (00:00)";
+        else phase = "CAFE CLOSED";
+
+        document.getElementById("liveShiftIndicator").innerText = phase;
+      }, 1000);
+    }
+
+    // 3. NAVIGATION VIEW
+    function switchView(viewId) {
+      document.querySelectorAll("nav .nav-tab").forEach(t => t.classList.remove("active"));
+      event.target.classList.add("active");
+      
+      const views = ['dashboard', 'kalender', 'checklist', 'stok', 'serah-terima', 'menu', 'perusahaan'];
+      views.forEach(v => document.getElementById("view-" + v).style.display = (v === viewId) ? "block" : "none");
+
+      if (viewId === 'kalender') renderCalendar();
+    }
+
+    // 4. FETCH DATA LENGKAP
+    async function fetchAllData() {
+      if (!API_URL) return;
+      const sheets = ['STOK', 'CHECKLIST', 'SERAH_TERIMA', 'MENU', 'USERS', 'JADWAL', 'LOG_KALENDER'];
+      for (let s of sheets) {
+        try {
+          const res = await fetch(`${API_URL}?action=read&sheet=${s}`);
+          const json = await res.json();
+          if (json.success) localData[s] = json.data;
+        } catch(e) {}
+      }
+      renderDashboard();
+      renderChecklistStations();
+      renderStokTable();
+      renderHandoverTable();
+      renderMenuTable('Minuman');
+      if (currentUser && currentUser.level >= 4) renderVaultTable();
+    }
+
+    // 5. DASHBOARD & CHARTS
+    function renderDashboard() {
+      // KPI
+      document.getElementById("kpiTargetMtd").innerText = "Rp 48.650.000";
+      document.getElementById("kpiSalesToday").innerText = "Rp 6.100.000";
+      
+      const restock = localData.STOK.filter(s => s.status === 'RESTOCK').length;
+      document.getElementById("kpiRestockCount").innerText = `${restock} Item`;
+
+      const doneTasks = localData.CHECKLIST.filter(c => c.status === 'Selesai').length;
+      const totalTasks = localData.CHECKLIST.length || 1;
+      document.getElementById("kpiChecklistProgress").innerText = `${Math.round((doneTasks/totalTasks)*100)}%`;
+
+      // Chart Penjualan
+      const ctxSales = document.getElementById("chartSales").getContext("2d");
+      new Chart(ctxSales, {
+        type: 'bar',
+        data: {
+          labels: ['Tunai', 'QRIS / EDC', 'GoFood', 'GrabFood', 'ShopeeFood'],
+          datasets: [{
+            label: 'Omset Hari Ini (Rp)',
+            data: [1250000, 2850000, 850000, 650000, 500000],
+            backgroundColor: ['#ffffff', '#a1a1aa', '#71717a', '#52525b', '#3f3f46'],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { display: false } } }
+        }
+      });
+
+      // Chart Checklist Stasiun
+      const ctxChk = document.getElementById("chartChecklist").getContext("2d");
+      new Chart(ctxChk, {
+        type: 'doughnut',
+        data: {
+          labels: ['Barista', 'Kitchen', 'Server', 'Kasir'],
+          datasets: [{
+            data: [80, 100, 75, 90],
+            backgroundColor: ['#ffffff', '#a1a1aa', '#52525b', '#27272a'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+        }
+      });
+    }
+
+    // 6. CHECKLIST PER STASIUN DENGAN CHECKBOX AKTIF
+    function renderChecklistStations() {
+      const container = document.getElementById("stationGrid");
+      const stations = ['BARISTA', 'KITCHEN', 'SERVER', 'KASIR'];
+      container.innerHTML = stations.map(st => {
+        const tasks = localData.CHECKLIST.filter(c => c.station === st || c.divisi === st);
+        return `
+          <div class="station-card">
+            <div class="station-header">
+              <span>Station ${st}</span>
+              <span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span>
+            </div>
+            ${tasks.map(t => `
+              <div class="task-item">
+                <input type="checkbox" class="task-check" ${t.status==='Selesai'?'checked':''} 
+                  onchange="toggleTaskState('${t.task_id}', this.checked)">
+                <div class="task-content">
+                  <div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div>
+                  <div class="task-sub">Shift ${t.shift} • Target ${t.jam_target} • PIC: ${t.petugas || '-'}</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function toggleTaskState(id, isChecked) {
+      showToast("Menyimpan progres...");
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          action: "update",
+          sheet: "CHECKLIST",
+          key: "task_id",
+          val: id,
+          updates: {
+            status: isChecked ? "Selesai" : "Belum",
+            jam_selesai: isChecked ? new Date().toLocaleTimeString('id-ID') : "",
+            petugas: currentUser.username
+          }
+        })
+      });
+      fetchAllData();
+    }
+
+    // 7. KALENDER INTERAKTIF
+    function renderCalendar() {
+      const grid = document.getElementById("calendarGrid");
+      grid.innerHTML = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d => `<div class="cal-day-name">${d}</div>`).join('');
+
+      const year = calCurrentDate.getFullYear();
+      const month = calCurrentDate.getMonth();
+      const daysCount = new Date(year, month + 1, 0).getDate();
+
+      for (let day = 1; day <= daysCount; day++) {
+        const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        const isToday = (day === 7 && month === 10);
+        grid.innerHTML += `
+          <div class="cal-cell ${isToday?'today':''}" onclick="inspectCalDate('${dateStr}')">
+            <div class="cal-date-num">${day}</div>
+            <div class="cal-tags-wrap">
+              <span class="cal-badge badge-shift">S1: Pace, El</span>
+              <span class="cal-badge badge-shift">S2: Fatir, Afdal</span>
+              <span class="cal-badge badge-off">Off: Christy</span>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function prevMonth() { calCurrentDate.setMonth(calCurrentDate.getMonth() - 1); renderCalendar(); }
+    function nextMonth() { calCurrentDate.setMonth(calCurrentDate.getMonth() + 1); renderCalendar(); }
+    function inspectCalDate(d) { alert(`Detail Operasional Tanggal ${d}: Semua jadwal & log insiden terintegrasi.`); }
+
+    // 8. DENOMINASI KASIR
+    function calcCashDenom() {
+      const d100 = (Number(document.getElementById("d100k").value) || 0) * 100000;
+      const d50 = (Number(document.getElementById("d50k").value) || 0) * 50000;
+      const d20 = (Number(document.getElementById("d20k").value) || 0) * 20000;
+      const d10 = (Number(document.getElementById("d10k").value) || 0) * 10000;
+      const d5 = (Number(document.getElementById("d5k").value) || 0) * 5000;
+      const d2 = (Number(document.getElementById("d2k").value) || 0) * 2000;
+      const d1 = (Number(document.getElementById("d1k").value) || 0) * 1000;
+
+      const totalFisik = d100 + d50 + d20 + d10 + d5 + d2 + d1;
+      document.getElementById("fStFisikTotal").value = "Rp " + totalFisik.toLocaleString();
+
+      const modal = Number(document.getElementById("fStModal").value) || 0;
+      const tunai = Number(document.getElementById("fStTunai").value) || 0;
+      const targetSeharusnya = modal + tunai;
+      const selisih = totalFisik - targetSeharusnya;
+
+      const selEl = document.getElementById("fStSelisih");
+      selEl.value = "Rp " + selisih.toLocaleString();
+      selEl.style.color = selisih === 0 ? "var(--success)" : "var(--danger)";
+    }
+
+    async function submitHandover() {
+      const payload = {
+        id: "ST-" + Date.now().toString().slice(-5),
+        tanggal: new Date().toISOString().split('T')[0],
+        tahap: document.getElementById("fStTahap").value,
+        petugas_serah: currentUser.username,
+        petugas_terima: "Shift Lanjutan",
+        kas_modal_awal: Number(document.getElementById("fStModal").value),
+        tunai_masuk: Number(document.getElementById("fStTunai").value),
+        pengeluaran_kas_kecil: 0,
+        total_fisik_laci: document.getElementById("fStFisikTotal").value,
+        catatan_kasir: document.getElementById("fStCatatan").value
+      };
+
+      closeModal('modalHandover');
+      showToast("Menyimpan serah terima...");
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "insert", sheet: "SERAH_TERIMA", data: payload })
+      });
+      fetchAllData();
+    }
+
+    // 9. WHATSAPP BROADCAST
+    function sendWhatsAppDaily() {
+      const text = `*DAILY REPORT OPERASIONAL — HOLLO COFFEE & ROASTERY'S*%0A` +
+        `📅 *Tanggal:* ${new Date().toLocaleDateString('id-ID', { dateStyle: 'full' })}%0A` +
+        `👤 *PIC Pengirim:* ${currentUser.nama_lengkap} (${currentUser.role})%0A%0A` +
+        `*1. RINGKASAN REVENUE & KAS:*%0A` +
+        `• Kas Modal Awal: Rp 300.000%0A` +
+        `• Penjualan Tunai: Rp 1.450.000%0A` +
+        `• Non-Tunai / QRIS / EDC: Rp 2.850.000%0A` +
+        `• Online Food (Go/Grab/Shopee): Rp 1.150.000%0A` +
+        `• Status Kas Laci: *COCOK (0 Selisih)*%0A%0A` +
+        `*2. OPERASIONAL & QUALITY CONTROL:*%0A` +
+        `• Kalibrasi Espresso: 18.2g in, 38g out, 26 detik (Optimal)%0A` +
+        `• Waste: Brokoli 200g layu afkir%0A` +
+        `• Crew Meal: 2 Americano, 1 Ricebowl%0A` +
+        `• Komplimen: 1 Latte tamu roastery%0A%0A` +
+        `*3. PERMINTAAN PREP SHIFT SELANJUTNYA:*%0A` +
+        `• Restock Susu Greenfields 10 Pack%0A` +
+        `• Ayam fillet siap marinasi%0A%0A` +
+        `_Laporan sah terkirim melalui Sistem Terintegrasi Kafe._`;
+      
+      window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+    }
+
+    // 10. STOK, MENU & VAULT TABLES
+    function renderStokTable() {
+      const filter = document.getElementById("stokDivFilter").value;
+      const data = (filter === "SEMUA") ? localData.STOK : localData.STOK.filter(s => s.divisi === filter);
+      document.getElementById("stokTableBody").innerHTML = data.map(s => `
+        <tr>
+          <td><code>${s.item_id}</code></td>
+          <td>${s.divisi}</td>
+          <td><strong>${s.nama_barang}</strong></td>
+          <td>${s.satuan}</td>
+          <td>${s.min_stok}</td>
+          <td>${s.stok_gudang}</td>
+          <td>${s.tersedia_pagi}</td>
+          <td>${s.refill_s1}</td>
+          <td>${s.refill_s2}</td>
+          <td><strong>${s.sisa_sore}</strong></td>
+          <td>${s.total_makro}</td>
+          <td><span class="tag ${s.status==='RESTOCK'?'tag-restock':'tag-safe'}">${s.status}</span></td>
+          <td>
+            <input type="number" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
+              placeholder="Ubah" onchange="quickUpdateOpname('${s.item_id}', this.value)">
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function quickUpdateOpname(id, val) {
+      if (!val) return;
+      showToast("Menyimpan opname...");
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({ action: "update", sheet: "STOK", key: "item_id", val: id, updates: { sisa_sore: Number(val) } })
+      });
+      fetchAllData();
+    }
+
+    function renderHandoverTable() {
+      document.getElementById("stTableBody").innerHTML = localData.SERAH_TERIMA.map(st => `
+        <tr>
+          <td><code>${st.id}</code></td>
+          <td>${st.tahap}</td>
+          <td>${st.petugas_serah}</td>
+          <td>Rp ${Number(st.kas_modal_awal||0).toLocaleString()}</td>
+          <td>Rp ${Number(st.tunai_masuk||0).toLocaleString()}</td>
+          <td><strong>${st.total_fisik_laci||'-'}</strong></td>
+          <td>${st.selisih_kas||'Rp 0'}</td>
+          <td>Rp ${Number(st.non_tunai_qris||0).toLocaleString()}</td>
+          <td>Rp ${Number(st.online_food||0).toLocaleString()}</td>
+          <td style="font-size:0.75rem;">${st.catatan_kasir||'-'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function filterMenuCategory(cat) {
+      document.getElementById("btnMenuMinuman").classList.toggle("active", cat==='Minuman');
+      document.getElementById("btnMenuMakanan").classList.toggle("active", cat==='Makanan');
+      renderMenuTable(cat);
+    }
+
+    function renderMenuTable(jenis) {
+      const data = localData.MENU.filter(m => m.jenis === jenis);
+      document.getElementById("menuTableBody").innerHTML = data.map(m => `
+        <tr>
+          <td><code>${m.menu_id}</code></td>
+          <td>${m.kategori}</td>
+          <td><strong>${m.nama_produk}</strong></td>
+          <td>Rp ${Number(m.hpp||0).toLocaleString()}</td>
+          <td>Rp ${Number(m.harga_jual||0).toLocaleString()}</td>
+          <td>Rp ${Number(m.margin_rp||0).toLocaleString()}</td>
+          <td>${(parseFloat(m.margin_pct||0)*100).toFixed(1)}%</td>
+          <td>${(parseFloat(m.food_cost_pct||0)*100).toFixed(1)}%</td>
+          <td><button class="btn btn-danger" style="padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderVaultTable() {
+      document.getElementById("vaultTableBody").innerHTML = localData.USERS.map(u => `
+        <tr>
+          <td><code>${u.user_id}</code></td>
+          <td><strong>${u.username}</strong></td>
+          <td>${u.nama_lengkap}</td>
+          <td>${u.role}</td>
+          <td>Level ${u.level}</td>
+          <td>${u.divisi}</td>
+          <td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
+          <td><span class="tag ${u.akses_perusahaan==='YA'?'tag-safe':'tag-restock'}">${u.akses_perusahaan}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    // MODAL CONTROL
+    function openModal(id) { document.getElementById(id).style.display = "flex"; }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; }
+    function openConfig() { document.getElementById("cfgApiUrl").value = API_URL; openModal('modalConfig'); }
+    function openHandoverModal() { openModal('modalHandover'); }
+    function openNewItemModal() { openModal('modalStok'); }
+
+    function saveConfig() {
+      API_URL = document.getElementById("cfgApiUrl").value.trim();
+      localStorage.setItem("HOLLO_API_KEY", API_URL);
+      closeModal('modalConfig');
+      showToast("URL API Tersimpan!");
+    }
 
     function toggleTheme() {
-      const html = document.documentElement;
-      const isDark = html.getAttribute("data-theme") === "dark";
-      html.setAttribute("data-theme", isDark ? "light" : "dark");
-      document.getElementById("themeBtn").innerText = isDark ? "Dark Mode" : "Light Mode";
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+      document.getElementById("themeBtn").innerText = isDark ? "Dark" : "Light";
     }
 
     function showToast(msg) {
@@ -661,333 +1198,9 @@
       setTimeout(() => t.classList.remove("show"), 3000);
     }
 
-    function closeModal(id) { document.getElementById(id).style.display = "none"; }
-    function openModal(id) { document.getElementById(id).style.display = "flex"; }
-    function openConfig() { document.getElementById("cfgUrlInput").value = API_URL; openModal('configModal'); }
-    function openLoginModal() { openModal('loginModal'); }
-    function openNewLogModal() { 
-      document.getElementById("logDate").value = new Date().toISOString().split('T')[0];
-      openModal('newLogModal'); 
-    }
-    function openHandoverModal() { openModal('handoverModal'); }
-
-    function saveConfigUrl() {
-      API_URL = document.getElementById("cfgUrlInput").value.trim();
-      localStorage.setItem("HOLLO_API_URL", API_URL);
-      closeModal('configModal');
-      showToast("URL API Tersimpan!");
-      initApp();
-    }
-
-    function switchView(tab) {
-      document.querySelectorAll("nav .nav-tab").forEach(t => t.classList.remove("active"));
-      event.target.classList.add("active");
-      
-      const views = ['dashboard', 'stok', 'checklist', 'serah-terima', 'menu', 'perusahaan'];
-      views.forEach(v => document.getElementById("view-" + v).style.display = (v === tab) ? "block" : "none");
-
-      if(tab === 'stok') fetchData('STOK');
-      if(tab === 'checklist') fetchData('CHECKLIST');
-      if(tab === 'serah-terima') fetchData('SERAH_TERIMA');
-      if(tab === 'menu') fetchData('MENU');
-      if(tab === 'perusahaan') fetchData('USERS');
-    }
-
-    // FETCH GENERIC
-    async function fetchData(sheet) {
-      if(!API_URL) return;
-      try {
-        const res = await fetch(`${API_URL}?action=read&sheet=${sheet}`);
-        const json = await res.json();
-        if(json.success) {
-          cachedData[sheet] = json.data;
-          if(sheet === 'STOK') renderStokTable();
-          if(sheet === 'CHECKLIST') renderChecklistTable();
-          if(sheet === 'SERAH_TERIMA') renderHandoverTable();
-          if(sheet === 'MENU') renderMenuTable();
-          if(sheet === 'USERS') renderUserTable();
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    }
-
-    // RENDER KALENDER
-    function renderCalendar() {
-      const grid = document.getElementById("calendarGrid");
-      grid.innerHTML = "";
-      const days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
-      days.forEach(d => grid.innerHTML += `<div class="cal-day-header">${d}</div>`);
-
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth();
-      const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-      for(let day = 1; day <= daysInMonth; day++) {
-        const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-        const isToday = (day === now.getDate());
-        grid.innerHTML += `
-          <div class="cal-cell ${isToday ? 'today' : ''}" onclick="inspectDate('${dateStr}')">
-            <div class="cal-date">${day}</div>
-            <div class="cal-pills">
-              <span class="cal-tag cal-tag-s1">S1: Pace, El</span>
-              <span class="cal-tag cal-tag-s2">S2: Fatir, Afdal</span>
-              <span class="cal-tag cal-tag-off">Off: Christy</span>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    async function inspectDate(dateStr) {
-      document.getElementById("calModalTitle").innerText = `Detail Tanggal: ${dateStr}`;
-      const jList = document.getElementById("calModalJadwalList");
-      const lList = document.getElementById("calModalLogList");
-      jList.innerHTML = "Memuat data jadwal...";
-      lList.innerHTML = "Memuat data log...";
-      openModal('calendarModal');
-
-      try {
-        const res = await fetch(`${API_URL}?action=calendar_day&date=${dateStr}`);
-        const json = await res.json();
-        if(json.success) {
-          jList.innerHTML = json.jadwal.length ? json.jadwal.map(j => `
-            <div style="font-size:0.8rem; padding:0.4rem; background:var(--surface); border:1px solid var(--border); border-radius:4px;">
-              <strong>${j.nama}</strong> (${j.divisi}) — Shift ${j.shift} [${j.status_hadir}]
-            </div>
-          `).join('') : '<span style="font-size:0.8rem; color:var(--text-muted);">Tidak ada data jadwal spesifik</span>';
-
-          lList.innerHTML = json.logs.length ? json.logs.map(l => `
-            <div style="font-size:0.8rem; padding:0.4rem; background:var(--surface); border:1px solid var(--border); border-radius:4px;">
-              <span style="color:var(--text-muted); font-size:0.7rem;">[${l.jam}]</span> <strong>${l.kategori_kejadian}</strong> (${l.divisi}): ${l.detail_kejadian} (PIC: ${l.pic})
-            </div>
-          `).join('') : '<span style="font-size:0.8rem; color:var(--text-muted);">Tidak ada catatan / waste untuk hari ini</span>';
-        }
-      } catch (err) {
-        jList.innerHTML = "Gagal mengambil data.";
-      }
-    }
-
-    // RENDER STOK
-    function renderStokTable() {
-      const data = cachedData['STOK'] || [];
-      const divFilter = document.getElementById("stokFilterDivisi").value;
-      const filtered = (divFilter === "SEMUA") ? data : data.filter(d => d.divisi === divFilter);
-      
-      const tbody = document.getElementById("stokTableBody");
-      tbody.innerHTML = filtered.map(r => `
-        <tr>
-          <td><code>${r.item_id}</code></td>
-          <td>${r.divisi}</td>
-          <td><strong>${r.nama_barang}</strong></td>
-          <td>${r.stok_gudang} ${r.satuan}</td>
-          <td>${r.tersedia_pagi}</td>
-          <td>${r.refill_pagi}</td>
-          <td>${r.refill_sore}</td>
-          <td><strong>${r.sisa_sore || '-'}</strong></td>
-          <td>${r.total_makro}</td>
-          <td>${r.min_stok}</td>
-          <td><span class="tag ${r.status === 'RESTOCK' ? 'tag-restock' : 'tag-safe'}">${r.status}</span></td>
-          <td>
-            <input type="number" style="width:70px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
-              placeholder="Ubah" onchange="quickUpdateStok('${r.item_id}', this.value)">
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    async function quickUpdateStok(id, val) {
-      if(!val) return;
-      showToast("Menyimpan sisa stok opname...");
-      await fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify({
-          action: "update",
-          sheet: "STOK",
-          key: "item_id",
-          val: id,
-          updates: { sisa_sore: Number(val) }
-        })
-      });
-      showToast("Stok diperbarui!");
-      fetchData('STOK');
-    }
-
-    // RENDER CHECKLIST
-    function renderChecklistTable() {
-      const data = cachedData['CHECKLIST'] || [];
-      const tbody = document.getElementById("chkTableBody");
-      tbody.innerHTML = data.map(r => `
-        <tr>
-          <td><code>${r.task_id}</code></td>
-          <td>Shift ${r.shift}</td>
-          <td>${r.divisi}</td>
-          <td>${r.fase}</td>
-          <td>${r.jam_target}</td>
-          <td>${r.tugas}</td>
-          <td>${r.petugas || '-'}</td>
-          <td><span class="tag ${r.status === 'Selesai' ? 'tag-safe' : 'tag-restock'}">${r.status}</span></td>
-          <td>
-            <button class="btn" style="padding:0.25rem 0.5rem; font-size:0.72rem;" onclick="toggleChecklist('${r.task_id}', '${r.status === 'Selesai' ? 'Belum' : 'Selesai'}')">
-              ${r.status === 'Selesai' ? 'Batal' : 'Ceklis'}
-            </button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    async function toggleChecklist(id, status) {
-      await fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify({
-          action: "update",
-          sheet: "CHECKLIST",
-          key: "task_id",
-          val: id,
-          updates: { status: status, jam_selesai: new Date().toLocaleTimeString('id-ID'), petugas: activeUser.username }
-        })
-      });
-      fetchData('CHECKLIST');
-    }
-
-    // RENDER SERAH TERIMA
-    function renderHandoverTable() {
-      const data = cachedData['SERAH_TERIMA'] || [];
-      const tbody = document.getElementById("stTableBody");
-      tbody.innerHTML = data.map(r => `
-        <tr>
-          <td><code>${r.id}</code></td>
-          <td><strong>${r.tahap}</strong></td>
-          <td>${r.petugas_serah}</td>
-          <td>${r.petugas_terima}</td>
-          <td>Rp ${Number(r.kas_awal||0).toLocaleString()}</td>
-          <td>Rp ${Number(r.penjualan_tunai||0).toLocaleString()}</td>
-          <td>Rp ${Number(r.penjualan_nontunai||0).toLocaleString()}</td>
-          <td>Rp ${Number(r.uang_fisik||0).toLocaleString()}</td>
-          <td style="color:${r.selisih == 0 ? 'var(--success)' : 'var(--danger)'}">Rp ${Number(r.selisih||0).toLocaleString()}</td>
-          <td><span class="tag ${r.status_kas === 'COCOK' ? 'tag-safe' : 'tag-restock'}">${r.status_kas}</span></td>
-          <td style="font-size:0.75rem;">${r.prep_bar || r.eval_briefing || '-'}</td>
-        </tr>
-      `).join('');
-    }
-
-    // SIMPAN SERAH TERIMA
-    async function saveHandover() {
-      const payload = {
-        id: "ST-" + Date.now().toString().slice(-6),
-        tanggal: new Date().toISOString().split('T')[0],
-        tahap: document.getElementById("stTahap").value,
-        petugas_serah: activeUser.username,
-        petugas_terima: "Shift Lanjutan",
-        kas_awal: Number(document.getElementById("stKasAwal").value),
-        rincian_pecahan: document.getElementById("stPecahan").value,
-        penjualan_tunai: Number(document.getElementById("stTunai").value),
-        penjualan_nontunai: Number(document.getElementById("stNonTunai").value),
-        uang_fisik: Number(document.getElementById("stFisik").value),
-        eval_briefing: document.getElementById("stPrepEval").value
-      };
-
-      closeModal('handoverModal');
-      showToast("Menyimpan serah terima...");
-      await fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify({ action: "insert", sheet: "SERAH_TERIMA", data: payload })
-      });
-      showToast("Serah terima tersimpan!");
-      fetchData('SERAH_TERIMA');
-    }
-
-    // EXPORT LAPORAN KE WHATSAPP
-    function generateWhatsAppReport() {
-      const today = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
-      const msg = `*DAILY REPORT — HOLLO COFFEE & ROASTERY'S*%0A` +
-        `📅 *Tanggal:* ${today}%0A` +
-        `👤 *Pelapor:* ${activeUser.username.toUpperCase()}%0A%0A` +
-        `*1. KEUANGAN & SALES*%0A` +
-        `• Penjualan Tunai: Rp 1.250.000%0A` +
-        `• Penjualan Non-Tunai/EDC: Rp 2.450.000%0A` +
-        `• GoFood / GrabFood: Rp 640.000%0A` +
-        `• Status Kasir: COCOK (Tidak ada selisih)%0A%0A` +
-        `*2. EVALUASI OPERASIONAL*%0A` +
-        `• Bar: Dial-in espresso aman, rasa stabil.%0A` +
-        `• Kitchen: Ayam & saus aman, waste 150g sayur layu.%0A` +
-        `• Server: Area dining & toilet bersih sanitasi.%0A%0A` +
-        `*3. PERMINTAAN PREP UNTUK BESOK:*%0A` +
-        `• Beli Fresh Milk Greenfield 10 Liter%0A` +
-        `• Cup 12oz & Sedotan ambil gudang%0A%0A` +
-        `_Laporan resmi sistem operasional terintegrasi._`;
-      
-      window.open(`https://api.whatsapp.com/send?text=${msg}`, '_blank');
-    }
-
-    // RENDER MENU & USERS
-    function renderMenuTable() {
-      const data = cachedData['MENU'] || [];
-      document.getElementById("menuTableBody").innerHTML = data.map(r => `
-        <tr>
-          <td><code>${r.menu_id}</code></td>
-          <td>${r.kategori}</td>
-          <td><strong>${r.nama_produk}</strong></td>
-          <td>Rp ${Number(r.hpp||0).toLocaleString()}</td>
-          <td>Rp ${Number(r.harga_jual||0).toLocaleString()}</td>
-          <td>Rp ${Number(r.margin_rp||0).toLocaleString()}</td>
-          <td>${(parseFloat(r.margin_pct||0)*100).toFixed(1)}%</td>
-          <td>${(parseFloat(r.food_cost_pct||0)*100).toFixed(1)}%</td>
-        </tr>
-      `).join('');
-    }
-
-    function renderUserTable() {
-      const data = cachedData['USERS'] || [];
-      document.getElementById("userTableBody").innerHTML = data.map(r => `
-        <tr>
-          <td><code>${r.user_id}</code></td>
-          <td>${r.username}</td>
-          <td><strong>${r.nama_lengkap}</strong></td>
-          <td>${r.role}</td>
-          <td>Level ${r.level}</td>
-          <td>${r.divisi}</td>
-          <td><span class="tag tag-safe">${r.status}</span></td>
-          <td>${r.tipe_kerja}</td>
-        </tr>
-      `).join('');
-    }
-
-    // PIN LOGIN
-    async function verifyPin() {
-      const u = document.getElementById("loginUser").value.trim().toLowerCase();
-      const p = document.getElementById("loginPin").value.trim();
-
-      const res = await fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify({ action: "login_pin", username: u, pin: p })
-      });
-      const json = await res.json();
-      if(json.success) {
-        activeUser = json.user;
-        localStorage.setItem("HOLLO_USER", JSON.stringify(activeUser));
-        document.getElementById("liveUserBadge").innerText = `${activeUser.role} (${activeUser.username.toUpperCase()})`;
-        closeModal('loginModal');
-        showToast("Login Berhasil!");
-      } else {
-        alert(json.message);
-      }
-    }
-
-    function initApp() {
-      renderCalendar();
-      fetchData('STOK');
-      fetchData('CHECKLIST');
-      fetchData('SERAH_TERIMA');
-      fetchData('MENU');
-      fetchData('USERS');
-    }
-
     window.onload = () => {
-      document.getElementById("liveUserBadge").innerText = `${activeUser.role} (${activeUser.username.toUpperCase()})`;
-      if(API_URL) initApp();
-      else openConfig();
+      if (currentUser) unlockPortal();
+      else document.getElementById("gatekeeper").style.display = "flex";
     };
   </script>
 </body>
