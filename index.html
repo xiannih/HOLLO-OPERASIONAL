@@ -98,18 +98,24 @@
 </head>
 <body>
 
-  <!-- GATEKEEPER (LOGIN PERMANEN OTOMATIS) -->
+  <!-- 1. GATEKEEPER LOCK SCREEN (DENGAN TOMBOL UPDATE URL OPSIONAL) -->
   <div id="gatekeeper">
     <div class="lock-card">
       <div class="lock-title">HOLLO COFFEE & ROASTERY'S</div>
       <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1.5rem;">Executive Operations & Control Suite</div>
-      <div class="form-group"><label>Username</label><input type="text" id="loginUser" placeholder="Masukkan username"></div>
-      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" placeholder="••••" maxlength="6" style="letter-spacing:0.35em; font-size:1.15rem; text-align:center;"></div>
+      <div class="form-group"><label>Username</label><input type="text" id="loginUser" placeholder="Masukkan username" value="boy"></div>
+      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" placeholder="••••" maxlength="6" value="0000" style="letter-spacing:0.35em; font-size:1.15rem; text-align:center;"></div>
       <button class="btn btn-solid" style="width:100%; justify-content:center; padding:0.75rem; margin-top:0.4rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
+      
+      <div style="margin-top:1.25rem;">
+        <button class="btn" style="border:none; font-size:0.7rem; color:var(--text-muted); background:transparent;" onclick="updateWebhookPrompt()">
+          ⚙ Ganti URL Webhook Apps Script
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- HEADER -->
+  <!-- 2. PORTAL HEADER -->
   <header>
     <div class="brand-wrap">
       <div class="brand-title">HOLLO COFFEE</div>
@@ -123,7 +129,7 @@
     </div>
   </header>
 
-  <!-- NAV -->
+  <!-- 3. NAVIGATION -->
   <nav>
     <div class="nav-tab active" onclick="switchView('dashboard')">Dashboard</div>
     <div class="nav-tab" onclick="switchView('kalender')">Kalender & Roster</div>
@@ -135,28 +141,28 @@
     <div class="nav-tab" id="tabPerusahaan" style="display:none;" onclick="switchView('perusahaan')">Data Perusahaan</div>
   </nav>
 
-  <!-- MAIN -->
+  <!-- 4. MAIN CONTAINER -->
   <main>
     <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
       <div class="kpi-grid">
-        <div class="card"><div class="card-title">Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">Target: Rp 150.000.000</div></div>
-        <div class="card"><div class="card-title">Penjualan Hari Ini (Omset)</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.7rem; color:var(--success); margin-top:0.2rem;">Tunai + QRIS + Online</div></div>
-        <div class="card"><div class="card-title">Stok Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">Di bawah batas minimum</div></div>
-        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">Seluruh Stasiun Kerja</div></div>
+        <div class="card"><div class="card-title">Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Target: Rp 150.000.000</div></div>
+        <div class="card"><div class="card-title">Total Penjualan Hari Ini (Omset)</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.72rem; color:var(--success); margin-top:0.25rem;">Tunai + QRIS + Online</div></div>
+        <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Di bawah batas minimum</div></div>
+        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Seluruh Stasiun Kerja</div></div>
       </div>
       <div class="charts-grid">
-        <div class="card"><div class="card-title">Penjualan Saluran Pembayaran</div><canvas id="chartSales" style="max-height:240px; margin-top:0.5rem;"></canvas></div>
-        <div class="card"><div class="card-title">Progres Checklist Stasiun</div><canvas id="chartChecklist" style="max-height:240px; margin-top:0.5rem;"></canvas></div>
+        <div class="card"><div class="card-title">Breakdown Penjualan Saluran Pembayaran</div><canvas id="chartSales" style="max-height:250px; margin-top:0.75rem;"></canvas></div>
+        <div class="card"><div class="card-title">Progres Checklist Stasiun</div><canvas id="chartChecklist" style="max-height:250px; margin-top:0.75rem;"></canvas></div>
       </div>
     </section>
 
     <!-- VIEW 2: KALENDER -->
     <section id="view-kalender" style="display:none;">
-      <div class="card">
+      <div class="card" style="margin-bottom:1.5rem;">
         <div class="cal-header-bar">
-          <div style="display:flex; align-items:center; gap:0.4rem;">
-            <h3 id="calMonthTitle" style="font-family:'Space Grotesk',sans-serif;">November 2026</h3>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <h3 id="calMonthTitle" style="font-family:'Space Grotesk', sans-serif;">November 2026</h3>
             <button class="btn" onclick="changeMonth(-1)">◀</button><button class="btn" onclick="changeMonth(1)">▶</button>
           </div>
           <div style="display:flex; gap:0.4rem;">
@@ -170,7 +176,7 @@
 
     <!-- VIEW 3: CHECKLIST -->
     <section id="view-checklist" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <h3>Checklist Shift Harian per Stasiun</h3>
         <button class="btn btn-solid" onclick="openNewTaskModal()">+ Buat Tugas Baru</button>
       </div>
@@ -179,10 +185,10 @@
 
     <!-- VIEW 4: INVENTARIS STOK (19 KOLOM LENGKAP BISA DIEDIT SEMUA) -->
     <section id="view-stok" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
-        <div><h3>Stok Inventaris Mikro, Makro & Opname 2 Shift</h3><p style="font-size:0.72rem; color:var(--text-muted);">Barang Masuk otomatis menambah Gudang (Makro). Waste/Kalibrasi memotong Stasiun (Mikro).</p></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+        <div><h3>Stok Inventaris Mikro, Makro & Opname 2 Shift</h3><p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Barang Masuk otomatis menambah Gudang (Makro). Waste/Kalibrasi memotong Stasiun (Mikro).</p></div>
         <div style="display:flex; gap:0.4rem;">
-          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.35rem 0.6rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.75rem;">
+          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem 0.6rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.78rem;">
             <option value="SEMUA">Semua Divisi</option><option value="BARISTA">Barista</option><option value="KITCHEN">Kitchen</option><option value="SERVER">Server</option>
           </select>
           <button class="btn btn-solid" onclick="openNewStokModal()">+ Tambah Barang Baru</button>
@@ -200,8 +206,8 @@
 
     <!-- VIEW 5: SERAH TERIMA -->
     <section id="view-serah-terima" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
-        <div><h3>Serah Terima Kasir & Rekap Kas Laci (Sistem Imprest)</h3><p style="font-size:0.72rem; color:var(--text-muted);">Modal kasir selalu tinggal di laci. Penjualan tunai bersih ditarik ke amplop setoran.</p></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+        <div><h3>Serah Terima Kasir & Rekap Kas Laci (Sistem Imprest)</h3><p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Modal kasir selalu tinggal di laci. Penjualan tunai bersih ditarik ke amplop setoran.</p></div>
         <button class="btn btn-solid" onclick="openNewHandoverModal()">+ Form Serah Terima Shift</button>
       </div>
       <div class="table-card">
@@ -216,8 +222,8 @@
 
     <!-- VIEW 6: DAILY REPORT -->
     <section id="view-daily-report" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
-        <div><h3>Daily Report & Evaluasi Operasional</h3><p style="font-size:0.72rem; color:var(--text-muted);">Konsolidasi omset, pengeluaran kas kecil, waste, kalibrasi & briefing.</p></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+        <div><h3>Daily Report & Evaluasi Operasional</h3><p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Konsolidasi lengkap seluruh data kasir, pengeluaran kas kecil, waste, kalibrasi & briefing.</p></div>
         <div style="display:flex; gap:0.4rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
           <button class="btn btn-solid" onclick="openNewDailyReportModal()">+ Simpan Report Hari Ini</button>
@@ -235,7 +241,7 @@
 
     <!-- VIEW 7: MENU -->
     <section id="view-menu" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div style="display:flex; gap:0.4rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
         <button class="btn btn-solid" onclick="openNewMenuModal()">+ Tambah Menu Baru</button>
       </div>
@@ -251,8 +257,8 @@
 
     <!-- VIEW 8: DATA PERUSAHAAN -->
     <section id="view-perusahaan" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
-        <div><h3>Data Perusahaan & Master Vault Karyawan</h3><p style="font-size:0.72rem; color:var(--text-muted);">Terkunci khusus Level >= 4. PIN dan akun dikelola dari sini.</p></div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+        <div><h3>Data Perusahaan & Master Vault Karyawan</h3><p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Terkunci khusus Level >= 4. PIN dan akun dikelola dari sini.</p></div>
         <button class="btn btn-solid" onclick="openNewUserModal()">+ Tambah Karyawan Baru</button>
       </div>
       <div class="table-card">
@@ -268,7 +274,7 @@
 
   <!-- ==================== MODALS ==================== -->
 
-  <!-- MODAL: DAY INSPECTOR -->
+  <!-- MODAL: DETAIL TANGGAL KALENDER -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
       <h3 id="inspectDateTitle" style="margin-bottom:0.8rem; font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
@@ -306,22 +312,20 @@
     </div>
   </div>
 
-  <!-- MODAL: LOG KALENDER (HANYA WASTE & RESTOCK YANG TERKUNCI STOK, SISANYA BEBAS) -->
+  <!-- MODAL: LOG KALENDER (WASTE & BARANG MASUK TERKONEKSI STOK) -->
   <div class="modal-backdrop" id="modalLog">
     <div class="modal">
       <h3 id="modalLogTitle" style="margin-bottom:0.8rem;">Catat Log, Waste, Insiden & Rencana</h3>
       <input type="hidden" id="fLogEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Tanggal</label><input type="date" id="fLogTanggal"></div>
-        <div class="form-group"><label>Jam Waktu</label><input type="time" id="fLogJam"></div>
+        <div class="form-group"><label>Pilih Tanggal</label><input type="date" id="fLogTanggal"></div>
+        <div class="form-group"><label>Pilih Jam Waktu</label><input type="time" id="fLogJam"></div>
       </div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogItemDropdown()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
         <div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1 (Siang)</option><option value="2">Shift 2 (Malam)</option></select></div>
         <div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"><option value="Waste Bahan (Afkir / Kalibrasi)">Waste Bahan (Afkir / Kalibrasi)</option><option value="Barang Masuk (Restock)">Barang Masuk (Restock)</option><option value="Insiden Kerusakan Alat">Insiden Kerusakan Alat</option><option value="Rencana Mendatang">Rencana Mendatang</option><option value="Catatan Susulan Masa Lalu">Catatan Susulan Masa Lalu</option><option value="Lainnya">Lainnya</option></select></div>
       </div>
-
-      <!-- BAGIAN YANG HANYA MUNCUL UNTUK WASTE & BARANG MASUK -->
       <div id="fLogStockSection">
         <div class="form-group"><label>Pilih Bahan dari Stok</label><select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select></div>
         <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem;">
@@ -330,12 +334,9 @@
         </div>
         <div class="calc-box" id="logEffectBox" style="border-left: 3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis mengurangi Stok Stasiun (Mikro).</span></div>
       </div>
-
-      <!-- BAGIAN BEBAS UNTUK INSIDEN, RENCANA, DLL (TIDAK TERKUNCI STOK) -->
       <div id="fLogNonStockSection" style="display:none;">
         <div class="form-group"><label>Nama Alat / Agenda Terkait</label><input type="text" id="fLogItemManual" placeholder="Contoh: Grinder Eureka / Kompor Burner / Servis AC"></div>
       </div>
-
       <div class="form-group"><label>Keterangan Detail Kejadian</label><textarea id="fLogDetail" rows="3" placeholder="Tuliskan keterangan detail kejadian..."></textarea></div>
       <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan Log</button></div>
     </div>
@@ -359,7 +360,7 @@
     </div>
   </div>
 
-  <!-- MODAL: KELOLA BARANG INVENTARIS (BISA EDIT SEMUA KOLOM) -->
+  <!-- MODAL: KELOLA BARANG INVENTARIS LENGKAP -->
   <div class="modal-backdrop" id="modalStok">
     <div class="modal">
       <h3 id="modalStokTitle" style="margin-bottom:0.8rem;">Kelola Barang Inventaris</h3>
@@ -535,10 +536,12 @@
   <div id="toast">Notifikasi</div>
 
   <script>
-    // URL WEBHOOK PERMANEN OTOMATIS (DIPASANG LANGSUNG DARI URL ANDA)
-    const API_URL = "https://script.google.com/macros/s/AKfycbxOzFp9buCLwaRFUZBYlkKFUa8e0lz7k1FXSspXB7GrI5NzSpe3B-Q2kiiCggAcr8S8/exec";
+    // URL WEBHOOK RESMI ANDA (SUDAH DITANAM SECARA OTOMATIS)
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbzqxkBTLAc9wcH7HORkzAg-aTgJIPhgCY81CtTswyFjg5UO0yjG5U_vOgawW8-NqQjb/exec";
+    const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
+    let API_URL = localStorage.getItem(STORAGE_KEY_URL) || HARDCODED_API_URL;
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
     
@@ -566,10 +569,29 @@
     function formatLiveRupiahInput(input) { const val = cleanMoney(input.value); if(val === 0 && input.value.trim() === '') return; input.value = Math.round(val).toLocaleString('id-ID'); }
     function cleanPercent(val) { if(!val) return "0.0%"; if(typeof val === 'string' && val.includes('%')) return val; const num = parseFloat(val); return (num <= 1 ? num * 100 : num).toFixed(1) + "%"; }
 
+    function updateWebhookPrompt() {
+      const newUrl = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
+      if (newUrl && newUrl.trim() !== "") {
+        API_URL = newUrl.trim();
+        localStorage.setItem(STORAGE_KEY_URL, API_URL);
+        showToast("URL Webhook diperbarui!");
+      }
+    }
+
+    // LOGIN SUPERADMIN DENGAN SISTEM ANTI-LOCKOUT
     async function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
+
+      // SISTEM ANTI-LOCKOUT SUPERADMIN: BOY / 0000 SELALU BISA MASUK
+      if (u === "boy" && p === "0000") {
+        currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA" };
+        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+        unlockPortal();
+        showToast("Selamat datang, Superadmin!");
+        return;
+      }
 
       showToast("Memverifikasi...");
       try {
@@ -822,6 +844,7 @@
       await fetchAllData(); renderCalendar();
     }
 
+    // SUBMIT LOG DENGAN MUTASI OTOMATIS GUDANG / MIKRO
     async function submitLogForm() {
       const editId = document.getElementById("fLogEditId").value, kat = document.getElementById("fLogKategori").value;
       const itemSelect = document.getElementById("fLogItemSelect");
@@ -836,9 +859,15 @@
         divisi: document.getElementById("fLogDivisi").value, kategori: kat, item_terkait: itemName, item_id: itemId, jumlah_angka: jumlah, satuan: satuan,
         detail: document.getElementById("fLogDetail").value, pic: currentUser.username, tindak_lanjut: "Tercatat & Terkoneksi Stok"
       };
+
       closeModal('modalLog'); showToast("Menyimpan log & update stok...");
-      if(editId) await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
-      else { payload.log_id = "LOG-" + Date.now().toString().slice(-5); await postToGas("insert", "LOG_KALENDER", payload); }
+
+      if(editId) {
+        await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
+      } else {
+        payload.log_id = "LOG-" + Date.now().toString().slice(-5);
+        await postToGas("insert", "LOG_KALENDER", payload);
+      }
 
       if (itemId) {
         const itemStok = (localData.STOK || []).find(s => s.item_id === itemId);
@@ -854,9 +883,11 @@
           }
         }
       }
+
       await fetchAllData(); renderCalendar(); showToast("Stok otomatis tersinkronisasi!");
     }
 
+    // CHECKLIST
     function renderChecklistStations() {
       const container = document.getElementById("stationGrid");
       const stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
