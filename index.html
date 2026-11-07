@@ -4,144 +4,89 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>HOLLO COFFEE & ROASTERY'S — Executive F&B Portal</title>
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <style>
     :root {
-      --bg: #09090b;
-      --surface: #121215;
-      --surface-elevated: #1a1a20;
-      --border: #27272a;
-      --border-subtle: #1e1e24;
-      --text: #f4f4f5;
-      --text-muted: #a1a1aa;
-      --accent: #ffffff;
-      --accent-invert: #000000;
-      --danger: #ef4444;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --radius: 10px;
-      --radius-sm: 6px;
-      --transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      --bg: #09090b; --surface: #121215; --surface-elevated: #1a1a20; --border: #27272a; --border-subtle: #1e1e24;
+      --text: #f4f4f5; --text-muted: #a1a1aa; --accent: #ffffff; --accent-invert: #000000;
+      --danger: #ef4444; --success: #10b981; --warning: #f59e0b; --radius: 10px; --radius-sm: 6px;
     }
     [data-theme="light"] {
-      --bg: #f4f4f5;
-      --surface: #ffffff;
-      --surface-elevated: #f1f3f5;
-      --border: #e4e4e7;
-      --border-subtle: #ebebef;
-      --text: #09090b;
-      --text-muted: #71717a;
-      --accent: #000000;
-      --accent-invert: #ffffff;
-      --danger: #dc2626;
-      --success: #059669;
-      --warning: #d97706;
+      --bg: #f4f4f5; --surface: #ffffff; --surface-elevated: #f1f3f5; --border: #e4e4e7; --border-subtle: #ebebef;
+      --text: #09090b; --text-muted: #71717a; --accent: #000000; --accent-invert: #ffffff; --danger: #dc2626; --success: #059669; --warning: #d97706;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
-    html, body { width: 100%; max-width: 100vw; overflow-x: hidden; background-color: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; transition: var(--transition); }
-
-    #gatekeeper { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1.25rem; }
-    .lock-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.25rem 1.75rem; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-    .lock-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.25rem; }
-    .lock-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; }
-
-    header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-    .brand-wrap { display: flex; align-items: center; gap: 0.6rem; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
+    html, body { width: 100%; max-width: 100vw; overflow-x: hidden; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+    #gatekeeper { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; }
+    .lock-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem 1.5rem; width: 100%; max-width: 380px; text-align: center; }
+    header { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
     .brand-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; text-transform: uppercase; }
-
     .live-clock-pill { display: flex; align-items: center; gap: 0.4rem; background: var(--surface-elevated); border: 1px solid var(--border); padding: 0.25rem 0.55rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; }
     .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
-
-    .btn { padding: 0.45rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text); transition: var(--transition); display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap; }
-    .btn:hover { background: var(--surface-elevated); border-color: var(--text-muted); }
+    .btn { padding: 0.45rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: inline-flex; align-items: center; gap: 0.35rem; }
+    .btn:hover { background: var(--surface-elevated); }
     .btn-solid { background: var(--accent); color: var(--accent-invert); border-color: var(--accent); }
     .btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
     .btn-wa { background: #25D366; color: #fff; border-color: #25D366; }
-
-    nav { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 0.25rem; padding: 0.25rem 1rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+    nav { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 0.25rem; padding: 0.25rem 1rem; overflow-x: auto; scrollbar-width: none; }
     nav::-webkit-scrollbar { display: none; }
-    .nav-tab { padding: 0.7rem 1rem; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; transition: var(--transition); white-space: nowrap; }
+    .nav-tab { padding: 0.65rem 0.95rem; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
     .nav-tab.active { color: var(--text); border-color: var(--accent); font-weight: 600; }
-
-    main { padding: 1.25rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
-
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
+    main { padding: 1.25rem 1rem; max-width: 1400px; margin: 0 auto; width: 100%; flex: 1; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; }
     .card-title { font-size: 0.72rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.3rem; }
-    .card-val { font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
-
-    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    .card-val { font-size: 1.45rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
+    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.25rem; }
     .cal-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.35rem; }
     .cal-day-name { text-align: center; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); padding-bottom: 0.4rem; text-transform: uppercase; }
-
-    .cal-cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); min-height: 85px; padding: 0.5rem 0.4rem; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; transition: var(--transition); }
+    .cal-cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); min-height: 85px; padding: 0.5rem 0.4rem; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
     .cal-cell:hover { border-color: var(--accent); background: var(--surface-elevated); }
-    .cal-cell.today { border: 2px solid var(--accent); background: var(--surface-elevated); }
     .cal-date-num { font-weight: 700; font-size: 0.82rem; }
     .cal-tags-wrap { display: flex; flex-direction: column; gap: 0.15rem; margin-top: 0.25rem; }
     .cal-badge { font-size: 0.62rem; padding: 0.12rem 0.25rem; border-radius: 3px; font-weight: 600; }
     .badge-shift { background: rgba(255,255,255,0.08); color: var(--text); }
     .badge-off { background: rgba(239,68,68,0.15); color: var(--danger); }
     .badge-log { background: rgba(245,158,11,0.15); color: var(--warning); }
-
     .station-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; }
     .station-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; display: flex; flex-direction: column; gap: 0.65rem; }
-    .station-header { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.45rem; display: flex; justify-content: space-between; align-items: center; }
-
+    .station-header { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.45rem; display: flex; justify-content: space-between; }
     .task-item { display: flex; align-items: flex-start; gap: 0.65rem; padding: 0.45rem 0; border-bottom: 1px solid var(--border-subtle); }
     .task-check { margin-top: 0.15rem; width: 17px; height: 17px; cursor: pointer; accent-color: var(--accent); }
     .task-content { flex: 1; font-size: 0.8rem; }
     .task-sub { font-size: 0.68rem; color: var(--text-muted); margin-top: 0.15rem; }
-
-    .table-card { width: 100%; max-width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-card { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch; }
     table { width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; }
-    th { background: var(--surface-elevated); color: var(--text-muted); padding: 0.75rem 0.85rem; font-size: 0.72rem; text-transform: uppercase; font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    td { padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; white-space: nowrap; }
+    th { background: var(--surface-elevated); color: var(--text-muted); padding: 0.7rem 0.8rem; font-size: 0.72rem; text-transform: uppercase; font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; white-space: nowrap; }
     tr:hover td { background: var(--surface-elevated); }
-
     .tag { padding: 0.18rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; }
     .tag-restock { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
     .tag-safe { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
-
     .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 99999; padding: 0.75rem; }
-    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-
-    .form-group { margin-bottom: 0.85rem; text-align: left; }
-    .form-group label { display: block; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 600; text-transform: uppercase; }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 0.6rem 0.75rem;
-      border-radius: var(--radius-sm);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-      outline: none;
-      font-size: 0.82rem;
-    }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; }
+    .form-group { margin-bottom: 0.75rem; text-align: left; }
+    .form-group label { display: block; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600; text-transform: uppercase; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.55rem 0.7rem; border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border); color: var(--text); outline: none; font-size: 0.82rem; }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
-
-    .section-title-box { background: var(--surface-elevated); border-left: 3px solid var(--accent); padding: 0.35rem 0.55rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin: 1rem 0 0.65rem 0; }
-    .calc-explain-box { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.65rem; margin-bottom: 0.85rem; font-size: 0.75rem; }
+    .section-title { background: var(--surface-elevated); border-left: 3px solid var(--accent); padding: 0.35rem 0.55rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin: 0.85rem 0 0.55rem 0; }
+    .calc-box { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem; margin-bottom: 0.75rem; font-size: 0.75rem; }
     .calc-row { display: flex; justify-content: space-between; margin-bottom: 0.2rem; }
     .calc-row.total { font-weight: 700; border-top: 1px solid var(--border); padding-top: 0.3rem; margin-top: 0.3rem; }
-
-    #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.65rem 1.15rem; background: var(--accent); color: var(--accent-invert); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; opacity: 0; pointer-events: none; transition: var(--transition); z-index: 100000; }
+    #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.65rem 1.15rem; background: var(--accent); color: var(--accent-invert); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.2s; z-index: 100000; }
     #toast.show { opacity: 1; transform: translateY(-5px); }
-
     @media (max-width: 768px) {
-      header { padding: 0.65rem 1rem; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+      header { padding: 0.65rem 0.75rem; flex-direction: column; gap: 0.4rem; align-items: flex-start; }
       .brand-wrap { width: 100%; justify-content: space-between; }
       main { padding: 0.75rem; }
-      .modal { padding: 1.15rem; max-width: 96%; }
+      .modal { padding: 1rem; max-width: 96%; }
       .modal div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
       .kpi-grid, .charts-grid { grid-template-columns: 1fr; }
-      .cal-cell { min-height: 65px; padding: 0.35rem 0.2rem; }
+      .cal-cell { min-height: 65px; padding: 0.3rem 0.2rem; }
       .cal-tags-wrap { display: none; }
       .cal-date-num { font-size: 0.75rem; text-align: center; }
       .cal-cell.has-data::after { content: "•"; color: var(--warning); font-size: 1.2rem; text-align: center; line-height: 0.5; }
@@ -150,37 +95,24 @@
 </head>
 <body>
 
-  <!-- 1. GATEKEEPER LOCK SCREEN -->
+  <!-- GATEKEEPER -->
   <div id="gatekeeper">
     <div class="lock-card">
       <div class="lock-title">HOLLO COFFEE & ROASTERY'S</div>
-      <div class="lock-sub">Executive Operations & Control Suite</div>
-      <div class="form-group">
-        <label>USERNAME</label>
-        <input type="text" id="loginUser" placeholder="Masukkan username">
-      </div>
-      <div class="form-group">
-        <label>PIN AKSES (4 DIGIT)</label>
-        <input type="password" id="loginPin" placeholder="••••" maxlength="6" style="letter-spacing: 0.4em; font-size: 1.2rem; text-align: center;">
-      </div>
-      <button class="btn btn-solid" style="width: 100%; justify-content: center; padding: 0.75rem; margin-top: 0.5rem;" onclick="handlePinLogin()">
-        Buka Akses Sistem
-      </button>
+      <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1.25rem;">Executive Operations & Control Suite</div>
+      <div class="form-group"><label>Username</label><input type="text" id="loginUser" placeholder="Masukkan username"></div>
+      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" placeholder="••••" maxlength="6" style="letter-spacing:0.3em; font-size:1.15rem; text-align:center;"></div>
+      <button class="btn btn-solid" style="width:100%; justify-content:center; padding:0.75rem; margin-top:0.4rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
     </div>
   </div>
 
-  <!-- 2. PORTAL HEADER -->
+  <!-- HEADER -->
   <header>
     <div class="brand-wrap">
       <div class="brand-title">HOLLO COFFEE</div>
-      <div class="live-clock-pill">
-        <div class="live-dot"></div>
-        <span id="liveClock">00:00:00</span>
-        <span style="opacity: 0.5;">|</span>
-        <span id="liveShiftIndicator">SHIFT 1 (PREP)</span>
-      </div>
+      <div class="live-clock-pill"><div class="live-dot"></div><span id="liveClock">00:00:00</span><span style="opacity:0.4;">|</span><span id="liveShiftIndicator">SHIFT 1 (PREP)</span></div>
     </div>
-    <div style="display:flex; gap:0.4rem; align-items:center; width:100%; justify-content:flex-end; flex-wrap:wrap;">
+    <div style="display:flex; gap:0.4rem; align-items:center;">
       <button class="btn" onclick="refreshAllData()">↻ Refresh</button>
       <button class="btn" id="themeBtn" onclick="toggleTheme()">Light</button>
       <span class="btn" style="border:none; font-size:0.75rem;" id="userNameBadge">STAFF</span>
@@ -188,7 +120,7 @@
     </div>
   </header>
 
-  <!-- 3. NAVIGATION -->
+  <!-- NAV -->
   <nav>
     <div class="nav-tab active" onclick="switchView('dashboard')">Dashboard</div>
     <div class="nav-tab" onclick="switchView('kalender')">Kalender & Roster</div>
@@ -200,56 +132,33 @@
     <div class="nav-tab" id="tabPerusahaan" style="display:none;" onclick="switchView('perusahaan')">Data Perusahaan</div>
   </nav>
 
-  <!-- 4. MAIN CONTAINER -->
+  <!-- MAIN VIEW -->
   <main>
     <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
       <div class="kpi-grid">
-        <div class="card">
-          <div class="card-title">Capaian Target MTD</div>
-          <div class="card-val" id="kpiTargetMtd">Rp 0</div>
-          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Target Bulanan: Rp 150.000.000</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Total Penjualan Hari Ini (Omset)</div>
-          <div class="card-val" id="kpiSalesToday">Rp 0</div>
-          <div style="font-size:0.72rem; color:var(--success); margin-top:0.25rem;">Tunai + QRIS/EDC + Online</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Stok Perlu Restock</div>
-          <div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div>
-          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Di bawah batas minimum</div>
-        </div>
-        <div class="card">
-          <div class="card-title">Checklist Selesai</div>
-          <div class="card-val" id="kpiChecklistProgress">0%</div>
-          <div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Seluruh Stasiun Kerja</div>
-        </div>
+        <div class="card"><div class="card-title">Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">Target: Rp 150.000.000</div></div>
+        <div class="card"><div class="card-title">Penjualan Hari Ini (Omset)</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.7rem; color:var(--success); margin-top:0.2rem;">Tunai + QRIS + Online</div></div>
+        <div class="card"><div class="card-title">Stok Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">Di bawah batas minimum</div></div>
+        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.7rem; color:var(--text-muted); margin-top:0.2rem;">Seluruh Stasiun Kerja</div></div>
       </div>
       <div class="charts-grid">
-        <div class="card">
-          <div class="card-title">Breakdown Penjualan Saluran Pembayaran</div>
-          <canvas id="chartSales" style="max-height: 250px; margin-top: 0.75rem;"></canvas>
-        </div>
-        <div class="card">
-          <div class="card-title">Progres Checklist Stasiun</div>
-          <canvas id="chartChecklist" style="max-height: 250px; margin-top: 0.75rem;"></canvas>
-        </div>
+        <div class="card"><div class="card-title">Penjualan Saluran Pembayaran</div><canvas id="chartSales" style="max-height:240px; margin-top:0.5rem;"></canvas></div>
+        <div class="card"><div class="card-title">Progres Checklist Stasiun</div><canvas id="chartChecklist" style="max-height:240px; margin-top:0.5rem;"></canvas></div>
       </div>
     </section>
 
     <!-- VIEW 2: KALENDER -->
     <section id="view-kalender" style="display:none;">
-      <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card">
         <div class="cal-header-bar">
-          <div style="display:flex; align-items:center; gap:0.5rem;">
-            <h3 id="calMonthTitle" style="font-family:'Space Grotesk', sans-serif;">November 2026</h3>
-            <button class="btn" onclick="changeMonth(-1)">◀</button>
-            <button class="btn" onclick="changeMonth(1)">▶</button>
+          <div style="display:flex; align-items:center; gap:0.4rem;">
+            <h3 id="calMonthTitle" style="font-family:'Space Grotesk',sans-serif;">November 2026</h3>
+            <button class="btn" onclick="changeMonth(-1)">◀</button><button class="btn" onclick="changeMonth(1)">▶</button>
           </div>
           <div style="display:flex; gap:0.4rem;">
             <button class="btn" onclick="openNewLogModal()">+ Tambah Log / Waste</button>
-            <button class="btn btn-solid" onclick="openNewRosterModal()">+ Tambah Jadwal Staff</button>
+            <button class="btn btn-solid" onclick="openNewRosterModal()">+ Tambah Jadwal</button>
           </div>
         </div>
         <div class="calendar-grid" id="calendarGrid"></div>
@@ -258,28 +167,20 @@
 
     <!-- VIEW 3: CHECKLIST -->
     <section id="view-checklist" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
         <h3>Checklist Shift Harian per Stasiun</h3>
         <button class="btn btn-solid" onclick="openNewTaskModal()">+ Buat Tugas Baru</button>
       </div>
       <div class="station-grid" id="stationGrid"></div>
     </section>
 
-    <!-- VIEW 4: INVENTARIS STOK (19 KOLOM LENGKAP DENGAN OPNAME & WASTE) -->
+    <!-- VIEW 4: INVENTARIS STOK -->
     <section id="view-stok" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div>
-          <h3>Stok Inventaris Mikro, Makro & Opname 2 Shift</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
-            Barang Masuk otomatis menambah Gudang (Makro). Waste/Kalibrasi otomatis memotong Stasiun (Mikro).
-          </p>
-        </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
+        <div><h3>Stok Inventaris Mikro, Makro & Opname 2 Shift</h3><p style="font-size:0.72rem; color:var(--text-muted);">Barang Masuk menambah Gudang (Makro). Waste/Kalibrasi memotong Stasiun (Mikro).</p></div>
         <div style="display:flex; gap:0.4rem;">
-          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem 0.6rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.78rem;">
-            <option value="SEMUA">Semua Divisi</option>
-            <option value="BARISTA">Barista</option>
-            <option value="KITCHEN">Kitchen</option>
-            <option value="SERVER">Server</option>
+          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.35rem 0.6rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.75rem;">
+            <option value="SEMUA">Semua Divisi</option><option value="BARISTA">Barista</option><option value="KITCHEN">Kitchen</option><option value="SERVER">Server</option>
           </select>
           <button class="btn btn-solid" onclick="openNewStokModal()">+ Tambah Barang</button>
         </div>
@@ -287,57 +188,23 @@
       <div class="table-card">
         <table>
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Divisi</th>
-              <th>Nama Barang</th>
-              <th>Satuan</th>
-              <th>Gudang (Makro)</th>
-              <th>Refill (Mikro)</th>
-              <th>Waste/Kalibrasi</th>
-              <th>Opname S1 (16:30)</th>
-              <th>Opname S2 (00:00)</th>
-              <th>Pemakaian Hari Ini</th>
-              <th>Total Keseluruhan</th>
-              <th>Batas Min</th>
-              <th>Status & Kebutuhan</th>
-              <th>Aksi</th>
-            </tr>
+            <tr><th>ID</th><th>Divisi</th><th>Nama Barang</th><th>Satuan</th><th>Gudang (Makro)</th><th>Refill (Mikro)</th><th>Waste/Kalibrasi</th><th>Opname S1 (16:30)</th><th>Opname S2 (00:00)</th><th>Pemakaian</th><th>Total Keseluruhan</th><th>Batas Min</th><th>Status & Kebutuhan</th><th>Aksi</th></tr>
           </thead>
           <tbody id="stokTableBody"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- VIEW 5: SERAH TERIMA & KASIR -->
+    <!-- VIEW 5: SERAH TERIMA -->
     <section id="view-serah-terima" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div>
-          <h3>Serah Terima Kasir & Rekap Kas Laci (Sistem Imprest)</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
-            Modal kasir selalu tinggal di laci. Penjualan tunai bersih ditarik ke amplop setoran.
-          </p>
-        </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
+        <div><h3>Serah Terima Kasir & Rekap Kas Laci (Sistem Imprest)</h3><p style="font-size:0.72rem; color:var(--text-muted);">Modal awal tetap tinggal di laci. Uang penjualan bersih disetor ke amplop.</p></div>
         <button class="btn btn-solid" onclick="openNewHandoverModal()">+ Form Serah Terima Shift</button>
       </div>
       <div class="table-card">
         <table>
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Tanggal/Jam</th>
-              <th>Tahap</th>
-              <th>PIC Serah</th>
-              <th>Total Omset Shift</th>
-              <th>Tunai Masuk</th>
-              <th>EDC / QRIS</th>
-              <th>Kas Kecil Keluar</th>
-              <th>Keterangan Pengeluaran</th>
-              <th>Uang Setor Bersih</th>
-              <th>Modal Stay di Laci</th>
-              <th>Prep Kurang / Kebutuhan Besok</th>
-              <th>Aksi</th>
-            </tr>
+            <tr><th>ID</th><th>Tanggal/Jam</th><th>Tahap</th><th>PIC</th><th>Total Omset</th><th>Tunai</th><th>EDC/QRIS</th><th>Kas Kecil Keluar</th><th>Keterangan Pengeluaran</th><th>Uang Setor Bersih</th><th>Modal Stay di Laci</th><th>Catatan Prep/Evaluasi</th><th>Aksi</th></tr>
           </thead>
           <tbody id="stTableBody"></tbody>
         </table>
@@ -346,94 +213,49 @@
 
     <!-- VIEW 6: DAILY REPORT -->
     <section id="view-daily-report" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div>
-          <h3>Daily Report & Evaluasi Operasional</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
-            Konsolidasi lengkap seluruh data kasir, pengeluaran kas kecil, waste, kalibrasi & briefing.
-          </p>
-        </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
+        <div><h3>Daily Report & Evaluasi Operasional</h3><p style="font-size:0.72rem; color:var(--text-muted);">Konsolidasi omset, pengeluaran kas kecil, waste, kalibrasi & briefing.</p></div>
         <div style="display:flex; gap:0.4rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
-          <button class="btn btn-solid" onclick="openNewDailyReportModal()">+ Simpan Report Hari Ini</button>
+          <button class="btn btn-solid" onclick="openNewDailyReportModal()">+ Simpan Report</button>
         </div>
       </div>
       <div class="table-card">
         <table>
           <thead>
-            <tr>
-              <th>ID Report</th>
-              <th>Tanggal</th>
-              <th>Total Omset</th>
-              <th>EDC / QRIS</th>
-              <th>Online Food</th>
-              <th>Target Harian</th>
-              <th>Capaian %</th>
-              <th>Kas Kecil Keluar</th>
-              <th>Rincian Pengeluaran</th>
-              <th>Waste & Kalibrasi</th>
-              <th>Evaluasi Shift</th>
-              <th>Aksi</th>
-            </tr>
+            <tr><th>ID Report</th><th>Tanggal</th><th>Total Omset</th><th>EDC/QRIS</th><th>Online Food</th><th>Target</th><th>Capaian</th><th>Kas Keluar</th><th>Rincian Kas</th><th>Waste & Kalibrasi</th><th>Evaluasi</th><th>Aksi</th></tr>
           </thead>
           <tbody id="drTableBody"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- VIEW 7: MENU & HPP -->
+    <!-- VIEW 7: MENU -->
     <section id="view-menu" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div style="display:flex; gap:0.4rem;">
-          <button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button>
-          <button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button>
-        </div>
-        <button class="btn btn-solid" onclick="openNewMenuModal()">+ Tambah Menu Baru</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
+        <div style="display:flex; gap:0.4rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
+        <button class="btn btn-solid" onclick="openNewMenuModal()">+ Tambah Menu</button>
       </div>
       <div class="table-card">
         <table>
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Kategori</th>
-              <th>Nama Produk</th>
-              <th>HPP</th>
-              <th>Harga Jual</th>
-              <th>Margin (Rp)</th>
-              <th>Margin %</th>
-              <th>Food Cost %</th>
-              <th>Aksi</th>
-            </tr>
+            <tr><th>ID</th><th>Kategori</th><th>Nama Produk</th><th>HPP</th><th>Harga Jual</th><th>Margin (Rp)</th><th>Margin %</th><th>Food Cost %</th><th>Aksi</th></tr>
           </thead>
           <tbody id="menuTableBody"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- VIEW 8: DATA PERUSAHAAN (VAULT) -->
+    <!-- VIEW 8: DATA PERUSAHAAN -->
     <section id="view-perusahaan" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div>
-          <h3>Data Perusahaan & Master Vault Karyawan</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">
-            Terkunci khusus Level >= 4. Klik baris karyawan untuk mengedit atau menambahkan orang baru.
-          </p>
-        </div>
-        <button class="btn btn-solid" onclick="openNewUserModal()">+ Tambah Karyawan Baru</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.4rem;">
+        <div><h3>Data Perusahaan & Master Vault Karyawan</h3><p style="font-size:0.72rem; color:var(--text-muted);">Terkunci khusus Level >= 4. PIN dan akun dikelola dari sini.</p></div>
+        <button class="btn btn-solid" onclick="openNewUserModal()">+ Tambah Karyawan</button>
       </div>
       <div class="table-card">
         <table>
           <thead>
-            <tr>
-              <th>User ID</th>
-              <th>Username</th>
-              <th>Nama Lengkap</th>
-              <th>Role</th>
-              <th>Level</th>
-              <th>Divisi</th>
-              <th>PIN Rahasia</th>
-              <th>Aksi</th>
-            </tr>
+            <tr><th>User ID</th><th>Username</th><th>Nama Lengkap</th><th>Role</th><th>Level</th><th>Divisi</th><th>PIN Rahasia</th><th>Aksi</th></tr>
           </thead>
           <tbody id="vaultTableBody"></tbody>
         </table>
@@ -443,610 +265,262 @@
 
   <!-- ==================== MODALS ==================== -->
 
-  <!-- MODAL: DETAIL TANGGAL KALENDER -->
+  <!-- MODAL: DAY INSPECTOR -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
-      <h3 id="inspectDateTitle" style="margin-bottom:1rem; font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
-      <div style="margin-bottom:1.25rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-          <h4 style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Roster Kerja & Shift</h4>
+      <h3 id="inspectDateTitle" style="margin-bottom:0.8rem; font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
+      <div style="margin-bottom:1rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+          <h4 style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Roster Kerja & Shift</h4>
           <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button>
         </div>
-        <div id="inspectRosterList" style="display:flex; flex-direction:column; gap:0.35rem;"></div>
+        <div id="inspectRosterList" style="display:flex; flex-direction:column; gap:0.3rem;"></div>
       </div>
-      <div style="margin-bottom:1.5rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
-          <h4 style="font-size:0.75rem; color:var(--text-muted); text-transform:uppercase;">Log Insiden, Waste & Catatan</h4>
+      <div style="margin-bottom:1rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
+          <h4 style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Log Insiden, Waste & Catatan</h4>
           <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button>
         </div>
-        <div id="inspectLogList" style="display:flex; flex-direction:column; gap:0.35rem;"></div>
+        <div id="inspectLogList" style="display:flex; flex-direction:column; gap:0.3rem;"></div>
       </div>
-      <div style="display:flex; justify-content:flex-end;">
-        <button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button>
-      </div>
+      <div style="display:flex; justify-content:flex-end;"><button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button></div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH/EDIT JADWAL STAFF -->
+  <!-- MODAL: JADWAL STAFF -->
   <div class="modal-backdrop" id="modalRoster">
     <div class="modal">
-      <h3 id="modalRosterTitle" style="margin-bottom:1rem;">Jadwal Staff & Hari Libur</h3>
+      <h3 id="modalRosterTitle" style="margin-bottom:0.8rem;">Jadwal Staff & Hari Libur</h3>
       <input type="hidden" id="fJdwEditId">
-      <div class="form-group">
-        <label>Pilih Tanggal</label>
-        <input type="date" id="fJdwTanggal">
-      </div>
-      <div class="form-group">
-        <label>Pilih Karyawan</label>
-        <select id="fJdwUser"></select>
-      </div>
+      <div class="form-group"><label>Tanggal</label><input type="date" id="fJdwTanggal"></div>
+      <div class="form-group"><label>Pilih Karyawan</label><select id="fJdwUser"></select></div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Shift Kerja</label>
-          <select id="fJdwShift">
-            <option value="1">Shift 1 (08:30 - 16:30)</option>
-            <option value="2">Shift 2 (16:30 - 00:00)</option>
-            <option value="-">Tidak Ada Shift (Libur)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Status Kehadiran</label>
-          <select id="fJdwStatus">
-            <option value="Hadir">Hadir</option>
-            <option value="Libur">Libur (Off)</option>
-            <option value="Izin">Izin</option>
-            <option value="Sakit">Sakit</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Shift</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div>
+        <div class="form-group"><label>Status Kehadiran</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div>
       </div>
-      <div class="form-group">
-        <label>Catatan Tugas / Posisi</label>
-        <input type="text" id="fJdwCatatan" placeholder="Contoh: Barista & Kasir Shift 1">
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('modalRoster')">Batal</button>
-        <button class="btn btn-solid" onclick="submitRosterForm()">Simpan Jadwal</button>
-      </div>
+      <div class="form-group"><label>Catatan Tugas / Posisi</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista & Kasir Shift 1"></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan Jadwal</button></div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH/EDIT LOG HARIAN (TERKONEKSI LANGSUNG KE GUDANG / MIKRO STOK) -->
+  <!-- MODAL: LOG KALENDER (TERKONEKSI STOK OTOMATIS) -->
   <div class="modal-backdrop" id="modalLog">
     <div class="modal">
-      <h3 id="modalLogTitle" style="margin-bottom:1rem;">Catat Log, Waste, Insiden & Rencana</h3>
+      <h3 id="modalLogTitle" style="margin-bottom:0.8rem;">Catat Log, Waste, Insiden & Rencana</h3>
       <input type="hidden" id="fLogEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Pilih Tanggal</label>
-          <input type="date" id="fLogTanggal">
+        <div class="form-group"><label>Tanggal</label><input type="date" id="fLogTanggal"></div>
+        <div class="form-group"><label>Jam Waktu</label><input type="time" id="fLogJam"></div>
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogItemDropdown()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
+        <div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1 (Siang)</option><option value="2">Shift 2 (Malam)</option></select></div>
+        <div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"><option value="Waste Bahan (Afkir)">Waste Bahan (Afkir)</option><option value="Kalibrasi Espresso/Alat">Kalibrasi Espresso/Alat</option><option value="Barang Masuk (Restock)">Barang Masuk (Restock)</option><option value="Insiden Alat">Insiden Alat</option><option value="Rencana Mendatang">Rencana Mendatang</option><option value="Catatan Susulan">Catatan Susulan</option><option value="Lainnya">Lainnya</option></select></div>
+      </div>
+      <div id="fLogStockSection">
+        <div class="form-group"><label>Pilih Bahan dari Stok</label><select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select></div>
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem;">
+          <div class="form-group"><label>Jumlah Fisik Masuk / Afkir</label><input type="number" id="fLogJumlahVal" placeholder="Contoh: 120 / 200 / 5000" oninput="updateLogEffectNotice()"></div>
+          <div class="form-group"><label>Satuan</label><input type="text" id="fLogSatuan" readonly style="background:var(--surface-elevated);"></div>
         </div>
-        <div class="form-group">
-          <label>Pilih Jam Waktu</label>
-          <input type="time" id="fLogJam">
-        </div>
+        <div class="calc-box" id="logEffectBox" style="border-left: 3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis mengurangi Stok Stasiun (Mikro).</span></div>
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Divisi</label>
-          <select id="fLogDivisi" onchange="updateLogItemDropdown()">
-            <option value="BARISTA">BARISTA</option>
-            <option value="KITCHEN">KITCHEN</option>
-            <option value="SERVER">SERVER</option>
-            <option value="MANAJEMEN">MANAJEMEN</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Kategori Kejadian</label>
-          <select id="fLogKategori" onchange="updateLogEffectNotice()">
-            <option value="Waste Bahan (Afkir)">Waste Bahan (Afkir)</option>
-            <option value="Kalibrasi Espresso/Alat">Kalibrasi Espresso/Alat</option>
-            <option value="Barang Masuk (Restock)">Barang Masuk (Restock)</option>
-            <option value="Insiden Alat">Insiden Kerusakan Alat</option>
-            <option value="Rencana Mendatang">Rencana Mendatang</option>
-            <option value="Catatan Susulan">Catatan Susulan Masa Lalu</option>
-            <option value="Lainnya">Lainnya</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- DROPDOWN BAHAN OTOMATIS DARI STOK -->
-      <div class="form-group">
-        <label>Bahan / Item Terkait (Otomatis Terhubung ke Stok)</label>
-        <select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select>
-      </div>
-
-      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Jumlah Fisik yang Masuk / Terpakai</label>
-          <input type="number" id="fLogJumlahVal" placeholder="Contoh: 120 / 200 / 5000" oninput="updateLogEffectNotice()">
-        </div>
-        <div class="form-group">
-          <label>Satuan Barang</label>
-          <input type="text" id="fLogSatuan" readonly style="background:var(--surface-elevated);">
-        </div>
-      </div>
-
-      <!-- KOTAK NOTIFIKASI EFEK KE STOK SECARA REAL -->
-      <div class="calc-explain-box" id="logEffectBox" style="border-left: 3px solid var(--accent);">
-        <span id="logEffectText">ℹ️ Jumlah ini otomatis mengurangi Stok Stasiun (Mikro).</span>
-      </div>
-
-      <div class="form-group">
-        <label>Detail / Keterangan Kejadian</label>
-        <textarea id="fLogDetail" rows="3" placeholder="Tuliskan keterangan dial-in shot, penyebab afkir, atau nomor PO supplier..."></textarea>
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('modalLog')">Batal</button>
-        <button class="btn btn-solid" onclick="submitLogForm()">Simpan Log & Sinkron Stok</button>
-      </div>
+      <div class="form-group" id="fLogNonStockSection" style="display:none;"><label>Nama Alat / Detail Terkait</label><input type="text" id="fLogItemManual" placeholder="Contoh: Grinder Eureka / Kompor"></div>
+      <div class="form-group"><label>Keterangan Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan keterangan detail..."></textarea></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan Log & Update Stok</button></div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH/EDIT TUGAS CHECKLIST -->
+  <!-- MODAL: TUGAS CHECKLIST -->
   <div class="modal-backdrop" id="modalTask">
     <div class="modal">
-      <h3 id="modalTaskTitle" style="margin-bottom:1rem;">Tugas Checklist Stasiun</h3>
+      <h3 id="modalTaskTitle" style="margin-bottom:0.8rem;">Tugas Checklist Stasiun</h3>
       <input type="hidden" id="fTaskEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Stasiun</label>
-          <select id="fTaskStation">
-            <option value="BARISTA & KASIR">BARISTA & KASIR</option>
-            <option value="KITCHEN">KITCHEN</option>
-            <option value="SERVER">SERVER</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Shift Target</label>
-          <select id="fTaskShift">
-            <option value="1">Shift 1</option>
-            <option value="2">Shift 2</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Stasiun</label><select id="fTaskStation"><option value="BARISTA & KASIR">BARISTA & KASIR</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
+        <div class="form-group"><label>Shift Target</label><select id="fTaskShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
       </div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Fase</label>
-          <select id="fTaskFase">
-            <option value="Prep">Prep</option>
-            <option value="Operasional">Operasional</option>
-            <option value="Serah Terima">Serah Terima</option>
-            <option value="Closing">Closing</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Target Waktu (Bebas Dipilih)</label>
-          <input type="time" id="fTaskJam" value="08:30">
-        </div>
+        <div class="form-group"><label>Fase</label><select id="fTaskFase"><option value="Prep">Prep</option><option value="Operasional">Operasional</option><option value="Serah Terima">Serah Terima</option><option value="Closing">Closing</option></select></div>
+        <div class="form-group"><label>Target Waktu Bebas</label><input type="time" id="fTaskJam" value="08:30"></div>
       </div>
-      <div class="form-group">
-        <label>Uraian Tugas</label>
-        <input type="text" id="fTaskUraian" placeholder="Contoh: Periksa safety valve kompor gas">
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('modalTask')">Batal</button>
-        <button class="btn btn-solid" onclick="submitTaskForm()">Simpan Tugas</button>
-      </div>
+      <div class="form-group"><label>Uraian Tugas</label><input type="text" id="fTaskUraian" placeholder="Contoh: Periksa safety valve kompor gas"></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan Tugas</button></div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH/EDIT BARANG INVENTARIS -->
+  <!-- MODAL: KELOLA BARANG INVENTARIS LENGKAP -->
   <div class="modal-backdrop" id="modalStok">
     <div class="modal">
-      <h3 id="modalStokTitle" style="margin-bottom:1rem;">Kelola Barang Inventaris</h3>
+      <h3 id="modalStokTitle" style="margin-bottom:0.8rem;">Kelola Barang Inventaris</h3>
       <input type="hidden" id="fStkEditId">
-      
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Tanggal Update</label>
-          <input type="date" id="fStkTanggal">
-        </div>
-        <div class="form-group">
-          <label>Jam Update</label>
-          <input type="time" id="fStkJam">
-        </div>
+        <div class="form-group"><label>Tanggal Update</label><input type="date" id="fStkTanggal"></div>
+        <div class="form-group"><label>Jam Update</label><input type="time" id="fStkJam"></div>
       </div>
-      
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Divisi</label>
-          <select id="fStkDivisi">
-            <option value="BARISTA">BARISTA</option>
-            <option value="KITCHEN">KITCHEN</option>
-            <option value="SERVER">SERVER</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Kategori Barang</label>
-          <input type="text" id="fStkKategori" placeholder="Biji Kopi / Protein / Kemasan">
-        </div>
+        <div class="form-group"><label>Divisi</label><select id="fStkDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
+        <div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori" placeholder="Biji Kopi / Protein"></div>
       </div>
-      
       <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Nama Barang</label>
-          <input type="text" id="fStkNama" placeholder="Contoh: Biji Kopi Flores Bajawa">
-        </div>
-        <div class="form-group">
-          <label>Satuan</label>
-          <input type="text" id="fStkSatuan" placeholder="gram/liter/pcs">
-        </div>
+        <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="Contoh: Biji Kopi Flores"></div>
+        <div class="form-group"><label>Satuan</label><input type="text" id="fStkSatuan" placeholder="gram/liter/pcs"></div>
       </div>
-      
-      <div class="section-title-box">1. Stok Gudang (Makro) & Batas Restock</div>
+      <div class="section-title">1. Stok Gudang (Makro) & Batas Minimum</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Minimum Stok (Batas Restock)</label>
-          <input type="text" id="fStkMin" value="500" oninput="formatLiveRupiahInput(this); calcModalStokPreview();">
-        </div>
-        <div class="form-group">
-          <label>Stok Gudang (Makro Cadangan)</label>
-          <input type="text" id="fStkGudang" value="2.000" oninput="formatLiveRupiahInput(this); calcModalStokPreview();">
-        </div>
+        <div class="form-group"><label>Batas Minimum (Restock)</label><input type="text" id="fStkMin" value="500" oninput="formatLiveRupiahInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Stok Gudang (Makro)</label><input type="text" id="fStkGudang" value="2.000" oninput="formatLiveRupiahInput(this); calcModalStokPreview();"></div>
       </div>
-
-      <div class="section-title-box">2. Persediaan Stasiun (Mikro) & Refill</div>
+      <div class="section-title">2. Persediaan Stasiun (Mikro) & Refill</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Tersedia Pagi</label>
-          <input type="text" id="fStkPagi" value="1.000" oninput="formatLiveRupiahInput(this); calcModalStokPreview();">
-        </div>
-        <div class="form-group">
-          <label>Refill S1 (Siang)</label>
-          <input type="text" id="fStkRefillS1" value="500" oninput="formatLiveRupiahInput(this); calcModalStokPreview();">
-        </div>
-        <div class="form-group">
-          <label>Refill S2 (Sore)</label>
-          <input type="text" id="fStkRefillS2" value="0" oninput="formatLiveRupiahInput(this); calcModalStokPreview();">
-        </div>
+        <div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" value="1.000" oninput="formatLiveRupiahInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" value="500" oninput="formatLiveRupiahInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveRupiahInput(this); calcModalStokPreview();"></div>
       </div>
-
-      <div class="section-title-box">3. Sensus Opname Fisik Stasiun</div>
+      <div class="section-title">3. Sensus Opname Stasiun</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Opname S1 (Sore 16:30)</label>
-          <input type="text" id="fStkOpnameS1" value="800" oninput="formatLiveRupiahInput(this); calcModalStokPreview();">
-        </div>
-        <div class="form-group">
-          <label>Opname S2 (Malam 00:00)</label>
-          <input type="text" id="fStkOpnameS2" value="" placeholder="Isi saat closing" oninput="formatLiveRupiahInput(this); calcModalStokPreview();">
-        </div>
+        <div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="800" oninput="formatLiveRupiahInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="" placeholder="Isi closing" oninput="formatLiveRupiahInput(this); calcModalStokPreview();"></div>
       </div>
-
-      <div class="calc-explain-box">
-        <div class="calc-row"><span>Total Persediaan Stasiun (Pagi + Refill):</span><span id="fStkPreviewTersedia">1.500</span></div>
-        <div class="calc-row"><span>Sisa Nyata di Stasiun (Opname):</span><span id="fStkPreviewSisa">800</span></div>
-        <div class="calc-row"><span>Estimasi Pemakaian Hari Ini:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);">700</span></div>
-        <div class="calc-row total">
-          <span>Total Keseluruhan (Gudang + Stasiun):</span>
-          <span id="fStkPreviewTotal" style="color:var(--accent);">2.800</span>
-        </div>
-        <div class="calc-row" style="margin-top:0.3rem;">
-          <span>Status Kesehatan Barang:</span>
-          <span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span>
-        </div>
+      <div class="calc-box">
+        <div class="calc-row"><span>Total Mikro Tersedia:</span><span id="fStkPreviewTersedia">1.500</span></div>
+        <div class="calc-row"><span>Sisa Nyata Opname:</span><span id="fStkPreviewSisa">800</span></div>
+        <div class="calc-row"><span>Estimasi Pemakaian:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);">700</span></div>
+        <div class="calc-row total"><span>Total Keseluruhan (Aset Kafe):</span><span id="fStkPreviewTotal" style="color:var(--accent);">2.800</span></div>
+        <div class="calc-row" style="margin-top:0.25rem;"><span>Status Kesehatan:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div>
       </div>
-
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('modalStok')">Batal</button>
-        <button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button>
-      </div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button></div>
     </div>
   </div>
 
-  <!-- MODAL: SERAH TERIMA & KAS LACI -->
+  <!-- MODAL: SERAH TERIMA (SISTEM IMPREST BEBAS SELISIH) -->
   <div class="modal-backdrop" id="modalHandover">
     <div class="modal">
       <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem; font-family:'Space Grotesk',sans-serif;">Serah Terima Kasir & Rekap Kas Laci</h3>
       <input type="hidden" id="fStEditId">
-      
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Pilih Tanggal</label>
-          <input type="date" id="fStTanggal">
-        </div>
-        <div class="form-group">
-          <label>Pilih Waktu Jam</label>
-          <input type="time" id="fStJam">
-        </div>
+        <div class="form-group"><label>Tanggal</label><input type="date" id="fStTanggal"></div>
+        <div class="form-group"><label>Jam Waktu</label><input type="time" id="fStJam"></div>
       </div>
-
-      <div class="form-group">
-        <label>Tahap Shift</label>
-        <select id="fStTahap" onchange="toggleHandoverNotesLabel()">
-          <option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option>
-          <option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option>
-        </select>
-      </div>
-
-      <div class="section-title-box">1. Total Omset Penjualan Shift Ini (Pemasukan Usaha)</div>
+      <div class="form-group"><label>Tahap Shift</label><select id="fStTahap" onchange="toggleHandoverNotesLabel()"><option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option><option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option></select></div>
+      <div class="section-title">1. Total Omset Penjualan Shift Ini</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Penjualan Tunai</label>
-          <input type="text" id="fStTunai" value="200.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
-        </div>
-        <div class="form-group">
-          <label>QRIS / EDC</label>
-          <input type="text" id="fStNonTunai" value="200.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
-        </div>
-        <div class="form-group">
-          <label>Online Food</label>
-          <input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();">
-        </div>
+        <div class="form-group"><label>Penjualan Tunai</label><input type="text" id="fStTunai" value="200.000" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+        <div class="form-group"><label>QRIS / EDC</label><input type="text" id="fStNonTunai" value="200.000" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+        <div class="form-group"><label>Online Food</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
       </div>
-      <div class="calc-row" style="background:var(--surface-elevated); padding:0.5rem 0.75rem; border-radius:6px; font-weight:700;">
-        <span>Total Omset Shift (Masuk ke Daily Report):</span>
-        <span id="fStOmsetShiftText" style="color:var(--success);">Rp 400.000</span>
-      </div>
-
-      <div class="section-title-box">2. Rekap Fisik Uang di Laci Kasir (Sistem Imprest)</div>
+      <div class="calc-row" style="background:var(--surface-elevated); padding:0.5rem; border-radius:4px; font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 400.000</span></div>
+      <div class="section-title">2. Rekap Kas Laci Fisik (Sistem Imprest)</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Modal Kasir Awal (Selalu Stay)</label>
-          <input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
-        </div>
-        <div class="form-group">
-          <label>Pengeluaran Kas Kecil</label>
-          <input type="text" id="fStPengeluaran" value="5.000" oninput="formatLiveRupiahInput(this); calcCashDenom();">
-        </div>
+        <div class="form-group"><label>Modal Awal (Stay di Laci)</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+        <div class="form-group"><label>Kas Kecil Keluar</label><input type="text" id="fStPengeluaran" value="5.000" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
       </div>
-
-      <div class="form-group">
-        <label>Keterangan Pengeluaran Kas Kecil (Wajib Diisi)</label>
-        <input type="text" id="fStKetPengeluaran" placeholder="Contoh: Beli es batu kristal 2 pack, lakban & galon air">
-      </div>
-
-      <div class="calc-explain-box">
-        <div class="calc-row"><span>Uang Tunai Penjualan Masuk:</span><span id="boxTunaiText">Rp 200.000</span></div>
+      <div class="form-group"><label>Keterangan Kas Kecil (Wajib)</label><input type="text" id="fStKetPengeluaran" placeholder="Contoh: Beli es batu kristal & lakban"></div>
+      <div class="calc-box">
+        <div class="calc-row"><span>Uang Penjualan Tunai:</span><span id="boxTunaiText">Rp 200.000</span></div>
         <div class="calc-row"><span>- Kas Kecil Keluar:</span><span id="boxKeluarText">- Rp 5.000</span></div>
-        <div class="calc-row total">
-          <span>Uang Setoran Tunai Bersih (Masuk Amplop/Brankas):</span>
-          <span id="boxSetoranText" style="color:var(--warning); font-size:0.95rem;">Rp 195.000</span>
-        </div>
-        <div class="calc-row" style="margin-top:0.4rem; padding-top:0.4rem; border-top:1px dashed var(--border);">
-          <span>Uang Modal Tetap Ditinggal di Laci (Stay):</span>
-          <span id="boxModalText" style="color:var(--success); font-weight:700;">Rp 110.000</span>
-        </div>
+        <div class="calc-row total"><span>Uang Setor Bersih (Masuk Amplop):</span><span id="boxSetoranText" style="color:var(--warning);">Rp 195.000</span></div>
+        <div class="calc-row" style="margin-top:0.35rem; padding-top:0.35rem; border-top:1px dashed var(--border);"><span>Modal Tetap di Laci (Stay):</span><span id="boxModalText" style="color:var(--success); font-weight:700;">Rp 110.000</span></div>
       </div>
-
-      <div class="section-title-box" id="handoverNotesHeader">3. Catatan Prep Kurang untuk Shift 2</div>
+      <div class="section-title" id="handoverNotesHeader">3. Catatan Prep Kurang untuk Shift 2</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Prep Kurang Barista</label>
-          <textarea id="fStPrepBar" rows="2" placeholder="Susu sisa 2 pack, es tipis"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Prep Kurang Kitchen</label>
-          <textarea id="fStPrepKit" rows="2" placeholder="Defrost ayam, potong saus"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Prep Kurang Server</label>
-          <textarea id="fStPrepSrv" rows="2" placeholder="Restock sedotan & tisu"></textarea>
-        </div>
+        <div class="form-group"><label>Prep Barista</label><textarea id="fStPrepBar" rows="2" placeholder="Susu sisa 2 pack"></textarea></div>
+        <div class="form-group"><label>Prep Kitchen</label><textarea id="fStPrepKit" rows="2" placeholder="Defrost ayam"></textarea></div>
+        <div class="form-group"><label>Prep Server</label><textarea id="fStPrepSrv" rows="2" placeholder="Restock sedotan"></textarea></div>
       </div>
-
-      <div class="form-group">
-        <label id="evalLabel">Catatan Tambahan / Evaluasi Kasir</label>
-        <textarea id="fStCatatan" rows="2" placeholder="Uang receh 2000 menipis, bon gantung meja 4..."></textarea>
-      </div>
-
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('modalHandover')">Batal</button>
-        <button class="btn btn-solid" onclick="submitHandoverForm()">Simpan Serah Terima</button>
-      </div>
+      <div class="form-group"><label id="evalLabel">Catatan Tambahan Kasir / Evaluasi</label><textarea id="fStCatatan" rows="2" placeholder="Uang receh 2000 menipis..."></textarea></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan Serah Terima</button></div>
     </div>
   </div>
 
-  <!-- MODAL: DAILY REPORT -->
+  <!-- MODAL: DAILY REPORT (MEGA PULL) -->
   <div class="modal-backdrop" id="modalDailyReport">
     <div class="modal">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; flex-wrap:wrap; gap:0.4rem;">
         <h3 id="modalDrTitle">Daily Report Operasional</h3>
-        <button class="btn btn-solid" style="font-size:0.72rem; padding:0.35rem 0.65rem;" onclick="autoPullDailyReportData()">
-          ⚡ Tarik Data Otomatis Lengkap
-        </button>
+        <button class="btn btn-solid" style="font-size:0.7rem; padding:0.3rem 0.6rem;" onclick="autoPullDailyReportData()">⚡ Tarik Data Otomatis Lengkap</button>
       </div>
       <input type="hidden" id="fDrEditId">
-      
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Tanggal Report</label>
-          <input type="date" id="fDrTanggal">
-        </div>
-        <div class="form-group">
-          <label>Target Omset Harian (Rp)</label>
-          <input type="text" id="fDrTarget" value="1.000.000" oninput="formatLiveRupiahInput(this)">
-        </div>
+        <div class="form-group"><label>Tanggal Report</label><input type="date" id="fDrTanggal"></div>
+        <div class="form-group"><label>Target Omset Harian (Rp)</label><input type="text" id="fDrTarget" value="1.000.000" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-
-      <div class="section-title-box">1. Konsolidasi Omset Penjualan (Semua Saluran)</div>
+      <div class="section-title">1. Konsolidasi Omset Penjualan</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Omset Shift 1 (Siang)</label>
-          <input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)">
-        </div>
-        <div class="form-group">
-          <label>Omset Shift 2 (Malam)</label>
-          <input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)">
-        </div>
+        <div class="form-group"><label>Omset Shift 1</label><input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)"></div>
+        <div class="form-group"><label>Omset Shift 2</label><input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Total EDC / QRIS (Bank)</label>
-          <input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)">
-        </div>
-        <div class="form-group">
-          <label>Total Online Food (Portal)</label>
-          <input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)">
-        </div>
+        <div class="form-group"><label>EDC / QRIS (Bank)</label><input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)"></div>
+        <div class="form-group"><label>Online Food (Portal)</label><input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-
-      <div class="section-title-box">2. Rekap Kas Kecil Keluar Hari Ini</div>
+      <div class="section-title">2. Kas Kecil Keluar Hari Ini</div>
       <div style="display:grid; grid-template-columns: 1fr 2fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Total Kas Keluar (Rp)</label>
-          <input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)">
-        </div>
-        <div class="form-group">
-          <label>Rincian Pengeluaran Kasir</label>
-          <input type="text" id="fDrKetKasKeluar" placeholder="Contoh: Beli es batu, lakban, galon air">
-        </div>
+        <div class="form-group"><label>Total Kas Keluar</label><input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)"></div>
+        <div class="form-group"><label>Rincian Pengeluaran</label><input type="text" id="fDrKetKasKeluar" placeholder="Beli es batu, lakban..."></div>
       </div>
-
-      <div class="section-title-box">3. Tim Bertugas Hari Ini (Roster Kalender)</div>
+      <div class="section-title">3. Tim Bertugas Hari Ini (Jadwal)</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Staf Shift 1</label>
-          <input type="text" id="fDrStaffS1" readonly style="background:var(--surface-elevated);">
-        </div>
-        <div class="form-group">
-          <label>Staf Shift 2</label>
-          <input type="text" id="fDrStaffS2" readonly style="background:var(--surface-elevated);">
-        </div>
-        <div class="form-group">
-          <label>Staf Libur (Off)</label>
-          <input type="text" id="fDrStaffOff" readonly style="background:var(--surface-elevated);">
-        </div>
+        <div class="form-group"><label>Staf Shift 1</label><input type="text" id="fDrStaffS1" readonly style="background:var(--surface-elevated);"></div>
+        <div class="form-group"><label>Staf Shift 2</label><input type="text" id="fDrStaffS2" readonly style="background:var(--surface-elevated);"></div>
+        <div class="form-group"><label>Staf Libur (Off)</label><input type="text" id="fDrStaffOff" readonly style="background:var(--surface-elevated);"></div>
       </div>
-
-      <div class="section-title-box">4. Quality Control, Waste & Kejadian Hari Ini</div>
+      <div class="section-title">4. Quality Control, Waste & Kejadian</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Beans Kalibrasi (Gram)</label>
-          <input type="text" id="fDrKalibrasi" placeholder="120g Blend Arabica">
-        </div>
-        <div class="form-group">
-          <label>Ringkasan Waste Bahan</label>
-          <input type="text" id="fDrWaste" placeholder="Brokoli 200g, 1 Cup Latte afkir">
-        </div>
+        <div class="form-group"><label>Beans Kalibrasi</label><input type="text" id="fDrKalibrasi" placeholder="120g Blend Arabica"></div>
+        <div class="form-group"><label>Ringkasan Waste</label><input type="text" id="fDrWaste" placeholder="Brokoli 200g afkir"></div>
       </div>
-
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Barang Masuk (Restock)</label>
-          <input type="text" id="fDrBarangMasuk" placeholder="Susu Greenfields 20 pack, Cup 12oz">
-        </div>
-        <div class="form-group">
-          <label>Insiden / Kerusakan Alat</label>
-          <input type="text" id="fDrInsiden" placeholder="Tidak ada insiden / Kompor burner 2 mati">
-        </div>
+        <div class="form-group"><label>Barang Masuk (Restock)</label><input type="text" id="fDrBarangMasuk" placeholder="Susu 20 pack"></div>
+        <div class="form-group"><label>Insiden Alat</label><input type="text" id="fDrInsiden" placeholder="Operasional alat lancar"></div>
       </div>
-
+      <div class="section-title">5. Bahan Kritis Perlu Restock</div>
+      <div class="form-group"><textarea id="fDrRestockList" rows="2" readonly style="background:var(--surface-elevated);"></textarea></div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Crew Meals / Konsumsi</label>
-          <input type="text" id="fDrCrew" placeholder="2 Americano Ice, 1 Ricebowl">
-        </div>
-        <div class="form-group">
-          <label>Komplimen / Barter</label>
-          <input type="text" id="fDrKomplimen" placeholder="1 Latte tamu roastery">
-        </div>
+        <div class="form-group"><label>Crew Meals</label><input type="text" id="fDrCrew" placeholder="2 Americano, 1 Ricebowl"></div>
+        <div class="form-group"><label>Komplimen</label><input type="text" id="fDrKomplimen" placeholder="1 Latte tamu roaster"></div>
       </div>
-
-      <div class="form-group">
-        <label>Evaluasi Briefing Malam & Catatan Besok Pagi</label>
-        <textarea id="fDrEvaluasi" rows="2" placeholder="Pelayanan shift malam lancar, shift 1 besok pagi wajib defrost ayam & restock susu..."></textarea>
-      </div>
-
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('modalDailyReport')">Batal</button>
-        <button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan Report</button>
-      </div>
+      <div class="form-group"><label>Evaluasi Briefing Malam</label><textarea id="fDrEvaluasi" rows="2" placeholder="Catatan evaluasi malam..."></textarea></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan Report</button></div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH/EDIT MENU -->
+  <!-- MODAL: MENU -->
   <div class="modal-backdrop" id="modalMenu">
     <div class="modal">
-      <h3 id="modalMenuTitle" style="margin-bottom:1rem;">Menu Produk & HPP</h3>
+      <h3 id="modalMenuTitle" style="margin-bottom:0.8rem;">Menu Produk & HPP</h3>
       <input type="hidden" id="fMenuEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Jenis Menu</label>
-          <select id="fMenuJenis">
-            <option value="Minuman">Minuman (Barista)</option>
-            <option value="Makanan">Makanan (Kitchen)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Kategori</label>
-          <input type="text" id="fMenuKategori" placeholder="Black / White / Snack / Pasta">
-        </div>
+        <div class="form-group"><label>Jenis Menu</label><select id="fMenuJenis"><option value="Minuman">Minuman (Barista)</option><option value="Makanan">Makanan (Kitchen)</option></select></div>
+        <div class="form-group"><label>Kategori</label><input type="text" id="fMenuKategori" placeholder="Black / White / Snack"></div>
       </div>
-      <div class="form-group">
-        <label>Nama Produk Menu</label>
-        <input type="text" id="fMenuNama" placeholder="Contoh: Cinnamon Hazelnut Latte">
-      </div>
+      <div class="form-group"><label>Nama Produk</label><input type="text" id="fMenuNama" placeholder="Contoh: Cinnamon Latte"></div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>HPP (Modal Bahan Rp)</label>
-          <input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this)">
-        </div>
-        <div class="form-group">
-          <label>Harga Jual (Rp)</label>
-          <input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this)">
-        </div>
+        <div class="form-group"><label>HPP (Modal Bahan Rp)</label><input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this)"></div>
+        <div class="form-group"><label>Harga Jual (Rp)</label><input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('modalMenu')">Batal</button>
-        <button class="btn btn-solid" onclick="submitMenuForm()">Simpan Menu</button>
-      </div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan Menu</button></div>
     </div>
   </div>
 
-  <!-- MODAL: TAMBAH/EDIT KARYAWAN -->
+  <!-- MODAL: KARYAWAN -->
   <div class="modal-backdrop" id="modalUser">
     <div class="modal">
-      <h3 id="modalUserTitle" style="margin-bottom:1rem;">Kelola Data Karyawan & Akses PIN</h3>
+      <h3 id="modalUserTitle" style="margin-bottom:0.8rem;">Kelola Karyawan & PIN</h3>
       <input type="hidden" id="fUserEditId">
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Username</label>
-          <input type="text" id="fUserUsername" placeholder="nama panggilan (huruf kecil)">
-        </div>
-        <div class="form-group">
-          <label>PIN Rahasia (4 Digit)</label>
-          <input type="password" id="fUserPin" placeholder="1234" maxlength="4">
-        </div>
+        <div class="form-group"><label>Username</label><input type="text" id="fUserUsername" placeholder="nama panggilan"></div>
+        <div class="form-group"><label>PIN (4 Digit)</label><input type="password" id="fUserPin" placeholder="1234" maxlength="4"></div>
       </div>
-      <div class="form-group">
-        <label>Nama Lengkap</label>
-        <input type="text" id="fUserNamaLengkap" placeholder="Nama Lengkap Karyawan">
-      </div>
+      <div class="form-group"><label>Nama Lengkap</label><input type="text" id="fUserNamaLengkap" placeholder="Nama Lengkap"></div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group">
-          <label>Role Jabatan</label>
-          <select id="fUserRole" onchange="syncUserLevel()">
-            <option value="BARISTA">BARISTA (Level 1)</option>
-            <option value="KITCHEN">KITCHEN (Level 1)</option>
-            <option value="SERVER">SERVER (Level 1)</option>
-            <option value="HEAD">HEAD BAR / KITCHEN (Level 2)</option>
-            <option value="PURCHASING">PURCHASING (Level 3)</option>
-            <option value="HRD">HRD (Level 3)</option>
-            <option value="MANAGER">MANAGER (Level 4)</option>
-            <option value="OWNER">OWNER (Level 5)</option>
-            <option value="RAJA_UTAMA">RAJA_UTAMA (Level 6)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Divisi</label>
-          <select id="fUserDivisi">
-            <option value="BARISTA">BARISTA</option>
-            <option value="KITCHEN">KITCHEN</option>
-            <option value="SERVER">SERVER</option>
-            <option value="MANAJEMEN">MANAJEMEN</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Role</label><select id="fUserRole" onchange="syncUserLevel()"><option value="BARISTA">BARISTA (L1)</option><option value="KITCHEN">KITCHEN (L1)</option><option value="SERVER">SERVER (L1)</option><option value="HEAD">HEAD (L2)</option><option value="PURCHASING">PURCHASING (L3)</option><option value="HRD">HRD (L3)</option><option value="MANAGER">MANAGER (L4)</option><option value="OWNER">OWNER (L5)</option><option value="RAJA_UTAMA">RAJA_UTAMA (L6)</option></select></div>
+        <div class="form-group"><label>Divisi</label><select id="fUserDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
-        <button class="btn" onclick="closeModal('modalUser')">Batal</button>
-        <button class="btn btn-solid" onclick="submitUserForm()">Simpan Karyawan</button>
-      </div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan Karyawan</button></div>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
   <div id="toast">Notifikasi</div>
 
   <script>
@@ -1067,11 +541,7 @@
       if (typeof val === 'number') return val;
       let str = String(val).trim().replace(/Rp/gi, '').trim();
       if (str.includes('.') && str.includes(',')) {
-        if (str.lastIndexOf(',') > str.lastIndexOf('.')) {
-          str = str.split(',')[0].replace(/\./g, '');
-        } else {
-          str = str.split('.')[0].replace(/,/g, '');
-        }
+        str = (str.lastIndexOf(',') > str.lastIndexOf('.')) ? str.split(',')[0].replace(/\./g, '') : str.split('.')[0].replace(/,/g, '');
       } else if (str.includes(',')) {
         str = str.replace(/,/g, '');
       } else if (str.includes('.')) {
@@ -1081,54 +551,25 @@
       return isNaN(num) ? 0 : num;
     }
 
-    function formatRupiah(val) {
-      const num = cleanMoney(val);
-      return "Rp " + Math.round(num).toLocaleString('id-ID');
-    }
-
-    function formatLiveRupiahInput(input) {
-      const val = cleanMoney(input.value);
-      if (val === 0 && input.value.trim() === '') return;
-      input.value = Math.round(val).toLocaleString('id-ID');
-    }
-
-    function cleanPercent(val) {
-      if (!val) return "0.0%";
-      if (typeof val === 'string' && val.includes('%')) return val;
-      const num = parseFloat(val);
-      if (isNaN(num)) return "0.0%";
-      return (num <= 1 ? num * 100 : num).toFixed(1) + "%";
-    }
+    function formatRupiah(val) { return "Rp " + Math.round(cleanMoney(val)).toLocaleString('id-ID'); }
+    function formatLiveRupiahInput(input) { const val = cleanMoney(input.value); if(val === 0 && input.value.trim() === '') return; input.value = Math.round(val).toLocaleString('id-ID'); }
+    function cleanPercent(val) { if(!val) return "0.0%"; if(typeof val === 'string' && val.includes('%')) return val; const num = parseFloat(val); return (num <= 1 ? num * 100 : num).toFixed(1) + "%"; }
 
     async function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
-
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
       if (!API_URL) {
         const inputUrl = prompt("https://script.google.com/macros/s/AKfycbzqxkBTLAc9wcH7HORkzAg-aTgJlPHgCY81CtTswyFjg5UO0yjG5U_vOgawW8-NqQjb/exec");
-        if (inputUrl && inputUrl.trim() !== "") {
-          API_URL = inputUrl.trim();
-          localStorage.setItem(STORAGE_KEY_URL, API_URL);
-        } else {
-          return;
-        }
+        if (inputUrl && inputUrl.trim() !== "") { API_URL = inputUrl.trim(); localStorage.setItem(STORAGE_KEY_URL, API_URL); } else return;
       }
-
       showToast("Memverifikasi...");
       try {
         const res = await fetch(`${API_URL}?action=verify_pin&username=${encodeURIComponent(u)}&pin=${encodeURIComponent(p)}`);
         const json = await res.json();
-        if (json.success) {
-          currentUser = json.user;
-          localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
-          unlockPortal();
-        } else {
-          alert(json.message);
-        }
-      } catch (err) {
-        alert("Koneksi ke Apps Script gagal! Pastikan Webhook URL benar & deployment diset 'Anyone'.");
-      }
+        if (json.success) { currentUser = json.user; localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser)); unlockPortal(); }
+        else alert(json.message);
+      } catch (err) { alert("Gagal koneksi ke Apps Script. Pastikan Webhook URL benar & diset 'Anyone'."); }
     }
 
     function unlockPortal() {
@@ -1139,12 +580,7 @@
       startLiveClock();
     }
 
-    function logout() {
-      localStorage.removeItem(STORAGE_KEY_USER);
-      currentUser = null;
-      document.getElementById("gatekeeper").style.display = "flex";
-      document.getElementById("loginPin").value = "";
-    }
+    function logout() { localStorage.removeItem(STORAGE_KEY_USER); currentUser = null; document.getElementById("gatekeeper").style.display = "flex"; }
 
     function startLiveClock() {
       setInterval(() => {
@@ -1164,8 +600,9 @@
     function switchView(viewId) {
       document.querySelectorAll("nav .nav-tab").forEach(t => t.classList.remove("active"));
       event.target.classList.add("active");
-      const views = ['dashboard', 'kalender', 'checklist', 'stok', 'serah-terima', 'daily-report', 'menu', 'perusahaan'];
-      views.forEach(v => document.getElementById("view-" + v).style.display = (v === viewId) ? "block" : "none");
+      ['dashboard', 'kalender', 'checklist', 'stok', 'serah-terima', 'daily-report', 'menu', 'perusahaan'].forEach(v => {
+        document.getElementById("view-" + v).style.display = (v === viewId) ? "block" : "none";
+      });
       if (viewId === 'kalender') renderCalendar();
     }
 
@@ -1177,57 +614,39 @@
         const json = await res.json();
         if (json.success) {
           localData = json.data;
-          renderDashboard();
-          renderChecklistStations();
-          renderStokTable();
-          renderHandoverTable();
-          renderDailyReportTable();
-          renderMenuTable('Minuman');
+          renderDashboard(); renderChecklistStations(); renderStokTable(); renderHandoverTable();
+          renderDailyReportTable(); renderMenuTable('Minuman');
           if (currentUser.level >= 4) renderVaultTable();
-          populateUserDropdowns();
-          updateLogItemDropdown();
+          populateUserDropdowns(); updateLogItemDropdown();
           showToast("Data tersinkronisasi!");
         }
-      } catch (e) {
-        console.error(e);
-      }
+      } catch (e) { console.error(e); }
     }
 
     function refreshAllData() { fetchAllData(); }
-
     function populateUserDropdowns() {
       const sel = document.getElementById("fJdwUser");
-      if(!sel) return;
-      sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
+      if(sel) sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
     }
 
     function renderDashboard() {
       const todayStr = new Date().toISOString().split('T')[0];
       const todayHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr || h.tanggal === "2026-11-07");
-      
       let salesToday = 0, tunaiTotal = 0, nonTunaiTotal = 0, onlineTotal = 0;
       todayHandovers.forEach(h => {
-        const t = cleanMoney(h.penjualan_tunai);
-        const nt = cleanMoney(h.non_tunai_qris);
-        const onl = cleanMoney(h.online_food);
-        tunaiTotal += t; nonTunaiTotal += nt; onlineTotal += onl;
-        salesToday += (t + nt + onl);
+        const t = cleanMoney(h.penjualan_tunai), nt = cleanMoney(h.non_tunai_qris), onl = cleanMoney(h.online_food);
+        tunaiTotal += t; nonTunaiTotal += nt; onlineTotal += onl; salesToday += (t + nt + onl);
       });
-
       document.getElementById("kpiSalesToday").innerText = formatRupiah(salesToday || 400000);
       let mtdTotal = 0;
       (localData.DAILY_REPORT || []).forEach(d => mtdTotal += cleanMoney(d.total_omset));
       document.getElementById("kpiTargetMtd").innerText = formatRupiah(mtdTotal || salesToday || 400000);
 
       const restock = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang);
-        const op1 = cleanMoney(s.opname_s1);
-        const op2 = cleanMoney(s.opname_s2);
-        const waste = cleanMoney(s.waste_mikro);
-        const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
+        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
+        const waste = cleanMoney(s.waste_mikro), mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
         const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikro - waste));
-        const total = gudang + sisa;
-        return total <= cleanMoney(s.min_stok);
+        return (gudang + sisa) <= cleanMoney(s.min_stok);
       }).length;
       document.getElementById("kpiRestockCount").innerText = `${restock} Item`;
 
@@ -1236,64 +655,40 @@
       document.getElementById("kpiChecklistProgress").innerText = `${Math.round((doneTasks/totalTasks)*100)}%`;
 
       if(chartSalesInst) chartSalesInst.destroy();
-      const ctxSales = document.getElementById("chartSales").getContext("2d");
-      chartSalesInst = new Chart(ctxSales, {
+      chartSalesInst = new Chart(document.getElementById("chartSales").getContext("2d"), {
         type: 'bar',
-        data: {
-          labels: ['Tunai', 'QRIS/EDC', 'Online Food'],
-          datasets: [{
-            data: [tunaiTotal || 200000, nonTunaiTotal || 200000, onlineTotal || 0],
-            backgroundColor: ['#ffffff', '#a1a1aa', '#71717a'],
-            borderRadius: 6
-          }]
-        },
+        data: { labels: ['Tunai', 'QRIS/EDC', 'Online'], datasets: [{ data: [tunaiTotal || 200000, nonTunaiTotal || 200000, onlineTotal || 0], backgroundColor: ['#ffffff', '#a1a1aa', '#71717a'], borderRadius: 6 }] },
         options: { responsive: true, plugins: { legend: { display: false } } }
       });
 
       if(chartChecklistInst) chartChecklistInst.destroy();
-      const ctxChk = document.getElementById("chartChecklist").getContext("2d");
-      chartChecklistInst = new Chart(ctxChk, {
+      chartChecklistInst = new Chart(document.getElementById("chartChecklist").getContext("2d"), {
         type: 'doughnut',
         data: {
           labels: ['Barista & Kasir', 'Kitchen', 'Server'],
           datasets: [{
-            data: [
-              (localData.CHECKLIST || []).filter(c=>c.station.includes('BARISTA')).length || 7,
-              (localData.CHECKLIST || []).filter(c=>c.station.includes('KITCHEN')).length || 2,
-              (localData.CHECKLIST || []).filter(c=>c.station.includes('SERVER')).length || 1
-            ],
-            backgroundColor: ['#ffffff', '#a1a1aa', '#52525b'],
-            borderWidth: 0
+            data: [(localData.CHECKLIST || []).filter(c=>c.station.includes('BARISTA')).length || 7, (localData.CHECKLIST || []).filter(c=>c.station.includes('KITCHEN')).length || 2, (localData.CHECKLIST || []).filter(c=>c.station.includes('SERVER')).length || 1],
+            backgroundColor: ['#ffffff', '#a1a1aa', '#52525b'], borderWidth: 0
           }]
         },
         options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
       });
     }
 
-    function changeMonth(delta) {
-      calDate.setMonth(calDate.getMonth() + delta);
-      renderCalendar();
-    }
-
+    function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
     function renderCalendar() {
-      const y = calDate.getFullYear();
-      const m = calDate.getMonth();
+      const y = calDate.getFullYear(), m = calDate.getMonth();
       const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
       document.getElementById("calMonthTitle").innerText = `${monthNames[m]} ${y}`;
-
       const grid = document.getElementById("calendarGrid");
       grid.innerHTML = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d => `<div class="cal-day-name">${d}</div>`).join('');
-
       const daysInMonth = new Date(y, m + 1, 0).getDate();
       for (let day = 1; day <= daysInMonth; day++) {
         const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
         const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
-        const s1 = roster.filter(j => j.shift === '1');
-        const s2 = roster.filter(j => j.shift === '2');
-        const off = roster.filter(j => j.status_hadir === 'Libur');
+        const s1 = roster.filter(j => j.shift === '1'), s2 = roster.filter(j => j.shift === '2'), off = roster.filter(j => j.status_hadir === 'Libur');
         const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
         const hasData = (roster.length > 0 || logs.length > 0);
-
         grid.innerHTML += `
           <div class="cal-cell ${hasData ? 'has-data' : ''}" onclick="openDayInspector('${dateStr}')">
             <div class="cal-date-num">${day}</div>
@@ -1301,7 +696,7 @@
               ${s1.length ? `<span class="cal-badge badge-shift">S1: ${s1.map(x=>x.nama).join(',')}</span>` : ''}
               ${s2.length ? `<span class="cal-badge badge-shift">S2: ${s2.map(x=>x.nama).join(',')}</span>` : ''}
               ${off.length ? `<span class="cal-badge badge-off">Off: ${off.map(x=>x.nama).join(',')}</span>` : ''}
-              ${logs.length ? `<span class="cal-badge badge-log">${logs.length} Catatan/Log</span>` : ''}
+              ${logs.length ? `<span class="cal-badge badge-log">${logs.length} Log</span>` : ''}
             </div>
           </div>
         `;
@@ -1311,258 +706,143 @@
     function openDayInspector(dateStr) {
       activeInspectDate = dateStr;
       document.getElementById("inspectDateTitle").innerText = `Detail Tanggal: ${dateStr}`;
-      
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
-      const rList = document.getElementById("inspectRosterList");
-      rList.innerHTML = roster.length ? roster.map(r => `
-        <div style="font-size:0.8rem; padding:0.4rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift}
-            <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}" style="margin-left:0.3rem;">${r.status_hadir}</span>
-          </div>
-          <div style="display:flex; gap:0.25rem;">
-            <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="editRosterModal('${r.id}')">Edit</button>
-            <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button>
-          </div>
+      document.getElementById("inspectRosterList").innerHTML = roster.length ? roster.map(r => `
+        <div style="font-size:0.78rem; padding:0.35rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <div><strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift} <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}">${r.status_hadir}</span></div>
+          <div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editRosterModal('${r.id}')">Edit</button><button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button></div>
         </div>
       `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Belum ada jadwal staff.</div>';
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
-      const lList = document.getElementById("inspectLogList");
-      lList.innerHTML = logs.length ? logs.map(l => `
-        <div style="font-size:0.8rem; padding:0.4rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div>
-            <div style="color:var(--text-muted); font-size:0.75rem; margin-top:0.15rem;">${l.detail} (PIC: ${l.pic})</div>
-          </div>
-          <div style="display:flex; gap:0.25rem;">
-            <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
-            <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button>
-          </div>
+      document.getElementById("inspectLogList").innerHTML = logs.length ? logs.map(l => `
+        <div style="font-size:0.78rem; padding:0.35rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted); font-size:0.72rem;">${l.detail} (PIC: ${l.pic})</div></div>
+          <div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editLogModal('${l.log_id}')">Edit</button><button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button></div>
         </div>
-      `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Tidak ada waste / catatan kejadian.</div>';
-
+      `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Tidak ada log / catatan.</div>';
       openModal('modalDayInspector');
     }
 
-    function openRosterForCurrentInspectDate() {
-      document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal Staff";
-      document.getElementById("fJdwEditId").value = "";
-      document.getElementById("fJdwTanggal").value = activeInspectDate;
-      openModal('modalRoster');
-    }
-
+    function openRosterForCurrentInspectDate() { document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal"; document.getElementById("fJdwEditId").value = ""; document.getElementById("fJdwTanggal").value = activeInspectDate; openModal('modalRoster'); }
     function editRosterModal(id) {
-      const r = (localData.JADWAL || []).find(x => x.id === id);
-      if(!r) return;
+      const r = (localData.JADWAL || []).find(x => x.id === id); if(!r) return;
       document.getElementById("modalRosterTitle").innerText = "Edit Jadwal: " + r.nama;
-      document.getElementById("fJdwEditId").value = r.id;
-      document.getElementById("fJdwTanggal").value = r.tanggal;
-      document.getElementById("fJdwUser").value = r.username;
-      document.getElementById("fJdwShift").value = r.shift;
-      document.getElementById("fJdwStatus").value = r.status_hadir;
-      document.getElementById("fJdwCatatan").value = r.catatan;
+      document.getElementById("fJdwEditId").value = r.id; document.getElementById("fJdwTanggal").value = r.tanggal; document.getElementById("fJdwUser").value = r.username;
+      document.getElementById("fJdwShift").value = r.shift; document.getElementById("fJdwStatus").value = r.status_hadir; document.getElementById("fJdwCatatan").value = r.catatan;
       openModal('modalRoster');
     }
+    async function deleteRosterItem(id) { if(confirm(`Hapus jadwal ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "JADWAL", { key: "id", val: id }); await fetchAllData(); openDayInspector(activeInspectDate); renderCalendar(); } }
 
-    async function deleteRosterItem(id) {
-      if(confirm(`Hapus jadwal ${id}?`)) {
-        showToast("Menghapus jadwal...");
-        await postToGas("delete", "JADWAL", { key: "id", val: id });
-        await fetchAllData();
-        openDayInspector(activeInspectDate);
-        renderCalendar();
-      }
+    function handleLogCategoryChange() {
+      const kat = document.getElementById("fLogKategori").value;
+      const isStock = (kat.includes("Barang Masuk") || kat.includes("Waste") || kat.includes("Kalibrasi"));
+      document.getElementById("fLogStockSection").style.display = isStock ? "block" : "none";
+      document.getElementById("fLogNonStockSection").style.display = isStock ? "none" : "block";
+      updateLogEffectNotice();
     }
 
-    // UPDATE DROPDOWN BAHAN DARI STOK SECARA REAL-TIME
     function updateLogItemDropdown() {
       const div = document.getElementById("fLogDivisi").value;
       const select = document.getElementById("fLogItemSelect");
-      const filteredItems = (localData.STOK || []).filter(s => s.divisi === div);
-
-      if (filteredItems.length === 0) {
-        select.innerHTML = '<option value="">[Tidak ada barang di divisi ini]</option><option value="MANUAL">+ Ketik Bahan Lainnya</option>';
-      } else {
-        select.innerHTML = filteredItems.map(s => `
-          <option value="${s.item_id}" data-nama="${s.nama_barang}" data-satuan="${s.satuan}">
-            ${s.nama_barang} (Satuan: ${s.satuan} | Gudang: ${cleanMoney(s.stok_gudang)})
-          </option>
-        `).join('') + '<option value="MANUAL">+ Ketik Bahan Lainnya</option>';
-      }
+      const filtered = (localData.STOK || []).filter(s => s.divisi === div);
+      select.innerHTML = filtered.length ? filtered.map(s => {
+        const sisa = (cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || Math.max(0, cleanMoney(s.tersedia_pagi)+cleanMoney(s.refill_s1)+cleanMoney(s.refill_s2)-cleanMoney(s.waste_mikro)));
+        return `<option value="${s.item_id}" data-nama="${s.nama_barang}" data-satuan="${s.satuan}" data-gudang="${cleanMoney(s.stok_gudang)}" data-mikro="${sisa}">${s.nama_barang} (${s.satuan} | Gudang: ${cleanMoney(s.stok_gudang)} | Stasiun: ${sisa})</option>`;
+      }).join('') : '<option value="">[Tidak ada barang di divisi ini]</option>';
       handleLogItemSelectChange();
     }
 
     function handleLogItemSelectChange() {
       const select = document.getElementById("fLogItemSelect");
       const opt = select.options[select.selectedIndex];
-      if (opt && opt.value !== "MANUAL" && opt.value !== "") {
-        document.getElementById("fLogSatuan").value = opt.getAttribute("data-satuan") || "";
-      } else {
-        document.getElementById("fLogSatuan").value = "gram/pcs";
-      }
+      document.getElementById("fLogSatuan").value = opt ? opt.getAttribute("data-satuan") || "" : "gram/pcs";
       updateLogEffectNotice();
     }
 
     function updateLogEffectNotice() {
-      const kat = document.getElementById("fLogKategori").value;
-      const jml = cleanMoney(document.getElementById("fLogJumlahVal").value);
-      const satuan = document.getElementById("fLogSatuan").value || "";
-      const textEl = document.getElementById("logEffectText");
-      const box = document.getElementById("logEffectBox");
-
-      if (kat === "Barang Masuk (Restock)") {
+      const kat = document.getElementById("fLogKategori").value, jml = cleanMoney(document.getElementById("fLogJumlahVal").value), satuan = document.getElementById("fLogSatuan").value || "";
+      const textEl = document.getElementById("logEffectText"), box = document.getElementById("logEffectBox");
+      const opt = document.getElementById("fLogItemSelect").options[document.getElementById("fLogItemSelect").selectedIndex];
+      const curG = opt ? Number(opt.getAttribute("data-gudang") || 0) : 0, curM = opt ? Number(opt.getAttribute("data-mikro") || 0) : 0;
+      if (kat.includes("Barang Masuk")) {
         box.style.borderLeftColor = "var(--success)";
-        textEl.innerText = `📦 Otomatis MENAMBAH ${jml.toLocaleString('id-ID')} ${satuan} ke Stok Gudang (Makro).`;
-      } else if (kat === "Waste Bahan (Afkir)" || kat === "Kalibrasi Espresso/Alat") {
+        textEl.innerText = `📦 Otomatis MENAMBAH Stok Gudang (Makro): ${curG.toLocaleString('id-ID')} + ${jml.toLocaleString('id-ID')} = ${(curG + jml).toLocaleString('id-ID')} ${satuan}.`;
+      } else if (kat.includes("Waste") || kat.includes("Kalibrasi")) {
         box.style.borderLeftColor = "var(--warning)";
-        textEl.innerText = `📉 Otomatis MENGURANGI ${jml.toLocaleString('id-ID')} ${satuan} dari Stok Stasiun (Mikro) sebagai pemakaian.`;
+        textEl.innerText = `📉 Otomatis MEMOTONG Stok Stasiun (Mikro): ${curM.toLocaleString('id-ID')} - ${jml.toLocaleString('id-ID')} = ${Math.max(0, curM - jml).toLocaleString('id-ID')} ${satuan} (Masuk Pemakaian).`;
       } else {
         box.style.borderLeftColor = "var(--accent)";
-        textEl.innerText = `ℹ️ Dicatat sebagai buku log catatan operasional.`;
+        textEl.innerText = `ℹ️ Dicatat sebagai buku log catatan harian.`;
       }
     }
 
     function openLogForCurrentInspectDate() {
-      document.getElementById("modalLogTitle").innerText = "Tambah Log / Waste Baru";
-      document.getElementById("fLogEditId").value = "";
-      document.getElementById("fLogTanggal").value = activeInspectDate;
-      document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
-      document.getElementById("fLogJumlahVal").value = "";
-      document.getElementById("fLogDetail").value = "";
-      updateLogItemDropdown();
-      openModal('modalLog');
+      document.getElementById("modalLogTitle").innerText = "Tambah Log / Waste"; document.getElementById("fLogEditId").value = "";
+      document.getElementById("fLogTanggal").value = activeInspectDate; document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = "";
+      updateLogItemDropdown(); handleLogCategoryChange(); openModal('modalLog');
     }
 
     function editLogModal(id) {
-      const l = (localData.LOG_KALENDER || []).find(x => x.log_id === id);
-      if(!l) return;
+      const l = (localData.LOG_KALENDER || []).find(x => x.log_id === id); if(!l) return;
       document.getElementById("modalLogTitle").innerText = "Edit Log: " + l.log_id;
-      document.getElementById("fLogEditId").value = l.log_id;
-      document.getElementById("fLogTanggal").value = l.tanggal;
-      document.getElementById("fLogJam").value = l.jam;
-      document.getElementById("fLogDivisi").value = l.divisi;
-      updateLogItemDropdown();
-      document.getElementById("fLogKategori").value = l.kategori;
+      document.getElementById("fLogEditId").value = l.log_id; document.getElementById("fLogTanggal").value = l.tanggal; document.getElementById("fLogJam").value = l.jam; document.getElementById("fLogDivisi").value = l.divisi;
+      updateLogItemDropdown(); document.getElementById("fLogKategori").value = l.kategori; handleLogCategoryChange();
       if (l.item_id) document.getElementById("fLogItemSelect").value = l.item_id;
-      document.getElementById("fLogJumlahVal").value = l.jumlah_angka || "";
-      document.getElementById("fLogSatuan").value = l.satuan || "";
-      document.getElementById("fLogDetail").value = l.detail;
-      updateLogEffectNotice();
-      openModal('modalLog');
+      document.getElementById("fLogJumlahVal").value = l.jumlah_angka || ""; document.getElementById("fLogSatuan").value = l.satuan || ""; document.getElementById("fLogDetail").value = l.detail;
+      updateLogEffectNotice(); openModal('modalLog');
     }
 
-    async function deleteLogItem(id) {
-      if(confirm(`Hapus log ${id}?`)) {
-        showToast("Menghapus log...");
-        await postToGas("delete", "LOG_KALENDER", { key: "log_id", val: id });
-        await fetchAllData();
-        openDayInspector(activeInspectDate);
-        renderCalendar();
-      }
-    }
-
-    function openNewRosterModal() {
-      document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal Staff";
-      document.getElementById("fJdwEditId").value = "";
-      document.getElementById("fJdwTanggal").value = new Date().toISOString().split('T')[0];
-      openModal('modalRoster');
-    }
-
-    function openNewLogModal() {
-      document.getElementById("modalLogTitle").innerText = "Tambah Log / Waste Baru";
-      document.getElementById("fLogEditId").value = "";
-      document.getElementById("fLogTanggal").value = new Date().toISOString().split('T')[0];
-      document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
-      document.getElementById("fLogJumlahVal").value = "";
-      document.getElementById("fLogDetail").value = "";
-      updateLogItemDropdown();
-      openModal('modalLog');
-    }
+    async function deleteLogItem(id) { if(confirm(`Hapus log ${id}?`)) { showToast("Menghapus log..."); await postToGas("delete", "LOG_KALENDER", { key: "log_id", val: id }); await fetchAllData(); openDayInspector(activeInspectDate); renderCalendar(); } }
+    function openNewRosterModal() { document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal"; document.getElementById("fJdwEditId").value = ""; document.getElementById("fJdwTanggal").value = new Date().toISOString().split('T')[0]; openModal('modalRoster'); }
+    function openNewLogModal() { document.getElementById("modalLogTitle").innerText = "Tambah Log / Waste"; document.getElementById("fLogEditId").value = ""; document.getElementById("fLogTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':'); document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = ""; updateLogItemDropdown(); handleLogCategoryChange(); openModal('modalLog'); }
 
     async function submitRosterForm() {
-      const editId = document.getElementById("fJdwEditId").value;
-      const u = document.getElementById("fJdwUser").value;
+      const editId = document.getElementById("fJdwEditId").value, u = document.getElementById("fJdwUser").value;
       const userObj = (localData.USERS || []).find(x => x.username === u) || {};
-      const payload = {
-        tanggal: document.getElementById("fJdwTanggal").value,
-        shift: document.getElementById("fJdwShift").value,
-        username: u,
-        nama: userObj.nama_lengkap || u,
-        divisi: userObj.divisi || "BARISTA",
-        status_hadir: document.getElementById("fJdwStatus").value,
-        catatan: document.getElementById("fJdwCatatan").value
-      };
-      closeModal('modalRoster');
-      showToast("Menyimpan jadwal...");
-      if(editId) {
-        await postToGas("update", "JADWAL", { key: "id", val: editId, updates: payload });
-      } else {
-        payload.id = "JDW-" + Date.now().toString().slice(-5);
-        await postToGas("insert", "JADWAL", payload);
-      }
-      await fetchAllData();
-      renderCalendar();
+      const payload = { tanggal: document.getElementById("fJdwTanggal").value, shift: document.getElementById("fJdwShift").value, username: u, nama: userObj.nama_lengkap || u, divisi: userObj.divisi || "BARISTA", status_hadir: document.getElementById("fJdwStatus").value, catatan: document.getElementById("fJdwCatatan").value };
+      closeModal('modalRoster'); showToast("Menyimpan jadwal...");
+      if(editId) await postToGas("update", "JADWAL", { key: "id", val: editId, updates: payload });
+      else { payload.id = "JDW-" + Date.now().toString().slice(-5); await postToGas("insert", "JADWAL", payload); }
+      await fetchAllData(); renderCalendar();
     }
 
-    // SUBMIT LOG DENGAN SINKRONISASI OTOMATIS KE STOK GUDANG / MIKRO
     async function submitLogForm() {
-      const editId = document.getElementById("fLogEditId").value;
-      const kat = document.getElementById("fLogKategori").value;
+      const editId = document.getElementById("fLogEditId").value, kat = document.getElementById("fLogKategori").value;
       const itemSelect = document.getElementById("fLogItemSelect");
-      const selectedOpt = itemSelect.options[itemSelect.selectedIndex];
-      const itemId = (selectedOpt && selectedOpt.value !== "MANUAL") ? selectedOpt.value : "";
-      const itemName = selectedOpt ? selectedOpt.getAttribute("data-nama") || selectedOpt.text : "Bahan";
-      const jumlah = cleanMoney(document.getElementById("fLogJumlahVal").value);
-      const satuan = document.getElementById("fLogSatuan").value;
+      const opt = itemSelect ? itemSelect.options[itemSelect.selectedIndex] : null;
+      const isStock = (kat.includes("Barang Masuk") || kat.includes("Waste") || kat.includes("Kalibrasi"));
+      const itemId = (isStock && opt) ? opt.value : "";
+      const itemName = isStock ? (opt ? opt.getAttribute("data-nama") : "Bahan") : document.getElementById("fLogItemManual").value;
+      const jumlah = cleanMoney(document.getElementById("fLogJumlahVal").value), satuan = document.getElementById("fLogSatuan").value;
 
       const payload = {
-        tanggal: document.getElementById("fLogTanggal").value,
-        jam: document.getElementById("fLogJam").value || new Date().toLocaleTimeString('id-ID'),
-        divisi: document.getElementById("fLogDivisi").value,
-        kategori: kat,
-        item_terkait: itemName,
-        item_id: itemId,
-        jumlah_angka: jumlah,
-        satuan: satuan,
-        detail: document.getElementById("fLogDetail").value,
-        pic: currentUser.username,
-        tindak_lanjut: "Tercatat & Terkoneksi Stok"
+        tanggal: document.getElementById("fLogTanggal").value, jam: document.getElementById("fLogJam").value || new Date().toLocaleTimeString('id-ID'),
+        divisi: document.getElementById("fLogDivisi").value, kategori: kat, item_terkait: itemName, item_id: itemId, jumlah_angka: jumlah, satuan: satuan,
+        detail: document.getElementById("fLogDetail").value, pic: currentUser.username, tindak_lanjut: "Tercatat & Terkoneksi Stok"
       };
+      closeModal('modalLog'); showToast("Menyimpan log & update stok...");
+      if(editId) await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
+      else { payload.log_id = "LOG-" + Date.now().toString().slice(-5); await postToGas("insert", "LOG_KALENDER", payload); }
 
-      closeModal('modalLog');
-      showToast("Menyimpan log & mengupdate stok...");
-
-      // 1. Simpan baris di LOG_KALENDER
-      if(editId) {
-        await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
-      } else {
-        payload.log_id = "LOG-" + Date.now().toString().slice(-5);
-        await postToGas("insert", "LOG_KALENDER", payload);
-      }
-
-      // 2. OTOMATIS MUTASI STOK JIKA ADA ITEM ID TERKAIT
       if (itemId) {
         const itemStok = (localData.STOK || []).find(s => s.item_id === itemId);
         if (itemStok) {
-          if (kat === "Barang Masuk (Restock)") {
-            // Menambah Stok Gudang (Makro)
-            const newGudang = cleanMoney(itemStok.stok_gudang) + jumlah;
-            await postToGas("update", "STOK", { key: "item_id", val: itemId, updates: { stok_gudang: newGudang } });
-          } else if (kat === "Waste Bahan (Afkir)" || kat === "Kalibrasi Espresso/Alat") {
-            // Menambah Waste Mikro (otomatis mengurangi mikro dan tercatat di pemakaian)
-            const newWaste = cleanMoney(itemStok.waste_mikro) + jumlah;
-            await postToGas("update", "STOK", { key: "item_id", val: itemId, updates: { waste_mikro: newWaste } });
+          if (kat.includes("Barang Masuk")) {
+            const newG = cleanMoney(itemStok.stok_gudang) + jumlah;
+            itemStok.stok_gudang = newG;
+            await postToGas("update", "STOK", { key: "item_id", val: itemId, updates: { stok_gudang: newG } });
+          } else if (kat.includes("Waste") || kat.includes("Kalibrasi")) {
+            const newW = cleanMoney(itemStok.waste_mikro) + jumlah;
+            itemStok.waste_mikro = newW;
+            await postToGas("update", "STOK", { key: "item_id", val: itemId, updates: { waste_mikro: newW } });
           }
         }
       }
-
-      await fetchAllData();
-      renderCalendar();
-      showToast("Stok otomatis terupdate!");
+      await fetchAllData(); renderCalendar(); showToast("Stok otomatis tersinkronisasi!");
     }
 
-    // CHECKLIST
     function renderChecklistStations() {
       const container = document.getElementById("stationGrid");
       const stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
@@ -1570,21 +850,12 @@
         const tasks = (localData.CHECKLIST || []).filter(c => c.station === st);
         return `
           <div class="station-card">
-            <div class="station-header">
-              <span>Station ${st}</span>
-              <span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span>
-            </div>
+            <div class="station-header"><span>Station ${st}</span><span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span></div>
             ${tasks.map(t => `
               <div class="task-item">
                 <input type="checkbox" class="task-check" ${t.status==='Selesai'?'checked':''} onchange="toggleTaskState('${t.task_id}', this.checked)">
-                <div class="task-content">
-                  <div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div>
-                  <div class="task-sub">Shift ${t.shift} • Target ${t.jam_target} • PIC: ${t.petugas || '-'}</div>
-                </div>
-                <div style="display:flex; gap:0.25rem;">
-                  <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="editTaskModal('${t.task_id}')">Edit</button>
-                  <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.68rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button>
-                </div>
+                <div class="task-content"><div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div><div class="task-sub">Shift ${t.shift} • Target ${t.jam_target} • PIC: ${t.petugas || '-'}</div></div>
+                <div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editTaskModal('${t.task_id}')">Edit</button><button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button></div>
               </div>
             `).join('')}
           </div>
@@ -1593,416 +864,196 @@
     }
 
     async function toggleTaskState(id, isChecked) {
-      showToast("Menyimpan checklist...");
-      const task = (localData.CHECKLIST || []).find(c => c.task_id === id);
-      if(task) { task.status = isChecked ? "Selesai" : "Belum"; }
+      const task = (localData.CHECKLIST || []).find(c => c.task_id === id); if(task) task.status = isChecked ? "Selesai" : "Belum";
       renderChecklistStations();
-      await postToGas("update", "CHECKLIST", {
-        key: "task_id", val: id,
-        updates: { status: isChecked ? "Selesai" : "Belum", jam_selesai: new Date().toLocaleTimeString('id-ID'), petugas: currentUser.username }
-      });
+      await postToGas("update", "CHECKLIST", { key: "task_id", val: id, updates: { status: isChecked ? "Selesai" : "Belum", jam_selesai: new Date().toLocaleTimeString('id-ID'), petugas: currentUser.username } });
       fetchAllData();
     }
-
-    function openNewTaskModal() {
-      document.getElementById("modalTaskTitle").innerText = "Buat Tugas Checklist Baru";
-      document.getElementById("fTaskEditId").value = "";
-      document.getElementById("fTaskUraian").value = "";
-      document.getElementById("fTaskJam").value = "08:30";
-      openModal('modalTask');
-    }
-
+    function openNewTaskModal() { document.getElementById("modalTaskTitle").innerText = "Buat Tugas Checklist"; document.getElementById("fTaskEditId").value = ""; document.getElementById("fTaskUraian").value = ""; openModal('modalTask'); }
     function editTaskModal(id) {
-      const t = (localData.CHECKLIST || []).find(x => x.task_id === id);
-      if(!t) return;
-      document.getElementById("modalTaskTitle").innerText = "Edit Tugas Checklist";
-      document.getElementById("fTaskEditId").value = t.task_id;
-      document.getElementById("fTaskStation").value = t.station;
-      document.getElementById("fTaskShift").value = t.shift;
-      document.getElementById("fTaskFase").value = t.fase;
-      document.getElementById("fTaskJam").value = t.jam_target;
-      document.getElementById("fTaskUraian").value = t.tugas;
-      openModal('modalTask');
+      const t = (localData.CHECKLIST || []).find(x => x.task_id === id); if(!t) return;
+      document.getElementById("modalTaskTitle").innerText = "Edit Tugas"; document.getElementById("fTaskEditId").value = t.task_id;
+      document.getElementById("fTaskStation").value = t.station; document.getElementById("fTaskShift").value = t.shift; document.getElementById("fTaskFase").value = t.fase;
+      document.getElementById("fTaskJam").value = t.jam_target; document.getElementById("fTaskUraian").value = t.tugas; openModal('modalTask');
     }
-
     async function submitTaskForm() {
       const editId = document.getElementById("fTaskEditId").value;
-      const payload = {
-        station: document.getElementById("fTaskStation").value,
-        shift: document.getElementById("fTaskShift").value,
-        fase: document.getElementById("fTaskFase").value,
-        jam_target: document.getElementById("fTaskJam").value,
-        tugas: document.getElementById("fTaskUraian").value
-      };
-      closeModal('modalTask');
-      showToast("Menyimpan tugas...");
-      if(editId) {
-        await postToGas("update", "CHECKLIST", { key: "task_id", val: editId, updates: payload });
-      } else {
-        payload.task_id = "CHK-" + Date.now().toString().slice(-5);
-        payload.tanggal = new Date().toISOString().split('T')[0];
-        payload.status = "Belum";
-        payload.petugas = currentUser.username;
-        await postToGas("insert", "CHECKLIST", payload);
-      }
+      const payload = { station: document.getElementById("fTaskStation").value, shift: document.getElementById("fTaskShift").value, fase: document.getElementById("fTaskFase").value, jam_target: document.getElementById("fTaskJam").value, tugas: document.getElementById("fTaskUraian").value };
+      closeModal('modalTask'); showToast("Menyimpan tugas...");
+      if(editId) await postToGas("update", "CHECKLIST", { key: "task_id", val: editId, updates: payload });
+      else { payload.task_id = "CHK-" + Date.now().toString().slice(-5); payload.tanggal = new Date().toISOString().split('T')[0]; payload.status = "Belum"; payload.petugas = currentUser.username; await postToGas("insert", "CHECKLIST", payload); }
       fetchAllData();
     }
+    async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); fetchAllData(); } }
 
-    async function deleteTaskItem(id) {
-      if(confirm(`Hapus tugas ${id}?`)) {
-        showToast("Menghapus tugas...");
-        await postToGas("delete", "CHECKLIST", { key: "task_id", val: id });
-        fetchAllData();
-      }
-    }
-
-    // STOK INVENTARIS TERPADU
     function renderStokTable() {
       const filter = document.getElementById("stokFilter").value;
       const data = (filter === "SEMUA") ? (localData.STOK || []) : (localData.STOK || []).filter(s => s.divisi === filter);
       document.getElementById("stokTableBody").innerHTML = data.map(s => {
-        const gudang = cleanMoney(s.stok_gudang);
-        const op1 = cleanMoney(s.opname_s1);
-        const op2 = cleanMoney(s.opname_s2);
-        const min = cleanMoney(s.min_stok);
-        const waste = cleanMoney(s.waste_mikro);
-        const mikroTersedia = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
-        
-        // Sisa aktual stasiun
-        const sisaAktual = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroTersedia - waste));
-        const pemakaian = Math.max(0, mikroTersedia - sisaAktual);
-        const total = gudang + sisaAktual;
+        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = cleanMoney(s.min_stok), waste = cleanMoney(s.waste_mikro);
+        const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
+        const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
+        const pemakaian = Math.max(0, mikroT - sisa);
+        const total = gudang + sisa;
         const status = total <= min ? "RESTOCK" : "AMAN";
         const diff = total - min;
-        const diffText = diff <= 0 ? `Kurang ${Math.abs(diff)}` : `Surplus +${diff}`;
-
         return `
           <tr>
-            <td><code>${s.item_id}</code></td>
-            <td>${s.divisi}</td>
-            <td><strong>${s.nama_barang}</strong></td>
-            <td>${s.satuan}</td>
-            <td>${gudang.toLocaleString('id-ID')}</td>
-            <td>${mikroTersedia.toLocaleString('id-ID')}</td>
+            <td><code>${s.item_id}</code></td><td>${s.divisi}</td><td><strong>${s.nama_barang}</strong></td><td>${s.satuan}</td>
+            <td>${gudang.toLocaleString('id-ID')}</td><td>${mikroT.toLocaleString('id-ID')}</td>
             <td style="color:var(--danger); font-weight:600;">${waste ? waste.toLocaleString('id-ID') : '-'}</td>
-            <td>
-              <input type="text" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
-                value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" 
-                oninput="formatLiveRupiahInput(this)" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)">
-            </td>
-            <td>
-              <input type="text" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" 
-                value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" 
-                oninput="formatLiveRupiahInput(this)" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)">
-            </td>
+            <td><input type="text" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" oninput="formatLiveRupiahInput(this)" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
+            <td><input type="text" style="width:65px; padding:0.2rem; background:var(--bg); color:var(--text); border:1px solid var(--border);" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" oninput="formatLiveRupiahInput(this)" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
             <td style="font-weight:700; color:var(--warning);">${pemakaian.toLocaleString('id-ID')}</td>
-            <td><strong>${total.toLocaleString('id-ID')}</strong></td>
-            <td>${min.toLocaleString('id-ID')}</td>
-            <td>
-              <span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span>
-              <div style="font-size:0.68rem; color:${diff<=0?'var(--danger)':'var(--text-muted)'}; margin-top:0.2rem;">${diffText} ${s.satuan}</div>
-            </td>
-            <td>
-              <div style="display:flex; gap:0.25rem;">
-                <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editStokModal('${s.item_id}')">Edit</button>
-                <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteStokItem('${s.item_id}')">Hapus</button>
-              </div>
-            </td>
+            <td><strong>${total.toLocaleString('id-ID')}</strong></td><td>${min.toLocaleString('id-ID')}</td>
+            <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span><div style="font-size:0.65rem; color:${diff<=0?'var(--danger)':'var(--text-muted)'}; margin-top:0.15rem;">${diff<=0?'Kurang '+Math.abs(diff):'Surplus +'+diff} ${s.satuan}</div></td>
+            <td><div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editStokModal('${s.item_id}')">Edit</button><button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteStokItem('${s.item_id}')">Hapus</button></div></td>
           </tr>
         `;
       }).join('');
     }
 
-    async function quickUpdateOpnameShift(id, fieldName, val) {
+    async function quickUpdateOpnameShift(id, field, val) {
       showToast("Menyimpan opname...");
-      let updates = {};
-      updates[fieldName] = cleanMoney(val);
+      let updates = {}; updates[field] = cleanMoney(val);
       await postToGas("update", "STOK", { key: "item_id", val: id, updates: updates });
       fetchAllData();
     }
 
     function calcModalStokPreview() {
-      const min = cleanMoney(document.getElementById("fStkMin").value);
-      const gudang = cleanMoney(document.getElementById("fStkGudang").value);
-      const pagi = cleanMoney(document.getElementById("fStkPagi").value);
-      const r1 = cleanMoney(document.getElementById("fStkRefillS1").value);
-      const r2 = cleanMoney(document.getElementById("fStkRefillS2").value);
-      const op1 = cleanMoney(document.getElementById("fStkOpnameS1").value);
-      const op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
-
-      const totalTersedia = pagi + r1 + r2;
-      const sisaAktual = op2 > 0 ? op2 : (op1 > 0 ? op1 : totalTersedia);
-      const pemakaian = Math.max(0, totalTersedia - sisaAktual);
-      const totalSemua = gudang + sisaAktual;
-      const isRestock = totalSemua <= min;
-
-      document.getElementById("fStkPreviewTersedia").innerText = totalTersedia.toLocaleString('id-ID');
-      document.getElementById("fStkPreviewSisa").innerText = sisaAktual.toLocaleString('id-ID');
+      const min = cleanMoney(document.getElementById("fStkMin").value), gudang = cleanMoney(document.getElementById("fStkGudang").value);
+      const pagi = cleanMoney(document.getElementById("fStkPagi").value), r1 = cleanMoney(document.getElementById("fStkRefillS1").value), r2 = cleanMoney(document.getElementById("fStkRefillS2").value);
+      const op1 = cleanMoney(document.getElementById("fStkOpnameS1").value), op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
+      const totalT = pagi + r1 + r2;
+      const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : totalT);
+      const pemakaian = Math.max(0, totalT - sisa), total = gudang + sisa;
+      document.getElementById("fStkPreviewTersedia").innerText = totalT.toLocaleString('id-ID');
+      document.getElementById("fStkPreviewSisa").innerText = sisa.toLocaleString('id-ID');
       document.getElementById("fStkPreviewPemakaian").innerText = pemakaian.toLocaleString('id-ID');
-      document.getElementById("fStkPreviewTotal").innerText = totalSemua.toLocaleString('id-ID');
-
-      const statusTag = document.getElementById("fStkPreviewStatus");
-      if (isRestock) {
-        statusTag.className = "tag tag-restock";
-        statusTag.innerText = `RESTOCK (Kurang ${Math.abs(totalSemua - min)})`;
-      } else {
-        statusTag.className = "tag tag-safe";
-        statusTag.innerText = `AMAN (Surplus +${totalSemua - min})`;
-      }
+      document.getElementById("fStkPreviewTotal").innerText = total.toLocaleString('id-ID');
+      const tag = document.getElementById("fStkPreviewStatus");
+      tag.className = (total <= min) ? "tag tag-restock" : "tag tag-safe";
+      tag.innerText = (total <= min) ? `RESTOCK (Kurang ${Math.abs(total - min)})` : `AMAN (Surplus +${total - min})`;
     }
 
     function openNewStokModal() {
-      document.getElementById("modalStokTitle").innerText = "Tambah Barang Inventaris Baru";
-      document.getElementById("fStkEditId").value = "";
-      document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0];
-      document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
-      document.getElementById("fStkNama").value = "";
-      document.getElementById("fStkSatuan").value = "";
-      document.getElementById("fStkMin").value = "500";
-      document.getElementById("fStkGudang").value = "2.000";
-      document.getElementById("fStkPagi").value = "1.000";
-      document.getElementById("fStkRefillS1").value = "500";
-      document.getElementById("fStkRefillS2").value = "0";
-      document.getElementById("fStkOpnameS1").value = "800";
-      document.getElementById("fStkOpnameS2").value = "";
-      calcModalStokPreview();
-      openModal('modalStok');
+      document.getElementById("modalStokTitle").innerText = "Tambah Barang Baru"; document.getElementById("fStkEditId").value = "";
+      document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fStkNama").value = ""; document.getElementById("fStkSatuan").value = "";
+      document.getElementById("fStkMin").value = "500"; document.getElementById("fStkGudang").value = "2.000"; document.getElementById("fStkPagi").value = "1.000";
+      document.getElementById("fStkRefillS1").value = "500"; document.getElementById("fStkRefillS2").value = "0"; document.getElementById("fStkOpnameS1").value = "800"; document.getElementById("fStkOpnameS2").value = "";
+      calcModalStokPreview(); openModal('modalStok');
     }
 
     function editStokModal(id) {
-      const item = (localData.STOK || []).find(s => s.item_id === id);
-      if(!item) return;
-      document.getElementById("modalStokTitle").innerText = "Edit Barang: " + id;
-      document.getElementById("fStkEditId").value = id;
-      document.getElementById("fStkTanggal").value = item.tgl_update || new Date().toISOString().split('T')[0];
-      document.getElementById("fStkJam").value = item.jam_update || new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
-      document.getElementById("fStkDivisi").value = item.divisi;
-      document.getElementById("fStkKategori").value = item.kategori;
-      document.getElementById("fStkNama").value = item.nama_barang;
-      document.getElementById("fStkSatuan").value = item.satuan;
-      document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID');
-      document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID');
-      document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID');
-      document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID');
+      const item = (localData.STOK || []).find(s => s.item_id === id); if(!item) return;
+      document.getElementById("modalStokTitle").innerText = "Edit Barang: " + id; document.getElementById("fStkEditId").value = id;
+      document.getElementById("fStkTanggal").value = item.tgl_update || new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = item.jam_update || "08:30";
+      document.getElementById("fStkDivisi").value = item.divisi; document.getElementById("fStkKategori").value = item.kategori;
+      document.getElementById("fStkNama").value = item.nama_barang; document.getElementById("fStkSatuan").value = item.satuan;
+      document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID'); document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID');
+      document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID'); document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID');
       document.getElementById("fStkRefillS2").value = cleanMoney(item.refill_s2).toLocaleString('id-ID');
       document.getElementById("fStkOpnameS1").value = item.opname_s1 ? cleanMoney(item.opname_s1).toLocaleString('id-ID') : "";
       document.getElementById("fStkOpnameS2").value = item.opname_s2 ? cleanMoney(item.opname_s2).toLocaleString('id-ID') : "";
-      calcModalStokPreview();
-      openModal('modalStok');
+      calcModalStokPreview(); openModal('modalStok');
     }
 
     async function submitStokForm() {
-      const editId = document.getElementById("fStkEditId").value;
-      const div = document.getElementById("fStkDivisi").value;
+      const editId = document.getElementById("fStkEditId").value, div = document.getElementById("fStkDivisi").value;
       const prefix = div === "BARISTA" ? "BAR" : (div === "KITCHEN" ? "KIT" : "SRV");
-
       const payload = {
-        divisi: div,
-        kategori: document.getElementById("fStkKategori").value,
-        nama_barang: document.getElementById("fStkNama").value,
-        satuan: document.getElementById("fStkSatuan").value,
-        min_stok: cleanMoney(document.getElementById("fStkMin").value),
-        stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
-        tersedia_pagi: cleanMoney(document.getElementById("fStkPagi").value),
-        refill_s1: cleanMoney(document.getElementById("fStkRefillS1").value),
-        refill_s2: cleanMoney(document.getElementById("fStkRefillS2").value),
-        opname_s1: cleanMoney(document.getElementById("fStkOpnameS1").value),
-        opname_s2: cleanMoney(document.getElementById("fStkOpnameS2").value),
-        tgl_update: document.getElementById("fStkTanggal").value,
-        jam_update: document.getElementById("fStkJam").value
+        divisi: div, kategori: document.getElementById("fStkKategori").value, nama_barang: document.getElementById("fStkNama").value, satuan: document.getElementById("fStkSatuan").value,
+        min_stok: cleanMoney(document.getElementById("fStkMin").value), stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
+        tersedia_pagi: cleanMoney(document.getElementById("fStkPagi").value), refill_s1: cleanMoney(document.getElementById("fStkRefillS1").value), refill_s2: cleanMoney(document.getElementById("fStkRefillS2").value),
+        opname_s1: cleanMoney(document.getElementById("fStkOpnameS1").value), opname_s2: cleanMoney(document.getElementById("fStkOpnameS2").value),
+        tgl_update: document.getElementById("fStkTanggal").value, jam_update: document.getElementById("fStkJam").value
       };
-
-      closeModal('modalStok');
-      showToast("Menyimpan perubahan stok...");
-      if(editId) {
-        await postToGas("update", "STOK", { key: "item_id", val: editId, updates: payload });
-      } else {
-        payload.item_id = `${prefix}-${Date.now().toString().slice(-4)}`;
-        await postToGas("insert", "STOK", payload);
-      }
+      closeModal('modalStok'); showToast("Menyimpan stok...");
+      if(editId) await postToGas("update", "STOK", { key: "item_id", val: editId, updates: payload });
+      else { payload.item_id = `${prefix}-${Date.now().toString().slice(-4)}`; await postToGas("insert", "STOK", payload); }
       fetchAllData();
     }
+    async function deleteStokItem(id) { if(confirm(`Hapus barang ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "STOK", { key: "item_id", val: id }); fetchAllData(); } }
 
-    async function deleteStokItem(id) {
-      if(confirm(`Hapus barang ${id}?`)) {
-        showToast("Menghapus barang...");
-        await postToGas("delete", "STOK", { key: "item_id", val: id });
-        fetchAllData();
-      }
-    }
-
-    // SERAH TERIMA & KAS LACI
     function calcCashDenom() {
-      const tunai = cleanMoney(document.getElementById("fStTunai").value);
-      const nonTunai = cleanMoney(document.getElementById("fStNonTunai").value);
-      const online = cleanMoney(document.getElementById("fStOnline").value);
-      const modal = cleanMoney(document.getElementById("fStModal").value);
-      const pengeluaran = cleanMoney(document.getElementById("fStPengeluaran").value);
-
-      const omsetShift = tunai + nonTunai + online;
-      const setoranBersih = tunai - pengeluaran;
-
-      document.getElementById("fStOmsetShiftText").innerText = formatRupiah(omsetShift);
+      const tunai = cleanMoney(document.getElementById("fStTunai").value), nonTunai = cleanMoney(document.getElementById("fStNonTunai").value), online = cleanMoney(document.getElementById("fStOnline").value);
+      const modal = cleanMoney(document.getElementById("fStModal").value), pengeluaran = cleanMoney(document.getElementById("fStPengeluaran").value);
+      document.getElementById("fStOmsetShiftText").innerText = formatRupiah(tunai + nonTunai + online);
       document.getElementById("boxTunaiText").innerText = formatRupiah(tunai);
       document.getElementById("boxKeluarText").innerText = "- " + formatRupiah(pengeluaran);
-      document.getElementById("boxSetoranText").innerText = formatRupiah(setoranBersih);
+      document.getElementById("boxSetoranText").innerText = formatRupiah(tunai - pengeluaran);
       document.getElementById("boxModalText").innerText = formatRupiah(modal);
     }
 
     function toggleHandoverNotesLabel() {
       const tahap = document.getElementById("fStTahap").value;
-      const header = document.getElementById("handoverNotesHeader");
-      const evalLabel = document.getElementById("evalLabel");
-      if (tahap.includes("Closing")) {
-        header.innerText = "3. Catatan Prep untuk Besok Pagi & Kebutuhan Belanja";
-        evalLabel.innerText = "Evaluasi Harian Kafe & Pengadaan Barang Besok";
-      } else {
-        header.innerText = "3. Catatan Prep Kurang untuk Shift 2 Sore Ini";
-        evalLabel.innerText = "Catatan Tambahan Kasir / Evaluasi Shift 1";
-      }
+      document.getElementById("handoverNotesHeader").innerText = tahap.includes("Closing") ? "3. Catatan Prep Besok Pagi & Kebutuhan Belanja" : "3. Catatan Prep Kurang untuk Shift 2";
     }
 
     function openNewHandoverModal() {
-      document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima Kasir";
-      document.getElementById("fStEditId").value = "";
-      document.getElementById("fStTanggal").value = new Date().toISOString().split('T')[0];
-      document.getElementById("fStJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
-      document.getElementById("fStModal").value = "110.000";
-      document.getElementById("fStTunai").value = "200.000";
-      document.getElementById("fStNonTunai").value = "200.000";
-      document.getElementById("fStOnline").value = "0";
-      document.getElementById("fStPengeluaran").value = "5.000";
-      document.getElementById("fStKetPengeluaran").value = "Beli es batu kristal & lakban";
-      toggleHandoverNotesLabel();
-      calcCashDenom();
-      openModal('modalHandover');
+      document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima Kasir"; document.getElementById("fStEditId").value = "";
+      document.getElementById("fStTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fStJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fStModal").value = "110.000"; document.getElementById("fStTunai").value = "200.000"; document.getElementById("fStNonTunai").value = "200.000";
+      document.getElementById("fStOnline").value = "0"; document.getElementById("fStPengeluaran").value = "5.000"; document.getElementById("fStKetPengeluaran").value = "Beli es batu & lakban";
+      toggleHandoverNotesLabel(); calcCashDenom(); openModal('modalHandover');
     }
 
     function editHandoverModal(id) {
-      const st = (localData.SERAH_TERIMA || []).find(x => x.id === id);
-      if(!st) return;
-      document.getElementById("modalHandoverTitle").innerText = "Edit Serah Terima: " + id;
-      document.getElementById("fStEditId").value = id;
-      document.getElementById("fStTanggal").value = st.tanggal;
-      document.getElementById("fStJam").value = st.jam;
-      document.getElementById("fStTahap").value = st.tahap;
-      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_stay).toLocaleString('id-ID');
-      document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai).toLocaleString('id-ID');
-      document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID');
-      document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
-      document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil).toLocaleString('id-ID');
-      document.getElementById("fStKetPengeluaran").value = st.keterangan_pengeluaran || "";
-      document.getElementById("fStPrepBar").value = st.prep_barista || "";
-      document.getElementById("fStPrepKit").value = st.prep_kitchen || "";
-      document.getElementById("fStPrepSrv").value = st.prep_server || "";
+      const st = (localData.SERAH_TERIMA || []).find(x => x.id === id); if(!st) return;
+      document.getElementById("modalHandoverTitle").innerText = "Edit Serah Terima: " + id; document.getElementById("fStEditId").value = id;
+      document.getElementById("fStTanggal").value = st.tanggal; document.getElementById("fStJam").value = st.jam; document.getElementById("fStTahap").value = st.tahap;
+      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_stay).toLocaleString('id-ID'); document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai).toLocaleString('id-ID');
+      document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID'); document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
+      document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil).toLocaleString('id-ID'); document.getElementById("fStKetPengeluaran").value = st.keterangan_pengeluaran || "";
+      document.getElementById("fStPrepBar").value = st.prep_barista || ""; document.getElementById("fStPrepKit").value = st.prep_kitchen || ""; document.getElementById("fStPrepSrv").value = st.prep_server || "";
       document.getElementById("fStCatatan").value = st.catatan_evaluasi || "";
-      toggleHandoverNotesLabel();
-      calcCashDenom();
-      openModal('modalHandover');
+      toggleHandoverNotesLabel(); calcCashDenom(); openModal('modalHandover');
     }
 
     async function submitHandoverForm() {
-      const editId = document.getElementById("fStEditId").value;
-      const tunai = cleanMoney(document.getElementById("fStTunai").value);
-      const nontunai = cleanMoney(document.getElementById("fStNonTunai").value);
-      const online = cleanMoney(document.getElementById("fStOnline").value);
-      const modal = cleanMoney(document.getElementById("fStModal").value);
-      const keluar = cleanMoney(document.getElementById("fStPengeluaran").value);
-
+      const editId = document.getElementById("fStEditId").value, tunai = cleanMoney(document.getElementById("fStTunai").value);
+      const nontunai = cleanMoney(document.getElementById("fStNonTunai").value), online = cleanMoney(document.getElementById("fStOnline").value);
+      const modal = cleanMoney(document.getElementById("fStModal").value), keluar = cleanMoney(document.getElementById("fStPengeluaran").value);
       const payload = {
-        tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0],
-        jam: document.getElementById("fStJam").value || new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':'),
-        tahap: document.getElementById("fStTahap").value,
-        petugas_serah: currentUser.username,
-        petugas_terima: "Shift Lanjutan",
-        penjualan_tunai: tunai,
-        non_tunai_qris: nontunai,
-        online_food: online,
-        total_omset_shift: tunai + nontunai + online,
-        kas_modal_stay: modal,
-        pengeluaran_kas_kecil: keluar,
-        keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
-        uang_setor_bersih: tunai - keluar,
-        prep_barista: document.getElementById("fStPrepBar").value,
-        prep_kitchen: document.getElementById("fStPrepKit").value,
-        prep_server: document.getElementById("fStPrepSrv").value,
-        catatan_evaluasi: document.getElementById("fStCatatan").value
+        tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0], jam: document.getElementById("fStJam").value || "16:30",
+        tahap: document.getElementById("fStTahap").value, petugas_serah: currentUser.username, petugas_terima: "Shift Lanjutan",
+        penjualan_tunai: tunai, non_tunai_qris: nontunai, online_food: online, total_omset_shift: tunai + nontunai + online,
+        kas_modal_stay: modal, pengeluaran_kas_kecil: keluar, keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
+        uang_setor_bersih: tunai - keluar, prep_barista: document.getElementById("fStPrepBar").value, prep_kitchen: document.getElementById("fStPrepKit").value,
+        prep_server: document.getElementById("fStPrepSrv").value, catatan_evaluasi: document.getElementById("fStCatatan").value
       };
-
-      closeModal('modalHandover');
-      showToast("Menyimpan serah terima...");
-      if(editId) {
-        await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
-      } else {
-        payload.id = "ST-" + Date.now().toString().slice(-5);
-        await postToGas("insert", "SERAH_TERIMA", payload);
-      }
+      closeModal('modalHandover'); showToast("Menyimpan serah terima...");
+      if(editId) await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
+      else { payload.id = "ST-" + Date.now().toString().slice(-5); await postToGas("insert", "SERAH_TERIMA", payload); }
       fetchAllData();
     }
-
-    async function deleteHandoverItem(id) {
-      if(confirm(`Hapus serah terima ${id}?`)) {
-        showToast("Menghapus data...");
-        await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id });
-        fetchAllData();
-      }
-    }
+    async function deleteHandoverItem(id) { if(confirm(`Hapus data ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id }); fetchAllData(); } }
 
     function renderHandoverTable() {
       document.getElementById("stTableBody").innerHTML = (localData.SERAH_TERIMA || []).map(st => `
         <tr>
-          <td><code>${st.id}</code></td>
-          <td>${st.tanggal} ${st.jam || ''}</td>
-          <td>${st.tahap}</td>
-          <td>${st.petugas_serah}</td>
+          <td><code>${st.id}</code></td><td>${st.tanggal} ${st.jam || ''}</td><td>${st.tahap}</td><td>${st.petugas_serah}</td>
           <td><strong>${formatRupiah(st.total_omset_shift || (cleanMoney(st.penjualan_tunai)+cleanMoney(st.non_tunai_qris)+cleanMoney(st.online_food)))}</strong></td>
-          <td>${formatRupiah(st.penjualan_tunai)}</td>
-          <td>${formatRupiah(st.non_tunai_qris)}</td>
-          <td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
-          <td style="font-size:0.75rem;">${st.keterangan_pengeluaran||'-'}</td>
-          <td style="font-weight:700; color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
-          <td style="font-weight:700; color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
-          <td style="font-size:0.75rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
-          <td>
-            <div style="display:flex; gap:0.25rem;">
-              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>
-            </div>
-          </td>
+          <td>${formatRupiah(st.penjualan_tunai)}</td><td>${formatRupiah(st.non_tunai_qris)}</td><td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
+          <td style="font-size:0.72rem;">${st.keterangan_pengeluaran||'-'}</td><td style="font-weight:700; color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
+          <td style="font-weight:700; color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td><td style="font-size:0.72rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
+          <td><div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button><button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button></div></td>
         </tr>
       `).join('');
     }
 
-    // DAILY REPORT AUTO-PULL MENYELURUH
-    function openNewDailyReportModal() {
-      document.getElementById("modalDrTitle").innerText = "Simpan Report Harian Baru";
-      document.getElementById("fDrEditId").value = "";
-      document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0];
-      autoPullDailyReportData();
-      openModal('modalDailyReport');
-    }
-
+    function openNewDailyReportModal() { document.getElementById("modalDrTitle").innerText = "Simpan Report Harian"; document.getElementById("fDrEditId").value = ""; document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0]; autoPullDailyReportData(); openModal('modalDailyReport'); }
     function editDailyReportModal(id) {
-      const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id);
-      if(!dr) return;
-      document.getElementById("modalDrTitle").innerText = "Edit Daily Report: " + id;
-      document.getElementById("fDrEditId").value = id;
-      document.getElementById("fDrTanggal").value = dr.tanggal;
-      document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
-      document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2).toLocaleString('id-ID');
-      document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc).toLocaleString('id-ID');
-      document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID');
-      document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 1000000).toLocaleString('id-ID');
-      document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar).toLocaleString('id-ID');
-      document.getElementById("fDrKetKasKeluar").value = dr.rincian_pengeluaran || "";
-      document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || "";
-      document.getElementById("fDrWaste").value = dr.waste_bahan || "";
-      document.getElementById("fDrBarangMasuk").value = dr.barang_masuk || "";
-      document.getElementById("fDrInsiden").value = dr.insiden_alat || "";
-      document.getElementById("fDrCrew").value = dr.crew_meals || "";
-      document.getElementById("fDrKomplimen").value = dr.komplimen_barter || "";
-      document.getElementById("fDrEvaluasi").value = dr.evaluasi_harian || "";
-      
+      const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
+      document.getElementById("modalDrTitle").innerText = "Edit Daily Report: " + id; document.getElementById("fDrEditId").value = id;
+      document.getElementById("fDrTanggal").value = dr.tanggal; document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
+      document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2).toLocaleString('id-ID'); document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc).toLocaleString('id-ID');
+      document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID'); document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 1000000).toLocaleString('id-ID');
+      document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar).toLocaleString('id-ID'); document.getElementById("fDrKetKasKeluar").value = dr.rincian_pengeluaran || "";
+      document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || ""; document.getElementById("fDrWaste").value = dr.waste_bahan || "";
+      document.getElementById("fDrBarangMasuk").value = dr.barang_masuk || ""; document.getElementById("fDrInsiden").value = dr.insiden_alat || "";
+      document.getElementById("fDrCrew").value = dr.crew_meals || ""; document.getElementById("fDrKomplimen").value = dr.komplimen_barter || ""; document.getElementById("fDrEvaluasi").value = dr.evaluasi_harian || "";
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === dr.tanggal);
       document.getElementById("fDrStaffS1").value = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
       document.getElementById("fDrStaffS2").value = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
@@ -2013,154 +1064,96 @@
     function autoPullDailyReportData() {
       const tgl = document.getElementById("fDrTanggal").value;
       const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === tgl);
-      
       let s1 = 0, s2 = 0, qris = 0, online = 0, keluar = 0, ketKeluar = [], evalText = [];
       handovers.forEach(h => {
-        const tunai = cleanMoney(h.penjualan_tunai);
-        const nt = cleanMoney(h.non_tunai_qris);
-        const onl = cleanMoney(h.online_food);
-        const omset = tunai + nt + onl;
-
-        if (h.tahap.includes("Shift 1")) s1 += omset;
-        else s2 += omset;
-
-        qris += nt;
-        online += onl;
-        keluar += cleanMoney(h.pengeluaran_kas_kecil);
+        const omset = cleanMoney(h.penjualan_tunai) + cleanMoney(h.non_tunai_qris) + cleanMoney(h.online_food);
+        if (h.tahap.includes("Shift 1")) s1 += omset; else s2 += omset;
+        qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food); keluar += cleanMoney(h.pengeluaran_kas_kecil);
         if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
         if(h.catatan_evaluasi) evalText.push(h.catatan_evaluasi);
       });
-
       document.getElementById("fDrRevS1").value = s1.toLocaleString('id-ID');
       document.getElementById("fDrRevS2").value = s2.toLocaleString('id-ID');
       document.getElementById("fDrQrisEdc").value = qris.toLocaleString('id-ID');
       document.getElementById("fDrOnlineFood").value = online.toLocaleString('id-ID');
       document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID');
       document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
-      
+
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === tgl);
       document.getElementById("fDrStaffS1").value = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
       document.getElementById("fDrStaffS2").value = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
       document.getElementById("fDrStaffOff").value = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
-      const wasteLogs = logs.filter(l => l.kategori.includes("Waste"));
-      const calibLogs = logs.filter(l => l.kategori.includes("Kalibrasi"));
-      const inLogs = logs.filter(l => l.kategori.includes("Barang Masuk"));
-      const incLogs = logs.filter(l => l.kategori.includes("Insiden"));
-      
+      const wasteLogs = logs.filter(l => l.kategori.includes("Waste")), calibLogs = logs.filter(l => l.kategori.includes("Kalibrasi"));
+      const inLogs = logs.filter(l => l.kategori.includes("Barang Masuk")), incLogs = logs.filter(l => l.kategori.includes("Insiden"));
       document.getElementById("fDrWaste").value = wasteLogs.length ? wasteLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada waste";
       document.getElementById("fDrKalibrasi").value = calibLogs.length ? calibLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Dial-in optimal 26s";
       document.getElementById("fDrBarangMasuk").value = inLogs.length ? inLogs.map(x => `${x.item_terkait} (+${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada barang masuk";
       document.getElementById("fDrInsiden").value = incLogs.length ? incLogs.map(x => `${x.detail}`).join('; ') : "Operasional alat lancar";
 
+      const restockList = (localData.STOK || []).filter(s => {
+        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
+        return total <= cleanMoney(s.min_stok);
+      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || 'Semua stok aman.';
+      document.getElementById("fDrRestockList").value = restockList;
       if(evalText.length) document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
-      showToast("Seluruh lini log otomatis ditarik!");
+      showToast("Seluruh data operasional ditarik!");
     }
 
     async function submitDailyReportForm() {
-      const editId = document.getElementById("fDrEditId").value;
-      const s1 = cleanMoney(document.getElementById("fDrRevS1").value);
-      const s2 = cleanMoney(document.getElementById("fDrRevS2").value);
-      const target = cleanMoney(document.getElementById("fDrTarget").value) || 1000000;
-      const total = s1 + s2;
-      const pct = target > 0 ? ((total/target)*100).toFixed(1)+'%' : '100%';
-
+      const editId = document.getElementById("fDrEditId").value, s1 = cleanMoney(document.getElementById("fDrRevS1").value), s2 = cleanMoney(document.getElementById("fDrRevS2").value);
+      const target = cleanMoney(document.getElementById("fDrTarget").value) || 1000000, total = s1 + s2;
       const payload = {
-        tanggal: document.getElementById("fDrTanggal").value,
-        rev_shift1: s1,
-        rev_shift2: s2,
-        total_omset: total,
-        qris_edc: cleanMoney(document.getElementById("fDrQrisEdc").value),
-        online_food: cleanMoney(document.getElementById("fDrOnlineFood").value),
-        target_harian: target,
-        capaian_pct: pct,
-        total_kas_keluar: cleanMoney(document.getElementById("fDrKasKeluar").value),
-        rincian_pengeluaran: document.getElementById("fDrKetKasKeluar").value,
-        kalibrasi_beans: document.getElementById("fDrKalibrasi").value,
-        waste_bahan: document.getElementById("fDrWaste").value,
-        barang_masuk: document.getElementById("fDrBarangMasuk").value,
-        insiden_alat: document.getElementById("fDrInsiden").value,
-        crew_meals: document.getElementById("fDrCrew").value,
-        komplimen_barter: document.getElementById("fDrKomplimen").value,
-        evaluasi_harian: document.getElementById("fDrEvaluasi").value,
-        pelapor: currentUser.username
+        tanggal: document.getElementById("fDrTanggal").value, rev_shift1: s1, rev_shift2: s2, total_omset: total,
+        qris_edc: cleanMoney(document.getElementById("fDrQrisEdc").value), online_food: cleanMoney(document.getElementById("fDrOnlineFood").value),
+        target_harian: target, capaian_pct: target > 0 ? ((total/target)*100).toFixed(1)+'%' : '100%',
+        total_kas_keluar: cleanMoney(document.getElementById("fDrKasKeluar").value), rincian_pengeluaran: document.getElementById("fDrKetKasKeluar").value,
+        kalibrasi_beans: document.getElementById("fDrKalibrasi").value, waste_bahan: document.getElementById("fDrWaste").value,
+        barang_masuk: document.getElementById("fDrBarangMasuk").value, insiden_alat: document.getElementById("fDrInsiden").value,
+        crew_meals: document.getElementById("fDrCrew").value, komplimen_barter: document.getElementById("fDrKomplimen").value,
+        evaluasi_harian: document.getElementById("fDrEvaluasi").value, pelapor: currentUser.username
       };
-
-      closeModal('modalDailyReport');
-      showToast("Menyimpan Daily Report...");
-      if(editId) {
-        await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
-      } else {
-        payload.report_id = "REP-" + Date.now().toString().slice(-6);
-        await postToGas("insert", "DAILY_REPORT", payload);
-      }
+      closeModal('modalDailyReport'); showToast("Menyimpan Daily Report...");
+      if(editId) await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
+      else { payload.report_id = "REP-" + Date.now().toString().slice(-6); await postToGas("insert", "DAILY_REPORT", payload); }
       fetchAllData();
     }
-
-    async function deleteDailyReportItem(id) {
-      if(confirm(`Hapus Daily Report ${id}?`)) {
-        showToast("Menghapus data...");
-        await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id });
-        fetchAllData();
-      }
-    }
+    async function deleteDailyReportItem(id) { if(confirm(`Hapus Report ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id }); fetchAllData(); } }
 
     function renderDailyReportTable() {
       document.getElementById("drTableBody").innerHTML = (localData.DAILY_REPORT || []).map(dr => `
         <tr>
-          <td><code>${dr.report_id}</code></td>
-          <td>${dr.tanggal}</td>
-          <td><strong>${formatRupiah(dr.total_omset)}</strong></td>
-          <td>${formatRupiah(dr.qris_edc)}</td>
-          <td>${formatRupiah(dr.online_food)}</td>
-          <td>${formatRupiah(dr.target_harian)}</td>
-          <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td>
-          <td>${formatRupiah(dr.total_kas_keluar)}</td>
-          <td style="font-size:0.75rem;">${dr.rincian_pengeluaran||'-'}</td>
-          <td style="font-size:0.75rem;">Kalibrasi: ${dr.kalibrasi_beans||'-'}, Waste: ${dr.waste_bahan||'-'}</td>
-          <td style="font-size:0.75rem;">${dr.evaluasi_harian||'-'}</td>
-          <td>
-            <div style="display:flex; gap:0.25rem;">
-              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>
-            </div>
-          </td>
+          <td><code>${dr.report_id}</code></td><td>${dr.tanggal}</td><td><strong>${formatRupiah(dr.total_omset)}</strong></td>
+          <td>${formatRupiah(dr.qris_edc)}</td><td>${formatRupiah(dr.online_food)}</td><td>${formatRupiah(dr.target_harian)}</td>
+          <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td><td>${formatRupiah(dr.total_kas_keluar)}</td>
+          <td style="font-size:0.72rem;">${dr.rincian_pengeluaran||'-'}</td><td style="font-size:0.72rem;">${dr.kalibrasi_beans||'-'}, Waste: ${dr.waste_bahan||'-'}</td>
+          <td style="font-size:0.72rem;">${dr.evaluasi_harian||'-'}</td>
+          <td><div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button><button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button></div></td>
         </tr>
       `).join('');
     }
 
-    // MEGA WHATSAPP BROADCAST (100% UTUH BEBAS POTONG)
     function sendWhatsAppDaily() {
-      const todayStr = new Date().toISOString().split('T')[0];
-      const todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
-
+      const todayStr = new Date().toISOString().split('T')[0], todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
       const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr || h.tanggal === "2026-11-07");
       let tunai = 0, qris = 0, online = 0, modal = 0, keluar = 0, ketKeluar = [], prepBar = [], prepKit = [], prepSrv = [];
       handovers.forEach(h => {
-        tunai += cleanMoney(h.penjualan_tunai);
-        qris += cleanMoney(h.non_tunai_qris);
-        online += cleanMoney(h.online_food);
-        modal += cleanMoney(h.kas_modal_stay);
-        keluar += cleanMoney(h.pengeluaran_kas_kecil);
+        tunai += cleanMoney(h.penjualan_tunai); qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food);
+        modal += cleanMoney(h.kas_modal_stay); keluar += cleanMoney(h.pengeluaran_kas_kecil);
         if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
         if(h.prep_barista) prepBar.push(h.prep_barista);
         if(h.prep_kitchen) prepKit.push(h.prep_kitchen);
         if(h.prep_server) prepSrv.push(h.prep_server);
       });
-      const totalOmset = tunai + qris + online;
-      const setoranBersih = tunai - keluar;
-
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === todayStr || j.tanggal === "2026-11-07");
       const s1 = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
       const s2 = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
       const off = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
-
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === todayStr || l.tanggal === "2026-11-07");
       const wasteItems = logs.filter(l => l.kategori.includes("Waste")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste';
       const calibItems = logs.filter(l => l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Dial-in espresso optimal 26s';
       const inItems = logs.filter(l => l.kategori.includes("Barang Masuk")).map(x => `• ${x.item_terkait}: ${x.detail} (+${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada barang masuk';
-
       const restockItems = (localData.STOK || []).filter(s => {
         const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
         return total <= cleanMoney(s.min_stok);
@@ -2175,11 +1168,11 @@
         `• Penjualan Tunai: ${formatRupiah(tunai)}\n` +
         `• Non-Tunai (EDC/QRIS): ${formatRupiah(qris)}\n` +
         `• Online Food (Go/Grab/Shopee): ${formatRupiah(online)}\n` +
-        `• *TOTAL REVENUE OMSET: ${formatRupiah(totalOmset)}*\n\n` +
+        `• *TOTAL REVENUE OMSET: ${formatRupiah(tunai + qris + online)}*\n\n` +
         `*2. REKAP FISIK UANG KAS LACI (SISTEM IMPREST):*\n` +
         `• Modal Awal Kasir (Stay di Laci): ${formatRupiah(modal || 110000)}\n` +
         `• Pengeluaran Kas Kecil: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
-        `• *Uang Setoran Tunai Bersih (Amplop): ${formatRupiah(setoranBersih)}*\n\n` +
+        `• *Uang Setoran Tunai Bersih (Amplop): ${formatRupiah(tunai - keluar)}*\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
         `*3. ROSTER TIM & KEHADIRAN:*\n` +
         `• Shift 1: ${s1}\n` +
@@ -2192,210 +1185,84 @@
         `• Server: ${prepSrv.join('; ') || 'Perlengkapan lengkap'}\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
         `*5. QC, KALIBRASI & LOG KEJADIAN:*\n` +
-        `${calibItems}\n` +
-        `${wasteItems}\n` +
-        `${inItems}\n\n` +
+        `${calibItems}\n${wasteItems}\n${inItems}\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
         `*6. STOK KRITIS (PERLU RESTOCK SEGERA):*\n` +
         `${restockItems}\n\n` +
         `_Laporan sah terkirim melalui Sistem Terintegrasi Kafe._`;
 
-      const encodedUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(fullMessage);
-      window.open(encodedUrl, '_blank');
+      window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(fullMessage), '_blank');
     }
 
-    // MENU & HPP
     function filterMenuCategory(cat) {
       document.getElementById("btnMenuMinuman").classList.toggle("active", cat==='Minuman');
       document.getElementById("btnMenuMakanan").classList.toggle("active", cat==='Makanan');
       renderMenuTable(cat);
     }
-
     function renderMenuTable(jenis) {
       const data = (localData.MENU || []).filter(m => m.jenis === jenis);
       document.getElementById("menuTableBody").innerHTML = data.map(m => {
-        const hpp = cleanMoney(m.hpp);
-        const jual = cleanMoney(m.harga_jual);
+        const hpp = cleanMoney(m.hpp), jual = cleanMoney(m.harga_jual);
         const marginRp = cleanMoney(m.margin_rp) || (jual - hpp);
-        const marginPct = cleanPercent(m.margin_pct) || ((marginRp/jual)*100).toFixed(1)+'%';
-        const foodCostPct = cleanPercent(m.food_cost_pct) || ((hpp/jual)*100).toFixed(1)+'%';
-
         return `
           <tr>
-            <td><code>${m.menu_id}</code></td>
-            <td>${m.kategori}</td>
-            <td onclick="editMenuModal('${m.menu_id}')" style="cursor:pointer;"><strong>${m.nama_produk}</strong></td>
-            <td>${formatRupiah(hpp)}</td>
-            <td>${formatRupiah(jual)}</td>
-            <td>${formatRupiah(marginRp)}</td>
-            <td>${marginPct}</td>
-            <td>${foodCostPct}</td>
-            <td>
-              <div style="display:flex; gap:0.25rem;">
-                <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editMenuModal('${m.menu_id}')">Edit</button>
-                <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>
-              </div>
-            </td>
+            <td><code>${m.menu_id}</code></td><td>${m.kategori}</td><td onclick="editMenuModal('${m.menu_id}')" style="cursor:pointer;"><strong>${m.nama_produk}</strong></td>
+            <td>${formatRupiah(hpp)}</td><td>${formatRupiah(jual)}</td><td>${formatRupiah(marginRp)}</td>
+            <td>${cleanPercent(m.margin_pct) || ((marginRp/jual)*100).toFixed(1)+'%'}</td><td>${cleanPercent(m.food_cost_pct) || ((hpp/jual)*100).toFixed(1)+'%'}</td>
+            <td><div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editMenuModal('${m.menu_id}')">Edit</button><button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button></div></td>
           </tr>
         `;
       }).join('');
     }
-
-    function openNewMenuModal() {
-      document.getElementById("modalMenuTitle").innerText = "Tambah Menu Produk Baru";
-      document.getElementById("fMenuEditId").value = "";
-      document.getElementById("fMenuNama").value = "";
-      document.getElementById("fMenuKategori").value = "";
-      document.getElementById("fMenuHpp").value = "5.000";
-      document.getElementById("fMenuHarga").value = "22.000";
-      openModal('modalMenu');
-    }
-
+    function openNewMenuModal() { document.getElementById("modalMenuTitle").innerText = "Tambah Menu Baru"; document.getElementById("fMenuEditId").value = ""; document.getElementById("fMenuNama").value = ""; document.getElementById("fMenuKategori").value = ""; document.getElementById("fMenuHpp").value = "5.000"; document.getElementById("fMenuHarga").value = "22.000"; openModal('modalMenu'); }
     function editMenuModal(id) {
-      const item = (localData.MENU || []).find(m => m.menu_id === id);
-      if(!item) return;
-      document.getElementById("modalMenuTitle").innerText = "Edit Menu: " + id;
-      document.getElementById("fMenuEditId").value = id;
-      document.getElementById("fMenuJenis").value = item.jenis;
-      document.getElementById("fMenuKategori").value = item.kategori;
-      document.getElementById("fMenuNama").value = item.nama_produk;
-      document.getElementById("fMenuHpp").value = cleanMoney(item.hpp).toLocaleString('id-ID');
-      document.getElementById("fMenuHarga").value = cleanMoney(item.harga_jual).toLocaleString('id-ID');
-      openModal('modalMenu');
+      const item = (localData.MENU || []).find(m => m.menu_id === id); if(!item) return;
+      document.getElementById("modalMenuTitle").innerText = "Edit Menu: " + id; document.getElementById("fMenuEditId").value = id;
+      document.getElementById("fMenuJenis").value = item.jenis; document.getElementById("fMenuKategori").value = item.kategori;
+      document.getElementById("fMenuNama").value = item.nama_produk; document.getElementById("fMenuHpp").value = cleanMoney(item.hpp).toLocaleString('id-ID');
+      document.getElementById("fMenuHarga").value = cleanMoney(item.harga_jual).toLocaleString('id-ID'); openModal('modalMenu');
     }
-
     async function submitMenuForm() {
-      const editId = document.getElementById("fMenuEditId").value;
-      const jenis = document.getElementById("fMenuJenis").value;
-      const div = jenis === "Minuman" ? "BARISTA" : "KITCHEN";
-
-      if(editId) {
-        closeModal('modalMenu');
-        showToast("Menyimpan menu...");
-        await postToGas("update", "MENU", {
-          key: "menu_id", val: editId,
-          updates: {
-            jenis: jenis, divisi: div, kategori: document.getElementById("fMenuKategori").value,
-            nama_produk: document.getElementById("fMenuNama").value,
-            hpp: cleanMoney(document.getElementById("fMenuHpp").value),
-            harga_jual: cleanMoney(document.getElementById("fMenuHarga").value)
-          }
-        });
-      } else {
-        const newId = "MNU-" + Date.now().toString().slice(-4);
-        const payload = {
-          menu_id: newId, jenis: jenis, divisi: div, kategori: document.getElementById("fMenuKategori").value,
-          nama_produk: document.getElementById("fMenuNama").value,
-          hpp: cleanMoney(document.getElementById("fMenuHpp").value),
-          harga_jual: cleanMoney(document.getElementById("fMenuHarga").value)
-        };
-        closeModal('modalMenu');
-        showToast("Menambahkan menu...");
-        await postToGas("insert", "MENU", payload);
-      }
+      const editId = document.getElementById("fMenuEditId").value, jenis = document.getElementById("fMenuJenis").value;
+      const payload = { jenis: jenis, divisi: jenis === "Minuman" ? "BARISTA" : "KITCHEN", kategori: document.getElementById("fMenuKategori").value, nama_produk: document.getElementById("fMenuNama").value, hpp: cleanMoney(document.getElementById("fMenuHpp").value), harga_jual: cleanMoney(document.getElementById("fMenuHarga").value) };
+      closeModal('modalMenu'); showToast("Menyimpan menu...");
+      if(editId) await postToGas("update", "MENU", { key: "menu_id", val: editId, updates: payload });
+      else { payload.menu_id = "MNU-" + Date.now().toString().slice(-4); await postToGas("insert", "MENU", payload); }
       fetchAllData();
     }
+    async function deleteMenuItem(id) { if(confirm(`Hapus menu ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "MENU", { key: "menu_id", val: id }); fetchAllData(); } }
 
-    async function deleteMenuItem(id) {
-      if(confirm(`Hapus menu ${id}?`)) {
-        showToast("Menghapus menu...");
-        await postToGas("delete", "MENU", { key: "menu_id", val: id });
-        fetchAllData();
-      }
-    }
-
-    // DATA PERUSAHAAN (VAULT)
     function renderVaultTable() {
       document.getElementById("vaultTableBody").innerHTML = (localData.USERS || []).map(u => `
         <tr>
-          <td><code>${u.user_id}</code></td>
-          <td><strong>${u.username}</strong></td>
-          <td onclick="editUserModal('${u.user_id}')" style="cursor:pointer;">${u.nama_lengkap}</td>
-          <td>${u.role}</td>
-          <td>Level ${u.level}</td>
-          <td>${u.divisi}</td>
-          <td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
-          <td>
-            <div style="display:flex; gap:0.25rem;">
-              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editUserModal('${u.user_id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteUserItem('${u.user_id}')">Hapus</button>
-            </div>
-          </td>
+          <td><code>${u.user_id}</code></td><td><strong>${u.username}</strong></td><td onclick="editUserModal('${u.user_id}')" style="cursor:pointer;">${u.nama_lengkap}</td>
+          <td>${u.role}</td><td>Level ${u.level}</td><td>${u.divisi}</td><td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
+          <td><div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editUserModal('${u.user_id}')">Edit</button><button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteUserItem('${u.user_id}')">Hapus</button></div></td>
         </tr>
       `).join('');
     }
-
-    function openNewUserModal() {
-      document.getElementById("modalUserTitle").innerText = "Tambah Karyawan Baru";
-      document.getElementById("fUserEditId").value = "";
-      document.getElementById("fUserUsername").value = "";
-      document.getElementById("fUserNamaLengkap").value = "";
-      document.getElementById("fUserPin").value = "1234";
-      openModal('modalUser');
-    }
-
+    function openNewUserModal() { document.getElementById("modalUserTitle").innerText = "Tambah Karyawan"; document.getElementById("fUserEditId").value = ""; document.getElementById("fUserUsername").value = ""; document.getElementById("fUserNamaLengkap").value = ""; document.getElementById("fUserPin").value = "1234"; openModal('modalUser'); }
     function editUserModal(id) {
-      const u = (localData.USERS || []).find(x => x.user_id === id);
-      if(!u) return;
-      document.getElementById("modalUserTitle").innerText = "Edit Karyawan: " + u.username;
-      document.getElementById("fUserEditId").value = u.user_id;
-      document.getElementById("fUserUsername").value = u.username;
-      document.getElementById("fUserNamaLengkap").value = u.nama_lengkap;
-      document.getElementById("fUserRole").value = u.role;
-      document.getElementById("fUserDivisi").value = u.divisi;
-      document.getElementById("fUserPin").value = u.pin;
-      openModal('modalUser');
+      const u = (localData.USERS || []).find(x => x.user_id === id); if(!u) return;
+      document.getElementById("modalUserTitle").innerText = "Edit Karyawan: " + u.username; document.getElementById("fUserEditId").value = u.user_id;
+      document.getElementById("fUserUsername").value = u.username; document.getElementById("fUserNamaLengkap").value = u.nama_lengkap;
+      document.getElementById("fUserRole").value = u.role; document.getElementById("fUserDivisi").value = u.divisi; document.getElementById("fUserPin").value = u.pin; openModal('modalUser');
     }
-
     function syncUserLevel() {
-      const role = document.getElementById("fUserRole").value;
-      const divSel = document.getElementById("fUserDivisi");
-      if(role === "BARISTA" || role === "HEAD") divSel.value = "BARISTA";
-      else if(role === "KITCHEN") divSel.value = "KITCHEN";
-      else if(role === "SERVER") divSel.value = "SERVER";
-      else divSel.value = "MANAJEMEN";
+      const role = document.getElementById("fUserRole").value, divSel = document.getElementById("fUserDivisi");
+      if(role === "BARISTA" || role === "HEAD") divSel.value = "BARISTA"; else if(role === "KITCHEN") divSel.value = "KITCHEN"; else if(role === "SERVER") divSel.value = "SERVER"; else divSel.value = "MANAJEMEN";
     }
-
     async function submitUserForm() {
-      const editId = document.getElementById("fUserEditId").value;
-      const role = document.getElementById("fUserRole").value;
+      const editId = document.getElementById("fUserEditId").value, role = document.getElementById("fUserRole").value;
       let level = 1;
-      if(role === "HEAD") level = 2;
-      else if(role === "PURCHASING" || role === "HRD") level = 3;
-      else if(role === "MANAGER") level = 4;
-      else if(role === "OWNER") level = 5;
-      else if(role === "RAJA_UTAMA") level = 6;
-
-      const payload = {
-        username: document.getElementById("fUserUsername").value.toLowerCase().trim(),
-        nama_lengkap: document.getElementById("fUserNamaLengkap").value,
-        role: role,
-        level: level,
-        divisi: document.getElementById("fUserDivisi").value,
-        pin: document.getElementById("fUserPin").value.trim(),
-        status: "Aktif",
-        akses_perusahaan: level >= 4 ? "YA" : "TIDAK"
-      };
-
-      closeModal('modalUser');
-      showToast("Menyimpan karyawan...");
-      if(editId) {
-        await postToGas("update", "USERS", { key: "user_id", val: editId, updates: payload });
-      } else {
-        payload.user_id = "USR-" + Date.now().toString().slice(-4);
-        payload.tipe_kerja = "Tetap";
-        await postToGas("insert", "USERS", payload);
-      }
+      if(role === "HEAD") level = 2; else if(role === "PURCHASING" || role === "HRD") level = 3; else if(role === "MANAGER") level = 4; else if(role === "OWNER") level = 5; else if(role === "RAJA_UTAMA") level = 6;
+      const payload = { username: document.getElementById("fUserUsername").value.toLowerCase().trim(), nama_lengkap: document.getElementById("fUserNamaLengkap").value, role: role, level: level, divisi: document.getElementById("fUserDivisi").value, pin: document.getElementById("fUserPin").value.trim(), status: "Aktif", akses_perusahaan: level >= 4 ? "YA" : "TIDAK" };
+      closeModal('modalUser'); showToast("Menyimpan karyawan...");
+      if(editId) await postToGas("update", "USERS", { key: "user_id", val: editId, updates: payload });
+      else { payload.user_id = "USR-" + Date.now().toString().slice(-4); payload.tipe_kerja = "Tetap"; await postToGas("insert", "USERS", payload); }
       fetchAllData();
     }
-
-    async function deleteUserItem(id) {
-      if(confirm(`Hapus karyawan ${id}?`)) {
-        showToast("Menghapus karyawan...");
-        await postToGas("delete", "USERS", { key: "user_id", val: id });
-        fetchAllData();
-      }
-    }
+    async function deleteUserItem(id) { if(confirm(`Hapus karyawan ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "USERS", { key: "user_id", val: id }); fetchAllData(); } }
 
     async function postToGas(action, sheet, payloadOrData) {
       if(!API_URL) return;
@@ -2403,32 +1270,27 @@
       if(action === "insert") bodyData.data = payloadOrData;
       else if(action === "update") { bodyData.key = payloadOrData.key; bodyData.val = payloadOrData.val; bodyData.updates = payloadOrData.updates; }
       else if(action === "delete") { bodyData.key = payloadOrData.key; bodyData.val = payloadOrData.val; }
-
       await fetch(API_URL, { method: "POST", body: JSON.stringify(bodyData) });
     }
 
     function openModal(id) { document.getElementById(id).style.display = "flex"; }
     function closeModal(id) { document.getElementById(id).style.display = "none"; }
-
     function toggleTheme() {
       const isDark = document.documentElement.getAttribute("data-theme") === "dark";
       document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
       document.getElementById("themeBtn").innerText = isDark ? "Dark" : "Light";
     }
-
     function showToast(msg) {
-      const t = document.getElementById("toast");
-      t.innerText = msg;
-      t.classList.add("show");
+      const t = document.getElementById("toast"); t.innerText = msg; t.classList.add("show");
       setTimeout(() => t.classList.remove("show"), 3000);
     }
 
     window.onload = () => {
-      if (currentUser) {
-        unlockPortal();
-      } else {
-        document.getElementById("gatekeeper").style.display = "flex";
-      }
+      const urlParams = new URLSearchParams(window.location.search);
+      const apiParam = urlParams.get('api');
+      if (apiParam) { API_URL = apiParam; localStorage.setItem(STORAGE_KEY_URL, apiParam); }
+      if (currentUser) unlockPortal();
+      else document.getElementById("gatekeeper").style.display = "flex";
     };
   </script>
 </body>
