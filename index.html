@@ -1035,7 +1035,7 @@
 
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
       if (!API_URL) {
-        const inputUrl = prompt("Masukkan URL Webhook Google Script Anda (/exec):");
+        const inputUrl = prompt("https://script.google.com/macros/s/AKfycbzCjb1f_mDM_jhIm4-8t66fEfZ7gkV8F924t8dhBX4/dev");
         if (inputUrl && inputUrl.trim() !== "") {
           API_URL = inputUrl.trim();
           localStorage.setItem(STORAGE_KEY_URL, API_URL);
