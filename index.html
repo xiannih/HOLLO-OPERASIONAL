@@ -38,12 +38,11 @@
     .nav-tab { padding: 0.7rem 1rem; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
     .nav-tab.active { color: var(--text); border-color: var(--accent); font-weight: 600; }
     main { padding: 1.25rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; margin-bottom: 1rem; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
     .card-title { font-size: 0.72rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.3rem; }
     .card-val { font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
     .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-    .cal-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.35rem; }
     .cal-day-name { text-align: center; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); padding-bottom: 0.4rem; text-transform: uppercase; }
     .cal-cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); min-height: 85px; padding: 0.5rem 0.4rem; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
@@ -74,11 +73,11 @@
     .calc-row.total { font-weight: 700; border-top: 1px solid var(--border); padding-top: 0.3rem; margin-top: 0.3rem; }
     #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.65rem 1.15rem; background: var(--accent); color: var(--accent-invert); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 100000; }
     #toast.show { opacity: 1; transform: translateY(-5px); }
-
+    .station-bar-wrap { background: var(--bg); border-radius: 999px; height: 7px; overflow: hidden; margin-top: 0.3rem; border: 1px solid var(--border); }
+    .station-bar-fill { height: 100%; background: var(--success); transition: width 0.3s ease; }
     .vault-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
     .vault-box { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
     .vault-box h4 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-
     @media (max-width: 768px) {
       header { padding: 0.65rem 1rem; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
       .brand-wrap { width: 100%; justify-content: space-between; }
@@ -121,13 +120,13 @@
 
   <!-- NAVIGATION -->
   <nav id="mainNav">
-    <div class="nav-tab active" onclick="switchView('dashboard')">Dashboard</div>
-    <div class="nav-tab" onclick="switchView('kalender')">Kalender & Roster</div>
-    <div class="nav-tab" onclick="switchView('checklist')">Checklist Stasiun</div>
-    <div class="nav-tab" onclick="switchView('stok')">Inventaris Stok (Gudang & Divisi)</div>
-    <div class="nav-tab" onclick="switchView('serah-terima')">Kasir & Serah Terima</div>
-    <div class="nav-tab" onclick="switchView('daily-report')">Daily Report</div>
-    <div class="nav-tab" onclick="switchView('menu')">Menu & HPP</div>
+    <div class="nav-tab active" id="tabDashboard" onclick="switchView('dashboard')">Dashboard</div>
+    <div class="nav-tab" id="tabKalender" onclick="switchView('kalender')">Kalender & Roster</div>
+    <div class="nav-tab" id="tabChecklist" onclick="switchView('checklist')">Checklist Stasiun</div>
+    <div class="nav-tab" id="tabStok" onclick="switchView('stok')">Inventaris Stok (Gudang & Divisi)</div>
+    <div class="nav-tab" id="tabSerahTerima" onclick="switchView('serah-terima')">Kasir & Serah Terima</div>
+    <div class="nav-tab" id="tabDailyReport" onclick="switchView('daily-report')">Daily Report</div>
+    <div class="nav-tab" id="tabMenu" onclick="switchView('menu')">Menu & HPP</div>
     <div class="nav-tab" id="tabPerusahaan" style="display:none;" onclick="switchView('perusahaan')">Data Perusahaan</div>
     <div class="nav-tab" id="tabInfoSistem" onclick="switchView('info-sistem')">ℹ️ Info & Database</div>
   </nav>
@@ -136,29 +135,67 @@
   <main>
     <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
+      <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem; padding:0.8rem 1rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">📅 Tracking Data Tanggal:</span>
+          <input type="date" id="dashFilterTanggal" onchange="renderDashboard()" style="padding:0.35rem 0.6rem; font-size:0.8rem; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:6px;">
+          <button class="btn" onclick="resetDashboardDateToToday()">Hari Ini</button>
+        </div>
+        <div style="font-size:0.75rem; color:var(--text-muted);" id="dashDateBadge">Menampilkan Data Real-Time</div>
+      </div>
+
       <div class="kpi-grid">
-        <div class="card"><div class="card-title">Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Target: Rp 150.000.000</div></div>
-        <div class="card"><div class="card-title">Total Penjualan Hari Ini (Omset)</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.72rem; color:var(--success); margin-top:0.25rem;">Tunai + QRIS + Online</div></div>
+        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Target: Rp 150.000.000</div></div>
+        <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.72rem; color:var(--success); margin-top:0.25rem;">Tunai + QRIS + Online</div></div>
         <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Di bawah batas minimum</div></div>
         <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Seluruh Stasiun Kerja</div></div>
       </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem; margin-bottom:1.25rem;">
+        <div class="card">
+          <div style="font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:0.6rem;">Status Checklist Stasiun Hari Ini</div>
+          <div style="display:flex; flex-direction:column; gap:0.6rem;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Barista & Kasir</span><strong id="barProgBarista">0/0</strong></div>
+              <div class="station-bar-wrap"><div class="station-bar-fill" id="fillBarista" style="width:0%;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Kitchen</span><strong id="barProgKitchen">0/0</strong></div>
+              <div class="station-bar-wrap"><div class="station-bar-fill" id="fillKitchen" style="width:0%;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Server</span><strong id="barProgServer">0/0</strong></div>
+              <div class="station-bar-wrap"><div class="station-bar-fill" id="fillServer" style="width:0%;"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:0.6rem;">Tim Bertugas Pada Tanggal Terpilih</div>
+          <div style="font-size:0.78rem; line-height:1.7;">
+            <div>☕ <strong>Shift 1:</strong> <span id="dashStaffS1">-</span></div>
+            <div>🌙 <strong>Shift 2:</strong> <span id="dashStaffS2">-</span></div>
+            <div>🏖️ <strong>Libur (Off):</strong> <span id="dashStaffOff">-</span></div>
+          </div>
+        </div>
+      </div>
+
       <div class="charts-grid">
         <div class="card"><div class="card-title">Breakdown Penjualan Saluran Pembayaran</div><canvas id="chartSales" style="max-height:250px; margin-top:0.75rem;"></canvas></div>
-        <div class="card"><div class="card-title">Progres Checklist Stasiun</div><canvas id="chartChecklist" style="max-height:250px; margin-top:0.75rem;"></canvas></div>
+        <div class="card"><div class="card-title">Sebaran Tugas Checklist per Stasiun</div><canvas id="chartChecklist" style="max-height:250px; margin-top:0.75rem;"></canvas></div>
       </div>
     </section>
 
     <!-- VIEW 2: KALENDER -->
     <section id="view-kalender" style="display:none;">
       <div class="card" style="margin-bottom:1.5rem;">
-        <div class="cal-header-bar">
+        <div class="cal-header-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
           <div style="display:flex; align-items:center; gap:0.5rem;">
             <h3 id="calMonthTitle" style="font-family:'Space Grotesk', sans-serif;">Bulan Ini</h3>
             <button class="btn" onclick="changeMonth(-1)">◀</button><button class="btn" onclick="changeMonth(1)">▶</button>
           </div>
           <div style="display:flex; gap:0.4rem;">
             <button class="btn" onclick="openNewLogModal()">+ Tambah Log / Waste</button>
-            <button class="btn btn-solid" onclick="openNewRosterModal()">+ Tambah Jadwal Staff</button>
+            <button class="btn btn-solid" id="btnAddRosterGlobal" onclick="openNewRosterModal()">+ Tambah Jadwal Staff</button>
           </div>
         </div>
         <div class="calendar-grid" id="calendarGrid"></div>
@@ -168,13 +205,16 @@
     <!-- VIEW 3: CHECKLIST -->
     <section id="view-checklist" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <h3>Checklist Shift Harian per Stasiun</h3>
-        <button class="btn btn-solid" onclick="openNewTaskModal()">+ Buat Tugas Baru</button>
+        <div>
+          <h3>Checklist Shift Harian per Stasiun</h3>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Centang tugas otomatis mencatat Username & Waktu Penyelesaian Anda.</p>
+        </div>
+        <button class="btn btn-solid" id="btnAddChecklistTask" onclick="openNewTaskModal()">+ Buat Tugas Baru</button>
       </div>
       <div id="stationGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem;"></div>
     </section>
 
-    <!-- VIEW 4: INVENTARIS STOK (SINKRON LOG REAL-TIME) -->
+    <!-- VIEW 4: INVENTARIS STOK -->
     <section id="view-stok" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
@@ -185,27 +225,15 @@
           <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem 0.6rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.78rem;">
             <option value="SEMUA">Semua Divisi</option><option value="BARISTA">Barista</option><option value="KITCHEN">Kitchen</option><option value="SERVER">Server</option>
           </select>
-          <button class="btn btn-solid" onclick="openNewStokModal()">+ Tambah Barang Baru</button>
+          <button class="btn btn-solid" id="btnAddStokGlobal" onclick="openNewStokModal()">+ Tambah Barang Baru</button>
         </div>
       </div>
       <div class="table-card">
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Divisi</th>
-              <th>Nama Barang</th>
-              <th>Satuan</th>
-              <th>Stok Gudang (Utama)</th>
-              <th>Stok Harian Divisi (Sisa Nyata)</th>
-              <th>Waste / Kalibrasi</th>
-              <th>Opname S1 (16:30)</th>
-              <th>Opname S2 (00:00)</th>
-              <th>Pemakaian Hari Ini</th>
-              <th>Total Keseluruhan (Aset)</th>
-              <th>Batas Min</th>
-              <th>Status & Kebutuhan</th>
-              <th>Aksi</th>
+              <th>ID</th><th>Divisi</th><th>Nama Barang</th><th>Satuan</th><th>Stok Gudang (Utama)</th><th>Stok Harian Divisi</th>
+              <th>Waste / Kalibrasi</th><th>Opname S1</th><th>Opname S2</th><th>Pemakaian</th><th>Total Keseluruhan</th><th>Batas Min</th><th>Status</th><th>Aksi</th>
             </tr>
           </thead>
           <tbody id="stokTableBody"></tbody>
@@ -213,12 +241,12 @@
       </div>
     </section>
 
-    <!-- VIEW 5: SERAH TERIMA KASIR (DUA SHIFT TERPISAH) -->
+    <!-- VIEW 5: SERAH TERIMA KASIR -->
     <section id="view-serah-terima" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
           <h3>Serah Terima Kasir & Rekap Kas Laci (Sistem Imprest)</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Shift 1 dan Shift 2 memiliki data tersendiri. Modal kasir Rp 110.000 selalu tinggal di laci.</p>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Dikoordinasikan oleh Barista Kasir. Shift 1 dan Shift 2 memiliki data terpisah.</p>
         </div>
         <div style="display:flex; gap:0.4rem;">
           <button class="btn" style="border-color:var(--accent);" onclick="openNewHandoverShift(1)">+ Serah Terima Shift 1 (Sore 16:30)</button>
@@ -229,19 +257,7 @@
         <table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Tanggal/Jam</th>
-              <th>Tahap Shift</th>
-              <th>PIC Serah</th>
-              <th>Total Omset Shift</th>
-              <th>Tunai Masuk</th>
-              <th>EDC / QRIS</th>
-              <th>Kas Keluar</th>
-              <th>Keterangan Kasir</th>
-              <th>Setor Bersih</th>
-              <th>Modal Laci</th>
-              <th>Catatan Handover Antar-Shift</th>
-              <th>Aksi</th>
+              <th>ID</th><th>Tanggal/Jam</th><th>Tahap Shift</th><th>PIC Serah</th><th>Total Omset Shift</th><th>Tunai Masuk</th><th>EDC / QRIS</th><th>Kas Keluar</th><th>Keterangan</th><th>Setor Bersih</th><th>Modal Laci</th><th>Catatan Handover</th><th>Aksi</th>
             </tr>
           </thead>
           <tbody id="stTableBody"></tbody>
@@ -249,12 +265,12 @@
       </div>
     </section>
 
-    <!-- VIEW 6: DAILY REPORT (DENGAN 3 KOLOM BELANJA BESOK PAGI) -->
+    <!-- VIEW 6: DAILY REPORT -->
     <section id="view-daily-report" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div>
           <h3>Daily Report & Evaluasi Operasional Malam</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Konsolidasi Omset Shift 1 + Shift 2, pengeluaran kas, waste, dan rincian belanja besok pagi.</p>
+          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Dikoordinasikan Barista Closing saat briefing malam. Rincian belanja besok diteruskan ke WhatsApp.</p>
         </div>
         <div style="display:flex; gap:0.4rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
@@ -265,17 +281,7 @@
         <table>
           <thead>
             <tr>
-              <th>ID Report</th>
-              <th>Tanggal</th>
-              <th>Total Omset</th>
-              <th>EDC / QRIS</th>
-              <th>Target Harian</th>
-              <th>Capaian %</th>
-              <th>Kas Keluar</th>
-              <th>Belanja Barista Besok</th>
-              <th>Belanja Kitchen Besok</th>
-              <th>Belanja Server Besok</th>
-              <th>Aksi</th>
+              <th>ID Report</th><th>Tanggal</th><th>Total Omset</th><th>EDC / QRIS</th><th>Target Harian</th><th>Capaian %</th><th>Kas Keluar</th><th>Belanja Barista Besok</th><th>Belanja Kitchen Besok</th><th>Belanja Server Besok</th><th>Aksi</th>
             </tr>
           </thead>
           <tbody id="drTableBody"></tbody>
@@ -287,7 +293,7 @@
     <section id="view-menu" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
         <div style="display:flex; gap:0.4rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
-        <button class="btn btn-solid" onclick="openNewMenuModal()">+ Tambah Menu Baru</button>
+        <button class="btn btn-solid" id="btnAddMenuGlobal" onclick="openNewMenuModal()">+ Tambah Menu Baru</button>
       </div>
       <div class="table-card">
         <table>
@@ -315,20 +321,19 @@
       </div>
     </section>
 
-    <!-- VIEW 9: ABOUT ME, ABOUT THIS APP & DATABASE VAULT -->
+    <!-- VIEW 9: ABOUT ME & DATABASE VAULT -->
     <section id="view-info-sistem" style="display:none;">
       <div class="card" style="border-left: 4px solid var(--accent); background: linear-gradient(145deg, var(--surface), var(--surface-elevated));">
         <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
           <div>
             <h2 style="font-family:'Space Grotesk', sans-serif; font-size:1.4rem; letter-spacing:0.03em;">HOLLO COFFEE & ROASTERY'S</h2>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;">Executive F&B Operations & Real-Time Control Suite — V16 Engine</p>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;">Executive F&B Operations & Real-Time Control Suite — V17 Engine</p>
           </div>
           <span class="tag tag-safe" style="padding:0.4rem 0.8rem; font-size:0.75rem;">● SISTEM AKTIF & TERKONEKSI</span>
         </div>
       </div>
 
       <div class="vault-grid">
-        <!-- BOX 1: COPYRIGHT & LEADERSHIP -->
         <div class="vault-box">
           <h4>👤 Hak Cipta & Arsitek Sistem</h4>
           <div style="font-size:0.8rem; line-height:1.6; margin-top:0.6rem;">
@@ -342,39 +347,27 @@
           </div>
         </div>
 
-        <!-- BOX 2: DATABASE GOOGLE SHEET TERKONEKSI -->
         <div class="vault-box" style="border:1px solid var(--accent);">
           <h4 style="color:var(--accent);">📂 File Google Spreadsheet Aktif</h4>
           <div style="font-size:0.8rem; margin-top:0.6rem; line-height:1.6;">
-            <div><strong>Nama File:</strong> <span id="infoSheetName">Memuat...</span></div>
+            <div><strong>Nama File:</strong> <span id="infoSheetName">HOLLO COFFEE DATABASE</span></div>
             <div style="word-break:break-all; font-size:0.72rem; color:var(--text-muted); margin-top:0.3rem;">
-              <strong>ID File:</strong> <code id="infoSheetId">...</code>
+              <strong>ID File:</strong> <code id="infoSheetId">Terdeteksi dari Script Aktif</code>
             </div>
           </div>
-          <div style="margin-top:1rem;">
-            <a id="btnOpenSheetDirect" href="https://docs.google.com/spreadsheets/u/0/" target="_blank" class="btn btn-solid" style="width:100%; justify-content:center; padding:0.65rem; text-decoration:none;">
-              🔗 Buka Google Spreadsheet di Tab Baru ↗
-            </a>
-          </div>
+          <div style="margin-top:1rem;" id="boxSheetActionWrap"></div>
         </div>
 
-        <!-- BOX 3: WEBHOOK & STATUS API -->
         <div class="vault-box">
           <h4>⚡ Webhook Apps Script Aktif</h4>
           <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; word-break:break-all;">
             URL Endpoint yang sedang ditembak:
-            <div style="background:var(--bg); padding:0.5rem; border-radius:4px; border:1px solid var(--border); margin-top:0.3rem; font-family:monospace; font-size:0.7rem; color:var(--text);" id="infoWebhookUrl">
-              ...
-            </div>
+            <div style="background:var(--bg); padding:0.5rem; border-radius:4px; border:1px solid var(--border); margin-top:0.3rem; font-family:monospace; font-size:0.7rem; color:var(--text);" id="infoWebhookUrl">...</div>
           </div>
-          <div style="display:flex; gap:0.4rem; margin-top:0.85rem;">
-            <button class="btn" style="flex:1; justify-content:center;" onclick="testPingConnection()">🔌 Tes Ping Koneksi</button>
-            <button class="btn btn-solid" style="flex:1; justify-content:center;" onclick="updateWebhookPrompt()">⚙ Ganti URL</button>
-          </div>
+          <div style="display:flex; gap:0.4rem; margin-top:0.85rem;" id="boxWebhookActionWrap"></div>
         </div>
       </div>
 
-      <!-- TABEL STATUS 9 SHEET -->
       <div class="card" style="margin-top:1.25rem;">
         <h4 style="margin-bottom:0.75rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.05em;">Peta 9 Tabel Database Terkoneksi</h4>
         <div class="table-card">
@@ -429,7 +422,7 @@
     </div>
   </div>
 
-  <!-- MODAL: LOG KALENDER (LABEL ADAPTIF & AUTO SINKRON KE STOK) -->
+  <!-- MODAL: LOG KALENDER -->
   <div class="modal-backdrop" id="modalLog">
     <div class="modal">
       <h3 id="modalLogTitle" style="margin-bottom:0.8rem;">Catat Log, Waste & Mutasi</h3>
@@ -479,27 +472,23 @@
         <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="Contoh: Espresso Dark Roast"></div>
         <div class="form-group"><label>Satuan</label><input type="text" id="fStkSatuan" placeholder="gram/liter/pcs"></div>
       </div>
-
       <div class="section-title">1. Stok Gudang (Utama) & Batas Minimum</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Batas Minimum (Restock)</label><input type="text" id="fStkMin" value="700" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
         <div class="form-group"><label>Stok Gudang (Makro Cadangan)</label><input type="text" id="fStkGudang" value="1.000" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
       </div>
-
       <div class="section-title">2. Persediaan Harian Divisi (Mikro di Stasiun)</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" value="700" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
         <div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" value="0" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
         <div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
       </div>
-
       <div class="section-title">3. Opname & Waste/Kalibrasi</div>
       <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Waste / Kalibrasi</label><input type="text" id="fStkWaste" value="100" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
         <div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="300" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
         <div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="150" placeholder="Isi closing" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
       </div>
-
       <div class="calc-box">
         <div class="calc-row"><span>Total Persediaan Divisi:</span><span id="fStkPreviewTersedia">700</span></div>
         <div class="calc-row"><span>Sisa Nyata di Divisi:</span><span id="fStkPreviewSisa" style="font-weight:700;">150</span></div>
@@ -558,7 +547,7 @@
     </div>
   </div>
 
-  <!-- MODAL: DAILY REPORT (DENGAN INPUT BELANJA BESOK PAGI) -->
+  <!-- MODAL: DAILY REPORT -->
   <div class="modal-backdrop" id="modalDailyReport">
     <div class="modal">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; flex-wrap:wrap; gap:0.4rem;">
@@ -658,14 +647,14 @@
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbyR2hwqs48QDCwjA7J7G5M0bmnXGQxIZP5CeF7-LOPblAXXPgEwrPX0uvvUAg_sDRZr/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwcHDgOrN9PwRbbw_alN8fmY_YVQju2uHi_4A_FoETIqC_EVyrNp9kG3snhhRPg9kIj/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
     let API_URL = localStorage.getItem(STORAGE_KEY_URL) || HARDCODED_API_URL;
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
-    let metaInfo = { sheet_name: "HOLLO COFFEE DATABASE", sheet_url: "#", sheet_id: "Unknown" };
+    let metaInfo = { sheet_name: "HOLLO COFFEE DATABASE", sheet_url: "#", sheet_id: "Terdeteksi dari Script Aktif" };
 
     let calDate = new Date();
     let activeInspectDate = new Date().toISOString().split('T')[0];
@@ -693,6 +682,10 @@
     function cleanPercent(val) { if(!val) return "0.0%"; if(typeof val === 'string' && val.includes('%')) return val; const num = parseFloat(val); return (num <= 1 ? num * 100 : num).toFixed(1) + "%"; }
 
     function updateWebhookPrompt() {
+      if (!currentUser || currentUser.level < 6) {
+        alert("Akses Terkunci! Hanya Superadmin (Level 6) yang memiliki hak mengganti Webhook.");
+        return;
+      }
       const newUrl = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
       if (newUrl && newUrl.trim() !== "") {
         API_URL = newUrl.trim();
@@ -734,9 +727,43 @@
     function unlockPortal() {
       document.getElementById("gatekeeper").style.display = "none";
       document.getElementById("userNameBadge").innerText = `${currentUser.username.toUpperCase()} (${currentUser.role})`;
-      if (currentUser.level >= 4) document.getElementById("tabPerusahaan").style.display = "block";
+      applyRolePermissions();
+      const todayStr = new Date().toISOString().split('T')[0];
+      const dashInput = document.getElementById("dashFilterTanggal");
+      if (dashInput) dashInput.value = todayStr;
       fetchAllData();
       startLiveClock();
+    }
+
+    function applyRolePermissions() {
+      const lvl = currentUser ? currentUser.level : 1;
+      const div = currentUser ? currentUser.divisi : "BARISTA";
+      const role = currentUser ? currentUser.role : "STAFF";
+
+      document.getElementById("tabPerusahaan").style.display = lvl >= 4 ? "block" : "none";
+      document.getElementById("tabMenu").style.display = lvl >= 2 ? "block" : "none";
+
+      const canAccessKasir = (lvl >= 2 || div === "BARISTA" || role === "BARISTA");
+      document.getElementById("tabSerahTerima").style.display = canAccessKasir ? "block" : "none";
+      document.getElementById("tabDailyReport").style.display = canAccessKasir ? "block" : "none";
+
+      const filterSelect = document.getElementById("stokFilter");
+      if (lvl === 1) {
+        filterSelect.value = div;
+        filterSelect.disabled = true;
+      } else {
+        filterSelect.disabled = false;
+      }
+
+      const isSuper = (lvl >= 4);
+      const btnAddStok = document.getElementById("btnAddStokGlobal");
+      if (btnAddStok) btnAddStok.style.display = isSuper ? "inline-flex" : "none";
+
+      const btnAddTask = document.getElementById("btnAddChecklistTask");
+      if (btnAddTask) btnAddTask.style.display = (lvl >= 2) ? "inline-flex" : "none";
+
+      const btnAddRoster = document.getElementById("btnAddRosterGlobal");
+      if (btnAddRoster) btnAddRoster.style.display = (lvl >= 3) ? "inline-flex" : "none";
     }
 
     function logout() { localStorage.removeItem(STORAGE_KEY_USER); currentUser = null; document.getElementById("gatekeeper").style.display = "flex"; }
@@ -766,6 +793,7 @@
         if (el) el.style.display = (v === viewId) ? "block" : "none";
       });
 
+      if (viewId === 'dashboard') renderDashboard();
       if (viewId === 'kalender') renderCalendar();
       if (viewId === 'info-sistem') renderInfoSistemView();
     }
@@ -809,14 +837,603 @@
       if(sel) sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
     }
 
+    // 1. DASHBOARD TIME MACHINE
+    function resetDashboardDateToToday() {
+      document.getElementById("dashFilterTanggal").value = new Date().toISOString().split('T')[0];
+      renderDashboard();
+    }
+
+    function renderDashboard() {
+      const selectedDate = document.getElementById("dashFilterTanggal").value || new Date().toISOString().split('T')[0];
+      const isToday = (selectedDate === new Date().toISOString().split('T')[0]);
+      
+      document.getElementById("dashDateBadge").innerText = isToday ? "● Menampilkan Data Hari Ini" : `● Tracking Riwayat: ${selectedDate}`;
+      document.getElementById("kpiSalesTitle").innerText = isToday ? "Total Penjualan Hari Ini (Omset)" : `Omset Tanggal ${selectedDate}`;
+
+      const dateHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === selectedDate);
+      let salesDate = 0, tunaiTotal = 0, nonTunaiTotal = 0, onlineTotal = 0;
+      dateHandovers.forEach(h => {
+        const t = cleanMoney(h.penjualan_tunai), nt = cleanMoney(h.non_tunai_qris), onl = cleanMoney(h.online_food);
+        tunaiTotal += t; nonTunaiTotal += nt; onlineTotal += onl; salesDate += (t + nt + onl);
+      });
+      document.getElementById("kpiSalesToday").innerText = formatRupiah(salesDate);
+
+      let mtdTotal = 0;
+      (localData.DAILY_REPORT || []).forEach(d => mtdTotal += cleanMoney(d.total_omset));
+      document.getElementById("kpiTargetMtd").innerText = formatRupiah(mtdTotal || salesDate);
+
+      const restock = (localData.STOK || []).filter(s => {
+        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
+        const wasteLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+        const waste = wasteLogs.length ? wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
+        const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
+        const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikro - waste));
+        return (gudang + sisa) <= cleanMoney(s.min_stok);
+      }).length;
+      document.getElementById("kpiRestockCount").innerText = `${restock} Item`;
+
+      const allTasks = localData.CHECKLIST || [];
+      const barTasks = allTasks.filter(c => c.station.includes('BARISTA'));
+      const kitTasks = allTasks.filter(c => c.station.includes('KITCHEN'));
+      const srvTasks = allTasks.filter(c => c.station.includes('SERVER'));
+
+      const barDone = barTasks.filter(c => c.status === 'Selesai').length;
+      const kitDone = kitTasks.filter(c => c.status === 'Selesai').length;
+      const srvDone = srvTasks.filter(c => c.status === 'Selesai').length;
+
+      document.getElementById("barProgBarista").innerText = `${barDone}/${barTasks.length}`;
+      document.getElementById("fillBarista").style.width = barTasks.length ? `${(barDone/barTasks.length)*100}%` : '0%';
+
+      document.getElementById("barProgKitchen").innerText = `${kitDone}/${kitTasks.length}`;
+      document.getElementById("fillKitchen").style.width = kitTasks.length ? `${(kitDone/kitTasks.length)*100}%` : '0%';
+
+      document.getElementById("barProgServer").innerText = `${srvDone}/${srvTasks.length}`;
+      document.getElementById("fillServer").style.width = srvTasks.length ? `${(srvDone/srvTasks.length)*100}%` : '0%';
+
+      const totalDone = barDone + kitDone + srvDone;
+      const totalAll = allTasks.length || 1;
+      document.getElementById("kpiChecklistProgress").innerText = `${Math.round((totalDone/totalAll)*100)}%`;
+
+      const roster = (localData.JADWAL || []).filter(j => j.tanggal === selectedDate);
+      document.getElementById("dashStaffS1").innerText = roster.filter(j => j.shift === '1').map(x => `${x.nama} (${x.divisi})`).join(', ') || 'Belum diatur';
+      document.getElementById("dashStaffS2").innerText = roster.filter(j => j.shift === '2').map(x => `${x.nama} (${x.divisi})`).join(', ') || 'Belum diatur';
+      document.getElementById("dashStaffOff").innerText = roster.filter(j => j.status_hadir === 'Libur').map(x => x.nama).join(', ') || '-';
+
+      if(chartSalesInst) chartSalesInst.destroy();
+      chartSalesInst = new Chart(document.getElementById("chartSales").getContext("2d"), {
+        type: 'bar',
+        data: { labels: ['Tunai', 'QRIS/EDC', 'Online'], datasets: [{ data: [tunaiTotal, nonTunaiTotal, onlineTotal], backgroundColor: ['#ffffff', '#a1a1aa', '#71717a'], borderRadius: 6 }] },
+        options: { responsive: true, plugins: { legend: { display: false } } }
+      });
+
+      if(chartChecklistInst) chartChecklistInst.destroy();
+      chartChecklistInst = new Chart(document.getElementById("chartChecklist").getContext("2d"), {
+        type: 'doughnut',
+        data: {
+          labels: ['Barista & Kasir', 'Kitchen', 'Server'],
+          datasets: [{
+            data: [barTasks.length || 1, kitTasks.length || 1, srvTasks.length || 1],
+            backgroundColor: ['#ffffff', '#a1a1aa', '#52525b'], borderWidth: 0
+          }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+      });
+    }
+
+    // 2. CHECKLIST STASIUN
+    function renderChecklistStations() {
+      const container = document.getElementById("stationGrid");
+      const stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
+      container.innerHTML = stations.map(st => {
+        const tasks = (localData.CHECKLIST || []).filter(c => c.station === st);
+        return `
+          <div class="card">
+            <div style="font-size:0.82rem; font-weight:700; border-bottom:1px solid var(--border-subtle); padding-bottom:0.45rem; display:flex; justify-content:space-between; align-items:center;">
+              <span>Station ${st}</span><span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span>
+            </div>
+            ${tasks.map(t => `
+              <div style="display:flex; align-items:flex-start; gap:0.65rem; padding:0.45rem 0; border-bottom:1px solid var(--border-subtle);">
+                <input type="checkbox" style="margin-top:0.15rem; width:17px; height:17px; cursor:pointer;" ${t.status==='Selesai'?'checked':''} onchange="toggleTaskState('${t.task_id}', this.checked)">
+                <div style="flex:1; font-size:0.8rem;">
+                  <div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div>
+                  <div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.15rem;">
+                    Shift ${t.shift} • Target ${t.jam_target} • PIC Selesai: <strong>${t.petugas || '-'}</strong> ${t.jam_selesai ? '('+t.jam_selesai+')' : ''}
+                  </div>
+                </div>
+                ${currentUser && currentUser.level >= 2 ? `
+                  <div style="display:flex; gap:0.2rem;">
+                    <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editTaskModal('${t.task_id}')">Edit</button>
+                    <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button>
+                  </div>
+                ` : ''}
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function toggleTaskState(id, isChecked) {
+      const task = (localData.CHECKLIST || []).find(c => c.task_id === id);
+      const pet = isChecked ? currentUser.username : "";
+      const jam = isChecked ? new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':') : "";
+      
+      if(task) {
+        task.status = isChecked ? "Selesai" : "Belum";
+        task.petugas = pet;
+        task.jam_selesai = jam;
+      }
+      renderChecklistStations();
+      renderDashboard();
+
+      await postToGas("update", "CHECKLIST", { 
+        key: "task_id", 
+        val: id, 
+        updates: { status: isChecked ? "Selesai" : "Belum", jam_selesai: jam, petugas: pet } 
+      });
+      await fetchAllData();
+    }
+
+    function openNewTaskModal() { document.getElementById("modalTaskTitle").innerText = "Buat Tugas Checklist"; document.getElementById("fTaskEditId").value = ""; document.getElementById("fTaskUraian").value = ""; openModal('modalTask'); }
+    function editTaskModal(id) {
+      const t = (localData.CHECKLIST || []).find(x => x.task_id === id); if(!t) return;
+      document.getElementById("modalTaskTitle").innerText = "Edit Tugas"; document.getElementById("fTaskEditId").value = t.task_id;
+      document.getElementById("fTaskStation").value = t.station; document.getElementById("fTaskShift").value = t.shift; document.getElementById("fTaskFase").value = t.fase;
+      document.getElementById("fTaskJam").value = t.jam_target; document.getElementById("fTaskUraian").value = t.tugas; openModal('modalTask');
+    }
+    async function submitTaskForm() {
+      const editId = document.getElementById("fTaskEditId").value;
+      const payload = { station: document.getElementById("fTaskStation").value, shift: document.getElementById("fTaskShift").value, fase: document.getElementById("fTaskFase").value, jam_target: document.getElementById("fTaskJam").value, tugas: document.getElementById("fTaskUraian").value };
+      closeModal('modalTask'); showToast("Menyimpan tugas...");
+      if(editId) await postToGas("update", "CHECKLIST", { key: "task_id", val: editId, updates: payload });
+      else { payload.task_id = "CHK-" + Date.now().toString().slice(-5); payload.tanggal = new Date().toISOString().split('T')[0]; payload.status = "Belum"; payload.petugas = currentUser.username; await postToGas("insert", "CHECKLIST", payload); }
+      await fetchAllData();
+    }
+    async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); await fetchAllData(); } }
+
+    // 3. INVENTARIS STOK
+    function renderStokTable() {
+      const filter = document.getElementById("stokFilter").value;
+      const data = (filter === "SEMUA") ? (localData.STOK || []) : (localData.STOK || []).filter(s => s.divisi === filter);
+
+      document.getElementById("stokTableBody").innerHTML = data.map(s => {
+        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = cleanMoney(s.min_stok);
+        const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
+
+        const wasteLogs = (localData.LOG_KALENDER || []).filter(l => 
+          String(l.item_id).trim() === String(s.item_id).trim() && 
+          (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi"))
+        );
+        const totalWasteFromLog = wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
+        const waste = totalWasteFromLog > 0 ? totalWasteFromLog : cleanMoney(s.waste_mikro);
+
+        const sisaDivisi = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
+        const pemakaian = Math.max(0, mikroT - sisaDivisi);
+        const totalKeseluruhan = gudang + sisaDivisi;
+        const status = totalKeseluruhan <= min ? "RESTOCK" : "AMAN";
+
+        return `
+          <tr>
+            <td><code>${s.item_id}</code></td>
+            <td>${s.divisi}</td>
+            <td><strong>${s.nama_barang}</strong></td>
+            <td>${s.satuan}</td>
+            <td style="font-weight:700;">${gudang.toLocaleString('id-ID')}</td>
+            <td style="font-weight:700; color:var(--success);">${sisaDivisi.toLocaleString('id-ID')}</td>
+            <td style="color:var(--danger); font-weight:700;">
+              ${waste > 0 ? waste.toLocaleString('id-ID') : '-'}
+              ${totalWasteFromLog > 0 ? '<span style="font-size:0.6rem; color:var(--warning); display:block;">(Dari Log)</span>' : ''}
+            </td>
+            <td><input type="text" style="width:65px; padding:0.2rem;" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
+            <td><input type="text" style="width:65px; padding:0.2rem;" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
+            <td style="font-weight:700; color:var(--warning);">${pemakaian.toLocaleString('id-ID')}</td>
+            <td><strong>${totalKeseluruhan.toLocaleString('id-ID')}</strong></td>
+            <td>${min.toLocaleString('id-ID')}</td>
+            <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span></td>
+            <td>
+              <button class="btn" onclick="editStokModal('${s.item_id}')">Edit</button>
+              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteStokItem('${s.item_id}')">Hapus</button>` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function quickUpdateOpnameShift(id, field, val) {
+      showToast("Menyimpan opname...");
+      let updates = {}; updates[field] = cleanMoney(val);
+      await postToGas("update", "STOK", { key: "item_id", val: id, updates: updates });
+      await fetchAllData();
+    }
+
+    function calcModalStokPreview() {
+      const min = cleanMoney(document.getElementById("fStkMin").value), gudang = cleanMoney(document.getElementById("fStkGudang").value);
+      const pagi = cleanMoney(document.getElementById("fStkPagi").value), r1 = cleanMoney(document.getElementById("fStkRefillS1").value), r2 = cleanMoney(document.getElementById("fStkRefillS2").value);
+      const waste = cleanMoney(document.getElementById("fStkWaste").value);
+      const op1 = cleanMoney(document.getElementById("fStkOpnameS1").value), op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
+      const totalT = pagi + r1 + r2;
+      const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, totalT - waste));
+      const pemakaian = Math.max(0, totalT - sisa), total = gudang + sisa;
+
+      document.getElementById("fStkPreviewTersedia").innerText = totalT.toLocaleString('id-ID');
+      document.getElementById("fStkPreviewSisa").innerText = sisa.toLocaleString('id-ID');
+      document.getElementById("fStkPreviewPemakaian").innerText = pemakaian.toLocaleString('id-ID');
+      document.getElementById("fStkPreviewTotal").innerText = total.toLocaleString('id-ID');
+
+      const tag = document.getElementById("fStkPreviewStatus");
+      tag.className = (total <= min) ? "tag tag-restock" : "tag tag-safe";
+      tag.innerText = (total <= min) ? `RESTOCK (Kurang ${Math.abs(total - min)})` : `AMAN (Surplus +${total - min})`;
+    }
+
+    function openNewStokModal() {
+      document.getElementById("modalStokTitle").innerText = "Tambah Barang Baru"; document.getElementById("fStkEditId").value = "";
+      document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fStkNama").value = ""; document.getElementById("fStkSatuan").value = "";
+      document.getElementById("fStkMin").value = "700"; document.getElementById("fStkGudang").value = "1.000"; document.getElementById("fStkPagi").value = "700";
+      document.getElementById("fStkRefillS1").value = "0"; document.getElementById("fStkRefillS2").value = "0"; document.getElementById("fStkWaste").value = "0";
+      document.getElementById("fStkOpnameS1").value = "300"; document.getElementById("fStkOpnameS2").value = "150";
+      calcModalStokPreview(); openModal('modalStok');
+    }
+
+    function editStokModal(id) {
+      const item = (localData.STOK || []).find(s => s.item_id === id); if(!item) return;
+      document.getElementById("modalStokTitle").innerText = "Edit Barang: " + id; document.getElementById("fStkEditId").value = id;
+      document.getElementById("fStkTanggal").value = item.tgl_update || new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = item.jam_update || "08:30";
+      document.getElementById("fStkDivisi").value = item.divisi; document.getElementById("fStkKategori").value = item.kategori;
+      document.getElementById("fStkNama").value = item.nama_barang; document.getElementById("fStkSatuan").value = item.satuan;
+      document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID'); document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID');
+      document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID'); document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID');
+      document.getElementById("fStkRefillS2").value = cleanMoney(item.refill_s2).toLocaleString('id-ID');
+      
+      const wasteLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+      const totalWasteFromLog = wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
+      document.getElementById("fStkWaste").value = (totalWasteFromLog > 0 ? totalWasteFromLog : cleanMoney(item.waste_mikro)).toLocaleString('id-ID');
+
+      document.getElementById("fStkOpnameS1").value = item.opname_s1 ? cleanMoney(item.opname_s1).toLocaleString('id-ID') : "";
+      document.getElementById("fStkOpnameS2").value = item.opname_s2 ? cleanMoney(item.opname_s2).toLocaleString('id-ID') : "";
+      calcModalStokPreview(); openModal('modalStok');
+    }
+
+    async function submitStokForm() {
+      const editId = document.getElementById("fStkEditId").value, div = document.getElementById("fStkDivisi").value;
+      const prefix = div === "BARISTA" ? "BAR" : (div === "KITCHEN" ? "KIT" : "SRV");
+      const payload = {
+        divisi: div, kategori: document.getElementById("fStkKategori").value, nama_barang: document.getElementById("fStkNama").value, satuan: document.getElementById("fStkSatuan").value,
+        min_stok: cleanMoney(document.getElementById("fStkMin").value), stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
+        tersedia_pagi: cleanMoney(document.getElementById("fStkPagi").value), refill_s1: cleanMoney(document.getElementById("fStkRefillS1").value), refill_s2: cleanMoney(document.getElementById("fStkRefillS2").value),
+        waste_mikro: cleanMoney(document.getElementById("fStkWaste").value), opname_s1: cleanMoney(document.getElementById("fStkOpnameS1").value), opname_s2: cleanMoney(document.getElementById("fStkOpnameS2").value),
+        tgl_update: document.getElementById("fStkTanggal").value, jam_update: document.getElementById("fStkJam").value
+      };
+      closeModal('modalStok'); showToast("Menyimpan stok...");
+      if(editId) await postToGas("update", "STOK", { key: "item_id", val: editId, updates: payload });
+      else { payload.item_id = `${prefix}-${Date.now().toString().slice(-4)}`; await postToGas("insert", "STOK", payload); }
+      await fetchAllData();
+    }
+
+    async function deleteStokItem(id) { if(confirm(`Hapus barang ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "STOK", { key: "item_id", val: id }); await fetchAllData(); } }
+
+    // 4. KASIR & SERAH TERIMA
+    function calcCashDenom() {
+      const tunai = cleanMoney(document.getElementById("fStTunai").value), nonTunai = cleanMoney(document.getElementById("fStNonTunai").value), online = cleanMoney(document.getElementById("fStOnline").value);
+      const modal = cleanMoney(document.getElementById("fStModal").value), pengeluaran = cleanMoney(document.getElementById("fStPengeluaran").value);
+      document.getElementById("fStOmsetShiftText").innerText = formatRupiah(tunai + nonTunai + online);
+      document.getElementById("boxTunaiText").innerText = formatRupiah(tunai);
+      document.getElementById("boxKeluarText").innerText = "- " + formatRupiah(pengeluaran);
+      document.getElementById("boxSetoranText").innerText = formatRupiah(tunai - pengeluaran);
+      document.getElementById("boxModalText").innerText = formatRupiah(modal);
+    }
+
+    function toggleHandoverNotesLabel() {
+      const tahap = document.getElementById("fStTahap").value;
+      document.getElementById("handoverNotesHeader").innerText = tahap.includes("Closing") ? "3. Catatan Kasir Closing Shift 2" : "3. Catatan Operasional Shift 1 untuk Shift 2";
+    }
+
+    function openNewHandoverShift(shiftNumber) {
+      document.getElementById("fStEditId").value = "";
+      document.getElementById("fStShiftNum").value = shiftNumber;
+      document.getElementById("fStTanggal").value = new Date().toISOString().split('T')[0];
+      document.getElementById("fStModal").value = "110.000";
+      document.getElementById("fStTunai").value = "0";
+      document.getElementById("fStNonTunai").value = "0";
+      document.getElementById("fStOnline").value = "0";
+      document.getElementById("fStPengeluaran").value = "0";
+      document.getElementById("fStKetPengeluaran").value = "";
+
+      if (shiftNumber === 1) {
+        document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 1 (Sore 16:30)";
+        document.getElementById("fStTahap").value = "Shift 1 → 2 (Sore 16:30)";
+        document.getElementById("fStJam").value = "16:30";
+      } else {
+        document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 2 (Closing 00:00)";
+        document.getElementById("fStTahap").value = "Shift 2 → 1 (Closing 00:00)";
+        document.getElementById("fStJam").value = "00:00";
+      }
+      toggleHandoverNotesLabel();
+      calcCashDenom();
+      openModal('modalHandover');
+    }
+
+    function editHandoverModal(id) {
+      const st = (localData.SERAH_TERIMA || []).find(x => x.id === id); if(!st) return;
+      document.getElementById("modalHandoverTitle").innerText = "Edit Serah Terima: " + id; document.getElementById("fStEditId").value = id;
+      document.getElementById("fStTanggal").value = st.tanggal; document.getElementById("fStJam").value = st.jam; document.getElementById("fStTahap").value = st.tahap;
+      document.getElementById("fStShiftNum").value = st.shift || (st.tahap.includes("Shift 1") ? "1" : "2");
+      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_stay).toLocaleString('id-ID'); document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai).toLocaleString('id-ID');
+      document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID'); document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
+      document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil).toLocaleString('id-ID'); document.getElementById("fStKetPengeluaran").value = st.keterangan_pengeluaran || "";
+      document.getElementById("fStPrepBar").value = st.prep_barista || ""; document.getElementById("fStPrepKit").value = st.prep_kitchen || ""; document.getElementById("fStPrepSrv").value = st.prep_server || "";
+      document.getElementById("fStCatatan").value = st.catatan_evaluasi || "";
+      toggleHandoverNotesLabel(); calcCashDenom(); openModal('modalHandover');
+    }
+
+    async function submitHandoverForm() {
+      const editId = document.getElementById("fStEditId").value, tunai = cleanMoney(document.getElementById("fStTunai").value);
+      const nontunai = cleanMoney(document.getElementById("fStNonTunai").value), online = cleanMoney(document.getElementById("fStOnline").value);
+      const modal = cleanMoney(document.getElementById("fStModal").value), keluar = cleanMoney(document.getElementById("fStPengeluaran").value);
+      const tahapVal = document.getElementById("fStTahap").value;
+      const shiftVal = document.getElementById("fStShiftNum").value || (tahapVal.includes("Shift 1") ? "1" : "2");
+
+      const payload = {
+        tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0],
+        jam: document.getElementById("fStJam").value || "16:30",
+        tahap: tahapVal,
+        shift: shiftVal,
+        petugas_serah: currentUser.username,
+        petugas_terima: shiftVal === "1" ? "Shift 2" : "Shift Opening Besok",
+        penjualan_tunai: tunai,
+        non_tunai_qris: nontunai,
+        online_food: online,
+        total_omset_shift: tunai + nontunai + online,
+        kas_modal_stay: modal,
+        pengeluaran_kas_kecil: keluar,
+        keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
+        uang_setor_bersih: tunai - keluar,
+        prep_barista: document.getElementById("fStPrepBar").value,
+        prep_kitchen: document.getElementById("fStPrepKit").value,
+        prep_server: document.getElementById("fStPrepSrv").value,
+        catatan_evaluasi: document.getElementById("fStCatatan").value
+      };
+
+      closeModal('modalHandover'); showToast("Menyimpan serah terima...");
+      if(editId) {
+        await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
+      } else {
+        payload.id = `ST-S${shiftVal}-${Date.now().toString().slice(-5)}`;
+        await postToGas("insert", "SERAH_TERIMA", payload);
+      }
+      await fetchAllData();
+    }
+
+    async function deleteHandoverItem(id) { if(confirm(`Hapus data ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id }); await fetchAllData(); } }
+
+    function renderHandoverTable() {
+      document.getElementById("stTableBody").innerHTML = (localData.SERAH_TERIMA || []).map(st => {
+        const isS1 = String(st.tahap).includes("Shift 1") || String(st.shift) === "1";
+        const badgeTahap = isS1 ? `<span class="tag tag-safe">SHIFT 1 (SORE)</span>` : `<span class="tag tag-restock">SHIFT 2 (CLOSING)</span>`;
+        return `
+          <tr>
+            <td><code>${st.id}</code></td>
+            <td>${st.tanggal} ${st.jam || ''}</td>
+            <td>${badgeTahap}</td>
+            <td>${st.petugas_serah}</td>
+            <td><strong>${formatRupiah(st.total_omset_shift || (cleanMoney(st.penjualan_tunai)+cleanMoney(st.non_tunai_qris)+cleanMoney(st.online_food)))}</strong></td>
+            <td>${formatRupiah(st.penjualan_tunai)}</td>
+            <td>${formatRupiah(st.non_tunai_qris)}</td>
+            <td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
+            <td style="font-size:0.72rem;">${st.keterangan_pengeluaran||'-'}</td>
+            <td style="font-weight:700; color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
+            <td style="font-weight:700; color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
+            <td style="font-size:0.72rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
+            <td>
+              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
+              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>` : ''}
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // 5. DAILY REPORT
+    function openNewDailyReportModal() { 
+      document.getElementById("modalDrTitle").innerText = "Simpan Report Harian"; 
+      document.getElementById("fDrEditId").value = ""; 
+      document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0]; 
+      autoPullDailyReportData(); 
+      openModal('modalDailyReport'); 
+    }
+
+    function editDailyReportModal(id) {
+      const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
+      document.getElementById("modalDrTitle").innerText = "Edit Daily Report: " + id; document.getElementById("fDrEditId").value = id;
+      document.getElementById("fDrTanggal").value = dr.tanggal; document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
+      document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2).toLocaleString('id-ID'); document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc).toLocaleString('id-ID');
+      document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID'); document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 5000000).toLocaleString('id-ID');
+      document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar).toLocaleString('id-ID'); document.getElementById("fDrKetKasKeluar").value = dr.rincian_pengeluaran || "";
+      document.getElementById("fDrBelanjaBar").value = dr.belanja_barista || ""; document.getElementById("fDrBelanjaKit").value = dr.belanja_kitchen || ""; document.getElementById("fDrBelanjaSrv").value = dr.belanja_server || "";
+      document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || ""; document.getElementById("fDrWaste").value = dr.waste_bahan || "";
+      document.getElementById("fDrEvaluasi").value = dr.evaluasi_harian || "";
+      openModal('modalDailyReport');
+    }
+
+    function autoPullDailyReportData() {
+      const tgl = document.getElementById("fDrTanggal").value;
+      const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === tgl);
+
+      let s1 = 0, s2 = 0, qris = 0, online = 0, keluar = 0, ketKeluar = [], evalText = [];
+      handovers.forEach(h => {
+        const omset = cleanMoney(h.penjualan_tunai) + cleanMoney(h.non_tunai_qris) + cleanMoney(h.online_food);
+        if (String(h.tahap).includes("Shift 1") || String(h.shift) === "1") {
+          s1 += omset;
+        } else {
+          s2 += omset;
+        }
+        qris += cleanMoney(h.non_tunai_qris);
+        online += cleanMoney(h.online_food);
+        keluar += cleanMoney(h.pengeluaran_kas_kecil);
+        if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
+        if(h.catatan_evaluasi) evalText.push(h.catatan_evaluasi);
+      });
+
+      document.getElementById("fDrRevS1").value = s1.toLocaleString('id-ID');
+      document.getElementById("fDrRevS2").value = s2.toLocaleString('id-ID');
+      document.getElementById("fDrQrisEdc").value = qris.toLocaleString('id-ID');
+      document.getElementById("fDrOnlineFood").value = online.toLocaleString('id-ID');
+      document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID');
+      document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
+
+      const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
+      const wasteLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi"));
+      document.getElementById("fDrWaste").value = wasteLogs.length ? wasteLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada waste";
+      document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
+
+      const restockList = (localData.STOK || []).filter(s => {
+        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
+        return total <= cleanMoney(s.min_stok);
+      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || 'Semua stok aman.';
+      document.getElementById("fDrRestockList").value = restockList;
+      if(evalText.length) document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
+      showToast("Data operasional Shift 1 & Shift 2 berhasil ditarik!");
+    }
+
+    async function submitDailyReportForm() {
+      const editId = document.getElementById("fDrEditId").value, s1 = cleanMoney(document.getElementById("fDrRevS1").value), s2 = cleanMoney(document.getElementById("fDrRevS2").value);
+      const target = cleanMoney(document.getElementById("fDrTarget").value) || 5000000, total = s1 + s2;
+      const payload = {
+        tanggal: document.getElementById("fDrTanggal").value, rev_shift1: s1, rev_shift2: s2, total_omset: total,
+        qris_edc: cleanMoney(document.getElementById("fDrQrisEdc").value), online_food: cleanMoney(document.getElementById("fDrOnlineFood").value),
+        target_harian: target, capaian_pct: target > 0 ? ((total/target)*100).toFixed(1)+'%' : '100%',
+        total_kas_keluar: cleanMoney(document.getElementById("fDrKasKeluar").value), rincian_pengeluaran: document.getElementById("fDrKetKasKeluar").value,
+        kalibrasi_beans: document.getElementById("fDrKalibrasi").value, waste_bahan: document.getElementById("fDrWaste").value,
+        belanja_barista: document.getElementById("fDrBelanjaBar").value, belanja_kitchen: document.getElementById("fDrBelanjaKit").value, belanja_server: document.getElementById("fDrBelanjaSrv").value,
+        evaluasi_harian: document.getElementById("fDrEvaluasi").value, pelapor: currentUser.username
+      };
+      closeModal('modalDailyReport'); showToast("Menyimpan Daily Report...");
+      if(editId) await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
+      else { payload.report_id = "REP-" + Date.now().toString().slice(-6); await postToGas("insert", "DAILY_REPORT", payload); }
+      await fetchAllData();
+    }
+
+    async function deleteDailyReportItem(id) { if(confirm(`Hapus Report ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id }); await fetchAllData(); } }
+
+    function renderDailyReportTable() {
+      document.getElementById("drTableBody").innerHTML = (localData.DAILY_REPORT || []).map(dr => `
+        <tr>
+          <td><code>${dr.report_id}</code></td>
+          <td>${dr.tanggal}</td>
+          <td><strong>${formatRupiah(dr.total_omset)}</strong></td>
+          <td>${formatRupiah(dr.qris_edc)}</td>
+          <td>${formatRupiah(dr.target_harian)}</td>
+          <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td>
+          <td>${formatRupiah(dr.total_kas_keluar)}</td>
+          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_barista||'-'}</td>
+          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_kitchen||'-'}</td>
+          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_server||'-'}</td>
+          <td>
+            <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
+            ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>` : ''}
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function sendWhatsAppDaily() {
+      const todayStr = new Date().toISOString().split('T')[0], todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
+      const dr = (localData.DAILY_REPORT || []).find(d => d.tanggal === todayStr) || {};
+
+      const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr);
+      let tunai = 0, qris = 0, online = 0, modal = 110000, keluar = 0, ketKeluar = [];
+      handovers.forEach(h => {
+        tunai += cleanMoney(h.penjualan_tunai); qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food);
+        modal = cleanMoney(h.kas_modal_stay) || modal; keluar += cleanMoney(h.pengeluaran_kas_kecil);
+        if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
+      });
+
+      const roster = (localData.JADWAL || []).filter(j => j.tanggal === todayStr);
+      const s1Staff = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
+      const s2Staff = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
+      const offStaff = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
+
+      const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === todayStr);
+      const wasteItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste';
+
+      const restockItems = (localData.STOK || []).filter(s => {
+        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
+        return total <= cleanMoney(s.min_stok);
+      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || '• Semua stok aman di atas limit';
+
+      const fullMessage = 
+        `*LAPORAN OPERASIONAL HARIAN — HOLLO COFFEE*\n` +
+        `📅 Tanggal: ${todayFormatted}\n` +
+        `👤 PIC Pelapor: ${currentUser ? currentUser.nama_lengkap : 'Admin'} (${currentUser ? currentUser.role : 'MANAJEMEN'})\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `*1. RINGKASAN OMSET & REVENUE:*\n` +
+        `• Omset Shift 1: ${formatRupiah(dr.rev_shift1 || 0)}\n` +
+        `• Omset Shift 2: ${formatRupiah(dr.rev_shift2 || 0)}\n` +
+        `• *TOTAL REVENUE OMSET: ${formatRupiah((cleanMoney(dr.rev_shift1) + cleanMoney(dr.rev_shift2)) || (tunai + qris + online))}*\n` +
+        `  - Penjualan Tunai: ${formatRupiah(tunai)}\n` +
+        `  - Non-Tunai (EDC/QRIS): ${formatRupiah(qris)}\n` +
+        `  - Online Food Portal: ${formatRupiah(online)}\n\n` +
+        `*2. REKAP FISIK UANG KAS LACI (SISTEM IMPREST):*\n` +
+        `• Modal Awal Kasir (Stay di Laci): ${formatRupiah(modal)}\n` +
+        `• Pengeluaran Kas Kecil: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
+        `• *Uang Setoran Tunai Bersih (Amplop): ${formatRupiah(tunai - keluar)}*\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `*3. 🛒 KEBUTUHAN BELANJA & PREP BESOK PAGI:*\n` +
+        `☕ *Barista:* ${dr.belanja_barista || 'Lengkap / Aman'}\n` +
+        `🍳 *Kitchen:* ${dr.belanja_kitchen || 'Lengkap / Aman'}\n` +
+        `🍽️ *Server:* ${dr.belanja_server || 'Lengkap / Aman'}\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `*4. ⚠️ BAHAN KRITIS (STATUS RESTOCK):*\n` +
+        `${restockItems}\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `*5. ROSTER TIM & KEHADIRAN:*\n` +
+        `• Shift 1: ${s1Staff}\n` +
+        `• Shift 2: ${s2Staff}\n` +
+        `• Libur (Off): ${offStaff}\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `*6. QC, KALIBRASI & LOG WASTE:*\n` +
+        `${wasteItems}\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n` +
+        `*7. EVALUASI BRIEFING CLOSING:*\n` +
+        `${dr.evaluasi_harian || 'Operasional shift berjalan tertib dan lancar.'}\n\n` +
+        `_Laporan resmi sah terkirim melalui Sistem Terintegrasi Kafe._`;
+
+      window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(fullMessage), '_blank');
+    }
+
+    // 6. INFO & DATABASE (TERKUNCI KHUSUS BOY)
     function renderInfoSistemView() {
       document.getElementById("infoWebhookUrl").innerText = API_URL;
       document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO COFFEE & ROASTERY'S — MASTER";
       document.getElementById("infoSheetId").innerText = metaInfo.sheet_id || "Terdeteksi dari Script Aktif";
       
-      const btnSheet = document.getElementById("btnOpenSheetDirect");
-      if (metaInfo.sheet_url && metaInfo.sheet_url !== "#") {
-        btnSheet.href = metaInfo.sheet_url;
+      const isSuper = (currentUser && currentUser.level === 6);
+
+      const wrapSheet = document.getElementById("boxSheetActionWrap");
+      if (isSuper) {
+        wrapSheet.innerHTML = `
+          <a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/u/0/'}" target="_blank" class="btn btn-solid" style="width:100%; justify-content:center; padding:0.65rem; text-decoration:none;">
+            🔗 Buka Google Spreadsheet di Tab Baru ↗
+          </a>
+        `;
+      } else {
+        wrapSheet.innerHTML = `
+          <div style="background:var(--bg); padding:0.5rem; border-radius:4px; font-size:0.75rem; color:var(--text-muted); border:1px dashed var(--border); text-align:center;">
+            🔒 File Database Terkunci Khusus Owner / Superadmin
+          </div>
+        `;
+      }
+
+      const wrapWebhook = document.getElementById("boxWebhookActionWrap");
+      if (isSuper) {
+        wrapWebhook.innerHTML = `
+          <button class="btn" style="flex:1; justify-content:center;" onclick="testPingConnection()">🔌 Tes Ping Koneksi</button>
+          <button class="btn btn-solid" style="flex:1; justify-content:center;" onclick="updateWebhookPrompt()">⚙ Ganti URL</button>
+        `;
+      } else {
+        wrapWebhook.innerHTML = `
+          <button class="btn" style="width:100%; justify-content:center;" onclick="testPingConnection()">🔌 Tes Ping Koneksi</button>
+        `;
       }
 
       const tables = [
@@ -841,76 +1458,7 @@
       `).join('');
     }
 
-    async function testPingConnection() {
-      showToast("Menguji ping koneksi...");
-      try {
-        const res = await fetch(`${API_URL}?action=ping`);
-        const json = await res.json();
-        if (json.success) {
-          if (json.sheet_url) metaInfo.sheet_url = json.sheet_url;
-          if (json.sheet_name) metaInfo.sheet_name = json.sheet_name;
-          if (json.sheet_id) metaInfo.sheet_id = json.sheet_id;
-          renderInfoSistemView();
-          alert(`✅ KONEKSI BERHASIL!\n\nPesan: ${json.message}\nSheet Aktif: ${json.sheet_name || metaInfo.sheet_name}\nURL Sheet: ${json.sheet_url || 'Tersambung'}`);
-        } else {
-          alert("❌ PING GAGAL: " + json.message);
-        }
-      } catch (e) {
-        alert("❌ GAGAL MENGHUBUNGI APPS SCRIPT!\nPastikan Webhook URL benar dan diset 'Anyone'.");
-      }
-    }
-
-    // ==================== DASHBOARD ====================
-    function renderDashboard() {
-      const todayStr = new Date().toISOString().split('T')[0];
-      const todayHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr);
-      let salesToday = 0, tunaiTotal = 0, nonTunaiTotal = 0, onlineTotal = 0;
-      todayHandovers.forEach(h => {
-        const t = cleanMoney(h.penjualan_tunai), nt = cleanMoney(h.non_tunai_qris), onl = cleanMoney(h.online_food);
-        tunaiTotal += t; nonTunaiTotal += nt; onlineTotal += onl; salesToday += (t + nt + onl);
-      });
-      document.getElementById("kpiSalesToday").innerText = formatRupiah(salesToday);
-      
-      let mtdTotal = 0;
-      (localData.DAILY_REPORT || []).forEach(d => mtdTotal += cleanMoney(d.total_omset));
-      document.getElementById("kpiTargetMtd").innerText = formatRupiah(mtdTotal || salesToday);
-
-      const restock = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
-        const wasteLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
-        const waste = wasteLogs.length ? wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
-        const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
-        const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikro - waste));
-        return (gudang + sisa) <= cleanMoney(s.min_stok);
-      }).length;
-      document.getElementById("kpiRestockCount").innerText = `${restock} Item`;
-
-      const doneTasks = (localData.CHECKLIST || []).filter(c => c.status === 'Selesai').length;
-      const totalTasks = (localData.CHECKLIST || []).length || 1;
-      document.getElementById("kpiChecklistProgress").innerText = `${Math.round((doneTasks/totalTasks)*100)}%`;
-
-      if(chartSalesInst) chartSalesInst.destroy();
-      chartSalesInst = new Chart(document.getElementById("chartSales").getContext("2d"), {
-        type: 'bar',
-        data: { labels: ['Tunai', 'QRIS/EDC', 'Online'], datasets: [{ data: [tunaiTotal, nonTunaiTotal, onlineTotal], backgroundColor: ['#ffffff', '#a1a1aa', '#71717a'], borderRadius: 6 }] },
-        options: { responsive: true, plugins: { legend: { display: false } } }
-      });
-
-      if(chartChecklistInst) chartChecklistInst.destroy();
-      chartChecklistInst = new Chart(document.getElementById("chartChecklist").getContext("2d"), {
-        type: 'doughnut',
-        data: {
-          labels: ['Barista & Kasir', 'Kitchen', 'Server'],
-          datasets: [{
-            data: [(localData.CHECKLIST || []).filter(c=>c.station.includes('BARISTA')).length, (localData.CHECKLIST || []).filter(c=>c.station.includes('KITCHEN')).length, (localData.CHECKLIST || []).filter(c=>c.station.includes('SERVER')).length],
-            backgroundColor: ['#ffffff', '#a1a1aa', '#52525b'], borderWidth: 0
-          }]
-        },
-        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-      });
-    }
-
-    // ==================== KALENDER ====================
+    // 7. KALENDER OPERASIONAL
     function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
     function renderCalendar() {
       const y = calDate.getFullYear(), m = calDate.getMonth();
@@ -946,7 +1494,12 @@
       document.getElementById("inspectRosterList").innerHTML = roster.length ? roster.map(r => `
         <div style="font-size:0.78rem; padding:0.35rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
           <div><strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift} <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}">${r.status_hadir}</span></div>
-          <div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editRosterModal('${r.id}')">Edit</button><button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button></div>
+          ${currentUser && currentUser.level >= 2 ? `
+            <div style="display:flex; gap:0.2rem;">
+              <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editRosterModal('${r.id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button>
+            </div>
+          ` : ''}
         </div>
       `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Belum ada jadwal staff.</div>';
 
@@ -954,7 +1507,12 @@
       document.getElementById("inspectLogList").innerHTML = logs.length ? logs.map(l => `
         <div style="font-size:0.78rem; padding:0.35rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
           <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted); font-size:0.72rem;">${l.detail} (PIC: ${l.pic})</div></div>
-          <div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editLogModal('${l.log_id}')">Edit</button><button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button></div>
+          ${currentUser && currentUser.level >= 2 ? `
+            <div style="display:flex; gap:0.2rem;">
+              <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button>
+            </div>
+          ` : ''}
         </div>
       `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Tidak ada log / catatan.</div>';
       openModal('modalDayInspector');
@@ -1092,466 +1650,7 @@
       await fetchAllData(); renderCalendar(); showToast("Log & Stok otomatis tersinkron!");
     }
 
-    // ==================== INVENTARIS STOK ====================
-    function renderStokTable() {
-      const filter = document.getElementById("stokFilter").value;
-      const data = (filter === "SEMUA") ? (localData.STOK || []) : (localData.STOK || []).filter(s => s.divisi === filter);
-
-      document.getElementById("stokTableBody").innerHTML = data.map(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = cleanMoney(s.min_stok);
-        const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
-
-        // HITUNG OTOMATIS DARI LOG KALENDER
-        const wasteLogs = (localData.LOG_KALENDER || []).filter(l => 
-          String(l.item_id).trim() === String(s.item_id).trim() && 
-          (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi"))
-        );
-        const totalWasteFromLog = wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
-        const waste = totalWasteFromLog > 0 ? totalWasteFromLog : cleanMoney(s.waste_mikro);
-
-        const sisaDivisi = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
-        const pemakaian = Math.max(0, mikroT - sisaDivisi);
-        const totalKeseluruhan = gudang + sisaDivisi;
-        const status = totalKeseluruhan <= min ? "RESTOCK" : "AMAN";
-        const diff = totalKeseluruhan - min;
-
-        return `
-          <tr>
-            <td><code>${s.item_id}</code></td>
-            <td>${s.divisi}</td>
-            <td><strong>${s.nama_barang}</strong></td>
-            <td>${s.satuan}</td>
-            <td style="font-weight:700;">${gudang.toLocaleString('id-ID')}</td>
-            <td style="font-weight:700; color:var(--success);">${sisaDivisi.toLocaleString('id-ID')}</td>
-            <td style="color:var(--danger); font-weight:700;">
-              ${waste > 0 ? waste.toLocaleString('id-ID') : '-'}
-              ${totalWasteFromLog > 0 ? '<span style="font-size:0.6rem; color:var(--warning); display:block;">(Dari Log)</span>' : ''}
-            </td>
-            <td><input type="text" style="width:65px; padding:0.2rem;" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
-            <td><input type="text" style="width:65px; padding:0.2rem;" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
-            <td style="font-weight:700; color:var(--warning);">${pemakaian.toLocaleString('id-ID')}</td>
-            <td><strong>${totalKeseluruhan.toLocaleString('id-ID')}</strong></td>
-            <td>${min.toLocaleString('id-ID')}</td>
-            <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span></td>
-            <td>
-              <button class="btn" onclick="editStokModal('${s.item_id}')">Edit</button>
-              <button class="btn btn-danger" onclick="deleteStokItem('${s.item_id}')">Hapus</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    async function quickUpdateOpnameShift(id, field, val) {
-      showToast("Menyimpan opname...");
-      let updates = {}; updates[field] = cleanMoney(val);
-      await postToGas("update", "STOK", { key: "item_id", val: id, updates: updates });
-      await fetchAllData();
-    }
-
-    function calcModalStokPreview() {
-      const min = cleanMoney(document.getElementById("fStkMin").value), gudang = cleanMoney(document.getElementById("fStkGudang").value);
-      const pagi = cleanMoney(document.getElementById("fStkPagi").value), r1 = cleanMoney(document.getElementById("fStkRefillS1").value), r2 = cleanMoney(document.getElementById("fStkRefillS2").value);
-      const waste = cleanMoney(document.getElementById("fStkWaste").value);
-      const op1 = cleanMoney(document.getElementById("fStkOpnameS1").value), op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
-      const totalT = pagi + r1 + r2;
-      const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, totalT - waste));
-      const pemakaian = Math.max(0, totalT - sisa), total = gudang + sisa;
-
-      document.getElementById("fStkPreviewTersedia").innerText = totalT.toLocaleString('id-ID');
-      document.getElementById("fStkPreviewSisa").innerText = sisa.toLocaleString('id-ID');
-      document.getElementById("fStkPreviewPemakaian").innerText = pemakaian.toLocaleString('id-ID');
-      document.getElementById("fStkPreviewTotal").innerText = total.toLocaleString('id-ID');
-
-      const tag = document.getElementById("fStkPreviewStatus");
-      tag.className = (total <= min) ? "tag tag-restock" : "tag tag-safe";
-      tag.innerText = (total <= min) ? `RESTOCK (Kurang ${Math.abs(total - min)})` : `AMAN (Surplus +${total - min})`;
-    }
-
-    function openNewStokModal() {
-      document.getElementById("modalStokTitle").innerText = "Tambah Barang Baru"; document.getElementById("fStkEditId").value = "";
-      document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
-      document.getElementById("fStkNama").value = ""; document.getElementById("fStkSatuan").value = "";
-      document.getElementById("fStkMin").value = "700"; document.getElementById("fStkGudang").value = "1.000"; document.getElementById("fStkPagi").value = "700";
-      document.getElementById("fStkRefillS1").value = "0"; document.getElementById("fStkRefillS2").value = "0"; document.getElementById("fStkWaste").value = "0";
-      document.getElementById("fStkOpnameS1").value = "300"; document.getElementById("fStkOpnameS2").value = "150";
-      calcModalStokPreview(); openModal('modalStok');
-    }
-
-    function editStokModal(id) {
-      const item = (localData.STOK || []).find(s => s.item_id === id); if(!item) return;
-      document.getElementById("modalStokTitle").innerText = "Edit Barang: " + id; document.getElementById("fStkEditId").value = id;
-      document.getElementById("fStkTanggal").value = item.tgl_update || new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = item.jam_update || "08:30";
-      document.getElementById("fStkDivisi").value = item.divisi; document.getElementById("fStkKategori").value = item.kategori;
-      document.getElementById("fStkNama").value = item.nama_barang; document.getElementById("fStkSatuan").value = item.satuan;
-      document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID'); document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID');
-      document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID'); document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID');
-      document.getElementById("fStkRefillS2").value = cleanMoney(item.refill_s2).toLocaleString('id-ID');
-      
-      const wasteLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
-      const totalWasteFromLog = wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
-      document.getElementById("fStkWaste").value = (totalWasteFromLog > 0 ? totalWasteFromLog : cleanMoney(item.waste_mikro)).toLocaleString('id-ID');
-
-      document.getElementById("fStkOpnameS1").value = item.opname_s1 ? cleanMoney(item.opname_s1).toLocaleString('id-ID') : "";
-      document.getElementById("fStkOpnameS2").value = item.opname_s2 ? cleanMoney(item.opname_s2).toLocaleString('id-ID') : "";
-      calcModalStokPreview(); openModal('modalStok');
-    }
-
-    async function submitStokForm() {
-      const editId = document.getElementById("fStkEditId").value, div = document.getElementById("fStkDivisi").value;
-      const prefix = div === "BARISTA" ? "BAR" : (div === "KITCHEN" ? "KIT" : "SRV");
-      const payload = {
-        divisi: div, kategori: document.getElementById("fStkKategori").value, nama_barang: document.getElementById("fStkNama").value, satuan: document.getElementById("fStkSatuan").value,
-        min_stok: cleanMoney(document.getElementById("fStkMin").value), stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
-        tersedia_pagi: cleanMoney(document.getElementById("fStkPagi").value), refill_s1: cleanMoney(document.getElementById("fStkRefillS1").value), refill_s2: cleanMoney(document.getElementById("fStkRefillS2").value),
-        waste_mikro: cleanMoney(document.getElementById("fStkWaste").value), opname_s1: cleanMoney(document.getElementById("fStkOpnameS1").value), opname_s2: cleanMoney(document.getElementById("fStkOpnameS2").value),
-        tgl_update: document.getElementById("fStkTanggal").value, jam_update: document.getElementById("fStkJam").value
-      };
-      closeModal('modalStok'); showToast("Menyimpan stok...");
-      if(editId) await postToGas("update", "STOK", { key: "item_id", val: editId, updates: payload });
-      else { payload.item_id = `${prefix}-${Date.now().toString().slice(-4)}`; await postToGas("insert", "STOK", payload); }
-      await fetchAllData();
-    }
-
-    async function deleteStokItem(id) { if(confirm(`Hapus barang ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "STOK", { key: "item_id", val: id }); await fetchAllData(); } }
-
-    // ==================== CHECKLIST ====================
-    function renderChecklistStations() {
-      const container = document.getElementById("stationGrid");
-      const stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
-      container.innerHTML = stations.map(st => {
-        const tasks = (localData.CHECKLIST || []).filter(c => c.station === st);
-        return `
-          <div class="card">
-            <div style="font-size:0.82rem; font-weight:700; border-bottom:1px solid var(--border-subtle); padding-bottom:0.45rem; display:flex; justify-content:space-between; align-items:center;">
-              <span>Station ${st}</span><span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span>
-            </div>
-            ${tasks.map(t => `
-              <div style="display:flex; align-items:flex-start; gap:0.65rem; padding:0.45rem 0; border-bottom:1px solid var(--border-subtle);">
-                <input type="checkbox" style="margin-top:0.15rem; width:17px; height:17px; cursor:pointer;" ${t.status==='Selesai'?'checked':''} onchange="toggleTaskState('${t.task_id}', this.checked)">
-                <div style="flex:1; font-size:0.8rem;"><div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div><div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.15rem;">Shift ${t.shift} • Target ${t.jam_target} • PIC: ${t.petugas || '-'}</div></div>
-                <div style="display:flex; gap:0.2rem;"><button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editTaskModal('${t.task_id}')">Edit</button><button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button></div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      }).join('');
-    }
-
-    async function toggleTaskState(id, isChecked) {
-      const task = (localData.CHECKLIST || []).find(c => c.task_id === id); if(task) task.status = isChecked ? "Selesai" : "Belum";
-      renderChecklistStations();
-      await postToGas("update", "CHECKLIST", { key: "task_id", val: id, updates: { status: isChecked ? "Selesai" : "Belum", jam_selesai: new Date().toLocaleTimeString('id-ID'), petugas: currentUser.username } });
-      await fetchAllData();
-    }
-    function openNewTaskModal() { document.getElementById("modalTaskTitle").innerText = "Buat Tugas Checklist"; document.getElementById("fTaskEditId").value = ""; document.getElementById("fTaskUraian").value = ""; openModal('modalTask'); }
-    function editTaskModal(id) {
-      const t = (localData.CHECKLIST || []).find(x => x.task_id === id); if(!t) return;
-      document.getElementById("modalTaskTitle").innerText = "Edit Tugas"; document.getElementById("fTaskEditId").value = t.task_id;
-      document.getElementById("fTaskStation").value = t.station; document.getElementById("fTaskShift").value = t.shift; document.getElementById("fTaskFase").value = t.fase;
-      document.getElementById("fTaskJam").value = t.jam_target; document.getElementById("fTaskUraian").value = t.tugas; openModal('modalTask');
-    }
-    async function submitTaskForm() {
-      const editId = document.getElementById("fTaskEditId").value;
-      const payload = { station: document.getElementById("fTaskStation").value, shift: document.getElementById("fTaskShift").value, fase: document.getElementById("fTaskFase").value, jam_target: document.getElementById("fTaskJam").value, tugas: document.getElementById("fTaskUraian").value };
-      closeModal('modalTask'); showToast("Menyimpan tugas...");
-      if(editId) await postToGas("update", "CHECKLIST", { key: "task_id", val: editId, updates: payload });
-      else { payload.task_id = "CHK-" + Date.now().toString().slice(-5); payload.tanggal = new Date().toISOString().split('T')[0]; payload.status = "Belum"; payload.petugas = currentUser.username; await postToGas("insert", "CHECKLIST", payload); }
-      await fetchAllData();
-    }
-    async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); await fetchAllData(); } }
-
-    // ==================== KASIR & SERAH TERIMA ====================
-    function calcCashDenom() {
-      const tunai = cleanMoney(document.getElementById("fStTunai").value), nonTunai = cleanMoney(document.getElementById("fStNonTunai").value), online = cleanMoney(document.getElementById("fStOnline").value);
-      const modal = cleanMoney(document.getElementById("fStModal").value), pengeluaran = cleanMoney(document.getElementById("fStPengeluaran").value);
-      document.getElementById("fStOmsetShiftText").innerText = formatRupiah(tunai + nonTunai + online);
-      document.getElementById("boxTunaiText").innerText = formatRupiah(tunai);
-      document.getElementById("boxKeluarText").innerText = "- " + formatRupiah(pengeluaran);
-      document.getElementById("boxSetoranText").innerText = formatRupiah(tunai - pengeluaran);
-      document.getElementById("boxModalText").innerText = formatRupiah(modal);
-    }
-
-    function toggleHandoverNotesLabel() {
-      const tahap = document.getElementById("fStTahap").value;
-      document.getElementById("handoverNotesHeader").innerText = tahap.includes("Closing") ? "3. Catatan Kasir Closing Shift 2" : "3. Catatan Operasional Shift 1 untuk Shift 2";
-    }
-
-    function openNewHandoverShift(shiftNumber) {
-      document.getElementById("fStEditId").value = "";
-      document.getElementById("fStShiftNum").value = shiftNumber;
-      document.getElementById("fStTanggal").value = new Date().toISOString().split('T')[0];
-      document.getElementById("fStModal").value = "110.000";
-      document.getElementById("fStTunai").value = "0";
-      document.getElementById("fStNonTunai").value = "0";
-      document.getElementById("fStOnline").value = "0";
-      document.getElementById("fStPengeluaran").value = "0";
-      document.getElementById("fStKetPengeluaran").value = "";
-
-      if (shiftNumber === 1) {
-        document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 1 (Sore 16:30)";
-        document.getElementById("fStTahap").value = "Shift 1 → 2 (Sore 16:30)";
-        document.getElementById("fStJam").value = "16:30";
-      } else {
-        document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 2 (Closing 00:00)";
-        document.getElementById("fStTahap").value = "Shift 2 → 1 (Closing 00:00)";
-        document.getElementById("fStJam").value = "00:00";
-      }
-      toggleHandoverNotesLabel();
-      calcCashDenom();
-      openModal('modalHandover');
-    }
-
-    function editHandoverModal(id) {
-      const st = (localData.SERAH_TERIMA || []).find(x => x.id === id); if(!st) return;
-      document.getElementById("modalHandoverTitle").innerText = "Edit Serah Terima: " + id; document.getElementById("fStEditId").value = id;
-      document.getElementById("fStTanggal").value = st.tanggal; document.getElementById("fStJam").value = st.jam; document.getElementById("fStTahap").value = st.tahap;
-      document.getElementById("fStShiftNum").value = st.shift || (st.tahap.includes("Shift 1") ? "1" : "2");
-      document.getElementById("fStModal").value = cleanMoney(st.kas_modal_stay).toLocaleString('id-ID'); document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai).toLocaleString('id-ID');
-      document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID'); document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
-      document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil).toLocaleString('id-ID'); document.getElementById("fStKetPengeluaran").value = st.keterangan_pengeluaran || "";
-      document.getElementById("fStPrepBar").value = st.prep_barista || ""; document.getElementById("fStPrepKit").value = st.prep_kitchen || ""; document.getElementById("fStPrepSrv").value = st.prep_server || "";
-      document.getElementById("fStCatatan").value = st.catatan_evaluasi || "";
-      toggleHandoverNotesLabel(); calcCashDenom(); openModal('modalHandover');
-    }
-
-    async function submitHandoverForm() {
-      const editId = document.getElementById("fStEditId").value, tunai = cleanMoney(document.getElementById("fStTunai").value);
-      const nontunai = cleanMoney(document.getElementById("fStNonTunai").value), online = cleanMoney(document.getElementById("fStOnline").value);
-      const modal = cleanMoney(document.getElementById("fStModal").value), keluar = cleanMoney(document.getElementById("fStPengeluaran").value);
-      const tahapVal = document.getElementById("fStTahap").value;
-      const shiftVal = document.getElementById("fStShiftNum").value || (tahapVal.includes("Shift 1") ? "1" : "2");
-
-      const payload = {
-        tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0],
-        jam: document.getElementById("fStJam").value || "16:30",
-        tahap: tahapVal,
-        shift: shiftVal,
-        petugas_serah: currentUser.username,
-        petugas_terima: shiftVal === "1" ? "Shift 2" : "Shift Opening Besok",
-        penjualan_tunai: tunai,
-        non_tunai_qris: nontunai,
-        online_food: online,
-        total_omset_shift: tunai + nontunai + online,
-        kas_modal_stay: modal,
-        pengeluaran_kas_kecil: keluar,
-        keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
-        uang_setor_bersih: tunai - keluar,
-        prep_barista: document.getElementById("fStPrepBar").value,
-        prep_kitchen: document.getElementById("fStPrepKit").value,
-        prep_server: document.getElementById("fStPrepSrv").value,
-        catatan_evaluasi: document.getElementById("fStCatatan").value
-      };
-
-      closeModal('modalHandover'); showToast("Menyimpan serah terima...");
-      if(editId) {
-        await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
-      } else {
-        // ID UNIK PER SHIFT: ST-S1-... atau ST-S2-...
-        payload.id = `ST-S${shiftVal}-${Date.now().toString().slice(-5)}`;
-        await postToGas("insert", "SERAH_TERIMA", payload);
-      }
-      await fetchAllData();
-    }
-
-    async function deleteHandoverItem(id) { if(confirm(`Hapus data ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id }); await fetchAllData(); } }
-
-    function renderHandoverTable() {
-      document.getElementById("stTableBody").innerHTML = (localData.SERAH_TERIMA || []).map(st => {
-        const isS1 = String(st.tahap).includes("Shift 1") || String(st.shift) === "1";
-        const badgeTahap = isS1 ? `<span class="tag tag-safe">SHIFT 1 (SORE)</span>` : `<span class="tag tag-restock">SHIFT 2 (CLOSING)</span>`;
-        return `
-          <tr>
-            <td><code>${st.id}</code></td>
-            <td>${st.tanggal} ${st.jam || ''}</td>
-            <td>${badgeTahap}</td>
-            <td>${st.petugas_serah}</td>
-            <td><strong>${formatRupiah(st.total_omset_shift || (cleanMoney(st.penjualan_tunai)+cleanMoney(st.non_tunai_qris)+cleanMoney(st.online_food)))}</strong></td>
-            <td>${formatRupiah(st.penjualan_tunai)}</td>
-            <td>${formatRupiah(st.non_tunai_qris)}</td>
-            <td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
-            <td style="font-size:0.72rem;">${st.keterangan_pengeluaran||'-'}</td>
-            <td style="font-weight:700; color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
-            <td style="font-weight:700; color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
-            <td style="font-size:0.72rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
-            <td>
-              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>
-            </td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    // ==================== DAILY REPORT ====================
-    function openNewDailyReportModal() { 
-      document.getElementById("modalDrTitle").innerText = "Simpan Report Harian"; 
-      document.getElementById("fDrEditId").value = ""; 
-      document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0]; 
-      autoPullDailyReportData(); 
-      openModal('modalDailyReport'); 
-    }
-
-    function editDailyReportModal(id) {
-      const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
-      document.getElementById("modalDrTitle").innerText = "Edit Daily Report: " + id; document.getElementById("fDrEditId").value = id;
-      document.getElementById("fDrTanggal").value = dr.tanggal; document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
-      document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2).toLocaleString('id-ID'); document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc).toLocaleString('id-ID');
-      document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID'); document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 5000000).toLocaleString('id-ID');
-      document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar).toLocaleString('id-ID'); document.getElementById("fDrKetKasKeluar").value = dr.rincian_pengeluaran || "";
-      document.getElementById("fDrBelanjaBar").value = dr.belanja_barista || ""; document.getElementById("fDrBelanjaKit").value = dr.belanja_kitchen || ""; document.getElementById("fDrBelanjaSrv").value = dr.belanja_server || "";
-      document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || ""; document.getElementById("fDrWaste").value = dr.waste_bahan || "";
-      document.getElementById("fDrEvaluasi").value = dr.evaluasi_harian || "";
-      openModal('modalDailyReport');
-    }
-
-    function autoPullDailyReportData() {
-      const tgl = document.getElementById("fDrTanggal").value;
-      const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === tgl);
-
-      let s1 = 0, s2 = 0, qris = 0, online = 0, keluar = 0, ketKeluar = [], evalText = [];
-      handovers.forEach(h => {
-        const omset = cleanMoney(h.penjualan_tunai) + cleanMoney(h.non_tunai_qris) + cleanMoney(h.online_food);
-        if (String(h.tahap).includes("Shift 1") || String(h.shift) === "1") {
-          s1 += omset;
-        } else {
-          s2 += omset;
-        }
-        qris += cleanMoney(h.non_tunai_qris);
-        online += cleanMoney(h.online_food);
-        keluar += cleanMoney(h.pengeluaran_kas_kecil);
-        if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
-        if(h.catatan_evaluasi) evalText.push(h.catatan_evaluasi);
-      });
-
-      document.getElementById("fDrRevS1").value = s1.toLocaleString('id-ID');
-      document.getElementById("fDrRevS2").value = s2.toLocaleString('id-ID');
-      document.getElementById("fDrQrisEdc").value = qris.toLocaleString('id-ID');
-      document.getElementById("fDrOnlineFood").value = online.toLocaleString('id-ID');
-      document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID');
-      document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
-
-      const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
-      const wasteLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi"));
-      document.getElementById("fDrWaste").value = wasteLogs.length ? wasteLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada waste";
-      document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
-
-      const restockList = (localData.STOK || []).filter(s => {
-        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
-        return total <= cleanMoney(s.min_stok);
-      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || 'Semua stok aman.';
-      document.getElementById("fDrRestockList").value = restockList;
-      if(evalText.length) document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
-      showToast("Data operasional Shift 1 & Shift 2 berhasil ditarik!");
-    }
-
-    async function submitDailyReportForm() {
-      const editId = document.getElementById("fDrEditId").value, s1 = cleanMoney(document.getElementById("fDrRevS1").value), s2 = cleanMoney(document.getElementById("fDrRevS2").value);
-      const target = cleanMoney(document.getElementById("fDrTarget").value) || 5000000, total = s1 + s2;
-      const payload = {
-        tanggal: document.getElementById("fDrTanggal").value, rev_shift1: s1, rev_shift2: s2, total_omset: total,
-        qris_edc: cleanMoney(document.getElementById("fDrQrisEdc").value), online_food: cleanMoney(document.getElementById("fDrOnlineFood").value),
-        target_harian: target, capaian_pct: target > 0 ? ((total/target)*100).toFixed(1)+'%' : '100%',
-        total_kas_keluar: cleanMoney(document.getElementById("fDrKasKeluar").value), rincian_pengeluaran: document.getElementById("fDrKetKasKeluar").value,
-        kalibrasi_beans: document.getElementById("fDrKalibrasi").value, waste_bahan: document.getElementById("fDrWaste").value,
-        belanja_barista: document.getElementById("fDrBelanjaBar").value, belanja_kitchen: document.getElementById("fDrBelanjaKit").value, belanja_server: document.getElementById("fDrBelanjaSrv").value,
-        evaluasi_harian: document.getElementById("fDrEvaluasi").value, pelapor: currentUser.username
-      };
-      closeModal('modalDailyReport'); showToast("Menyimpan Daily Report...");
-      if(editId) await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
-      else { payload.report_id = "REP-" + Date.now().toString().slice(-6); await postToGas("insert", "DAILY_REPORT", payload); }
-      await fetchAllData();
-    }
-
-    async function deleteDailyReportItem(id) { if(confirm(`Hapus Report ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id }); await fetchAllData(); } }
-
-    function renderDailyReportTable() {
-      document.getElementById("drTableBody").innerHTML = (localData.DAILY_REPORT || []).map(dr => `
-        <tr>
-          <td><code>${dr.report_id}</code></td>
-          <td>${dr.tanggal}</td>
-          <td><strong>${formatRupiah(dr.total_omset)}</strong></td>
-          <td>${formatRupiah(dr.qris_edc)}</td>
-          <td>${formatRupiah(dr.target_harian)}</td>
-          <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td>
-          <td>${formatRupiah(dr.total_kas_keluar)}</td>
-          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_barista||'-'}</td>
-          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_kitchen||'-'}</td>
-          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_server||'-'}</td>
-          <td>
-            <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
-            <button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>
-          </td>
-        </tr>
-      `).join('');
-    }
-
-    function sendWhatsAppDaily() {
-      const todayStr = new Date().toISOString().split('T')[0], todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
-      const dr = (localData.DAILY_REPORT || []).find(d => d.tanggal === todayStr) || {};
-
-      const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr);
-      let tunai = 0, qris = 0, online = 0, modal = 110000, keluar = 0, ketKeluar = [];
-      handovers.forEach(h => {
-        tunai += cleanMoney(h.penjualan_tunai); qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food);
-        modal = cleanMoney(h.kas_modal_stay) || modal; keluar += cleanMoney(h.pengeluaran_kas_kecil);
-        if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
-      });
-
-      const roster = (localData.JADWAL || []).filter(j => j.tanggal === todayStr);
-      const s1Staff = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
-      const s2Staff = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
-      const offStaff = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
-
-      const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === todayStr);
-      const wasteItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste';
-
-      const restockItems = (localData.STOK || []).filter(s => {
-        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
-        return total <= cleanMoney(s.min_stok);
-      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || '• Semua stok aman di atas limit';
-
-      const fullMessage = 
-        `*LAPORAN OPERASIONAL HARIAN — HOLLO COFFEE*\n` +
-        `📅 Tanggal: ${todayFormatted}\n` +
-        `👤 PIC Pelapor: ${currentUser ? currentUser.nama_lengkap : 'Admin'} (${currentUser ? currentUser.role : 'MANAJEMEN'})\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*1. RINGKASAN OMSET & REVENUE:*\n` +
-        `• Omset Shift 1: ${formatRupiah(dr.rev_shift1 || 0)}\n` +
-        `• Omset Shift 2: ${formatRupiah(dr.rev_shift2 || 0)}\n` +
-        `• *TOTAL REVENUE OMSET: ${formatRupiah((cleanMoney(dr.rev_shift1) + cleanMoney(dr.rev_shift2)) || (tunai + qris + online))}*\n` +
-        `  - Penjualan Tunai: ${formatRupiah(tunai)}\n` +
-        `  - Non-Tunai (EDC/QRIS): ${formatRupiah(qris)}\n` +
-        `  - Online Food Portal: ${formatRupiah(online)}\n\n` +
-        `*2. REKAP FISIK UANG KAS LACI (SISTEM IMPREST):*\n` +
-        `• Modal Awal Kasir (Stay di Laci): ${formatRupiah(modal)}\n` +
-        `• Pengeluaran Kas Kecil: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
-        `• *Uang Setoran Tunai Bersih (Amplop): ${formatRupiah(tunai - keluar)}*\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*3. 🛒 KEBUTUHAN BELANJA & PREP BESOK PAGI:*\n` +
-        `☕ *Barista:* ${dr.belanja_barista || 'Lengkap / Aman'}\n` +
-        `🍳 *Kitchen:* ${dr.belanja_kitchen || 'Lengkap / Aman'}\n` +
-        `🍽️ *Server:* ${dr.belanja_server || 'Lengkap / Aman'}\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*4. ⚠️ BAHAN KRITIS (STATUS RESTOCK):*\n` +
-        `${restockItems}\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*5. ROSTER TIM & KEHADIRAN:*\n` +
-        `• Shift 1: ${s1Staff}\n` +
-        `• Shift 2: ${s2Staff}\n` +
-        `• Libur (Off): ${offStaff}\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*6. QC, KALIBRASI & LOG WASTE:*\n` +
-        `${wasteItems}\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*7. EVALUASI BRIEFING CLOSING:*\n` +
-        `${dr.evaluasi_harian || 'Operasional shift berjalan tertib dan lancar.'}\n\n` +
-        `_Laporan resmi sah terkirim melalui Sistem Terintegrasi Kafe._`;
-
-      window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(fullMessage), '_blank');
-    }
-
-    // ==================== MENU & HPP ====================
+    // 8. MENU & HPP
     function filterMenuCategory(cat) {
       document.getElementById("btnMenuMinuman").classList.toggle("active", cat==='Minuman');
       document.getElementById("btnMenuMakanan").classList.toggle("active", cat==='Makanan');
@@ -1567,7 +1666,10 @@
             <td><code>${m.menu_id}</code></td><td>${m.kategori}</td><td onclick="editMenuModal('${m.menu_id}')" style="cursor:pointer;"><strong>${m.nama_produk}</strong></td>
             <td>${formatRupiah(hpp)}</td><td>${formatRupiah(jual)}</td><td>${formatRupiah(marginRp)}</td>
             <td>${cleanPercent(m.margin_pct) || ((marginRp/jual)*100).toFixed(1)+'%'}</td><td>${cleanPercent(m.food_cost_pct) || ((hpp/jual)*100).toFixed(1)+'%'}</td>
-            <td><button class="btn" onclick="editMenuModal('${m.menu_id}')">Edit</button><button class="btn btn-danger" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button></td>
+            <td>
+              <button class="btn" onclick="editMenuModal('${m.menu_id}')">Edit</button>
+              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>` : ''}
+            </td>
           </tr>
         `;
       }).join('');
@@ -1590,7 +1692,7 @@
     }
     async function deleteMenuItem(id) { if(confirm(`Hapus menu ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "MENU", { key: "menu_id", val: id }); await fetchAllData(); } }
 
-    // ==================== MASTER VAULT KARYAWAN ====================
+    // 9. MASTER VAULT KARYAWAN
     function renderVaultTable() {
       document.getElementById("vaultTableBody").innerHTML = (localData.USERS || []).map(u => `
         <tr>
