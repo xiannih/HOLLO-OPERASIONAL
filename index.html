@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>HOLLO COFFEE & ROASTERY'S — Executive Portal</title>
+  <title>HOLLO COFFEE & ROASTERY'S — Executive F&B Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -208,7 +208,7 @@
       </div>
     </section>
 
-    <!-- VIEW 5: SERAH TERIMA KASIR (DUA SHIFT TERPISAH) -->
+    <!-- VIEW 5: SERAH TERIMA KASIR -->
     <section id="view-serah-terima" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Serah Terima Kasir & Kas Laci (Imprest)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan oleh Barista Kasir. Shift 1 & 2 tercatat terpisah.</p></div>
@@ -227,7 +227,7 @@
       </div>
     </section>
 
-    <!-- VIEW 6: DAILY REPORT (DENGAN 3 KOLOM BELANJA BESOK) -->
+    <!-- VIEW 6: DAILY REPORT -->
     <section id="view-daily-report" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan Barista Closing saat briefing malam. Rincian belanja besok diteruskan ke WhatsApp.</p></div>
@@ -260,7 +260,7 @@
       </div>
     </section>
 
-    <!-- VIEW 8: DATA PERUSAHAAN (RBAC MATRIX) -->
+    <!-- VIEW 8: DATA PERUSAHAAN -->
     <section id="view-perusahaan" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.72rem;color:var(--text-muted);">Tentukan tab mana saja yang boleh dibuka oleh anggota tim serta hak akses Ubah (Edit) vs Hanya Lihat (View).</p></div>
@@ -274,12 +274,26 @@
       </div>
     </section>
 
-    <!-- VIEW 9: ABOUT & DATABASE -->
+    <!-- VIEW 9: ABOUT & DATABASE (MASTER DATABASE HUB) -->
     <section id="view-info-sistem" style="display:none;">
       <div class="card" style="border-left:4px solid var(--accent);">
         <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;">HOLLO COFFEE & ROASTERY'S</h2>
-        <p style="font-size:0.75rem;color:var(--text-muted);">Executive F&B Operations Suite — V20 Engine</p>
+        <p style="font-size:0.75rem;color:var(--text-muted);">Executive F&B Operations Suite — V21 Engine</p>
       </div>
+
+      <!-- SHORTCUT TAMBAH DATA MASTER & SINKRONISASI KOLOM -->
+      <div class="card" style="border:1px dashed var(--accent);background:var(--elevated);">
+        <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.4rem;color:var(--warning);">⚡ Pusat Pengelolaan Database & Tambah Item Mandiri</h4>
+        <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem;">Tambahkan data baru langsung ke database atau perbaiki struktur kolom Google Sheets Anda secara instan.</p>
+        <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+          <button class="btn btn-solid" onclick="openNewStokModal()">➕ Tambah Barang Stok</button>
+          <button class="btn btn-solid" onclick="openNewMenuModal()">➕ Tambah Menu Produk</button>
+          <button class="btn btn-solid" onclick="openNewTaskModal()">➕ Tambah Tugas Checklist</button>
+          <button class="btn btn-solid" onclick="openNewUserModal()">➕ Tambah Karyawan</button>
+          <button class="btn btn-danger" onclick="triggerRepairDatabase()">🛠️ Sinkronkan & Perbaiki Kolom Sheet (Tanpa Hapus Data)</button>
+        </div>
+      </div>
+
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;">
         <div class="card">
           <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.4rem;">👤 Hak Cipta & Arsitek</h4>
@@ -350,7 +364,7 @@
     </div>
   </div>
 
-  <!-- MODAL: DETAIL TANGGAL KALENDER OPERASIONAL -->
+  <!-- MODAL: DETAIL TANGGAL KALENDER -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
       <h3 id="inspectDateTitle" style="margin-bottom:0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Detail Tanggal</h3>
@@ -502,7 +516,7 @@
       <div class="form-group"><label>Keterangan Kas Keluar</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es / lakban"></div>
       <div class="calc-box">
         <div class="calc-row"><span>Uang Setoran Tunai Bersih:</span><span id="boxSetoranText" style="color:var(--warning);font-weight:700;">Rp 0</span></div>
-        <div class="calc-row"><span>Modal Tetap di Laci:</span><span id="boxModalText" style="color:var(--success);font-weight:700;">Rp 110.000</span></div>
+        <div class="calc-row"><span>Modal Tetap Tinggal di Laci:</span><span id="boxModalText" style="color:var(--success);font-weight:700;">Rp 110.000</span></div>
       </div>
       <div class="section-title" id="handoverNotesHeader">3. Catatan Operasional Shift 1 untuk Shift 2</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
@@ -610,14 +624,14 @@
       </div>
       <div class="section-title" style="border-left-color:var(--warning);">PILIH TAB & TENTUKAN HAK AKSES:</div>
       <div style="display:flex;flex-direction:column;gap:0.35rem;font-size:0.72rem;background:var(--elevated);padding:0.5rem;border-radius:6px;border:1px solid var(--border);" id="boxTabPermissionsMatrix"></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;margin-top:0.85rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;margin-top:0.85rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan Karyawan</button></div>
     </div>
   </div>
 
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbzTdaNxPN68xaXSkFocgK7LRWW4k4NrqAt6ibTIisonlrEQEnUt_MZoeUp_oazhe1nB/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbynpP2i1qvGS-Ggq1zQE_C3xnHO5oW07AjxD6kNqMXrSD3JdqoYuaOnAFdWAwH74m_S/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
@@ -833,6 +847,24 @@
     function populateUserDropdowns() {
       const sel = document.getElementById("fJdwUser");
       if(sel) sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
+    }
+
+    // TRIGGER REPAIR DATABASE DARI WEB APP (ANTI DATA HILANG)
+    async function triggerRepairDatabase() {
+      if (!confirm("Jalankan penyelarasan kolom Google Sheet? Seluruh data yang ada saat ini dijamin aman 100%!")) return;
+      showToast("Menyelaraskan struktur kolom sheet...");
+      try {
+        const res = await fetch(`${API_URL}?action=repair_db`);
+        const json = await res.json();
+        if (json.success) {
+          alert("✅ BERHASIL:\n" + json.message);
+          fetchAllData();
+        } else {
+          alert("Gagal: " + json.error);
+        }
+      } catch(e) {
+        alert("Gagal koneksi untuk perbaikan. Pastikan Webhook URL aktif.");
+      }
     }
 
     // DASHBOARD & TIME MACHINE
@@ -1345,7 +1377,10 @@
       document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
 
       const restockList = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), konv = cleanMoney(s.isi_konversi) || 1;
+        const gudang = cleanMoney(s.stok_gudang);
+        const op1 = cleanMoney(s.opname_s1);
+        const op2 = cleanMoney(s.opname_s2);
+        const konv = cleanMoney(s.isi_konversi) || 1;
         const total = (gudang * konv) + (op2 > 0 ? op2 : (op1 > 0 ? op1 : cleanMoney(s.tersedia_pagi)));
         return total <= cleanMoney(s.min_stok);
       }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || 'Semua stok aman.';
@@ -1413,7 +1448,10 @@
       const wItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste / spoil';
 
       const restockItems = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), konv = cleanMoney(s.isi_konversi) || 1;
+        const gudang = cleanMoney(s.stok_gudang);
+        const op1 = cleanMoney(s.opname_s1);
+        const op2 = cleanMoney(s.opname_s2);
+        const konv = cleanMoney(s.isi_konversi) || 1;
         const total = (gudang * konv) + (op2 > 0 ? op2 : (op1 > 0 ? op1 : cleanMoney(s.tersedia_pagi)));
         return total <= cleanMoney(s.min_stok);
       }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || '• Semua stok aman';
