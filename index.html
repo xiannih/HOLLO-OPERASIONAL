@@ -364,7 +364,7 @@
     </div>
   </div>
 
-  <!-- MODAL: DETAIL TANGGAL KALENDER OPERASIONAL -->
+  <!-- MODAL: DETAIL TANGGAL KALENDER -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
       <h3 id="inspectDateTitle" style="margin-bottom:0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Detail Tanggal</h3>
@@ -632,17 +632,56 @@
 
   <script>
     // URL Webhook Resmi dari Sheet HOLLO OPERASIONAL Anda
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbynpP2i1qvGS-Ggq1zQE_C3xnHO5oW07AjxD6kNqMXrSD3JdqoYuaOnAFdWAwH74m_S/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbxivm490srbyjPeQ6jbm86jXavnQP6JhU33RVvFHg9B0HYkwy_ECdcNcbBHF3NBVQAD/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
-    let API_URL = localStorage.getItem(STORAGE_KEY_URL) || HARDCODED_API_URL;
+    // KOREKSI OTOMATIS: Jika di kode sudah diperbarui ke link baru, utamakan link di kode ini!
+    let storedUrl = localStorage.getItem(STORAGE_KEY_URL);
+    let API_URL = HARDCODED_API_URL;
+    if (storedUrl && storedUrl.includes("AKfycbynpP2i1qvGS")) {
+      API_URL = storedUrl;
+    } else {
+      localStorage.setItem(STORAGE_KEY_URL, HARDCODED_API_URL);
+      API_URL = HARDCODED_API_URL;
+    }
+
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
     let metaInfo = { sheet_name: "HOLLO OPERASIONAL", sheet_url: "#", sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" };
 
+    function getLocalTodayDate() {
+      // Mengambil tanggal lokal WIB YYYY-MM-DD secara aman (tanpa offset UTC)
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      const d = String(now.getDate()).padStart(2, '0');
+      return `${y}-${m}-${d}`;
+    }
+
+    function getLocalCurrentTime() {
+      const now = new Date();
+      return String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+    }
+
+    function cleanDateForInput(rawVal) {
+      if (!rawVal) return getLocalTodayDate();
+      const str = String(rawVal).trim();
+      if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+      if (str.includes('T')) return str.split('T')[0];
+      if (str.includes(' ')) return str.split(' ')[0];
+      const parsed = new Date(str);
+      if (!isNaN(parsed.getTime())) {
+        const y = parsed.getFullYear();
+        const m = String(parsed.getMonth() + 1).padStart(2, '0');
+        const d = String(parsed.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+      }
+      return getLocalTodayDate();
+    }
+
     let calDate = new Date(), popCalDate = new Date(), pickerYear = new Date().getFullYear();
-    let selectedTrackingDate = new Date().toISOString().split('T')[0], activeInspectDate = new Date().toISOString().split('T')[0];
+    let selectedTrackingDate = getLocalTodayDate(), activeInspectDate = getLocalTodayDate();
     let chartSalesInst = null, chartChecklistInst = null;
 
     const TAB_DEFINITIONS = [
@@ -686,6 +725,7 @@
     function formatLiveNumberInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = v.toLocaleString('id-ID'); }
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
     function dayString(d) { return String(d).padStart(2,'0'); }
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
     function updateWebhookPrompt() {
       if (!currentUser || currentUser.level < 6) {
@@ -730,7 +770,7 @@
       document.getElementById("gatekeeper").style.display = "none";
       document.getElementById("userNameBadge").innerText = `${currentUser.username.toUpperCase()} (${currentUser.role})`;
       applyDynamicPermissions();
-      selectedTrackingDate = new Date().toISOString().split('T')[0];
+      selectedTrackingDate = getLocalTodayDate();
       document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
       fetchAllData();
       startLiveClock();
@@ -862,7 +902,7 @@
       if(sel) sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
     }
 
-    // TRIGGER REPAIR DATABASE DARI WEB APP (ANTI DATA HILANG)
+    // TRIGGER REPAIR DATABASE DARI WEB APP
     async function triggerRepairDatabase() {
       if (!confirm("Jalankan penyelarasan kolom Google Sheet? Seluruh data riwayat Anda dijamin aman 100%!")) return;
       showToast("Menyelaraskan struktur kolom sheet...");
@@ -880,7 +920,7 @@
     function openDashCalendarPickerModal() { renderPopCalendar(); openModal('modalDashCalendarPicker'); }
     function changePopCalMonth(delta) { popCalDate.setMonth(popCalDate.getMonth() + delta); renderPopCalendar(); }
     function selectTodayInPopCal() {
-      selectedTrackingDate = new Date().toISOString().split('T')[0];
+      selectedTrackingDate = getLocalTodayDate();
       document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
       closeModal('modalDashCalendarPicker');
       renderDashboard();
@@ -905,19 +945,19 @@
       for (let d = 1; d <= totalDays; d++) {
         const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${dayString(d)}`;
         const isSel = (dateStr === selectedTrackingDate);
-        const hasData = (localData.SERAH_TERIMA || []).some(h => h.tanggal === dateStr);
+        const hasData = (localData.SERAH_TERIMA || []).some(h => cleanDateForInput(h.tanggal) === dateStr);
         grid.innerHTML += `<div class="mini-cal-cell ${isSel ? 'selected' : ''}" onclick="selectPopCalDate('${dateStr}')"><span>${d}</span>${hasData ? '<div class="mini-cal-dot"></div>' : ''}</div>`;
       }
     }
     function resetDashboardDateToToday() { selectTodayInPopCal(); }
 
     function renderDashboard() {
-      const isToday = (selectedTrackingDate === new Date().toISOString().split('T')[0]);
+      const isToday = (selectedTrackingDate === getLocalTodayDate());
       document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
       document.getElementById("dashDateBadge").innerText = isToday ? "● Menampilkan Data Hari Ini" : `● Tracking Riwayat: ${selectedTrackingDate}`;
       document.getElementById("kpiSalesTitle").innerText = isToday ? "Total Penjualan Hari Ini (Omset)" : `Omset Tanggal ${selectedTrackingDate}`;
 
-      const dateHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === selectedTrackingDate);
+      const dateHandovers = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === selectedTrackingDate);
       let salesDate = 0, tTotal = 0, ntTotal = 0, onlTotal = 0;
       dateHandovers.forEach(h => {
         const t = cleanMoney(h.penjualan_tunai), nt = cleanMoney(h.non_tunai_qris), onl = cleanMoney(h.online_food);
@@ -961,7 +1001,7 @@
       const totalAll = allTasks.length || 1;
       document.getElementById("kpiChecklistProgress").innerText = `${Math.round((totalDone/totalAll)*100)}%`;
 
-      const roster = (localData.JADWAL || []).filter(j => j.tanggal === selectedTrackingDate);
+      const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === selectedTrackingDate);
       document.getElementById("dashStaffS1").innerText = roster.filter(j => j.shift === '1').map(x => `${x.nama} (${x.divisi})`).join(', ') || 'Belum diatur';
       document.getElementById("dashStaffS2").innerText = roster.filter(j => j.shift === '2').map(x => `${x.nama} (${x.divisi})`).join(', ') || 'Belum diatur';
       document.getElementById("dashStaffOff").innerText = roster.filter(j => j.status_hadir === 'Libur').map(x => x.nama).join(', ') || '-';
@@ -1028,7 +1068,7 @@
     async function toggleTaskState(id, isChecked) {
       const task = (localData.CHECKLIST || []).find(c => c.task_id === id);
       const pet = isChecked ? currentUser.username : "";
-      const jam = isChecked ? new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':') : "";
+      const jam = isChecked ? getLocalCurrentTime() : "";
       if(task) { task.status = isChecked ? "Selesai" : "Belum"; task.petugas = pet; task.jam_selesai = jam; }
       renderChecklistStations();
       renderDashboard();
@@ -1048,7 +1088,7 @@
       const payload = { station: document.getElementById("fTaskStation").value, shift: document.getElementById("fTaskShift").value, fase: document.getElementById("fTaskFase").value, jam_target: document.getElementById("fTaskJam").value, tugas: document.getElementById("fTaskUraian").value };
       closeModal('modalTask'); showToast("Menyimpan tugas...");
       if(editId) await postToGas("update", "CHECKLIST", { key: "task_id", val: editId, updates: payload });
-      else { payload.task_id = "CHK-" + Date.now().toString().slice(-5); payload.tanggal = new Date().toISOString().split('T')[0]; payload.status = "Belum"; payload.petugas = currentUser.username; await postToGas("insert", "CHECKLIST", payload); }
+      else { payload.task_id = "CHK-" + Date.now().toString().slice(-5); payload.tanggal = getLocalTodayDate(); payload.status = "Belum"; payload.petugas = currentUser.username; await postToGas("insert", "CHECKLIST", payload); }
       await fetchAllData();
     }
     async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); await fetchAllData(); } }
@@ -1179,7 +1219,7 @@
 
     function openNewStokModal() {
       document.getElementById("modalStokTitle").innerText = "Tambah Barang"; document.getElementById("fStkEditId").value = "";
-      document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fStkTanggal").value = getLocalTodayDate(); document.getElementById("fStkJam").value = getLocalCurrentTime();
       document.getElementById("fStkNama").value = "";
       document.getElementById("fStkSatuanMakro").value = "pack";
       document.getElementById("fStkIsiKonversi").value = "1000";
@@ -1195,7 +1235,8 @@
     function editStokModal(id) {
       const item = (localData.STOK || []).find(s => s.item_id === id); if(!item) return;
       document.getElementById("modalStokTitle").innerText = "Edit Barang: " + id; document.getElementById("fStkEditId").value = id;
-      document.getElementById("fStkTanggal").value = item.tgl_update || new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = item.jam_update || "08:30";
+      document.getElementById("fStkTanggal").value = cleanDateForInput(item.tgl_update); 
+      document.getElementById("fStkJam").value = item.jam_update || getLocalCurrentTime();
       document.getElementById("fStkDivisi").value = item.divisi; document.getElementById("fStkKategori").value = item.kategori;
       document.getElementById("fStkNama").value = item.nama_barang;
       document.getElementById("fStkSatuanMakro").value = item.satuan_makro || "pack";
@@ -1220,23 +1261,47 @@
     async function submitStokForm() {
       const editId = document.getElementById("fStkEditId").value, div = document.getElementById("fStkDivisi").value;
       const prefix = div === "BARISTA" ? "BAR" : (div === "KITCHEN" ? "KIT" : "SRV");
+      
+      const gudangVal = cleanMoney(document.getElementById("fStkGudang").value);
+      const minVal = cleanMoney(document.getElementById("fStkMin").value);
+      const konvVal = cleanMoney(document.getElementById("fStkIsiKonversi").value) || 1;
+      const pagiVal = cleanMoney(document.getElementById("fStkPagi").value);
+      const r1Val = cleanMoney(document.getElementById("fStkRefillS1").value);
+      const r2Val = cleanMoney(document.getElementById("fStkRefillS2").value);
+      const wasteVal = cleanMoney(document.getElementById("fStkWaste").value);
+      const op1Val = cleanMoney(document.getElementById("fStkOpnameS1").value);
+      const op2Val = cleanMoney(document.getElementById("fStkOpnameS2").value);
+
+      // KALKULASI MANDIRI SEBELUM KIRIM
+      const totalTersedia = pagiVal + r1Val + r2Val;
+      const sisaNyata = op2Val > 0 ? op2Val : (op1Val > 0 ? op1Val : Math.max(0, totalTersedia - wasteVal));
+      const pemakaianReal = Math.max(0, totalTersedia - sisaNyata);
+      const totalAsetReal = (gudangVal * konvVal) + sisaNyata;
+      const statusReal = totalAsetReal <= minVal ? "RESTOCK" : "AMAN";
+
       const payload = {
         divisi: div, kategori: document.getElementById("fStkKategori").value, nama_barang: document.getElementById("fStkNama").value,
         satuan_makro: document.getElementById("fStkSatuanMakro").value,
-        isi_konversi: cleanMoney(document.getElementById("fStkIsiKonversi").value) || 1,
+        isi_konversi: konvVal,
         satuan_mikro: document.getElementById("fStkSatuanMikro").value,
         satuan: document.getElementById("fStkSatuanMikro").value,
-        min_stok: cleanMoney(document.getElementById("fStkMin").value),
-        stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
-        tersedia_pagi: cleanMoney(document.getElementById("fStkPagi").value),
-        refill_s1: cleanMoney(document.getElementById("fStkRefillS1").value),
-        refill_s2: cleanMoney(document.getElementById("fStkRefillS2").value),
-        waste_mikro: cleanMoney(document.getElementById("fStkWaste").value),
-        opname_s1: cleanMoney(document.getElementById("fStkOpnameS1").value),
-        opname_s2: cleanMoney(document.getElementById("fStkOpnameS2").value),
-        tgl_update: document.getElementById("fStkTanggal").value, jam_update: document.getElementById("fStkJam").value
+        min_stok: minVal,
+        stok_gudang: gudangVal,
+        tersedia_pagi: pagiVal,
+        refill_s1: r1Val,
+        refill_s2: r2Val,
+        waste_mikro: wasteVal,
+        opname_s1: op1Val,
+        opname_s2: op2Val,
+        stok_mikro: sisaNyata,
+        pemakaian_hari_ini: pemakaianReal,
+        total_makro: totalAsetReal,
+        status: statusReal,
+        tgl_update: document.getElementById("fStkTanggal").value || getLocalTodayDate(), 
+        jam_update: document.getElementById("fStkJam").value || getLocalCurrentTime()
       };
-      closeModal('modalStok'); showToast("Menyimpan stok...");
+
+      closeModal('modalStok'); showToast("Menyimpan stok & kalkulasi...");
       if(editId) await postToGas("update", "STOK", { key: "item_id", val: editId, updates: payload });
       else { payload.item_id = `${prefix}-${Date.now().toString().slice(-4)}`; await postToGas("insert", "STOK", payload); }
       await fetchAllData();
@@ -1260,7 +1325,8 @@
     function openNewHandoverShift(sNum) {
       document.getElementById("fStEditId").value = "";
       document.getElementById("fStShiftNum").value = sNum;
-      document.getElementById("fStTanggal").value = new Date().toISOString().split('T')[0];
+      document.getElementById("fStTanggal").value = getLocalTodayDate();
+      document.getElementById("fStJam").value = getLocalCurrentTime();
       document.getElementById("fStModal").value = "110.000";
       document.getElementById("fStTunai").value = "0";
       document.getElementById("fStNonTunai").value = "0";
@@ -1271,11 +1337,9 @@
       if (sNum === 1) {
         document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 1 (Sore 16:30)";
         document.getElementById("fStTahap").value = "Shift 1 → 2 (Sore 16:30)";
-        document.getElementById("fStJam").value = "16:30";
       } else {
         document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 2 (Closing 00:00)";
         document.getElementById("fStTahap").value = "Shift 2 → 1 (Closing 00:00)";
-        document.getElementById("fStJam").value = "00:00";
       }
       toggleHandoverNotesLabel();
       calcCashDenom();
@@ -1285,7 +1349,9 @@
     function editHandoverModal(id) {
       const st = (localData.SERAH_TERIMA || []).find(x => x.id === id); if(!st) return;
       document.getElementById("modalHandoverTitle").innerText = "Edit Serah Terima: " + id; document.getElementById("fStEditId").value = id;
-      document.getElementById("fStTanggal").value = st.tanggal; document.getElementById("fStJam").value = st.jam; document.getElementById("fStTahap").value = st.tahap;
+      document.getElementById("fStTanggal").value = cleanDateForInput(st.tanggal); 
+      document.getElementById("fStJam").value = st.jam || getLocalCurrentTime(); 
+      document.getElementById("fStTahap").value = st.tahap;
       document.getElementById("fStShiftNum").value = st.shift || (st.tahap.includes("Shift 1") ? "1" : "2");
       document.getElementById("fStModal").value = cleanMoney(st.kas_modal_stay).toLocaleString('id-ID'); document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai).toLocaleString('id-ID');
       document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID'); document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
@@ -1303,7 +1369,8 @@
       const sNum = document.getElementById("fStShiftNum").value || (thp.includes("Shift 1") ? "1" : "2");
 
       const payload = {
-        tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0], jam: document.getElementById("fStJam").value || "16:30",
+        tanggal: document.getElementById("fStTanggal").value || getLocalTodayDate(), 
+        jam: document.getElementById("fStJam").value || getLocalCurrentTime(),
         tahap: thp, shift: sNum, petugas_serah: currentUser.username, petugas_terima: sNum === "1" ? "Shift 2" : "Opening Besok",
         penjualan_tunai: t, non_tunai_qris: nt, online_food: onl, total_omset_shift: t + nt + onl,
         kas_modal_stay: m, pengeluaran_kas_kecil: k, keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
@@ -1344,11 +1411,12 @@
     }
 
     // DAILY REPORT
-    function openNewDailyReportModal() { document.getElementById("modalDrTitle").innerText = "Simpan Report"; document.getElementById("fDrEditId").value = ""; document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0]; autoPullDailyReportData(); openModal('modalDailyReport'); }
+    function openNewDailyReportModal() { document.getElementById("modalDrTitle").innerText = "Simpan Report"; document.getElementById("fDrEditId").value = ""; document.getElementById("fDrTanggal").value = getLocalTodayDate(); autoPullDailyReportData(); openModal('modalDailyReport'); }
     function editDailyReportModal(id) {
       const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
       document.getElementById("modalDrTitle").innerText = "Edit Report: " + id; document.getElementById("fDrEditId").value = id;
-      document.getElementById("fDrTanggal").value = dr.tanggal; document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
+      document.getElementById("fDrTanggal").value = cleanDateForInput(dr.tanggal); 
+      document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
       document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2).toLocaleString('id-ID'); document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc).toLocaleString('id-ID');
       document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID'); document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 5000000).toLocaleString('id-ID');
       document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar).toLocaleString('id-ID'); document.getElementById("fDrKetKasKeluar").value = dr.rincian_pengeluaran || "";
@@ -1359,8 +1427,8 @@
     }
 
     function autoPullDailyReportData() {
-      const tgl = document.getElementById("fDrTanggal").value;
-      const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === tgl);
+      const tgl = document.getElementById("fDrTanggal").value || getLocalTodayDate();
+      const handovers = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === tgl);
 
       let s1 = 0, s2 = 0, qris = 0, online = 0, keluar = 0, ketKeluar = [], evalText = [];
       handovers.forEach(h => {
@@ -1380,7 +1448,7 @@
       document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID');
       document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
 
-      const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
+      const logs = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === tgl);
       const wLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi"));
       document.getElementById("fDrWaste").value = wLogs.length ? wLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada waste";
       document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
@@ -1399,7 +1467,7 @@
       const editId = document.getElementById("fDrEditId").value, s1 = cleanMoney(document.getElementById("fDrRevS1").value), s2 = cleanMoney(document.getElementById("fDrRevS2").value);
       const target = cleanMoney(document.getElementById("fDrTarget").value) || 5000000, total = s1 + s2;
       const payload = {
-        tanggal: document.getElementById("fDrTanggal").value, rev_shift1: s1, rev_shift2: s2, total_omset: total,
+        tanggal: document.getElementById("fDrTanggal").value || getLocalTodayDate(), rev_shift1: s1, rev_shift2: s2, total_omset: total,
         qris_edc: cleanMoney(document.getElementById("fDrQrisEdc").value), online_food: cleanMoney(document.getElementById("fDrOnlineFood").value),
         target_harian: target, capaian_pct: target > 0 ? ((total/target)*100).toFixed(1)+'%' : '100%',
         total_kas_keluar: cleanMoney(document.getElementById("fDrKasKeluar").value), rincian_pengeluaran: document.getElementById("fDrKetKasKeluar").value,
@@ -1435,9 +1503,10 @@
     }
 
     function sendWhatsAppDaily() {
-      const todayStr = new Date().toISOString().split('T')[0], todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
-      const dr = (localData.DAILY_REPORT || []).find(d => d.tanggal === todayStr) || {};
-      const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr);
+      const todayStr = getLocalTodayDate();
+      const todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
+      const dr = (localData.DAILY_REPORT || []).find(d => cleanDateForInput(d.tanggal) === todayStr) || {};
+      const handovers = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === todayStr);
       let tunai = 0, qris = 0, online = 0, modal = 110000, keluar = 0, ketKeluar = [];
       handovers.forEach(h => {
         tunai += cleanMoney(h.penjualan_tunai); qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food);
@@ -1445,12 +1514,12 @@
         if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
       });
 
-      const roster = (localData.JADWAL || []).filter(j => j.tanggal === todayStr);
+      const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === todayStr);
       const s1Staff = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
       const s2Staff = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
       const offStaff = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
 
-      const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === todayStr);
+      const logs = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === todayStr);
       const wItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste / spoil';
 
       const restockItems = (localData.STOK || []).filter(s => {
@@ -1490,7 +1559,7 @@
       window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg), '_blank');
     }
 
-    // INFO & DATABASE (TERKUNCI BOY LEVEL 6)
+    // INFO & DATABASE
     function renderInfoSistemView() {
       document.getElementById("infoWebhookUrl").innerText = API_URL;
       document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO OPERASIONAL";
@@ -1543,7 +1612,7 @@
       } catch (e) { alert("❌ GAGAL MENGHUBUNGI APPS SCRIPT!\nPastikan Webhook URL benar dan diset 'Anyone'."); }
     }
 
-    // KALENDER OPERASIONAL DENGAN PEMILIH BULAN CEPAT
+    // KALENDER OPERASIONAL
     function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
     function jumpToCurrentMonth() {
       calDate = new Date();
@@ -1590,9 +1659,9 @@
       const totalDays = new Date(y, m + 1, 0).getDate();
       for (let day = 1; day <= totalDays; day++) {
         const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${dayString(day)}`;
-        const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
+        const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === dateStr);
         const s1 = roster.filter(j => j.shift === '1'), s2 = roster.filter(j => j.shift === '2');
-        const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
+        const logs = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === dateStr);
         grid.innerHTML += `
           <div class="cal-cell" onclick="openDayInspector('${dateStr}')">
             <div style="font-weight:700;font-size:0.75rem;">${day}</div>
@@ -1611,7 +1680,7 @@
       document.getElementById("inspectDateTitle").innerText = `Detail Tanggal: ${dateStr}`;
       const perm = getTabPermission("kalender");
 
-      const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
+      const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === dateStr);
       document.getElementById("inspectRosterList").innerHTML = roster.length ? roster.map(r => `
         <div style="font-size:0.72rem;padding:0.3rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
           <div><strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift} <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}">${r.status_hadir}</span></div>
@@ -1624,7 +1693,7 @@
         </div>
       `).join('') : '<div style="font-size:0.72rem;color:var(--text-muted);">Belum ada jadwal staff.</div>';
 
-      const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
+      const logs = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === dateStr);
       document.getElementById("inspectLogList").innerHTML = logs.length ? logs.map(l => `
         <div style="font-size:0.72rem;padding:0.3rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
           <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted);font-size:0.65rem;">${l.detail} (PIC: ${l.pic})</div></div>
@@ -1646,7 +1715,8 @@
     function editRosterModal(id) {
       const r = (localData.JADWAL || []).find(x => x.id === id); if(!r) return;
       document.getElementById("modalRosterTitle").innerText = "Edit Jadwal: " + r.nama; document.getElementById("fJdwEditId").value = r.id;
-      document.getElementById("fJdwTanggal").value = r.tanggal; document.getElementById("fJdwUser").value = r.username;
+      document.getElementById("fJdwTanggal").value = cleanDateForInput(r.tanggal); 
+      document.getElementById("fJdwUser").value = r.username;
       document.getElementById("fJdwShift").value = r.shift; document.getElementById("fJdwStatus").value = r.status_hadir; document.getElementById("fJdwCatatan").value = r.catatan;
       openModal('modalRoster');
     }
@@ -1762,7 +1832,7 @@
 
     function openLogForCurrentInspectDate() {
       document.getElementById("modalLogTitle").innerText = "Tambah Log Operasional"; document.getElementById("fLogEditId").value = "";
-      document.getElementById("fLogTanggal").value = activeInspectDate; document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
+      document.getElementById("fLogTanggal").value = activeInspectDate; document.getElementById("fLogJam").value = getLocalCurrentTime();
       document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = "";
       updateLogCategoryAndItems(); openModal('modalLog');
     }
@@ -1770,7 +1840,10 @@
     function editLogModal(id) {
       const l = (localData.LOG_KALENDER || []).find(x => x.log_id === id); if(!l) return;
       document.getElementById("modalLogTitle").innerText = "Edit Log: " + l.log_id;
-      document.getElementById("fLogEditId").value = l.log_id; document.getElementById("fLogTanggal").value = l.tanggal; document.getElementById("fLogJam").value = l.jam; document.getElementById("fLogDivisi").value = l.divisi;
+      document.getElementById("fLogEditId").value = l.log_id; 
+      document.getElementById("fLogTanggal").value = cleanDateForInput(l.tanggal); 
+      document.getElementById("fLogJam").value = l.jam || getLocalCurrentTime(); 
+      document.getElementById("fLogDivisi").value = l.divisi;
       updateLogCategoryAndItems();
       document.getElementById("fLogKategori").value = l.kategori; handleLogCategoryChange();
       if (l.item_id) document.getElementById("fLogItemSelect").value = l.item_id;
@@ -1789,8 +1862,8 @@
       } 
     }
 
-    function openNewRosterModal() { document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal"; document.getElementById("fJdwEditId").value = ""; document.getElementById("fJdwTanggal").value = new Date().toISOString().split('T')[0]; openModal('modalRoster'); }
-    function openNewLogModal() { document.getElementById("modalLogTitle").innerText = "Tambah Log Operasional"; document.getElementById("fLogEditId").value = ""; document.getElementById("fLogTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':'); document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = ""; updateLogCategoryAndItems(); openModal('modalLog'); }
+    function openNewRosterModal() { document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal"; document.getElementById("fJdwEditId").value = ""; document.getElementById("fJdwTanggal").value = getLocalTodayDate(); openModal('modalRoster'); }
+    function openNewLogModal() { document.getElementById("modalLogTitle").innerText = "Tambah Log Operasional"; document.getElementById("fLogEditId").value = ""; document.getElementById("fLogTanggal").value = getLocalTodayDate(); document.getElementById("fLogJam").value = getLocalCurrentTime(); document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = ""; updateLogCategoryAndItems(); openModal('modalLog'); }
 
     async function submitRosterForm() {
       const editId = document.getElementById("fJdwEditId").value, u = document.getElementById("fJdwUser").value;
@@ -1812,7 +1885,8 @@
       const jumlah = cleanMoney(document.getElementById("fLogJumlahVal").value), satuan = document.getElementById("fLogSatuan").value;
 
       const payload = {
-        tanggal: document.getElementById("fLogTanggal").value, jam: document.getElementById("fLogJam").value || new Date().toLocaleTimeString('id-ID'),
+        tanggal: document.getElementById("fLogTanggal").value || getLocalTodayDate(), 
+        jam: document.getElementById("fLogJam").value || getLocalCurrentTime(),
         divisi: document.getElementById("fLogDivisi").value, kategori: kat, item_terkait: itemName, item_id: itemId, jumlah_angka: jumlah, satuan: satuan,
         detail: document.getElementById("fLogDetail").value, pic: currentUser.username, tindak_lanjut: "Tercatat & Terkoneksi Stok"
       };
