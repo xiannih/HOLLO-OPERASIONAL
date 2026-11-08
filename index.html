@@ -2,91 +2,96 @@
 <html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>HOLLO COFFEE & ROASTERY'S — Executive Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>HOLLO COFFEE & ROASTERY'S — Executive F&B Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root { --bg:#09090b; --surface:#121215; --elevated:#1a1a20; --border:#27272a; --border-subtle:#1e1e24; --text:#f4f4f5; --text-muted:#a1a1aa; --accent:#fff; --accent-inv:#000; --danger:#ef4444; --success:#10b981; --warning:#f59e0b; --radius:10px; --radius-sm:6px; }
-    [data-theme="light"] { --bg:#f4f4f5; --surface:#fff; --elevated:#f1f3f5; --border:#e4e4e7; --border-subtle:#ebebef; --text:#09090b; --text-muted:#71717a; --accent:#000; --accent-inv:#fff; --danger:#dc2626; --success:#059669; --warning:#d97706; }
-    * { box-sizing:border-box; margin:0; padding:0; font-family:'Plus Jakarta Sans',sans-serif; }
-    body { background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; }
-    #gatekeeper { position:fixed; inset:0; background:var(--bg); z-index:1000; display:flex; align-items:center; justify-content:center; padding:1rem; }
-    .lock-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:2rem; width:100%; max-width:380px; text-align:center; }
-    header { padding:0.75rem 1.25rem; border-bottom:1px solid var(--border); background:var(--surface); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; flex-wrap:wrap; gap:0.5rem; }
-    .brand-wrap { display:flex; align-items:center; gap:0.6rem; }
-    .live-clock-pill { display:flex; align-items:center; gap:0.4rem; background:var(--elevated); border:1px solid var(--border); padding:0.25rem 0.55rem; border-radius:999px; font-size:0.72rem; font-weight:600; }
-    .live-dot { width:7px; height:7px; border-radius:50%; background:var(--success); }
-    .btn { padding:0.45rem 0.8rem; border-radius:var(--radius-sm); font-size:0.78rem; font-weight:600; cursor:pointer; border:1px solid var(--border); background:var(--surface); color:var(--text); display:inline-flex; align-items:center; gap:0.35rem; white-space:nowrap; }
-    .btn:hover { background:var(--elevated); }
-    .btn-solid { background:var(--accent); color:var(--accent-inv); border-color:var(--accent); }
-    .btn-danger { color:var(--danger); border-color:rgba(239,68,68,0.3); }
-    .btn-wa { background:#25D366; color:#fff; border-color:#25D366; }
-    nav { background:var(--surface); border-bottom:1px solid var(--border); display:flex; gap:0.25rem; padding:0.25rem 1rem; overflow-x:auto; scrollbar-width:none; }
-    nav::-webkit-scrollbar { display:none; }
-    .nav-tab { padding:0.7rem 1rem; font-size:0.82rem; font-weight:500; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; }
-    .nav-tab.active { color:var(--text); border-color:var(--accent); font-weight:600; }
-    main { padding:1.25rem; max-width:1440px; margin:0 auto; width:100%; flex:1; }
-    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.15rem; margin-bottom:1rem; }
-    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.85rem; margin-bottom:1.25rem; }
-    .card-title { font-size:0.72rem; text-transform:uppercase; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem; }
-    .card-val { font-size:1.5rem; font-family:'Space Grotesk',sans-serif; font-weight:700; }
-    .charts-grid { display:grid; grid-template-columns:2fr 1fr; gap:1rem; margin-bottom:1.5rem; }
-    .calendar-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:0.35rem; }
-    .cal-day-name { text-align:center; font-size:0.72rem; font-weight:600; color:var(--text-muted); padding-bottom:0.4rem; text-transform:uppercase; }
-    .cal-cell { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); min-height:80px; padding:0.4rem; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; }
-    .cal-cell:hover { border-color:var(--accent); background:var(--elevated); }
-    .cal-badge { font-size:0.62rem; padding:0.1rem 0.25rem; border-radius:3px; font-weight:600; background:rgba(255,255,255,0.08); }
-    .table-card { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow-x:auto; }
-    table { width:100%; border-collapse:collapse; font-size:0.82rem; text-align:left; }
-    th { background:var(--elevated); color:var(--text-muted); padding:0.75rem 0.85rem; font-size:0.72rem; text-transform:uppercase; border-bottom:1px solid var(--border); white-space:nowrap; }
-    td { padding:0.75rem 0.85rem; border-bottom:1px solid var(--border-subtle); vertical-align:middle; white-space:nowrap; }
-    tr:hover td { background:var(--elevated); }
-    .tag { padding:0.18rem 0.45rem; border-radius:4px; font-size:0.68rem; font-weight:600; text-transform:uppercase; }
-    .tag-restock { background:rgba(239,68,68,0.15); color:var(--danger); border:1px solid var(--danger); }
-    .tag-safe { background:rgba(16,185,129,0.15); color:var(--success); border:1px solid var(--success); }
-    .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; z-index:99999; padding:0.75rem; }
-    .modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; width:100%; max-width:620px; max-height:90vh; overflow-y:auto; }
-    .form-group { margin-bottom:0.85rem; text-align:left; }
-    .form-group label { display:block; font-size:0.72rem; color:var(--text-muted); margin-bottom:0.3rem; font-weight:600; text-transform:uppercase; }
-    .form-group input, .form-group select, .form-group textarea { width:100%; padding:0.55rem 0.75rem; border-radius:var(--radius-sm); background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; font-size:0.82rem; }
-    .section-title { background:var(--elevated); border-left:3px solid var(--accent); padding:0.35rem 0.55rem; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin:1rem 0 0.65rem; }
-    .calc-box { background:var(--elevated); border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.65rem; margin-bottom:0.85rem; font-size:0.75rem; }
-    .calc-row { display:flex; justify-content:space-between; margin-bottom:0.2rem; }
-    .calc-row.total { font-weight:700; border-top:1px solid var(--border); padding-top:0.3rem; margin-top:0.3rem; }
-    #toast { position:fixed; bottom:1.5rem; right:1.5rem; padding:0.65rem 1.15rem; background:var(--accent); color:var(--accent-inv); border-radius:var(--radius-sm); font-size:0.82rem; font-weight:600; opacity:0; pointer-events:none; transition:0.3s; z-index:100000; }
-    #toast.show { opacity:1; transform:translateY(-5px); }
-    .station-bar-wrap { background:var(--bg); border-radius:999px; height:7px; overflow:hidden; margin-top:0.3rem; border:1px solid var(--border); }
-    .station-bar-fill { height:100%; background:var(--success); transition:width 0.3s; }
-    .mini-cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:0.25rem; margin-top:0.5rem; }
-    .mini-cal-cell { min-height:44px; border:1px solid var(--border); background:var(--surface); border-radius:var(--radius-sm); display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:0.75rem; cursor:pointer; }
-    .mini-cal-cell:hover { border-color:var(--accent); background:var(--elevated); }
-    .mini-cal-cell.selected { border-color:var(--accent); background:var(--accent); color:var(--accent-inv); font-weight:700; }
-    .mini-cal-dot { width:4px; height:4px; border-radius:50%; background:var(--warning); margin-top:2px; }
-    @media(max-width:768px){ .kpi-grid, .charts-grid { grid-template-columns:1fr; } header{flex-direction:column; align-items:flex-start;} }
+    :root{--bg:#09090b;--surface:#121215;--elevated:#1a1a20;--border:#27272a;--border-subtle:#1e1e24;--text:#f4f4f5;--text-muted:#a1a1aa;--accent:#fff;--accent-inv:#000;--danger:#ef4444;--success:#10b981;--warning:#f59e0b;--radius:10px;--radius-sm:6px;}
+    [data-theme="light"]{--bg:#f4f4f5;--surface:#fff;--elevated:#f1f3f5;--border:#e4e4e7;--border-subtle:#ebebef;--text:#09090b;--text-muted:#71717a;--accent:#000;--accent-inv:#fff;--danger:#dc2626;--success:#059669;--warning:#d97706;}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
+    body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
+    #gatekeeper{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;}
+    .lock-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem 1.5rem;width:100%;max-width:380px;text-align:center;}
+    header{padding:0.75rem 1.25rem;border-bottom:1px solid var(--border);background:var(--surface);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:0.5rem;}
+    .brand-wrap{display:flex;align-items:center;gap:0.6rem;}
+    .live-clock-pill{display:flex;align-items:center;gap:0.4rem;background:var(--elevated);border:1px solid var(--border);padding:0.25rem 0.55rem;border-radius:999px;font-size:0.72rem;font-weight:600;}
+    .live-dot{width:7px;height:7px;border-radius:50%;background:var(--success);}
+    .btn{min-height:36px;padding:0.45rem 0.8rem;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;white-space:nowrap;}
+    .btn:hover{background:var(--elevated);}
+    .btn-solid{background:var(--accent);color:var(--accent-inv);border-color:var(--accent);}
+    .btn-danger{color:var(--danger);border-color:rgba(239,68,68,0.3);}
+    .btn-wa{background:#25D366;color:#fff;border-color:#25D366;}
+    nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;gap:0.25rem;padding:0.25rem 1rem;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+    nav::-webkit-scrollbar{display:none;}
+    .nav-tab{padding:0.7rem 1rem;font-size:0.82rem;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
+    .nav-tab.active{color:var(--text);border-color:var(--accent);font-weight:600;}
+    main{padding:1.25rem;max-width:1440px;margin:0 auto;width:100%;flex:1;}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.15rem;margin-bottom:1rem;}
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.85rem;margin-bottom:1.25rem;}
+    .card-title{font-size:0.72rem;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-bottom:0.3rem;}
+    .card-val{font-size:1.5rem;font-family:'Space Grotesk',sans-serif;font-weight:700;}
+    .charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1.5rem;}
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.35rem;}
+    .cal-day-name{text-align:center;font-size:0.72rem;font-weight:600;color:var(--text-muted);padding-bottom:0.4rem;text-transform:uppercase;}
+    .cal-cell{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);min-height:80px;padding:0.4rem;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;}
+    .cal-cell:hover{border-color:var(--accent);background:var(--elevated);}
+    .cal-badge{font-size:0.62rem;padding:0.1rem 0.25rem;border-radius:3px;font-weight:600;background:rgba(255,255,255,0.08);}
+    .table-card{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    table{width:100%;border-collapse:collapse;font-size:0.82rem;text-align:left;}
+    th{background:var(--elevated);color:var(--text-muted);padding:0.75rem 0.85rem;font-size:0.72rem;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;}
+    td{padding:0.75rem 0.85rem;border-bottom:1px solid var(--border-subtle);vertical-align:middle;white-space:nowrap;}
+    tr:hover td{background:var(--elevated);}
+    .tag{padding:0.18rem 0.45rem;border-radius:4px;font-size:0.68rem;font-weight:600;text-transform:uppercase;}
+    .tag-restock{background:rgba(239,68,68,0.15);color:var(--danger);border:1px solid var(--danger);}
+    .tag-safe{background:rgba(16,185,129,0.15);color:var(--success);border:1px solid var(--success);}
+    .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:99999;padding:0.75rem;}
+    .modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;}
+    .form-group{margin-bottom:0.85rem;text-align:left;}
+    .form-group label{display:block;font-size:0.72rem;color:var(--text-muted);margin-bottom:0.3rem;font-weight:600;text-transform:uppercase;}
+    .form-group input,.form-group select,.form-group textarea{width:100%;min-height:36px;padding:0.55rem 0.75rem;border-radius:var(--radius-sm);background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;font-size:0.82rem;}
+    .section-title{background:var(--elevated);border-left:3px solid var(--accent);padding:0.35rem 0.55rem;font-size:0.75rem;font-weight:700;text-transform:uppercase;margin:1rem 0 0.65rem;}
+    .calc-box{background:var(--elevated);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.65rem;margin-bottom:0.85rem;font-size:0.75rem;}
+    .calc-row{display:flex;justify-content:space-between;margin-bottom:0.2rem;}
+    .calc-row.total{font-weight:700;border-top:1px solid var(--border);padding-top:0.3rem;margin-top:0.3rem;}
+    #toast{position:fixed;bottom:1.5rem;right:1.5rem;padding:0.65rem 1.15rem;background:var(--accent);color:var(--accent-inv);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;opacity:0;pointer-events:none;transition:0.3s;z-index:100000;}
+    #toast.show{opacity:1;transform:translateY(-5px);}
+    .station-bar-wrap{background:var(--bg);border-radius:999px;height:7px;overflow:hidden;margin-top:0.3rem;border:1px solid var(--border);}
+    .station-bar-fill{height:100%;background:var(--success);transition:width 0.3s;}
+    .mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem;margin-top:0.5rem;}
+    .mini-cal-cell{min-height:44px;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:0.75rem;cursor:pointer;}
+    .mini-cal-cell:hover{border-color:var(--accent);background:var(--elevated);}
+    .mini-cal-cell.selected{border-color:var(--accent);background:var(--accent);color:var(--accent-inv);font-weight:700;}
+    .mini-cal-dot{width:4px;height:4px;border-radius:50%;background:var(--warning);margin-top:2px;}
+    .month-picker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-top:1rem;}
+    .month-picker-btn{padding:0.75rem 0.5rem;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:6px;font-weight:600;font-size:0.8rem;cursor:pointer;}
+    .month-picker-btn:hover,.month-picker-btn.active{background:var(--accent);color:var(--accent-inv);border-color:var(--accent);}
+    @media(max-width:768px){.kpi-grid,.charts-grid{grid-template-columns:1fr;}header{flex-direction:column;align-items:flex-start;}}
   </style>
 </head>
 <body>
 
+  <!-- GATEKEEPER LOCK -->
   <div id="gatekeeper">
     <div class="lock-card">
-      <div style="font-family:'Space Grotesk',sans-serif; font-size:1.2rem; font-weight:700;">HOLLO COFFEE & ROASTERY'S</div>
-      <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1.5rem;">Executive Operations Suite</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;">HOLLO COFFEE & ROASTERY'S</div>
+      <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;">Executive Operations Suite</div>
       <div class="form-group"><label>Username</label><input type="text" id="loginUser" value="boy"></div>
-      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" value="0000" maxlength="6" style="letter-spacing:0.35em; font-size:1.15rem; text-align:center;"></div>
-      <button class="btn btn-solid" style="width:100%; justify-content:center; padding:0.7rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
-      <div style="margin-top:1.25rem;"><button class="btn" style="border:none; font-size:0.7rem; color:var(--text-muted); background:transparent;" onclick="updateWebhookPrompt()">⚙ Ganti URL Webhook</button></div>
+      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" value="0000" maxlength="6" style="letter-spacing:0.35em;font-size:1.15rem;text-align:center;"></div>
+      <button class="btn btn-solid" style="width:100%;justify-content:center;padding:0.7rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
+      <div style="margin-top:1.25rem;"><button class="btn" style="border:none;font-size:0.7rem;color:var(--text-muted);background:transparent;" onclick="updateWebhookPrompt()">⚙ Ganti URL Webhook</button></div>
     </div>
   </div>
 
+  <!-- PORTAL HEADER -->
   <header>
     <div class="brand-wrap">
       <div class="brand-title">HOLLO COFFEE</div>
       <div class="live-clock-pill"><div class="live-dot"></div><span id="liveClock">00:00:00</span><span style="opacity:0.4;">|</span><span id="liveShiftIndicator">SHIFT 1 (PREP)</span></div>
     </div>
-    <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap;">
+    <div style="display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
       <button class="btn btn-solid" id="btnTopInfo" onclick="switchView('info-sistem')">ℹ️ Info & Database</button>
       <button class="btn" onclick="refreshAllData()">↻ Refresh</button>
       <button class="btn" id="themeBtn" onclick="toggleTheme()">Light</button>
@@ -95,6 +100,7 @@
     </div>
   </header>
 
+  <!-- NAVIGATION -->
   <nav id="mainNav">
     <div class="nav-tab active" id="tabDashboard" onclick="switchView('dashboard')">Dashboard</div>
     <div class="nav-tab" id="tabKalender" onclick="switchView('kalender')">Kalender & Roster</div>
@@ -107,37 +113,38 @@
     <div class="nav-tab" id="tabInfoSistem" onclick="switchView('info-sistem')">ℹ️ Info & Database</div>
   </nav>
 
+  <!-- MAIN CONTAINER -->
   <main>
-    <!-- VIEW 1: DASHBOARD -->
+    <!-- VIEW 1: DASHBOARD (TERKUNCI KHUSUS LEVEL >= 2) -->
     <section id="view-dashboard">
-      <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem; padding:0.8rem 1rem;">
-        <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
-          <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted);">📅 TRACKING TANGGAL:</span>
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;padding:0.8rem 1rem;">
+        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+          <span style="font-size:0.78rem;font-weight:700;color:var(--text-muted);">📅 TRACKING TANGGAL:</span>
           <button class="btn btn-solid" onclick="openDashCalendarPickerModal()"><span id="btnDashSelectedDateText">Hari Ini</span> 📅 Pilih Kalender Pop-Up</button>
           <button class="btn" onclick="resetDashboardDateToToday()">Hari Ini</button>
         </div>
-        <div style="font-size:0.75rem; color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
       </div>
 
       <div class="kpi-grid">
-        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.72rem; color:var(--text-muted);">Target: Rp 150.000.000</div></div>
-        <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.72rem; color:var(--success);">Tunai + QRIS + Online</div></div>
-        <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.72rem; color:var(--text-muted);">Batas minimum</div></div>
-        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.72rem; color:var(--text-muted);">Seluruh Stasiun</div></div>
+        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.72rem;color:var(--text-muted);">Target: Rp 150.000.000</div></div>
+        <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.72rem;color:var(--success);">Tunai + QRIS + Online</div></div>
+        <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.72rem;color:var(--text-muted);">Batas minimum</div></div>
+        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.72rem;color:var(--text-muted);">Seluruh Stasiun</div></div>
       </div>
 
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem; margin-bottom:1.25rem;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1.25rem;">
         <div class="card">
-          <div style="font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:0.6rem;">Status Checklist Stasiun Hari Ini</div>
-          <div style="display:flex; flex-direction:column; gap:0.6rem;">
-            <div><div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Barista & Kasir</span><strong id="barProgBarista">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillBarista"></div></div></div>
-            <div><div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Kitchen</span><strong id="barProgKitchen">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillKitchen"></div></div></div>
-            <div><div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Server</span><strong id="barProgServer">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillServer"></div></div></div>
+          <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Status Checklist Stasiun Hari Ini</div>
+          <div style="display:flex;flex-direction:column;gap:0.6rem;">
+            <div><div style="display:flex;justify-content:space-between;font-size:0.75rem;"><span>Barista & Kasir</span><strong id="barProgBarista">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillBarista"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:0.75rem;"><span>Kitchen</span><strong id="barProgKitchen">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillKitchen"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:0.75rem;"><span>Server</span><strong id="barProgServer">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillServer"></div></div></div>
           </div>
         </div>
         <div class="card">
-          <div style="font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:0.6rem;">Tim Bertugas Pada Tanggal Terpilih</div>
-          <div style="font-size:0.78rem; line-height:1.7;">
+          <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Tim Bertugas Pada Tanggal Terpilih</div>
+          <div style="font-size:0.78rem;line-height:1.7;">
             <div>☕ <strong>Shift 1:</strong> <span id="dashStaffS1">-</span></div>
             <div>🌙 <strong>Shift 2:</strong> <span id="dashStaffS2">-</span></div>
             <div>🏖️ <strong>Libur (Off):</strong> <span id="dashStaffOff">-</span></div>
@@ -151,17 +158,18 @@
       </div>
     </section>
 
-    <!-- VIEW 2: KALENDER -->
+    <!-- VIEW 2: KALENDER DENGAN BULAN POPUP -->
     <section id="view-kalender" style="display:none;">
       <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
-          <div style="display:flex; align-items:center; gap:0.5rem;">
-            <h3 id="calMonthTitle" style="font-family:'Space Grotesk',sans-serif;">Bulan Ini</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+          <div style="display:flex;align-items:center;gap:0.5rem;">
+            <button class="btn btn-solid" onclick="openMonthPickerModal()" title="Klik untuk pilih bulan langsung"><h3 id="calMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Bulan Ini ▾</h3></button>
             <button class="btn" onclick="changeMonth(-1)">◀</button><button class="btn" onclick="changeMonth(1)">▶</button>
+            <button class="btn" onclick="jumpToCurrentMonth()">Bulan Sekarang</button>
           </div>
-          <div style="display:flex; gap:0.4rem;">
-            <button class="btn" onclick="openNewLogModal()">+ Tambah Log / Waste</button>
-            <button class="btn btn-solid" id="btnAddRosterGlobal" onclick="openNewRosterModal()">+ Tambah Jadwal Staff</button>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="btn" id="btnAddNewLog" onclick="openNewLogModal()">+ Tambah Log / Spoil</button>
+            <button class="btn btn-solid" id="btnAddRosterGlobal" onclick="openNewRosterModal()">+ Tambah Jadwal</button>
           </div>
         </div>
         <div class="calendar-grid" id="calendarGrid"></div>
@@ -170,19 +178,22 @@
 
     <!-- VIEW 3: CHECKLIST (FILTER KETAT PER DIVISI) -->
     <section id="view-checklist" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div><h3>Checklist Shift Harian per Stasiun</h3><p style="font-size:0.75rem; color:var(--text-muted);" id="txtChecklistSubtitle">Centang otomatis mencatat Username & Waktu Penyelesaian Anda.</p></div>
-        <button class="btn btn-solid" id="btnAddChecklistTask" onclick="openNewTaskModal()">+ Buat Tugas Baru</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
+        <div><h3>Checklist Shift Harian per Stasiun</h3><p style="font-size:0.75rem;color:var(--text-muted);" id="txtChecklistSubtitle">Centang otomatis mencatat Username & Jam Anda.</p></div>
+        <button class="btn btn-solid" id="btnAddChecklistTask" onclick="openNewTaskModal()">+ Buat Tugas</button>
       </div>
-      <div id="stationGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem;"></div>
+      <div id="stationGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;"></div>
     </section>
 
-    <!-- VIEW 4: INVENTARIS STOK -->
+    <!-- VIEW 4: INVENTARIS STOK (MAKRO-MIKRO F&B STANDARD) -->
     <section id="view-stok" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div><h3>Inventaris: Stok Gudang & Harian Divisi</h3><p style="font-size:0.75rem; color:var(--text-muted);">Waste/Kalibrasi dihitung otomatis dari Log Kalender hari ini.</p></div>
-        <div style="display:flex; gap:0.4rem;">
-          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.78rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
+        <div>
+          <h3>Inventaris Stok: Makro (Gudang Segel) & Mikro (Stasiun)</h3>
+          <p style="font-size:0.75rem;color:var(--text-muted);">Gudang tersegel (FIFO/FEFO). Saat dibongkar otomatis terkonversi ke gram/liter/pcs stasiun.</p>
+        </div>
+        <div style="display:flex;gap:0.4rem;">
+          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:0.78rem;">
             <option value="SEMUA">Semua Divisi</option><option value="BARISTA">Barista</option><option value="KITCHEN">Kitchen</option><option value="SERVER">Server</option>
           </select>
           <button class="btn btn-solid" id="btnAddStokGlobal" onclick="openNewStokModal()">+ Tambah Barang</button>
@@ -191,7 +202,11 @@
       <div class="table-card">
         <table>
           <thead>
-            <tr><th>ID</th><th>Divisi</th><th>Nama Barang</th><th>Satuan</th><th>Gudang (Utama)</th><th>Harian Divisi</th><th>Waste / Kalibrasi</th><th>Opname S1</th><th>Opname S2</th><th>Pemakaian</th><th>Total Aset</th><th>Batas Min</th><th>Status</th><th>Aksi</th></tr>
+            <tr>
+              <th>ID</th><th>Divisi</th><th>Nama Barang</th><th>Kemasan Makro</th><th>Isi Konversi</th><th>Satuan Mikro</th>
+              <th>Gudang (Makro)</th><th>Persediaan Harian</th><th>Waste / Spoil</th><th>Opname S1</th><th>Opname S2</th>
+              <th>Pemakaian Hari Ini</th><th>Total Aset Fisik</th><th>Batas Min</th><th>Status</th><th>Aksi</th>
+            </tr>
           </thead>
           <tbody id="stokTableBody"></tbody>
         </table>
@@ -200,9 +215,9 @@
 
     <!-- VIEW 5: SERAH TERIMA KASIR (DUA SHIFT TERPISAH) -->
     <section id="view-serah-terima" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div><h3>Serah Terima Kasir & Kas Laci (Imprest)</h3><p style="font-size:0.75rem; color:var(--text-muted);">Dikoordinasikan oleh Barista Kasir. Shift 1 & 2 tercatat terpisah.</p></div>
-        <div style="display:flex; gap:0.4rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
+        <div><h3>Serah Terima Kasir & Kas Laci (Imprest)</h3><p style="font-size:0.75rem;color:var(--text-muted);">Dikoordinasikan oleh Barista Kasir. Shift 1 & 2 tercatat terpisah.</p></div>
+        <div style="display:flex;gap:0.4rem;" id="handoverActionWrap">
           <button class="btn" style="border-color:var(--accent);" onclick="openNewHandoverShift(1)">+ Serah Terima Shift 1 (Sore 16:30)</button>
           <button class="btn btn-solid" onclick="openNewHandoverShift(2)">+ Serah Terima Shift 2 (Closing 00:00)</button>
         </div>
@@ -217,13 +232,13 @@
       </div>
     </section>
 
-    <!-- VIEW 6: DAILY REPORT (DENGAN 3 KOLOM BELANJA BESOK) -->
+    <!-- VIEW 6: DAILY REPORT -->
     <section id="view-daily-report" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.75rem; color:var(--text-muted);">Dikoordinasikan Barista Closing saat briefing malam. Rincian belanja besok otomatis ke WhatsApp.</p></div>
-        <div style="display:flex; gap:0.4rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
+        <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.75rem;color:var(--text-muted);">Dikoordinasikan Barista Closing. Rincian belanja besok otomatis ke WhatsApp.</p></div>
+        <div style="display:flex;gap:0.4rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
-          <button class="btn btn-solid" onclick="openNewDailyReportModal()">+ Simpan Report</button>
+          <button class="btn btn-solid" id="btnOpenNewReport" onclick="openNewDailyReportModal()">+ Simpan Report</button>
         </div>
       </div>
       <div class="table-card">
@@ -236,11 +251,11 @@
       </div>
     </section>
 
-    <!-- VIEW 7: MENU -->
+    <!-- VIEW 7: MENU & HPP -->
     <section id="view-menu" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div style="display:flex; gap:0.4rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
-        <button class="btn btn-solid" id="btnAddMenuGlobal" onclick="openNewMenuModal()">+ Tambah Menu Baru</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
+        <div style="display:flex;gap:0.4rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
+        <button class="btn btn-solid" id="btnAddMenuGlobal" onclick="openNewMenuModal()">+ Tambah Menu</button>
       </div>
       <div class="table-card">
         <table>
@@ -250,52 +265,52 @@
       </div>
     </section>
 
-    <!-- VIEW 8: DATA PERUSAHAAN (MATRIKS RBAC DINAMIS) -->
+    <!-- VIEW 8: DATA PERUSAHAAN (RBAC DINAMIS DENGAN MODE EDIT/VIEW) -->
     <section id="view-perusahaan" style="display:none;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.75rem; color:var(--text-muted);">Terkunci khusus Level >= 4. Atur tab mana saja yang boleh dibuka oleh anggota tim.</p></div>
-        <button class="btn btn-solid" onclick="openNewUserModal()">+ Tambah Karyawan Baru</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
+        <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.75rem;color:var(--text-muted);">Tentukan tab mana saja yang boleh dibuka serta hak akses Ubah (Edit) vs Hanya Lihat (View).</p></div>
+        <button class="btn btn-solid" id="btnAddNewUser" onclick="openNewUserModal()">+ Tambah Karyawan</button>
       </div>
       <div class="table-card">
         <table>
-          <thead><tr><th>User ID</th><th>Username</th><th>Nama Lengkap</th><th>Role</th><th>Level</th><th>Divisi</th><th>PIN</th><th>Tab yang Diaktifkan</th><th>Aksi</th></tr></thead>
+          <thead><tr><th>User ID</th><th>Username</th><th>Nama Lengkap</th><th>Role</th><th>Level</th><th>Divisi</th><th>PIN</th><th>Tab & Mode Izin</th><th>Aksi</th></tr></thead>
           <tbody id="vaultTableBody"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- VIEW 9: ABOUT & DATABASE (TERKUNCI BOY LEVEL 6) -->
+    <!-- VIEW 9: ABOUT & DATABASE -->
     <section id="view-info-sistem" style="display:none;">
       <div class="card" style="border-left:4px solid var(--accent);">
-        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:1.3rem;">HOLLO COFFEE & ROASTERY'S</h2>
-        <p style="font-size:0.8rem; color:var(--text-muted);">Executive F&B Operations Suite — V18 Engine</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;">HOLLO COFFEE & ROASTERY'S</h2>
+        <p style="font-size:0.8rem;color:var(--text-muted);">Executive F&B Operations Suite — V20 Engine</p>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem; margin-top:1rem;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1rem;">
         <div class="card">
-          <h4 style="font-size:0.85rem; text-transform:uppercase; margin-bottom:0.5rem;">👤 Hak Cipta & Arsitek</h4>
-          <div style="font-size:0.8rem; line-height:1.6;">
+          <h4 style="font-size:0.85rem;text-transform:uppercase;margin-bottom:0.5rem;">👤 Hak Cipta & Arsitek</h4>
+          <div style="font-size:0.8rem;line-height:1.6;">
             <div><strong>System Architect / Owner:</strong> Boy (RAJA_UTAMA)</div>
             <div><strong>Lead Developer:</strong> Ardian Ramadhan</div>
             <div><strong>Badan Usaha:</strong> PT. HOLLO CIPTA RASA</div>
-            <div style="color:var(--text-muted); font-size:0.72rem; margin-top:0.5rem;">© 2026 HOLLO COFFEE. All Rights Reserved.</div>
+            <div style="color:var(--text-muted);font-size:0.72rem;margin-top:0.5rem;">© 2026 HOLLO COFFEE. All Rights Reserved.</div>
           </div>
         </div>
         <div class="card" style="border-color:var(--accent);">
-          <h4 style="font-size:0.85rem; text-transform:uppercase; margin-bottom:0.5rem; color:var(--accent);">📂 File Google Sheet Aktif</h4>
+          <h4 style="font-size:0.85rem;text-transform:uppercase;margin-bottom:0.5rem;color:var(--accent);">📂 File Google Sheet Aktif</h4>
           <div style="font-size:0.8rem;">
-            <div><strong>Nama File:</strong> <span id="infoSheetName">HOLLO DATABASE</span></div>
-            <div style="font-size:0.7rem; color:var(--text-muted); margin:0.3rem 0;">ID: <code id="infoSheetId">...</code></div>
+            <div><strong>Nama File:</strong> <span id="infoSheetName">HOLLO OPERASIONAL</span></div>
+            <div style="font-size:0.7rem;color:var(--text-muted);margin:0.3rem 0;">ID: <code id="infoSheetId">1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q</code></div>
           </div>
           <div id="boxSheetActionWrap" style="margin-top:0.8rem;"></div>
         </div>
         <div class="card">
-          <h4 style="font-size:0.85rem; text-transform:uppercase; margin-bottom:0.5rem;">⚡ Webhook Apps Script</h4>
-          <div style="font-size:0.7rem; color:var(--text-muted); word-break:break-all; background:var(--bg); padding:0.4rem; border-radius:4px;" id="infoWebhookUrl">...</div>
-          <div style="display:flex; gap:0.4rem; margin-top:0.8rem;" id="boxWebhookActionWrap"></div>
+          <h4 style="font-size:0.85rem;text-transform:uppercase;margin-bottom:0.5rem;">⚡ Webhook Apps Script</h4>
+          <div style="font-size:0.7rem;color:var(--text-muted);word-break:break-all;background:var(--bg);padding:0.4rem;border-radius:4px;" id="infoWebhookUrl">...</div>
+          <div style="display:flex;gap:0.4rem;margin-top:0.8rem;" id="boxWebhookActionWrap"></div>
         </div>
       </div>
       <div class="card" style="margin-top:1rem;">
-        <h4 style="font-size:0.8rem; text-transform:uppercase; margin-bottom:0.6rem;">Peta 9 Tabel Database</h4>
+        <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.6rem;">Peta 9 Tabel Database</h4>
         <div class="table-card">
           <table>
             <thead><tr><th>Nama Tabel (Sheet)</th><th>Fungsi Utama</th><th>Status Data</th><th>Jumlah Baris</th></tr></thead>
@@ -308,15 +323,32 @@
 
   <!-- ==================== MODALS ==================== -->
 
+  <!-- MODAL: PEMILIH BULAN POP-UP (CEPAT) -->
+  <div class="modal-backdrop" id="modalMonthPicker">
+    <div class="modal" style="max-width:360px;text-align:center;">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:0.5rem;">Pilih Bulan & Tahun</h3>
+      <div style="display:flex;justify-content:center;align-items:center;gap:0.8rem;margin-bottom:0.8rem;">
+        <button class="btn" onclick="changePickerYear(-1)">◀</button>
+        <span id="txtPickerYear" style="font-size:1.1rem;font-weight:700;">2026</span>
+        <button class="btn" onclick="changePickerYear(1)">▶</button>
+      </div>
+      <div class="month-picker-grid" id="gridMonthButtons"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:1.2rem;">
+        <button class="btn" onclick="jumpToCurrentMonth()">Bulan Sekarang</button>
+        <button class="btn btn-solid" onclick="closeModal('modalMonthPicker')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: KALENDER POP-UP DASHBOARD -->
   <div class="modal-backdrop" id="modalDashCalendarPicker">
-    <div class="modal" style="max-width:380px; text-align:center;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
-        <h3 id="popCalMonthTitle" style="font-family:'Space Grotesk',sans-serif; font-size:1rem;">Pilih Tanggal</h3>
-        <div style="display:flex; gap:0.3rem;"><button class="btn" onclick="changePopCalMonth(-1)">◀</button><button class="btn" onclick="changePopCalMonth(1)">▶</button></div>
+    <div class="modal" style="max-width:380px;text-align:center;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
+        <h3 id="popCalMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:1rem;">Pilih Tanggal</h3>
+        <div style="display:flex;gap:0.3rem;"><button class="btn" onclick="changePopCalMonth(-1)">◀</button><button class="btn" onclick="changePopCalMonth(1)">▶</button></div>
       </div>
       <div class="mini-cal-grid" id="popCalendarGrid"></div>
-      <div style="display:flex; justify-content:space-between; margin-top:1rem;">
+      <div style="display:flex;justify-content:space-between;margin-top:1rem;">
         <button class="btn" onclick="selectTodayInPopCal()">Hari Ini</button>
         <button class="btn btn-solid" onclick="closeModal('modalDashCalendarPicker')">Tutup</button>
       </div>
@@ -326,22 +358,22 @@
   <!-- MODAL: DETAIL TANGGAL KALENDER OPERASIONAL -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
-      <h3 id="inspectDateTitle" style="margin-bottom:0.8rem; font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
+      <h3 id="inspectDateTitle" style="margin-bottom:0.8rem;font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
       <div style="margin-bottom:1rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
-          <h4 style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Roster Kerja & Shift</h4>
-          <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+          <h4 style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;">Roster Kerja & Shift</h4>
+          <button class="btn" id="btnDayAddStaff" style="padding:0.2rem 0.5rem;font-size:0.7rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button>
         </div>
-        <div id="inspectRosterList" style="display:flex; flex-direction:column; gap:0.3rem;"></div>
+        <div id="inspectRosterList" style="display:flex;flex-direction:column;gap:0.3rem;"></div>
       </div>
       <div style="margin-bottom:1rem;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem;">
-          <h4 style="font-size:0.72rem; color:var(--text-muted); text-transform:uppercase;">Log Insiden, Waste & Catatan</h4>
-          <button class="btn" style="padding:0.2rem 0.5rem; font-size:0.7rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
+          <h4 style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;">Log Insiden, Waste & Spoil</h4>
+          <button class="btn" id="btnDayAddLog" style="padding:0.2rem 0.5rem;font-size:0.7rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button>
         </div>
-        <div id="inspectLogList" style="display:flex; flex-direction:column; gap:0.3rem;"></div>
+        <div id="inspectLogList" style="display:flex;flex-direction:column;gap:0.3rem;"></div>
       </div>
-      <div style="display:flex; justify-content:flex-end;"><button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button></div>
+      <div style="display:flex;justify-content:flex-end;"><button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button></div>
     </div>
   </div>
 
@@ -352,84 +384,103 @@
       <input type="hidden" id="fJdwEditId">
       <div class="form-group"><label>Tanggal</label><input type="date" id="fJdwTanggal"></div>
       <div class="form-group"><label>Karyawan</label><select id="fJdwUser"></select></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Shift</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div>
         <div class="form-group"><label>Status</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div>
       </div>
       <div class="form-group"><label>Catatan</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista S1"></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: LOG KALENDER (WASTE / BARANG MASUK) -->
+  <!-- MODAL: LOG KALENDER (WASTE / SPOIL / DIAL-IN / RESTOCK) -->
   <div class="modal-backdrop" id="modalLog">
     <div class="modal">
-      <h3 id="modalLogTitle" style="margin-bottom:0.8rem;">Catat Log, Waste & Mutasi</h3>
+      <h3 id="modalLogTitle" style="margin-bottom:0.8rem;">Catat Log Operasional</h3>
       <input type="hidden" id="fLogEditId">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Tanggal</label><input type="date" id="fLogTanggal"></div>
         <div class="form-group"><label>Jam</label><input type="time" id="fLogJam"></div>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogItemDropdown()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+        <div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogCategoryAndItems()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
         <div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
-        <div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"><option value="Waste Bahan (Afkir / Kalibrasi)">Waste Bahan (Afkir / Kalibrasi)</option><option value="Barang Masuk (Restock)">Barang Masuk (Restock)</option><option value="Insiden Kerusakan Alat">Insiden Alat</option><option value="Lainnya">Lainnya</option></select></div>
+        <div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"></select></div>
       </div>
       <div id="fLogStockSection">
         <div class="form-group"><label>Pilih Bahan dari Stok</label><select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select></div>
-        <div style="display:grid; grid-template-columns:2fr 1fr; gap:0.5rem;">
-          <div class="form-group"><label id="labelQtyLog" style="color:var(--warning);">JUMLAH BAHAN AFKIR / KALIBRASI</label><input type="number" id="fLogJumlahVal" placeholder="Contoh: 100" oninput="updateLogEffectNotice()"></div>
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:0.5rem;">
+          <div class="form-group"><label id="labelQtyLog" style="color:var(--warning);">JUMLAH BAHAN</label><input type="number" id="fLogJumlahVal" placeholder="Contoh: 100" oninput="updateLogEffectNotice()"></div>
           <div class="form-group"><label>Satuan</label><input type="text" id="fLogSatuan" readonly></div>
         </div>
         <div class="calc-box" id="logEffectBox" style="border-left:3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis sinkron dengan Stok.</span></div>
       </div>
       <div id="fLogNonStockSection" style="display:none;"><div class="form-group"><label>Nama Alat / Kejadian</label><input type="text" id="fLogItemManual" placeholder="Grinder / Kompor"></div></div>
-      <div class="form-group"><label>Detail</label><textarea id="fLogDetail" rows="2"></textarea></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div>
+      <div class="form-group"><label>Detail Keterangan Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan alasan afkir / rusak / dial-in..."></textarea></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: KELOLA BARANG STOK -->
+  <!-- MODAL: KELOLA BARANG STOK (DROPDOWN MAKRO-MIKRO & KONVERSI) -->
   <div class="modal-backdrop" id="modalStok">
     <div class="modal">
-      <h3 id="modalStokTitle" style="margin-bottom:0.8rem;">Kelola Barang: Gudang & Divisi</h3>
+      <h3 id="modalStokTitle" style="margin-bottom:0.8rem;">Kelola Barang: Makro Gudang & Mikro Stasiun</h3>
       <input type="hidden" id="fStkEditId">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Tanggal</label><input type="date" id="fStkTanggal"></div>
         <div class="form-group"><label>Jam</label><input type="time" id="fStkJam"></div>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Divisi</label><select id="fStkDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
-        <div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori"></div>
+        <div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori" placeholder="Biji Kopi / Karbo / Protein"></div>
       </div>
-      <div style="display:grid; grid-template-columns:2fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama"></div>
-        <div class="form-group"><label>Satuan</label><input type="text" id="fStkSatuan"></div>
+      <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="Contoh: Kentang Shoestring"></div>
+      
+      <div class="section-title">1. Pengaturan Kemasan Pembelian (Makro) & Konversi Satuan</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+        <div class="form-group">
+          <label>Satuan Makro (Gudang)</label>
+          <select id="fStkSatuanMakro" onchange="calcModalStokPreview()">
+            <option value="pack">pack</option><option value="dus">dus</option><option value="bag">bag</option><option value="karton">karton</option><option value="krat">krat</option><option value="jerigen">jerigen</option><option value="bal">bal</option><option value="botol">botol</option><option value="can">can</option><option value="pail">pail</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Isi per Kemasan</label><input type="number" id="fStkIsiKonversi" value="2500" placeholder="2500 / 1000 / 12" oninput="calcModalStokPreview()"></div>
+        <div class="form-group">
+          <label>Satuan Mikro (Stasiun)</label>
+          <select id="fStkSatuanMikro" onchange="calcModalStokPreview()">
+            <option value="gram">gram</option><option value="liter">liter</option><option value="ml">ml</option><option value="pcs">pcs</option><option value="porsi">porsi</option><option value="pack">pack</option><option value="slice">slice</option>
+          </select>
+        </div>
       </div>
-      <div class="section-title">1. Gudang & Batas Minimum</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Batas Minimum</label><input type="text" id="fStkMin" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Stok Gudang (Makro)</label><input type="text" id="fStkGudang" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+
+      <div class="section-title">2. Stok Gudang (Makro Segel) & Batas Restock</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+        <div class="form-group"><label>Stok Gudang (Jumlah Makro / Segel)</label><input type="text" id="fStkGudang" value="5" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Batas Minimum Restock (Satuan Mikro)</label><input type="text" id="fStkMin" value="7500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
-      <div class="section-title">2. Persediaan Stasiun (Mikro)</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+
+      <div class="section-title">3. Persediaan Terbuka di Stasiun (Mikro)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+        <div class="form-group"><label>Tersedia Pagi (Mikro)</label><input type="text" id="fStkPagi" value="2500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S1 (Mikro)</label><input type="text" id="fStkRefillS1" value="2500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S2 (Mikro)</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
-      <div class="section-title">3. Opname & Waste</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Waste / Kalibrasi</label><input type="text" id="fStkWaste" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Opname S1</label><input type="text" id="fStkOpnameS1" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Opname S2</label><input type="text" id="fStkOpnameS2" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+
+      <div class="section-title">4. Sensus Opname & Waste/Spoil</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+        <div class="form-group"><label>Waste / Spoil (Mikro)</label><input type="text" id="fStkWaste" value="200" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="2200" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="1500" placeholder="Closing" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
+
       <div class="calc-box">
-        <div class="calc-row"><span>Persediaan Harian:</span><span id="fStkPreviewTersedia">0</span></div>
-        <div class="calc-row"><span>Sisa Nyata Opname:</span><span id="fStkPreviewSisa">0</span></div>
-        <div class="calc-row total"><span>Total Keseluruhan (Aset):</span><span id="fStkPreviewTotal">0</span></div>
-        <div class="calc-row" style="margin-top:0.25rem;"><span>Status:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div>
+        <div class="calc-row"><span>Rasio Konversi:</span><span id="fStkPreviewKonversi" style="color:var(--warning);">1 pack = 2.500 gram</span></div>
+        <div class="calc-row"><span>Persediaan Harian Stasiun:</span><span id="fStkPreviewTersedia">5.000 gram</span></div>
+        <div class="calc-row"><span>Estimasi Pemakaian Hari Ini:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);font-weight:700;">3.500 gram</span></div>
+        <div class="calc-row total"><span>Total Aset Fisik (Gudang + Stasiun):</span><span id="fStkPreviewTotal" style="color:var(--accent);">14.000 gram (setara 5 pack + 1.500g)</span></div>
+        <div class="calc-row" style="margin-top:0.25rem;"><span>Status Kesehatan:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div>
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button></div>
     </div>
   </div>
 
@@ -439,79 +490,79 @@
       <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem;">Form Serah Terima Kasir</h3>
       <input type="hidden" id="fStEditId">
       <input type="hidden" id="fStShiftNum" value="1">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Tanggal</label><input type="date" id="fStTanggal"></div>
         <div class="form-group"><label>Jam</label><input type="time" id="fStJam"></div>
       </div>
       <div class="form-group"><label>Tahap Shift</label><select id="fStTahap" onchange="toggleHandoverNotesLabel()"><option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option><option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option></select></div>
       <div class="section-title">1. Omset Penjualan Shift Ini</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Tunai</label><input type="text" id="fStTunai" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
-        <div class="form-group"><label>QRIS / EDC</label><input type="text" id="fStNonTunai" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
-        <div class="form-group"><label>Online</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+        <div class="form-group"><label>Tunai</label><input type="text" id="fStTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
+        <div class="form-group"><label>QRIS / EDC</label><input type="text" id="fStNonTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
+        <div class="form-group"><label>Online</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
       </div>
-      <div class="calc-row" style="background:var(--elevated); padding:0.4rem; border-radius:4px; font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div>
+      <div class="calc-row" style="background:var(--elevated);padding:0.4rem;border-radius:4px;font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div>
       <div class="section-title">2. Rekap Kas Laci (Imprest)</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Modal Laci Stay</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
-        <div class="form-group"><label>Kas Keluar</label><input type="text" id="fStPengeluaran" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+        <div class="form-group"><label>Modal Laci Stay</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
+        <div class="form-group"><label>Kas Keluar</label><input type="text" id="fStPengeluaran" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
       </div>
       <div class="form-group"><label>Keterangan Kasir</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es / lakban"></div>
       <div class="calc-box">
-        <div class="calc-row"><span>Uang Setoran Tunai Bersih:</span><span id="boxSetoranText" style="color:var(--warning); font-weight:700;">Rp 0</span></div>
-        <div class="calc-row"><span>Modal Tetap Tinggal di Laci:</span><span id="boxModalText" style="color:var(--success); font-weight:700;">Rp 110.000</span></div>
+        <div class="calc-row"><span>Uang Setoran Tunai Bersih:</span><span id="boxSetoranText" style="color:var(--warning);font-weight:700;">Rp 0</span></div>
+        <div class="calc-row"><span>Modal Tetap Tinggal di Laci:</span><span id="boxModalText" style="color:var(--success);font-weight:700;">Rp 110.000</span></div>
       </div>
       <div class="section-title" id="handoverNotesHeader">3. Catatan Operasional Shift 1 untuk Shift 2</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Prep Barista</label><textarea id="fStPrepBar" rows="2"></textarea></div>
         <div class="form-group"><label>Prep Kitchen</label><textarea id="fStPrepKit" rows="2"></textarea></div>
         <div class="form-group"><label>Prep Server</label><textarea id="fStPrepSrv" rows="2"></textarea></div>
       </div>
       <div class="form-group"><label>Catatan Kasir</label><textarea id="fStCatatan" rows="1"></textarea></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan</button></div>
     </div>
   </div>
 
   <!-- MODAL: DAILY REPORT (DENGAN 3 KOLOM BELANJA BESOK) -->
   <div class="modal-backdrop" id="modalDailyReport">
     <div class="modal">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; flex-wrap:wrap; gap:0.4rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;flex-wrap:wrap;gap:0.4rem;">
         <h3 id="modalDrTitle">Daily Report & Evaluasi Malam</h3>
         <button class="btn btn-solid" style="font-size:0.7rem;" onclick="autoPullDailyReportData()">⚡ Tarik Data Otomatis</button>
       </div>
       <input type="hidden" id="fDrEditId">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Tanggal</label><input type="date" id="fDrTanggal"></div>
         <div class="form-group"><label>Target Harian</label><input type="text" id="fDrTarget" value="5.000.000" oninput="formatLiveRupiahInput(this)"></div>
       </div>
       <div class="section-title">1. Omset Shift 1 + Shift 2</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Omset S1 (Sore)</label><input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Omset S2 (Closing)</label><input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Total EDC / QRIS</label><input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Total Online Food</label><input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)"></div>
       </div>
       <div class="section-title">2. Kas Kecil Keluar</div>
-      <div style="display:grid; grid-template-columns:1fr 2fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:0.5rem;">
         <div class="form-group"><label>Total Keluar</label><input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Rincian</label><input type="text" id="fDrKetKasKeluar"></div>
       </div>
       <div class="section-title" style="border-left-color:var(--warning);">3. 🛒 Kebutuhan Belanja & Prep Besok Pagi (Owner / Purchasing)</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Belanja Barista Besok</label><textarea id="fDrBelanjaBar" rows="3" placeholder="Susu, es batu..."></textarea></div>
-        <div class="form-group"><label>Belanja Kitchen Besok</label><textarea id="fDrBelanjaKit" rows="3" placeholder="Ayam, sayuran..."></textarea></div>
+        <div class="form-group"><label>Belanja Kitchen Besok</label><textarea id="fDrBelanjaKit" rows="3" placeholder="Kentang, ayam..."></textarea></div>
         <div class="form-group"><label>Belanja Server Besok</label><textarea id="fDrBelanjaSrv" rows="3" placeholder="Tisu, sedotan..."></textarea></div>
       </div>
-      <div class="section-title">4. QC, Waste & Evaluasi</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div class="section-title">4. QC, Waste, Spoil & Evaluasi</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Beans Kalibrasi</label><input type="text" id="fDrKalibrasi"></div>
-        <div class="form-group"><label>Ringkasan Waste</label><input type="text" id="fDrWaste"></div>
+        <div class="form-group"><label>Ringkasan Waste / Spoil</label><input type="text" id="fDrWaste"></div>
       </div>
       <div class="form-group"><label>Bahan Kritis Restock</label><textarea id="fDrRestockList" rows="2" readonly></textarea></div>
       <div class="form-group"><label>Evaluasi Closing</label><textarea id="fDrEvaluasi" rows="2"></textarea></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan</button></div>
     </div>
   </div>
 
@@ -520,16 +571,16 @@
     <div class="modal">
       <h3 id="modalTaskTitle" style="margin-bottom:0.8rem;">Tugas Checklist</h3>
       <input type="hidden" id="fTaskEditId">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Stasiun</label><select id="fTaskStation"><option value="BARISTA & KASIR">BARISTA & KASIR</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
         <div class="form-group"><label>Shift</label><select id="fTaskShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Fase</label><select id="fTaskFase"><option value="Prep">Prep</option><option value="Operasional">Operasional</option><option value="Closing">Closing</option></select></div>
         <div class="form-group"><label>Target Jam</label><input type="time" id="fTaskJam" value="08:30"></div>
       </div>
       <div class="form-group"><label>Tugas</label><input type="text" id="fTaskUraian"></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan</button></div>
     </div>
   </div>
 
@@ -538,67 +589,70 @@
     <div class="modal">
       <h3 id="modalMenuTitle" style="margin-bottom:0.8rem;">Menu Produk & HPP</h3>
       <input type="hidden" id="fMenuEditId">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Jenis</label><select id="fMenuJenis"><option value="Minuman">Minuman (Bar)</option><option value="Makanan">Makanan (Kitchen)</option></select></div>
         <div class="form-group"><label>Kategori</label><input type="text" id="fMenuKategori"></div>
       </div>
       <div class="form-group"><label>Nama Produk</label><input type="text" id="fMenuNama"></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>HPP (Rp)</label><input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Harga Jual (Rp)</label><input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: KARYAWAN & MATRIKS HAK AKSES 9 TAB -->
+  <!-- MODAL: KARYAWAN & MATRIKS HAK AKSES -->
   <div class="modal-backdrop" id="modalUser">
     <div class="modal">
       <h3 id="modalUserTitle" style="margin-bottom:0.8rem;">Kelola Karyawan & Matriks Hak Akses</h3>
       <input type="hidden" id="fUserEditId">
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Username</label><input type="text" id="fUserUsername"></div>
         <div class="form-group"><label>PIN (4 Digit)</label><input type="password" id="fUserPin" placeholder="1234" maxlength="4"></div>
       </div>
       <div class="form-group"><label>Nama Lengkap</label><input type="text" id="fUserNamaLengkap"></div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
         <div class="form-group"><label>Role</label><select id="fUserRole" onchange="syncUserLevel()"><option value="BARISTA">BARISTA (L1)</option><option value="KITCHEN">KITCHEN (L1)</option><option value="SERVER">SERVER (L1)</option><option value="HEAD">HEAD (L2)</option><option value="PURCHASING">PURCHASING (L3)</option><option value="HRD">HRD (L3)</option><option value="MANAGER">MANAGER (L4)</option><option value="OWNER">OWNER (L5)</option><option value="RAJA_UTAMA">RAJA_UTAMA (L6)</option></select></div>
         <div class="form-group"><label>Divisi</label><select id="fUserDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
       </div>
-      <div class="section-title" style="border-left-color:var(--warning);">PILIH TAB YANG BOLEH DIAKSES ANGGOTA INI:</div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; font-size:0.75rem; background:var(--elevated); padding:0.6rem; border-radius:6px; border:1px solid var(--border);">
-        <label><input type="checkbox" id="chkTab_dashboard"> 📊 Dashboard</label>
-        <label><input type="checkbox" id="chkTab_kalender"> 📅 Kalender & Roster</label>
-        <label><input type="checkbox" id="chkTab_checklist"> ✅ Checklist Stasiun</label>
-        <label><input type="checkbox" id="chkTab_stok"> 📦 Inventaris Stok</label>
-        <label><input type="checkbox" id="chkTab_serah_terima"> 💵 Kasir & Serah Terima</label>
-        <label><input type="checkbox" id="chkTab_daily_report"> 📋 Daily Report</label>
-        <label><input type="checkbox" id="chkTab_menu"> ☕ Menu & HPP</label>
-        <label><input type="checkbox" id="chkTab_perusahaan"> 🏢 Data Perusahaan</label>
-        <label><input type="checkbox" id="chkTab_info_sistem"> ℹ️ Info & Database</label>
-      </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem; margin-top:1rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan</button></div>
+      <div class="section-title" style="border-left-color:var(--warning);">PILIH TAB & TENTUKAN HAK AKSES:</div>
+      <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.75rem;background:var(--elevated);padding:0.6rem;border-radius:6px;border:1px solid var(--border);" id="boxTabPermissionsMatrix"></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.4rem;margin-top:1rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan Karyawan</button></div>
     </div>
   </div>
 
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwSWClfnV8pp8xSlh1d6U5WdP0tsPS76JZxjL1PCu-T-KxecP_Lbikcy61TSTGMGf8E/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbycxvhHIIBWBqnZpe_DRxWK-FYdoAtu7u-wuNo9ck6tjHsHwv_RBMmfdCIe-1twGwni/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
     let API_URL = localStorage.getItem(STORAGE_KEY_URL) || HARDCODED_API_URL;
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
-    let metaInfo = { sheet_name: "HOLLO COFFEE DATABASE", sheet_url: "#", sheet_id: "Terdeteksi dari Script" };
+    let metaInfo = { sheet_name: "HOLLO OPERASIONAL", sheet_url: "#", sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" };
 
     let calDate = new Date();
     let popCalDate = new Date();
+    let pickerYear = new Date().getFullYear();
     let selectedTrackingDate = new Date().toISOString().split('T')[0];
     let activeInspectDate = new Date().toISOString().split('T')[0];
     let chartSalesInst = null;
     let chartChecklistInst = null;
+
+    const TAB_DEFINITIONS = [
+      { id: "dashboard", label: "📊 Dashboard" },
+      { id: "kalender", label: "📅 Kalender & Roster" },
+      { id: "checklist", label: "✅ Checklist Stasiun" },
+      { id: "stok", label: "📦 Inventaris Stok" },
+      { id: "serah-terima", label: "💵 Kasir & Serah Terima" },
+      { id: "daily-report", label: "📋 Daily Report" },
+      { id: "menu", label: "☕ Menu & HPP" },
+      { id: "perusahaan", label: "🏢 Data Perusahaan" },
+      { id: "info-sistem", label: "ℹ️ Info & Database" }
+    ];
 
     function cleanMoney(v) {
       if (v === null || v === undefined || v === '') return 0;
@@ -637,7 +691,7 @@
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
 
       if (u === "boy" && p === "0000") {
-        currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA", akses_tabs: "dashboard,kalender,checklist,stok,serah-terima,daily-report,menu,perusahaan,info-sistem" };
+        currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA", akses_tabs: "dashboard:edit,kalender:edit,checklist:edit,stok:edit,serah-terima:edit,daily-report:edit,menu:edit,perusahaan:edit,info-sistem:edit" };
         localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
         unlockPortal();
         showToast("Selamat datang, Superadmin!");
@@ -670,44 +724,47 @@
       startLiveClock();
     }
 
+    function getTabPermission(tabId) {
+      if (!currentUser) return { active: false, canEdit: false };
+      if (currentUser.level === 6 || currentUser.role === "RAJA_UTAMA") return { active: true, canEdit: true };
+
+      const allowedStr = currentUser.akses_tabs || "";
+      if (!allowedStr || allowedStr.trim() === "") {
+        if (tabId === "dashboard") return { active: currentUser.level >= 2, canEdit: false };
+        if (tabId === "perusahaan") return { active: currentUser.level >= 4, canEdit: currentUser.level >= 5 };
+        if (tabId === "menu") return { active: currentUser.level >= 2, canEdit: currentUser.level >= 3 };
+        if (tabId === "serah-terima" || tabId === "daily-report") {
+          const isBar = (currentUser.divisi === "BARISTA" || currentUser.level >= 2);
+          return { active: isBar, canEdit: isBar };
+        }
+        return { active: true, canEdit: true };
+      }
+
+      const parts = allowedStr.split(',').map(s => s.trim());
+      for (let p of parts) {
+        if (p === tabId || p.startsWith(tabId + ":")) {
+          const mode = p.includes(":") ? p.split(":")[1] : "edit";
+          return { active: true, canEdit: (mode === "edit") };
+        }
+      }
+      return { active: false, canEdit: false };
+    }
+
     function applyDynamicPermissions() {
       const lvl = currentUser ? currentUser.level : 1;
       const div = currentUser ? currentUser.divisi : "BARISTA";
-      const allowedStr = (currentUser && currentUser.akses_tabs) ? currentUser.akses_tabs : "";
-
-      const tabsList = [
-        { id: "dashboard", navId: "tabDashboard" },
-        { id: "kalender", navId: "tabKalender" },
-        { id: "checklist", navId: "tabChecklist" },
-        { id: "stok", navId: "tabStok" },
-        { id: "serah-terima", navId: "tabSerahTerima" },
-        { id: "daily-report", navId: "tabDailyReport" },
-        { id: "menu", navId: "tabMenu" },
-        { id: "perusahaan", navId: "tabPerusahaan" },
-        { id: "info-sistem", navId: "tabInfoSistem" }
-      ];
 
       let firstAllowed = null;
 
-      tabsList.forEach(t => {
-        let isAllowed = false;
-        if (allowedStr && allowedStr.trim() !== "") {
-          isAllowed = allowedStr.includes(t.id);
-        } else {
-          if (t.id === "dashboard") isAllowed = (lvl >= 2);
-          else if (t.id === "perusahaan") isAllowed = (lvl >= 4);
-          else if (t.id === "menu") isAllowed = (lvl >= 2);
-          else if (t.id === "serah-terima" || t.id === "daily-report") isAllowed = (lvl >= 2 || div === "BARISTA");
-          else isAllowed = true;
-        }
-
-        const el = document.getElementById(t.navId);
-        if (el) el.style.display = isAllowed ? "block" : "none";
-        if (isAllowed && !firstAllowed) firstAllowed = t.id;
+      TAB_DEFINITIONS.forEach(t => {
+        const perm = getTabPermission(t.id);
+        const navEl = document.getElementById("tab" + capitalize(t.id.replace(/-([a-z])/g, g => g[1].toUpperCase())));
+        if (navEl) navEl.style.display = perm.active ? "block" : "none";
+        if (perm.active && !firstAllowed) firstAllowed = t.id;
       });
 
       const topInfoBtn = document.getElementById("btnTopInfo");
-      if (topInfoBtn) topInfoBtn.style.display = (allowedStr.includes("info-sistem") || lvl >= 4) ? "inline-flex" : "none";
+      if (topInfoBtn) topInfoBtn.style.display = (getTabPermission("info-sistem").active) ? "inline-flex" : "none";
 
       if (firstAllowed) switchView(firstAllowed);
 
@@ -715,11 +772,27 @@
       if (lvl === 1) { fSel.value = div; fSel.disabled = true; }
       else { fSel.disabled = false; }
 
-      const isSuper = (lvl >= 4);
-      document.getElementById("btnAddStokGlobal").style.display = isSuper ? "inline-flex" : "none";
-      document.getElementById("btnAddChecklistTask").style.display = (lvl >= 2) ? "inline-flex" : "none";
-      document.getElementById("btnAddRosterGlobal").style.display = (lvl >= 3) ? "inline-flex" : "none";
+      const permStok = getTabPermission("stok");
+      document.getElementById("btnAddStokGlobal").style.display = permStok.canEdit ? "inline-flex" : "none";
+
+      const permChk = getTabPermission("checklist");
+      document.getElementById("btnAddChecklistTask").style.display = permChk.canEdit ? "inline-flex" : "none";
+
+      const permKal = getTabPermission("kalender");
+      document.getElementById("btnAddRosterGlobal").style.display = permKal.canEdit ? "inline-flex" : "none";
+      document.getElementById("btnAddNewLog").style.display = permKal.canEdit ? "inline-flex" : "none";
+
+      const permMnu = getTabPermission("menu");
+      document.getElementById("btnAddMenuGlobal").style.display = permMnu.canEdit ? "inline-flex" : "none";
+
+      const permRep = getTabPermission("daily-report");
+      document.getElementById("btnOpenNewReport").style.display = permRep.canEdit ? "inline-flex" : "none";
+
+      const permST = getTabPermission("serah-terima");
+      document.getElementById("handoverActionWrap").style.display = permST.canEdit ? "flex" : "none";
     }
+
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
     function logout() { localStorage.removeItem(STORAGE_KEY_USER); currentUser = null; document.getElementById("gatekeeper").style.display = "flex"; }
 
@@ -810,19 +883,20 @@
       const mNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
       document.getElementById("popCalMonthTitle").innerText = `${mNames[m]} ${y}`;
       const grid = document.getElementById("popCalendarGrid");
-      grid.innerHTML = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(d => `<div style="font-size:0.65rem; font-weight:700; color:var(--text-muted);">${d}</div>`).join('');
+      grid.innerHTML = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(d => `<div style="font-size:0.65rem;font-weight:700;color:var(--text-muted);">${d}</div>`).join('');
 
       const first = new Date(y, m, 1).getDay();
       const totalDays = new Date(y, m + 1, 0).getDate();
       for (let i = 0; i < first; i++) grid.innerHTML += `<div></div>`;
 
       for (let d = 1; d <= totalDays; d++) {
-        const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${dayString(d)}`;
         const isSel = (dateStr === selectedTrackingDate);
         const hasData = (localData.SERAH_TERIMA || []).some(h => h.tanggal === dateStr);
         grid.innerHTML += `<div class="mini-cal-cell ${isSel ? 'selected' : ''}" onclick="selectPopCalDate('${dateStr}')"><span>${d}</span>${hasData ? '<div class="mini-cal-dot"></div>' : ''}</div>`;
       }
     }
+    function dayString(d) { return String(d).padStart(2,'0'); }
     function resetDashboardDateToToday() { selectTodayInPopCal(); }
 
     function renderDashboard() {
@@ -845,11 +919,13 @@
 
       const restock = (localData.STOK || []).filter(s => {
         const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+        const konv = cleanMoney(s.isi_konversi) || 1;
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
         const waste = wLogs.length ? wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
         const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
         const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikro - waste));
-        return (gudang + sisa) <= cleanMoney(s.min_stok);
+        const totalAset = (gudang * konv) + sisa;
+        return totalAset <= cleanMoney(s.min_stok);
       }).length;
       document.getElementById("kpiRestockCount").innerText = `${restock} Item`;
 
@@ -898,6 +974,7 @@
       const container = document.getElementById("stationGrid");
       const lvl = currentUser ? currentUser.level : 1;
       const uDiv = currentUser ? currentUser.divisi : "BARISTA";
+      const perm = getTabPermission("checklist");
 
       let stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
       if (lvl === 1) {
@@ -913,20 +990,20 @@
         const tasks = (localData.CHECKLIST || []).filter(c => c.station === st);
         return `
           <div class="card">
-            <div style="font-size:0.82rem; font-weight:700; border-bottom:1px solid var(--border-subtle); padding-bottom:0.45rem; display:flex; justify-content:space-between; align-items:center;">
+            <div style="font-size:0.82rem;font-weight:700;border-bottom:1px solid var(--border-subtle);padding-bottom:0.45rem;display:flex;justify-content:space-between;align-items:center;">
               <span>Station ${st}</span><span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span>
             </div>
             ${tasks.map(t => `
-              <div style="display:flex; align-items:flex-start; gap:0.65rem; padding:0.45rem 0; border-bottom:1px solid var(--border-subtle);">
-                <input type="checkbox" style="margin-top:0.15rem; width:17px; height:17px;" ${t.status==='Selesai'?'checked':''} onchange="toggleTaskState('${t.task_id}', this.checked)">
-                <div style="flex:1; font-size:0.8rem;">
-                  <div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div>
-                  <div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.15rem;">Shift ${t.shift} • Target ${t.jam_target} • PIC: <strong>${t.petugas || '-'}</strong> ${t.jam_selesai ? '('+t.jam_selesai+')' : ''}</div>
+              <div style="display:flex;align-items:flex-start;gap:0.65rem;padding:0.45rem 0;border-bottom:1px solid var(--border-subtle);">
+                <input type="checkbox" style="margin-top:0.15rem;width:17px;height:17px;" ${t.status==='Selesai'?'checked':''} ${!perm.canEdit ? 'disabled' : ''} onchange="toggleTaskState('${t.task_id}', this.checked)">
+                <div style="flex:1;font-size:0.8rem;">
+                  <div style="${t.status==='Selesai'?'text-decoration:line-through;color:var(--text-muted);':''}">${t.tugas}</div>
+                  <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.15rem;">Shift ${t.shift} • Target ${t.jam_target} • PIC: <strong>${t.petugas || '-'}</strong> ${t.jam_selesai ? '('+t.jam_selesai+')' : ''}</div>
                 </div>
-                ${currentUser && currentUser.level >= 2 ? `
-                  <div style="display:flex; gap:0.2rem;">
-                    <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editTaskModal('${t.task_id}')">Edit</button>
-                    <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button>
+                ${perm.canEdit && lvl >= 2 ? `
+                  <div style="display:flex;gap:0.2rem;">
+                    <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="editTaskModal('${t.task_id}')">Edit</button>
+                    <button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button>
                   </div>
                 ` : ''}
               </div>
@@ -964,38 +1041,50 @@
     }
     async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); await fetchAllData(); } }
 
-    // 3. INVENTARIS STOK
+    // 3. INVENTARIS STOK (MAKRO-MIKRO STANDAR KITCHEN)
     function renderStokTable() {
       const filter = document.getElementById("stokFilter").value;
       const data = (filter === "SEMUA") ? (localData.STOK || []) : (localData.STOK || []).filter(s => s.divisi === filter);
+      const perm = getTabPermission("stok");
 
       document.getElementById("stokTableBody").innerHTML = data.map(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = cleanMoney(s.min_stok);
+        const gudang = cleanMoney(s.stok_gudang);
+        const op1 = cleanMoney(s.opname_s1);
+        const op2 = cleanMoney(s.opname_s2);
+        const min = cleanMoney(s.min_stok);
+        const konv = cleanMoney(s.isi_konversi) || 1;
+        const satMakro = s.satuan_makro || 'pack';
+        const satMikro = s.satuan_mikro || s.satuan || 'gram';
+
         const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
 
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
         const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
         const waste = totalW > 0 ? totalW : cleanMoney(s.waste_mikro);
 
         const sisaDivisi = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
         const pemakaian = Math.max(0, mikroT - sisaDivisi);
-        const totalAset = gudang + sisaDivisi;
+        const totalAset = (gudang * konv) + sisaDivisi;
         const status = totalAset <= min ? "RESTOCK" : "AMAN";
 
         return `
           <tr>
-            <td><code>${s.item_id}</code></td><td>${s.divisi}</td><td><strong>${s.nama_barang}</strong></td><td>${s.satuan}</td>
-            <td style="font-weight:700;">${gudang.toLocaleString('id-ID')}</td>
-            <td style="font-weight:700; color:var(--success);">${sisaDivisi.toLocaleString('id-ID')}</td>
-            <td style="color:var(--danger); font-weight:700;">${waste > 0 ? waste.toLocaleString('id-ID') : '-'} ${totalW > 0 ? '<span style="font-size:0.6rem; color:var(--warning); display:block;">(Dari Log)</span>' : ''}</td>
-            <td><input type="text" style="width:65px; padding:0.2rem;" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
-            <td><input type="text" style="width:65px; padding:0.2rem;" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
-            <td style="font-weight:700; color:var(--warning);">${pemakaian.toLocaleString('id-ID')}</td>
-            <td><strong>${totalAset.toLocaleString('id-ID')}</strong></td><td>${min.toLocaleString('id-ID')}</td>
+            <td><code>${s.item_id}</code></td><td>${s.divisi}</td><td><strong>${s.nama_barang}</strong></td>
+            <td>${satMakro}</td><td style="color:var(--warning);font-weight:700;">${konv.toLocaleString('id-ID')} ${satMikro}</td><td>${satMikro}</td>
+            <td style="font-weight:700;">${gudang.toLocaleString('id-ID')} ${satMakro}</td>
+            <td style="font-weight:700;color:var(--success);">${sisaDivisi.toLocaleString('id-ID')} ${satMikro}</td>
+            <td style="color:var(--danger);font-weight:700;">${waste > 0 ? waste.toLocaleString('id-ID') : '-'} ${totalW > 0 ? '<span style="font-size:0.6rem;color:var(--warning);display:block;">(Dari Log)</span>' : ''}</td>
+            <td><input type="text" style="width:65px;padding:0.2rem;" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" ${!perm.canEdit ? 'disabled' : ''} onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
+            <td><input type="text" style="width:65px;padding:0.2rem;" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" ${!perm.canEdit ? 'disabled' : ''} onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
+            <td style="font-weight:700;color:var(--warning);">${pemakaian.toLocaleString('id-ID')} ${satMikro}</td>
+            <td><strong>${totalAset.toLocaleString('id-ID')} ${satMikro}</strong><div style="font-size:0.65rem;color:var(--text-muted);">${gudang} ${satMakro} + ${sisaDivisi} ${satMikro}</div></td>
+            <td>${min.toLocaleString('id-ID')} ${satMikro}</td>
             <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span></td>
             <td>
-              <button class="btn" onclick="editStokModal('${s.item_id}')">Edit</button>
-              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteStokItem('${s.item_id}')">Hapus</button>` : ''}
+              ${perm.canEdit ? `
+                <button class="btn" onclick="editStokModal('${s.item_id}')">Edit</button>
+                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteStokItem('${s.item_id}')">Hapus</button>` : ''}
+              ` : '<span style="color:var(--text-muted);font-size:0.7rem;">Lihat</span>'}
             </td>
           </tr>
         `;
@@ -1010,29 +1099,46 @@
     }
 
     function calcModalStokPreview() {
-      const min = cleanMoney(document.getElementById("fStkMin").value), gudang = cleanMoney(document.getElementById("fStkGudang").value);
-      const pagi = cleanMoney(document.getElementById("fStkPagi").value), r1 = cleanMoney(document.getElementById("fStkRefillS1").value), r2 = cleanMoney(document.getElementById("fStkRefillS2").value);
+      const min = cleanMoney(document.getElementById("fStkMin").value);
+      const gudang = cleanMoney(document.getElementById("fStkGudang").value);
+      const konv = cleanMoney(document.getElementById("fStkIsiKonversi").value) || 1;
+      const pagi = cleanMoney(document.getElementById("fStkPagi").value);
+      const r1 = cleanMoney(document.getElementById("fStkRefillS1").value);
+      const r2 = cleanMoney(document.getElementById("fStkRefillS2").value);
       const waste = cleanMoney(document.getElementById("fStkWaste").value);
-      const op1 = cleanMoney(document.getElementById("fStkOpnameS1").value), op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
+      const op1 = cleanMoney(document.getElementById("fStkOpnameS1").value);
+      const op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
+
+      const sMakro = document.getElementById("fStkSatuanMakro").value;
+      const sMikro = document.getElementById("fStkSatuanMikro").value;
+
       const totalT = pagi + r1 + r2;
       const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, totalT - waste));
-      const pemakaian = Math.max(0, totalT - sisa), total = gudang + sisa;
+      const pemakaian = Math.max(0, totalT - sisa);
+      const totalAset = (gudang * konv) + sisa;
 
-      document.getElementById("fStkPreviewTersedia").innerText = totalT.toLocaleString('id-ID');
-      document.getElementById("fStkPreviewSisa").innerText = sisa.toLocaleString('id-ID');
-      document.getElementById("fStkPreviewTotal").innerText = total.toLocaleString('id-ID');
+      document.getElementById("fStkPreviewKonversi").innerText = `1 ${sMakro} = ${konv.toLocaleString('id-ID')} ${sMikro}`;
+      document.getElementById("fStkPreviewTersedia").innerText = `${totalT.toLocaleString('id-ID')} ${sMikro}`;
+      document.getElementById("fStkPreviewPemakaian").innerText = `${pemakaian.toLocaleString('id-ID')} ${sMikro}`;
+      document.getElementById("fStkPreviewTotal").innerText = `${totalAset.toLocaleString('id-ID')} ${sMikro} (setara ${gudang} ${sMakro} + ${sisa} ${sMikro})`;
+
       const tag = document.getElementById("fStkPreviewStatus");
-      tag.className = (total <= min) ? "tag tag-restock" : "tag tag-safe";
-      tag.innerText = (total <= min) ? `RESTOCK (Kurang ${Math.abs(total - min)})` : `AMAN (Surplus +${total - min})`;
+      tag.className = (totalAset <= min) ? "tag tag-restock" : "tag tag-safe";
+      tag.innerText = (totalAset <= min) ? `RESTOCK (Kurang ${Math.abs(totalAset - min)} ${sMikro})` : `AMAN (Surplus +${totalAset - min} ${sMikro})`;
     }
 
     function openNewStokModal() {
       document.getElementById("modalStokTitle").innerText = "Tambah Barang"; document.getElementById("fStkEditId").value = "";
       document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
-      document.getElementById("fStkNama").value = ""; document.getElementById("fStkSatuan").value = "";
-      document.getElementById("fStkMin").value = "700"; document.getElementById("fStkGudang").value = "1.000"; document.getElementById("fStkPagi").value = "700";
+      document.getElementById("fStkNama").value = "";
+      document.getElementById("fStkSatuanMakro").value = "pack";
+      document.getElementById("fStkIsiKonversi").value = "2500";
+      document.getElementById("fStkSatuanMikro").value = "gram";
+      document.getElementById("fStkGudang").value = "5";
+      document.getElementById("fStkMin").value = "7500";
+      document.getElementById("fStkPagi").value = "2500";
       document.getElementById("fStkRefillS1").value = "0"; document.getElementById("fStkRefillS2").value = "0"; document.getElementById("fStkWaste").value = "0";
-      document.getElementById("fStkOpnameS1").value = "300"; document.getElementById("fStkOpnameS2").value = "150";
+      document.getElementById("fStkOpnameS1").value = "2200"; document.getElementById("fStkOpnameS2").value = "1500";
       calcModalStokPreview(); openModal('modalStok');
     }
 
@@ -1041,12 +1147,18 @@
       document.getElementById("modalStokTitle").innerText = "Edit Barang: " + id; document.getElementById("fStkEditId").value = id;
       document.getElementById("fStkTanggal").value = item.tgl_update || new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = item.jam_update || "08:30";
       document.getElementById("fStkDivisi").value = item.divisi; document.getElementById("fStkKategori").value = item.kategori;
-      document.getElementById("fStkNama").value = item.nama_barang; document.getElementById("fStkSatuan").value = item.satuan;
-      document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID'); document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID');
-      document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID'); document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID');
+      document.getElementById("fStkNama").value = item.nama_barang;
+      document.getElementById("fStkSatuanMakro").value = item.satuan_makro || "pack";
+      document.getElementById("fStkIsiKonversi").value = cleanMoney(item.isi_konversi) || 1;
+      document.getElementById("fStkSatuanMikro").value = item.satuan_mikro || item.satuan || "gram";
+
+      document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID');
+      document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID');
+      document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID');
+      document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID');
       document.getElementById("fStkRefillS2").value = cleanMoney(item.refill_s2).toLocaleString('id-ID');
       
-      const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+      const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
       const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
       document.getElementById("fStkWaste").value = (totalW > 0 ? totalW : cleanMoney(item.waste_mikro)).toLocaleString('id-ID');
 
@@ -1059,10 +1171,19 @@
       const editId = document.getElementById("fStkEditId").value, div = document.getElementById("fStkDivisi").value;
       const prefix = div === "BARISTA" ? "BAR" : (div === "KITCHEN" ? "KIT" : "SRV");
       const payload = {
-        divisi: div, kategori: document.getElementById("fStkKategori").value, nama_barang: document.getElementById("fStkNama").value, satuan: document.getElementById("fStkSatuan").value,
-        min_stok: cleanMoney(document.getElementById("fStkMin").value), stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
-        tersedia_pagi: cleanMoney(document.getElementById("fStkPagi").value), refill_s1: cleanMoney(document.getElementById("fStkRefillS1").value), refill_s2: cleanMoney(document.getElementById("fStkRefillS2").value),
-        waste_mikro: cleanMoney(document.getElementById("fStkWaste").value), opname_s1: cleanMoney(document.getElementById("fStkOpnameS1").value), opname_s2: cleanMoney(document.getElementById("fStkOpnameS2").value),
+        divisi: div, kategori: document.getElementById("fStkKategori").value, nama_barang: document.getElementById("fStkNama").value,
+        satuan_makro: document.getElementById("fStkSatuanMakro").value,
+        isi_konversi: cleanMoney(document.getElementById("fStkIsiKonversi").value) || 1,
+        satuan_mikro: document.getElementById("fStkSatuanMikro").value,
+        satuan: document.getElementById("fStkSatuanMikro").value,
+        min_stok: cleanMoney(document.getElementById("fStkMin").value),
+        stok_gudang: cleanMoney(document.getElementById("fStkGudang").value),
+        tersedia_pagi: cleanMoney(document.getElementById("fStkPagi").value),
+        refill_s1: cleanMoney(document.getElementById("fStkRefillS1").value),
+        refill_s2: cleanMoney(document.getElementById("fStkRefillS2").value),
+        waste_mikro: cleanMoney(document.getElementById("fStkWaste").value),
+        opname_s1: cleanMoney(document.getElementById("fStkOpnameS1").value),
+        opname_s2: cleanMoney(document.getElementById("fStkOpnameS2").value),
         tgl_update: document.getElementById("fStkTanggal").value, jam_update: document.getElementById("fStkJam").value
       };
       closeModal('modalStok'); showToast("Menyimpan stok...");
@@ -1152,6 +1273,7 @@
     async function deleteHandoverItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id }); await fetchAllData(); } }
 
     function renderHandoverTable() {
+      const perm = getTabPermission("serah-terima");
       document.getElementById("stTableBody").innerHTML = (localData.SERAH_TERIMA || []).map(st => {
         const isS1 = String(st.tahap).includes("Shift 1") || String(st.shift) === "1";
         const badge = isS1 ? `<span class="tag tag-safe">SHIFT 1 (SORE)</span>` : `<span class="tag tag-restock">SHIFT 2 (CLOSING)</span>`;
@@ -1161,12 +1283,14 @@
             <td><strong>${formatRupiah(st.total_omset_shift || (cleanMoney(st.penjualan_tunai)+cleanMoney(st.non_tunai_qris)+cleanMoney(st.online_food)))}</strong></td>
             <td>${formatRupiah(st.penjualan_tunai)}</td><td>${formatRupiah(st.non_tunai_qris)}</td><td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
             <td style="font-size:0.72rem;">${st.keterangan_pengeluaran||'-'}</td>
-            <td style="font-weight:700; color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
-            <td style="font-weight:700; color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
+            <td style="font-weight:700;color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
+            <td style="font-weight:700;color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
             <td style="font-size:0.72rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
             <td>
-              <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
-              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>` : ''}
+              ${perm.canEdit ? `
+                <button class="btn" style="padding:0.2rem 0.4rem;font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
+                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.2rem 0.4rem;font-size:0.7rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>` : ''}
+              ` : '<span style="color:var(--text-muted);font-size:0.7rem;">Lihat</span>'}
             </td>
           </tr>
         `;
@@ -1211,14 +1335,18 @@
       document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
-      const wLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi"));
+      const wLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi"));
       document.getElementById("fDrWaste").value = wLogs.length ? wLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada waste";
       document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
 
       const restockList = (localData.STOK || []).filter(s => {
-        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
+        const gudang = cleanMoney(s.stok_gudang);
+        const op1 = cleanMoney(s.opname_s1);
+        const op2 = cleanMoney(s.opname_s2);
+        const konv = cleanMoney(s.isi_konversi) || 1;
+        const total = (gudang * konv) + (op2 > 0 ? op2 : (op1 > 0 ? op1 : cleanMoney(s.tersedia_pagi)));
         return total <= cleanMoney(s.min_stok);
-      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || 'Semua stok aman.';
+      }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || 'Semua stok aman.';
       document.getElementById("fDrRestockList").value = restockList;
       if(evalText.length) document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
       showToast("Data Shift 1 & Shift 2 berhasil ditarik!");
@@ -1244,17 +1372,20 @@
     async function deleteDailyReportItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id }); await fetchAllData(); } }
 
     function renderDailyReportTable() {
+      const perm = getTabPermission("daily-report");
       document.getElementById("drTableBody").innerHTML = (localData.DAILY_REPORT || []).map(dr => `
         <tr>
           <td><code>${dr.report_id}</code></td><td>${dr.tanggal}</td><td><strong>${formatRupiah(dr.total_omset)}</strong></td>
           <td>${formatRupiah(dr.qris_edc)}</td><td>${formatRupiah(dr.target_harian)}</td>
           <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td><td>${formatRupiah(dr.total_kas_keluar)}</td>
-          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_barista||'-'}</td>
-          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_kitchen||'-'}</td>
-          <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_server||'-'}</td>
+          <td style="font-size:0.72rem;color:var(--warning);">${dr.belanja_barista||'-'}</td>
+          <td style="font-size:0.72rem;color:var(--warning);">${dr.belanja_kitchen||'-'}</td>
+          <td style="font-size:0.72rem;color:var(--warning);">${dr.belanja_server||'-'}</td>
           <td>
-            <button class="btn" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
-            ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.2rem 0.4rem; font-size:0.7rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>` : ''}
+            ${perm.canEdit ? `
+              <button class="btn" style="padding:0.2rem 0.4rem;font-size:0.7rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
+              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.2rem 0.4rem;font-size:0.7rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>` : ''}
+            ` : '<span style="color:var(--text-muted);font-size:0.7rem;">Lihat</span>'}
           </td>
         </tr>
       `).join('');
@@ -1277,12 +1408,16 @@
       const offStaff = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === todayStr);
-      const wItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste';
+      const wItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste / spoil';
 
       const restockItems = (localData.STOK || []).filter(s => {
-        const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
+        const gudang = cleanMoney(s.stok_gudang);
+        const op1 = cleanMoney(s.opname_s1);
+        const op2 = cleanMoney(s.opname_s2);
+        const konv = cleanMoney(s.isi_konversi) || 1;
+        const total = (gudang * konv) + (op2 > 0 ? op2 : (op1 > 0 ? op1 : cleanMoney(s.tersedia_pagi)));
         return total <= cleanMoney(s.min_stok);
-      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || '• Semua stok aman';
+      }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || '• Semua stok aman';
 
       const msg = 
         `*LAPORAN OPERASIONAL HARIAN — HOLLO COFFEE*\n` +
@@ -1308,7 +1443,7 @@
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
         `*5. ROSTER TIM:*\n• S1: ${s1Staff}\n• S2: ${s2Staff}\n• Off: ${offStaff}\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*6. WASTE & KALIBRASI:*\n${wItems}\n\n` +
+        `*6. QC, WASTE & SPOIL:*\n${wItems}\n\n` +
         `*7. EVALUASI:* ${dr.evaluasi_harian || 'Operasional lancar.'}\n\n` +
         `_Laporan resmi sah terkirim melalui Sistem Terintegrasi Kafe._`;
 
@@ -1318,15 +1453,15 @@
     // 6. INFO & DATABASE (HANYA BOY LEVEL 6)
     function renderInfoSistemView() {
       document.getElementById("infoWebhookUrl").innerText = API_URL;
-      document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO COFFEE DATABASE";
-      document.getElementById("infoSheetId").innerText = metaInfo.sheet_id || "Script Aktif";
+      document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO OPERASIONAL";
+      document.getElementById("infoSheetId").innerText = metaInfo.sheet_id || "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q";
       
       const isSuper = (currentUser && currentUser.level === 6);
       const wSheet = document.getElementById("boxSheetActionWrap");
       if (isSuper) {
-        wSheet.innerHTML = `<a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/u/0/'}" target="_blank" class="btn btn-solid" style="width:100%; justify-content:center; text-decoration:none;">🔗 Buka Google Sheet di Tab Baru ↗</a>`;
+        wSheet.innerHTML = `<a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/u/0/'}" target="_blank" class="btn btn-solid" style="width:100%;justify-content:center;text-decoration:none;">🔗 Buka Google Sheet di Tab Baru ↗</a>`;
       } else {
-        wSheet.innerHTML = `<div style="background:var(--bg); padding:0.5rem; border-radius:4px; font-size:0.75rem; color:var(--text-muted); text-align:center;">🔒 File Database Terkunci Khusus Owner / Superadmin</div>`;
+        wSheet.innerHTML = `<div style="background:var(--bg);padding:0.5rem;border-radius:4px;font-size:0.75rem;color:var(--text-muted);text-align:center;">🔒 File Database Terkunci Khusus Owner / Superadmin</div>`;
       }
 
       const wHook = document.getElementById("boxWebhookActionWrap");
@@ -1368,28 +1503,65 @@
       } catch (e) { alert("❌ GAGAL MENGHUBUNGI APPS SCRIPT!\nPastikan Webhook URL benar dan diset 'Anyone'."); }
     }
 
-    // 7. KALENDER OPERASIONAL
+    // 7. KALENDER OPERASIONAL DENGAN PEMILIH BULAN CEPAT
     function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
+    function jumpToCurrentMonth() {
+      calDate = new Date();
+      pickerYear = calDate.getFullYear();
+      closeModal('modalMonthPicker');
+      renderCalendar();
+    }
+
+    function openMonthPickerModal() {
+      pickerYear = calDate.getFullYear();
+      document.getElementById("txtPickerYear").innerText = pickerYear;
+      renderMonthPickerGrid();
+      openModal('modalMonthPicker');
+    }
+
+    function changePickerYear(delta) {
+      pickerYear += delta;
+      document.getElementById("txtPickerYear").innerText = pickerYear;
+      renderMonthPickerGrid();
+    }
+
+    function selectPickerMonth(mIndex) {
+      calDate.setFullYear(pickerYear);
+      calDate.setMonth(mIndex);
+      closeModal('modalMonthPicker');
+      renderCalendar();
+    }
+
+    function renderMonthPickerGrid() {
+      const mNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+      const grid = document.getElementById("gridMonthButtons");
+      const curM = (calDate.getFullYear() === pickerYear) ? calDate.getMonth() : -1;
+      grid.innerHTML = mNames.map((name, idx) => `
+        <button class="month-picker-btn ${curM === idx ? 'active' : ''}" onclick="selectPickerMonth(${idx})">
+          ${name}
+        </button>
+      `).join('');
+    }
+
     function renderCalendar() {
       const y = calDate.getFullYear(), m = calDate.getMonth();
       const mNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-      document.getElementById("calMonthTitle").innerText = `${mNames[m]} ${y}`;
+      document.getElementById("calMonthTitle").innerText = `${mNames[m]} ${y} ▾`;
       const grid = document.getElementById("calendarGrid");
       grid.innerHTML = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d => `<div class="cal-day-name">${d}</div>`).join('');
       const totalDays = new Date(y, m + 1, 0).getDate();
       for (let day = 1; day <= totalDays; day++) {
-        const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${dayString(day)}`;
         const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
         const s1 = roster.filter(j => j.shift === '1'), s2 = roster.filter(j => j.shift === '2'), off = roster.filter(j => j.status_hadir === 'Libur');
         const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
-        const hasData = (roster.length > 0 || logs.length > 0);
         grid.innerHTML += `
           <div class="cal-cell" onclick="openDayInspector('${dateStr}')">
-            <div style="font-weight:700; font-size:0.8rem;">${day}</div>
-            <div style="display:flex; flex-direction:column; gap:0.15rem; margin-top:0.25rem;">
+            <div style="font-weight:700;font-size:0.8rem;">${day}</div>
+            <div style="display:flex;flex-direction:column;gap:0.15rem;margin-top:0.25rem;">
               ${s1.length ? `<span class="cal-badge">S1: ${s1.map(x=>x.nama).join(',')}</span>` : ''}
               ${s2.length ? `<span class="cal-badge">S2: ${s2.map(x=>x.nama).join(',')}</span>` : ''}
-              ${logs.length ? `<span class="cal-badge" style="background:rgba(245,158,11,0.2); color:var(--warning);">${logs.length} Log</span>` : ''}
+              ${logs.length ? `<span class="cal-badge" style="background:rgba(245,158,11,0.2);color:var(--warning);">${logs.length} Log</span>` : ''}
             </div>
           </div>
         `;
@@ -1399,31 +1571,37 @@
     function openDayInspector(dateStr) {
       activeInspectDate = dateStr;
       document.getElementById("inspectDateTitle").innerText = `Detail Tanggal: ${dateStr}`;
+      const perm = getTabPermission("kalender");
+
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
       document.getElementById("inspectRosterList").innerHTML = roster.length ? roster.map(r => `
-        <div style="font-size:0.75rem; padding:0.35rem; background:var(--elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:0.75rem;padding:0.35rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
           <div><strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift} <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}">${r.status_hadir}</span></div>
-          ${currentUser && currentUser.level >= 2 ? `
-            <div style="display:flex; gap:0.2rem;">
-              <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editRosterModal('${r.id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button>
+          ${perm.canEdit ? `
+            <div style="display:flex;gap:0.2rem;">
+              <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="editRosterModal('${r.id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button>
             </div>
           ` : ''}
         </div>
-      `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Belum ada jadwal staff.</div>';
+      `).join('') : '<div style="font-size:0.75rem;color:var(--text-muted);">Belum ada jadwal staff.</div>';
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
       document.getElementById("inspectLogList").innerHTML = logs.length ? logs.map(l => `
-        <div style="font-size:0.75rem; padding:0.35rem; background:var(--elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
-          <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted); font-size:0.7rem;">${l.detail} (PIC: ${l.pic})</div></div>
-          ${currentUser && currentUser.level >= 2 ? `
-            <div style="display:flex; gap:0.2rem;">
-              <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button>
+        <div style="font-size:0.75rem;padding:0.35rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted);font-size:0.7rem;">${l.detail} (PIC: ${l.pic})</div></div>
+          ${perm.canEdit ? `
+            <div style="display:flex;gap:0.2rem;">
+              <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button>
             </div>
           ` : ''}
         </div>
-      `).join('') : '<div style="font-size:0.75rem; color:var(--text-muted);">Tidak ada log / catatan.</div>';
+      `).join('') : '<div style="font-size:0.75rem;color:var(--text-muted);">Tidak ada log / catatan.</div>';
+
+      document.getElementById("btnDayAddStaff").style.display = perm.canEdit ? "inline-flex" : "none";
+      document.getElementById("btnDayAddLog").style.display = perm.canEdit ? "inline-flex" : "none";
+
       openModal('modalDayInspector');
     }
 
@@ -1437,16 +1615,62 @@
     }
     async function deleteRosterItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "JADWAL", { key: "id", val: id }); await fetchAllData(); openDayInspector(activeInspectDate); renderCalendar(); } }
 
+    function updateLogCategoryAndItems() {
+      const div = document.getElementById("fLogDivisi").value;
+      const catSel = document.getElementById("fLogKategori");
+
+      if (div === "KITCHEN") {
+        catSel.innerHTML = `
+          <option value="Spoil (Basi / Rusak / Expired / Thawing)">Spoil (Basi / Rusak / Expired / Thawing)</option>
+          <option value="Waste Masak (Trim / Afkir / Gosong)">Waste Masak (Trim / Afkir / Gosong)</option>
+          <option value="Bongkar Kemasan ke Dapur (Refill Stasiun)">Bongkar Kemasan ke Dapur (Refill Stasiun)</option>
+          <option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option>
+          <option value="Insiden Kompor / Alat Kitchen">Insiden Kompor / Alat Kitchen</option>
+          <option value="Lainnya">Lainnya</option>
+        `;
+      } else if (div === "BARISTA") {
+        catSel.innerHTML = `
+          <option value="Kalibrasi Espresso (Dial-In)">Kalibrasi Espresso (Dial-In)</option>
+          <option value="Waste Bahan (Tumpah / Afkir / Salah Buat)">Waste Bahan (Tumpah / Afkir / Salah Buat)</option>
+          <option value="Bongkar Pack ke Bar (Refill Stasiun)">Bongkar Pack ke Bar (Refill Stasiun)</option>
+          <option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option>
+          <option value="Insiden Mesin / Grinder">Insiden Mesin / Grinder</option>
+          <option value="Lainnya">Lainnya</option>
+        `;
+      } else if (div === "SERVER") {
+        catSel.innerHTML = `
+          <option value="Pecah Belah / Kerusakan Alat">Pecah Belah / Kerusakan Alat</option>
+          <option value="Ambil Perlengkapan dari Gudang">Ambil Perlengkapan dari Gudang</option>
+          <option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option>
+          <option value="Lainnya">Lainnya</option>
+        `;
+      } else {
+        catSel.innerHTML = `
+          <option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option>
+          <option value="Audit Selisih Opname">Audit Selisih Opname</option>
+          <option value="Lainnya">Lainnya</option>
+        `;
+      }
+      updateLogItemDropdown();
+      handleLogCategoryChange();
+    }
+
     function handleLogCategoryChange() {
       const kat = document.getElementById("fLogKategori").value;
-      const isStock = (kat.includes("Barang Masuk") || kat.includes("Waste"));
+      const isStock = (kat.includes("Barang Masuk") || kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi") || kat.includes("Bongkar") || kat.includes("Refill"));
       document.getElementById("fLogStockSection").style.display = isStock ? "block" : "none";
       document.getElementById("fLogNonStockSection").style.display = isStock ? "none" : "block";
 
       const lQty = document.getElementById("labelQtyLog");
-      if (kat.includes("Waste")) lQty.innerText = "JUMLAH BAHAN AFKIR / KALIBRASI (MEMOTONG STOK STASIUN)";
-      else if (kat.includes("Barang Masuk")) lQty.innerText = "JUMLAH BARANG MASUK / RESTOCK (MENAMBAH GUDANG UTAMA)";
-      else lQty.innerText = "JUMLAH FISIK";
+      if (kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi")) {
+        lQty.innerText = "JUMLAH DIBUANG / RUSAK / KALIBRASI (MEMOTONG STASIUN)";
+      } else if (kat.includes("Barang Masuk")) {
+        lQty.innerText = "JUMLAH KEMASAN MASUK (MENAMBAH GUDANG MAKRO)";
+      } else if (kat.includes("Bongkar") || kat.includes("Refill")) {
+        lQty.innerText = "JUMLAH PACK DIBONGKAR (POTONG GUDANG, TAMBAH STASIUN)";
+      } else {
+        lQty.innerText = "JUMLAH FISIK";
+      }
       updateLogEffectNotice();
     }
 
@@ -1455,50 +1679,72 @@
       const select = document.getElementById("fLogItemSelect");
       const filtered = (localData.STOK || []).filter(s => s.divisi === div);
       select.innerHTML = filtered.length ? filtered.map(s => {
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
-        const waste = wLogs.length ? wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
-        const sisa = (cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || Math.max(0, cleanMoney(s.tersedia_pagi)+cleanMoney(s.refill_s1)+cleanMoney(s.refill_s2)-waste));
-        return `<option value="${s.item_id}" data-nama="${s.nama_barang}" data-satuan="${s.satuan}" data-gudang="${cleanMoney(s.stok_gudang)}" data-mikro="${sisa}">${s.nama_barang} (${s.satuan} | Gudang: ${cleanMoney(s.stok_gudang)} | Divisi: ${sisa})</option>`;
+        const satMakro = s.satuan_makro || 'pack';
+        const satMikro = s.satuan_mikro || s.satuan || 'gram';
+        const konv = cleanMoney(s.isi_konversi) || 1;
+        const g = cleanMoney(s.stok_gudang);
+        const m = cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || cleanMoney(s.tersedia_pagi);
+        return `<option value="${s.item_id}" data-nama="${s.nama_barang}" data-satuan="${satMikro}" data-satmakro="${satMakro}" data-konv="${konv}" data-gudang="${g}" data-mikro="${m}">
+          ${s.nama_barang} (Gudang: ${g} ${satMakro} | Stasiun: ${m} ${satMikro})
+        </option>`;
       }).join('') : '<option value="">[Tidak ada barang di divisi ini]</option>';
       handleLogItemSelectChange();
     }
 
     function handleLogItemSelectChange() {
+      const kat = document.getElementById("fLogKategori").value;
       const select = document.getElementById("fLogItemSelect");
       const opt = select.options[select.selectedIndex];
-      document.getElementById("fLogSatuan").value = opt ? opt.getAttribute("data-satuan") || "" : "gram/pcs";
+      if (kat.includes("Barang Masuk") || kat.includes("Bongkar") || kat.includes("Refill")) {
+        document.getElementById("fLogSatuan").value = opt ? opt.getAttribute("data-satmakro") || "pack" : "pack";
+      } else {
+        document.getElementById("fLogSatuan").value = opt ? opt.getAttribute("data-satuan") || "gram" : "gram";
+      }
       updateLogEffectNotice();
     }
 
     function updateLogEffectNotice() {
-      const kat = document.getElementById("fLogKategori").value, jml = cleanMoney(document.getElementById("fLogJumlahVal").value), satuan = document.getElementById("fLogSatuan").value || "";
-      const textEl = document.getElementById("logEffectText"), box = document.getElementById("logEffectBox");
-      const opt = document.getElementById("fLogItemSelect").options[document.getElementById("fLogItemSelect").selectedIndex];
-      const curG = opt ? Number(opt.getAttribute("data-gudang") || 0) : 0, curM = opt ? Number(opt.getAttribute("data-mikro") || 0) : 0;
+      const kat = document.getElementById("fLogKategori").value;
+      const jml = cleanMoney(document.getElementById("fLogJumlahVal").value);
+      const textEl = document.getElementById("logEffectText");
+      const box = document.getElementById("logEffectBox");
+      const select = document.getElementById("fLogItemSelect");
+      const opt = select.options[select.selectedIndex];
+
+      const curG = opt ? Number(opt.getAttribute("data-gudang") || 0) : 0;
+      const curM = opt ? Number(opt.getAttribute("data-mikro") || 0) : 0;
+      const konv = opt ? Number(opt.getAttribute("data-konv") || 1) : 1;
+      const sMak = opt ? opt.getAttribute("data-satmakro") || "pack" : "pack";
+      const sMik = opt ? opt.getAttribute("data-satuan") || "gram" : "gram";
+
       if (kat.includes("Barang Masuk")) {
         box.style.borderLeftColor = "var(--success)";
-        textEl.innerText = `📦 Otomatis MENAMBAH Stok Gudang: ${curG.toLocaleString('id-ID')} + ${jml.toLocaleString('id-ID')} = ${(curG + jml).toLocaleString('id-ID')} ${satuan}.`;
-      } else if (kat.includes("Waste")) {
+        textEl.innerText = `📦 Otomatis MENAMBAH Gudang Makro: ${curG} + ${jml} = ${curG + jml} ${sMak} (Setara ${(curG + jml) * konv} ${sMik}).`;
+      } else if (kat.includes("Bongkar") || kat.includes("Refill")) {
         box.style.borderLeftColor = "var(--warning)";
-        textEl.innerText = `📉 Otomatis TERCATAT sebagai Waste & MEMOTONG Stok Divisi: ${curM.toLocaleString('id-ID')} - ${jml.toLocaleString('id-ID')} = ${Math.max(0, curM - jml).toLocaleString('id-ID')} ${satuan}.`;
+        textEl.innerText = `🔄 BONGKAR KEMASAN: Gudang berkurang ${jml} ${sMak} (sisa ${Math.max(0, curG - jml)} ${sMak}), Stasiun Dapur bertambah ${jml * konv} ${sMik} (menjadi ${curM + (jml * konv)} ${sMik}).`;
+      } else if (kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi")) {
+        box.style.borderLeftColor = "var(--danger)";
+        textEl.innerText = `📉 Otomatis MEMOTONG Stasiun Kerja (Mikro): ${curM} - ${jml} = ${Math.max(0, curM - jml)} ${sMik} (Tercatat sebagai afkir/rusak).`;
       } else {
         box.style.borderLeftColor = "var(--accent)";
-        textEl.innerText = `ℹ️ Dicatat sebagai buku log harian.`;
+        textEl.innerText = `ℹ️ Dicatat sebagai buku log operasional harian.`;
       }
     }
 
     function openLogForCurrentInspectDate() {
-      document.getElementById("modalLogTitle").innerText = "Tambah Log / Waste"; document.getElementById("fLogEditId").value = "";
+      document.getElementById("modalLogTitle").innerText = "Tambah Log Operasional"; document.getElementById("fLogEditId").value = "";
       document.getElementById("fLogTanggal").value = activeInspectDate; document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
       document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = "";
-      updateLogItemDropdown(); handleLogCategoryChange(); openModal('modalLog');
+      updateLogCategoryAndItems(); openModal('modalLog');
     }
 
     function editLogModal(id) {
       const l = (localData.LOG_KALENDER || []).find(x => x.log_id === id); if(!l) return;
       document.getElementById("modalLogTitle").innerText = "Edit Log: " + l.log_id;
       document.getElementById("fLogEditId").value = l.log_id; document.getElementById("fLogTanggal").value = l.tanggal; document.getElementById("fLogJam").value = l.jam; document.getElementById("fLogDivisi").value = l.divisi;
-      updateLogItemDropdown(); document.getElementById("fLogKategori").value = l.kategori; handleLogCategoryChange();
+      updateLogCategoryAndItems();
+      document.getElementById("fLogKategori").value = l.kategori; handleLogCategoryChange();
       if (l.item_id) document.getElementById("fLogItemSelect").value = l.item_id;
       document.getElementById("fLogJumlahVal").value = l.jumlah_angka || ""; document.getElementById("fLogSatuan").value = l.satuan || ""; document.getElementById("fLogDetail").value = l.detail;
       updateLogEffectNotice(); openModal('modalLog');
@@ -1516,7 +1762,7 @@
     }
 
     function openNewRosterModal() { document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal"; document.getElementById("fJdwEditId").value = ""; document.getElementById("fJdwTanggal").value = new Date().toISOString().split('T')[0]; openModal('modalRoster'); }
-    function openNewLogModal() { document.getElementById("modalLogTitle").innerText = "Tambah Log / Waste"; document.getElementById("fLogEditId").value = ""; document.getElementById("fLogTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':'); document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = ""; updateLogItemDropdown(); handleLogCategoryChange(); openModal('modalLog'); }
+    function openNewLogModal() { document.getElementById("modalLogTitle").innerText = "Tambah Log Operasional"; document.getElementById("fLogEditId").value = ""; document.getElementById("fLogTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fLogJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':'); document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = ""; updateLogCategoryAndItems(); openModal('modalLog'); }
 
     async function submitRosterForm() {
       const editId = document.getElementById("fJdwEditId").value, u = document.getElementById("fJdwUser").value;
@@ -1532,7 +1778,7 @@
       const editId = document.getElementById("fLogEditId").value, kat = document.getElementById("fLogKategori").value;
       const itemSelect = document.getElementById("fLogItemSelect");
       const opt = itemSelect ? itemSelect.options[itemSelect.selectedIndex] : null;
-      const isStock = (kat.includes("Barang Masuk") || kat.includes("Waste"));
+      const isStock = (kat.includes("Barang Masuk") || kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi") || kat.includes("Bongkar") || kat.includes("Refill"));
       const itemId = (isStock && opt) ? opt.value : "";
       const itemName = isStock ? (opt ? opt.getAttribute("data-nama") : "Bahan") : document.getElementById("fLogItemManual").value;
       const jumlah = cleanMoney(document.getElementById("fLogJumlahVal").value), satuan = document.getElementById("fLogSatuan").value;
@@ -1549,7 +1795,7 @@
       await fetchAllData(); renderCalendar(); showToast("Log & Stok otomatis tersinkron!");
     }
 
-    // 8. MENU & MASTER KARYAWAN
+    // 8. MENU & HPP
     function filterMenuCategory(cat) {
       document.getElementById("btnMenuMinuman").classList.toggle("active", cat==='Minuman');
       document.getElementById("btnMenuMakanan").classList.toggle("active", cat==='Makanan');
@@ -1557,6 +1803,7 @@
     }
     function renderMenuTable(jenis) {
       const data = (localData.MENU || []).filter(m => m.jenis === jenis);
+      const perm = getTabPermission("menu");
       document.getElementById("menuTableBody").innerHTML = data.map(m => {
         const hpp = cleanMoney(m.hpp), jual = cleanMoney(m.harga_jual);
         const marginRp = cleanMoney(m.margin_rp) || (jual - hpp);
@@ -1566,8 +1813,10 @@
             <td>${formatRupiah(hpp)}</td><td>${formatRupiah(jual)}</td><td>${formatRupiah(marginRp)}</td>
             <td>${cleanPercent(m.margin_pct) || ((marginRp/jual)*100).toFixed(1)+'%'}</td><td>${cleanPercent(m.food_cost_pct) || ((hpp/jual)*100).toFixed(1)+'%'}</td>
             <td>
-              <button class="btn" onclick="editMenuModal('${m.menu_id}')">Edit</button>
-              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>` : ''}
+              ${perm.canEdit ? `
+                <button class="btn" onclick="editMenuModal('${m.menu_id}')">Edit</button>
+                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>` : ''}
+              ` : '<span style="color:var(--text-muted);font-size:0.7rem;">Lihat</span>'}
             </td>
           </tr>
         `;
@@ -1591,13 +1840,15 @@
     }
     async function deleteMenuItem(id) { if(confirm(`Hapus menu ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "MENU", { key: "menu_id", val: id }); await fetchAllData(); } }
 
-    // 9. MASTER VAULT KARYAWAN & MATRIKS TAB
+    // ========================================================
+    // 9. MASTER VAULT KARYAWAN & MATRIKS HAK AKSES PER-TAB
+    // ========================================================
     function renderVaultTable() {
       document.getElementById("vaultTableBody").innerHTML = (localData.USERS || []).map(u => `
         <tr>
           <td><code>${u.user_id}</code></td><td><strong>${u.username}</strong></td><td onclick="editUserModal('${u.user_id}')" style="cursor:pointer;">${u.nama_lengkap}</td>
           <td>${u.role}</td><td>Level ${u.level}</td><td>${u.divisi}</td><td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
-          <td style="font-size:0.7rem; color:var(--text-muted); max-width:200px; overflow:hidden; text-overflow:ellipsis;">${u.akses_tabs || 'Default'}</td>
+          <td style="font-size:0.7rem;color:var(--text-muted);max-width:220px;overflow:hidden;text-overflow:ellipsis;">${u.akses_tabs || 'Default'}</td>
           <td><button class="btn" onclick="editUserModal('${u.user_id}')">Edit</button><button class="btn btn-danger" onclick="deleteUserItem('${u.user_id}')">Hapus</button></td>
         </tr>
       `).join('');
@@ -1606,7 +1857,7 @@
     function openNewUserModal() {
       document.getElementById("modalUserTitle").innerText = "Tambah Karyawan"; document.getElementById("fUserEditId").value = "";
       document.getElementById("fUserUsername").value = ""; document.getElementById("fUserNamaLengkap").value = ""; document.getElementById("fUserPin").value = "1234";
-      setTabCheckboxesValue("kalender,checklist,stok");
+      renderTabPermissionCheckboxes("kalender:edit,checklist:edit,stok:edit");
       openModal('modalUser');
     }
 
@@ -1615,27 +1866,55 @@
       document.getElementById("modalUserTitle").innerText = "Edit Karyawan: " + u.username; document.getElementById("fUserEditId").value = u.user_id;
       document.getElementById("fUserUsername").value = u.username; document.getElementById("fUserNamaLengkap").value = u.nama_lengkap;
       document.getElementById("fUserRole").value = u.role; document.getElementById("fUserDivisi").value = u.divisi; document.getElementById("fUserPin").value = u.pin;
-      setTabCheckboxesValue(u.akses_tabs || "");
+      renderTabPermissionCheckboxes(u.akses_tabs || "");
       openModal('modalUser');
     }
 
-    function setTabCheckboxesValue(str) {
-      const tabs = ["dashboard","kalender","checklist","stok","serah_terima","daily_report","menu","perusahaan","info_sistem"];
-      tabs.forEach(t => {
-        const hyphenated = t.replace(/_/g, '-');
-        const el = document.getElementById(`chkTab_${t}`);
-        if (el) el.checked = str.includes(hyphenated);
-      });
+    function renderTabPermissionCheckboxes(permStr) {
+      const container = document.getElementById("boxTabPermissionsMatrix");
+      container.innerHTML = TAB_DEFINITIONS.map(t => {
+        let isChecked = false;
+        let isEdit = true;
+        if (permStr && permStr.trim() !== "") {
+          const parts = permStr.split(',').map(s => s.trim());
+          for (let p of parts) {
+            if (p === t.id || p.startsWith(t.id + ":")) {
+              isChecked = true;
+              isEdit = p.includes(":view") ? false : true;
+              break;
+            }
+          }
+        }
+        return `
+          <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding:0.35rem 0;">
+            <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;">
+              <input type="checkbox" id="chkActive_${t.id}" ${isChecked ? 'checked' : ''} onchange="toggleModeRadios('${t.id}', this.checked)">
+              <span>${t.label}</span>
+            </label>
+            <div style="display:flex;gap:0.6rem;align-items:center;">
+              <label style="font-size:0.7rem;color:var(--text-muted);cursor:pointer;"><input type="radio" name="mode_${t.id}" id="modeEdit_${t.id}" value="edit" ${isEdit ? 'checked' : ''} ${!isChecked ? 'disabled' : ''}> Bisa Edit</label>
+              <label style="font-size:0.7rem;color:var(--text-muted);cursor:pointer;"><input type="radio" name="mode_${t.id}" id="modeView_${t.id}" value="view" ${!isEdit ? 'checked' : ''} ${!isChecked ? 'disabled' : ''}> Hanya Lihat</label>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
-    function getTabCheckboxesValue() {
-      const tabs = ["dashboard","kalender","checklist","stok","serah_terima","daily_report","menu","perusahaan","info_sistem"];
-      let activeTabs = [];
-      tabs.forEach(t => {
-        const el = document.getElementById(`chkTab_${t}`);
-        if (el && el.checked) activeTabs.push(t.replace(/_/g, '-'));
+    function toggleModeRadios(tabId, isChecked) {
+      document.getElementById(`modeEdit_${tabId}`).disabled = !isChecked;
+      document.getElementById(`modeView_${tabId}`).disabled = !isChecked;
+    }
+
+    function collectTabPermissionsString() {
+      let result = [];
+      TAB_DEFINITIONS.forEach(t => {
+        const chk = document.getElementById(`chkActive_${t.id}`);
+        if (chk && chk.checked) {
+          const isView = document.getElementById(`modeView_${t.id}`).checked;
+          result.push(`${t.id}:${isView ? 'view' : 'edit'}`);
+        }
       });
-      return activeTabs.join(',');
+      return result.join(',');
     }
 
     function syncUserLevel() {
@@ -1651,7 +1930,7 @@
       let level = 1;
       if(r === "HEAD") level = 2; else if(r === "PURCHASING" || r === "HRD") level = 3; else if(r === "MANAGER") level = 4; else if(r === "OWNER") level = 5; else if(r === "RAJA_UTAMA") level = 6;
       
-      const allowedTabs = getTabCheckboxesValue();
+      const allowedTabs = collectTabPermissionsString();
 
       const payload = {
         username: document.getElementById("fUserUsername").value.toLowerCase().trim(),
@@ -1663,10 +1942,11 @@
         akses_tabs: allowedTabs
       };
 
-      closeModal('modalUser'); showToast("Menyimpan karyawan...");
+      closeModal('modalUser'); showToast("Menyimpan karyawan & matriks hak akses...");
       if(editId) await postToGas("update", "USERS", { key: "user_id", val: editId, updates: payload });
       else { payload.user_id = "USR-" + Date.now().toString().slice(-4); payload.tipe_kerja = "Tetap"; await postToGas("insert", "USERS", payload); }
       await fetchAllData();
+      showToast("Matriks hak akses berhasil tersinkron ke Sheet!");
     }
     async function deleteUserItem(id) { if(confirm(`Hapus karyawan ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "USERS", { key: "user_id", val: id }); await fetchAllData(); } }
 
