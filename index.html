@@ -2,128 +2,104 @@
 <html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>HOLLO COFFEE & ROASTERY'S — Executive F&B Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>HOLLO COFFEE & ROASTERY'S — Executive Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root {
-      --bg: #09090b; --surface: #121215; --surface-elevated: #1a1a20; --border: #27272a; --border-subtle: #1e1e24;
-      --text: #f4f4f5; --text-muted: #a1a1aa; --accent: #ffffff; --accent-invert: #000000;
-      --danger: #ef4444; --success: #10b981; --warning: #f59e0b; --radius: 10px; --radius-sm: 6px;
-    }
-    [data-theme="light"] {
-      --bg: #f4f4f5; --surface: #ffffff; --surface-elevated: #f1f3f5; --border: #e4e4e7; --border-subtle: #ebebef;
-      --text: #09090b; --text-muted: #71717a; --accent: #000000; --accent-invert: #ffffff; --danger: #dc2626; --success: #059669; --warning: #d97706;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-    html, body { width: 100%; max-width: 100vw; overflow-x: hidden; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
-    #gatekeeper { position: fixed; inset: 0; background: var(--bg); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1.25rem; }
-    .lock-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.25rem 1.75rem; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
-    .lock-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.25rem; }
-    header { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--border); background: var(--surface); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-    .brand-wrap { display: flex; align-items: center; gap: 0.6rem; }
-    .brand-title { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; font-weight: 700; text-transform: uppercase; }
-    .live-clock-pill { display: flex; align-items: center; gap: 0.4rem; background: var(--surface-elevated); border: 1px solid var(--border); padding: 0.25rem 0.55rem; border-radius: 9999px; font-size: 0.72rem; font-weight: 600; }
-    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
-    .btn { padding: 0.45rem 0.8rem; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--text); display: inline-flex; align-items: center; gap: 0.35rem; white-space: nowrap; }
-    .btn:hover { background: var(--surface-elevated); }
-    .btn-solid { background: var(--accent); color: var(--accent-invert); border-color: var(--accent); }
-    .btn-danger { color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
-    .btn-wa { background: #25D366; color: #fff; border-color: #25D366; }
-    nav { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 0.25rem; padding: 0.25rem 1rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-    nav::-webkit-scrollbar { display: none; }
-    .nav-tab { padding: 0.7rem 1rem; font-size: 0.82rem; font-weight: 500; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
-    .nav-tab.active { color: var(--text); border-color: var(--accent); font-weight: 600; }
-    main { padding: 1.25rem; max-width: 1440px; margin: 0 auto; width: 100%; flex: 1; }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.15rem; margin-bottom: 1rem; }
-    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.85rem; margin-bottom: 1.25rem; }
-    .card-title { font-size: 0.72rem; text-transform: uppercase; font-weight: 600; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 0.3rem; }
-    .card-val { font-size: 1.5rem; font-family: 'Space Grotesk', sans-serif; font-weight: 700; }
-    .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.35rem; }
-    .cal-day-name { text-align: center; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); padding-bottom: 0.4rem; text-transform: uppercase; }
-    .cal-cell { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); min-height: 85px; padding: 0.5rem 0.4rem; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; }
-    .cal-cell:hover { border-color: var(--accent); background: var(--surface-elevated); }
-    .cal-date-num { font-weight: 700; font-size: 0.82rem; }
-    .cal-tags-wrap { display: flex; flex-direction: column; gap: 0.15rem; margin-top: 0.25rem; }
-    .cal-badge { font-size: 0.62rem; padding: 0.12rem 0.25rem; border-radius: 3px; font-weight: 600; }
-    .badge-shift { background: rgba(255,255,255,0.08); color: var(--text); }
-    .badge-off { background: rgba(239,68,68,0.15); color: var(--danger); }
-    .badge-log { background: rgba(245,158,11,0.15); color: var(--warning); }
-    .table-card { width: 100%; max-width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; text-align: left; }
-    th { background: var(--surface-elevated); color: var(--text-muted); padding: 0.75rem 0.85rem; font-size: 0.72rem; text-transform: uppercase; font-weight: 600; border-bottom: 1px solid var(--border); white-space: nowrap; }
-    td { padding: 0.75rem 0.85rem; border-bottom: 1px solid var(--border-subtle); vertical-align: middle; white-space: nowrap; }
-    tr:hover td { background: var(--surface-elevated); }
-    .tag { padding: 0.18rem 0.45rem; border-radius: 4px; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; }
-    .tag-restock { background: rgba(239,68,68,0.15); color: var(--danger); border: 1px solid var(--danger); }
-    .tag-safe { background: rgba(16,185,129,0.15); color: var(--success); border: 1px solid var(--success); }
-    .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 99999; padding: 0.75rem; }
-    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; }
-    .form-group { margin-bottom: 0.85rem; text-align: left; }
-    .form-group label { display: block; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 600; text-transform: uppercase; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.6rem 0.75rem; border-radius: var(--radius-sm); background: var(--bg); border: 1px solid var(--border); color: var(--text); outline: none; font-size: 0.82rem; }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
-    .section-title { background: var(--surface-elevated); border-left: 3px solid var(--accent); padding: 0.35rem 0.55rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin: 1rem 0 0.65rem 0; }
-    .calc-box { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.65rem; margin-bottom: 0.85rem; font-size: 0.75rem; }
-    .calc-row { display: flex; justify-content: space-between; margin-bottom: 0.2rem; }
-    .calc-row.total { font-weight: 700; border-top: 1px solid var(--border); padding-top: 0.3rem; margin-top: 0.3rem; }
-    #toast { position: fixed; bottom: 1.5rem; right: 1.5rem; padding: 0.65rem 1.15rem; background: var(--accent); color: var(--accent-invert); border-radius: var(--radius-sm); font-size: 0.82rem; font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 100000; }
-    #toast.show { opacity: 1; transform: translateY(-5px); }
-    .station-bar-wrap { background: var(--bg); border-radius: 999px; height: 7px; overflow: hidden; margin-top: 0.3rem; border: 1px solid var(--border); }
-    .station-bar-fill { height: 100%; background: var(--success); transition: width 0.3s ease; }
-    .vault-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem; }
-    .vault-box { background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
-    .vault-box h4 { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.4rem; }
-    @media (max-width: 768px) {
-      header { padding: 0.65rem 1rem; flex-direction: column; gap: 0.5rem; align-items: flex-start; }
-      .brand-wrap { width: 100%; justify-content: space-between; }
-      main { padding: 0.75rem; }
-      .modal { padding: 1.15rem; max-width: 96%; }
-      .kpi-grid, .charts-grid { grid-template-columns: 1fr; }
-    }
+    :root { --bg:#09090b; --surface:#121215; --elevated:#1a1a20; --border:#27272a; --border-subtle:#1e1e24; --text:#f4f4f5; --text-muted:#a1a1aa; --accent:#fff; --accent-inv:#000; --danger:#ef4444; --success:#10b981; --warning:#f59e0b; --radius:10px; --radius-sm:6px; }
+    [data-theme="light"] { --bg:#f4f4f5; --surface:#fff; --elevated:#f1f3f5; --border:#e4e4e7; --border-subtle:#ebebef; --text:#09090b; --text-muted:#71717a; --accent:#000; --accent-inv:#fff; --danger:#dc2626; --success:#059669; --warning:#d97706; }
+    * { box-sizing:border-box; margin:0; padding:0; font-family:'Plus Jakarta Sans',sans-serif; }
+    body { background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; overflow-x:hidden; }
+    #gatekeeper { position:fixed; inset:0; background:var(--bg); z-index:1000; display:flex; align-items:center; justify-content:center; padding:1rem; }
+    .lock-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:2rem; width:100%; max-width:380px; text-align:center; }
+    header { padding:0.75rem 1.25rem; border-bottom:1px solid var(--border); background:var(--surface); display:flex; justify-content:space-between; align-items:center; position:sticky; top:0; z-index:100; flex-wrap:wrap; gap:0.5rem; }
+    .brand-wrap { display:flex; align-items:center; gap:0.6rem; }
+    .live-clock-pill { display:flex; align-items:center; gap:0.4rem; background:var(--elevated); border:1px solid var(--border); padding:0.25rem 0.55rem; border-radius:999px; font-size:0.72rem; font-weight:600; }
+    .live-dot { width:7px; height:7px; border-radius:50%; background:var(--success); }
+    .btn { padding:0.45rem 0.8rem; border-radius:var(--radius-sm); font-size:0.78rem; font-weight:600; cursor:pointer; border:1px solid var(--border); background:var(--surface); color:var(--text); display:inline-flex; align-items:center; gap:0.35rem; white-space:nowrap; }
+    .btn:hover { background:var(--elevated); }
+    .btn-solid { background:var(--accent); color:var(--accent-inv); border-color:var(--accent); }
+    .btn-danger { color:var(--danger); border-color:rgba(239,68,68,0.3); }
+    .btn-wa { background:#25D366; color:#fff; border-color:#25D366; }
+    nav { background:var(--surface); border-bottom:1px solid var(--border); display:flex; gap:0.25rem; padding:0.25rem 1rem; overflow-x:auto; scrollbar-width:none; }
+    nav::-webkit-scrollbar { display:none; }
+    .nav-tab { padding:0.7rem 1rem; font-size:0.82rem; font-weight:500; color:var(--text-muted); cursor:pointer; border-bottom:2px solid transparent; white-space:nowrap; }
+    .nav-tab.active { color:var(--text); border-color:var(--accent); font-weight:600; }
+    main { padding:1.25rem; max-width:1440px; margin:0 auto; width:100%; flex:1; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.15rem; margin-bottom:1rem; }
+    .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.85rem; margin-bottom:1.25rem; }
+    .card-title { font-size:0.72rem; text-transform:uppercase; font-weight:600; color:var(--text-muted); margin-bottom:0.3rem; }
+    .card-val { font-size:1.5rem; font-family:'Space Grotesk',sans-serif; font-weight:700; }
+    .charts-grid { display:grid; grid-template-columns:2fr 1fr; gap:1rem; margin-bottom:1.5rem; }
+    .calendar-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:0.35rem; }
+    .cal-day-name { text-align:center; font-size:0.72rem; font-weight:600; color:var(--text-muted); padding-bottom:0.4rem; text-transform:uppercase; }
+    .cal-cell { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-sm); min-height:80px; padding:0.4rem; cursor:pointer; display:flex; flex-direction:column; justify-content:space-between; }
+    .cal-cell:hover { border-color:var(--accent); background:var(--elevated); }
+    .cal-badge { font-size:0.62rem; padding:0.1rem 0.25rem; border-radius:3px; font-weight:600; background:rgba(255,255,255,0.08); }
+    .table-card { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:0.82rem; text-align:left; }
+    th { background:var(--elevated); color:var(--text-muted); padding:0.75rem 0.85rem; font-size:0.72rem; text-transform:uppercase; border-bottom:1px solid var(--border); white-space:nowrap; }
+    td { padding:0.75rem 0.85rem; border-bottom:1px solid var(--border-subtle); vertical-align:middle; white-space:nowrap; }
+    tr:hover td { background:var(--elevated); }
+    .tag { padding:0.18rem 0.45rem; border-radius:4px; font-size:0.68rem; font-weight:600; text-transform:uppercase; }
+    .tag-restock { background:rgba(239,68,68,0.15); color:var(--danger); border:1px solid var(--danger); }
+    .tag-safe { background:rgba(16,185,129,0.15); color:var(--success); border:1px solid var(--success); }
+    .modal-backdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; z-index:99999; padding:0.75rem; }
+    .modal { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; width:100%; max-width:620px; max-height:90vh; overflow-y:auto; }
+    .form-group { margin-bottom:0.85rem; text-align:left; }
+    .form-group label { display:block; font-size:0.72rem; color:var(--text-muted); margin-bottom:0.3rem; font-weight:600; text-transform:uppercase; }
+    .form-group input, .form-group select, .form-group textarea { width:100%; padding:0.55rem 0.75rem; border-radius:var(--radius-sm); background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; font-size:0.82rem; }
+    .section-title { background:var(--elevated); border-left:3px solid var(--accent); padding:0.35rem 0.55rem; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin:1rem 0 0.65rem; }
+    .calc-box { background:var(--elevated); border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.65rem; margin-bottom:0.85rem; font-size:0.75rem; }
+    .calc-row { display:flex; justify-content:space-between; margin-bottom:0.2rem; }
+    .calc-row.total { font-weight:700; border-top:1px solid var(--border); padding-top:0.3rem; margin-top:0.3rem; }
+    #toast { position:fixed; bottom:1.5rem; right:1.5rem; padding:0.65rem 1.15rem; background:var(--accent); color:var(--accent-inv); border-radius:var(--radius-sm); font-size:0.82rem; font-weight:600; opacity:0; pointer-events:none; transition:0.3s; z-index:100000; }
+    #toast.show { opacity:1; transform:translateY(-5px); }
+    .station-bar-wrap { background:var(--bg); border-radius:999px; height:7px; overflow:hidden; margin-top:0.3rem; border:1px solid var(--border); }
+    .station-bar-fill { height:100%; background:var(--success); transition:width 0.3s; }
+    .mini-cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:0.25rem; margin-top:0.5rem; }
+    .mini-cal-cell { min-height:44px; border:1px solid var(--border); background:var(--surface); border-radius:var(--radius-sm); display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:0.75rem; cursor:pointer; }
+    .mini-cal-cell:hover { border-color:var(--accent); background:var(--elevated); }
+    .mini-cal-cell.selected { border-color:var(--accent); background:var(--accent); color:var(--accent-inv); font-weight:700; }
+    .mini-cal-dot { width:4px; height:4px; border-radius:50%; background:var(--warning); margin-top:2px; }
+    @media(max-width:768px){ .kpi-grid, .charts-grid { grid-template-columns:1fr; } header{flex-direction:column; align-items:flex-start;} }
   </style>
 </head>
 <body>
 
-  <!-- GATEKEEPER LOCK SCREEN -->
   <div id="gatekeeper">
     <div class="lock-card">
-      <div class="lock-title">HOLLO COFFEE & ROASTERY'S</div>
-      <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1.5rem;">Executive Operations & Control Suite</div>
-      <div class="form-group"><label>Username</label><input type="text" id="loginUser" placeholder="Masukkan username" value="boy"></div>
-      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" placeholder="••••" maxlength="6" value="0000" style="letter-spacing:0.35em; font-size:1.15rem; text-align:center;"></div>
-      <button class="btn btn-solid" style="width:100%; justify-content:center; padding:0.75rem; margin-top:0.4rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
-      <div style="margin-top:1.25rem;">
-        <button class="btn" style="border:none; font-size:0.7rem; color:var(--text-muted); background:transparent;" onclick="updateWebhookPrompt()">⚙ Ganti URL Webhook Apps Script</button>
-      </div>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:1.2rem; font-weight:700;">HOLLO COFFEE & ROASTERY'S</div>
+      <div style="font-size:0.78rem; color:var(--text-muted); margin-bottom:1.5rem;">Executive Operations Suite</div>
+      <div class="form-group"><label>Username</label><input type="text" id="loginUser" value="boy"></div>
+      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" value="0000" maxlength="6" style="letter-spacing:0.35em; font-size:1.15rem; text-align:center;"></div>
+      <button class="btn btn-solid" style="width:100%; justify-content:center; padding:0.7rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
+      <div style="margin-top:1.25rem;"><button class="btn" style="border:none; font-size:0.7rem; color:var(--text-muted); background:transparent;" onclick="updateWebhookPrompt()">⚙ Ganti URL Webhook</button></div>
     </div>
   </div>
 
-  <!-- PORTAL HEADER -->
   <header>
     <div class="brand-wrap">
       <div class="brand-title">HOLLO COFFEE</div>
       <div class="live-clock-pill"><div class="live-dot"></div><span id="liveClock">00:00:00</span><span style="opacity:0.4;">|</span><span id="liveShiftIndicator">SHIFT 1 (PREP)</span></div>
     </div>
-    <div style="display:flex; gap:0.4rem; align-items:center; width:100%; justify-content:flex-end; flex-wrap:wrap;">
-      <button class="btn btn-solid" style="font-size:0.75rem;" onclick="switchView('info-sistem')">ℹ️ Info & Database</button>
+    <div style="display:flex; gap:0.4rem; align-items:center; flex-wrap:wrap;">
+      <button class="btn btn-solid" id="btnTopInfo" onclick="switchView('info-sistem')">ℹ️ Info & Database</button>
       <button class="btn" onclick="refreshAllData()">↻ Refresh</button>
       <button class="btn" id="themeBtn" onclick="toggleTheme()">Light</button>
-      <span class="btn" style="border:none; font-size:0.75rem;" id="userNameBadge">STAFF</span>
+      <span class="btn" style="border:none;" id="userNameBadge">STAFF</span>
       <button class="btn btn-danger" onclick="logout()">⏻ Kunci</button>
     </div>
   </header>
 
-  <!-- NAVIGATION -->
   <nav id="mainNav">
     <div class="nav-tab active" id="tabDashboard" onclick="switchView('dashboard')">Dashboard</div>
     <div class="nav-tab" id="tabKalender" onclick="switchView('kalender')">Kalender & Roster</div>
     <div class="nav-tab" id="tabChecklist" onclick="switchView('checklist')">Checklist Stasiun</div>
-    <div class="nav-tab" id="tabStok" onclick="switchView('stok')">Inventaris Stok (Gudang & Divisi)</div>
+    <div class="nav-tab" id="tabStok" onclick="switchView('stok')">Inventaris Stok</div>
     <div class="nav-tab" id="tabSerahTerima" onclick="switchView('serah-terima')">Kasir & Serah Terima</div>
     <div class="nav-tab" id="tabDailyReport" onclick="switchView('daily-report')">Daily Report</div>
     <div class="nav-tab" id="tabMenu" onclick="switchView('menu')">Menu & HPP</div>
@@ -131,42 +107,32 @@
     <div class="nav-tab" id="tabInfoSistem" onclick="switchView('info-sistem')">ℹ️ Info & Database</div>
   </nav>
 
-  <!-- MAIN CONTAINER -->
   <main>
     <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
       <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem; padding:0.8rem 1rem;">
-        <div style="display:flex; align-items:center; gap:0.5rem;">
-          <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted); text-transform:uppercase;">📅 Tracking Data Tanggal:</span>
-          <input type="date" id="dashFilterTanggal" onchange="renderDashboard()" style="padding:0.35rem 0.6rem; font-size:0.8rem; background:var(--bg); border:1px solid var(--border); color:var(--text); border-radius:6px;">
+        <div style="display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+          <span style="font-size:0.78rem; font-weight:700; color:var(--text-muted);">📅 TRACKING TANGGAL:</span>
+          <button class="btn btn-solid" onclick="openDashCalendarPickerModal()"><span id="btnDashSelectedDateText">Hari Ini</span> 📅 Pilih Kalender Pop-Up</button>
           <button class="btn" onclick="resetDashboardDateToToday()">Hari Ini</button>
         </div>
-        <div style="font-size:0.75rem; color:var(--text-muted);" id="dashDateBadge">Menampilkan Data Real-Time</div>
+        <div style="font-size:0.75rem; color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
       </div>
 
       <div class="kpi-grid">
-        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Target: Rp 150.000.000</div></div>
-        <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.72rem; color:var(--success); margin-top:0.25rem;">Tunai + QRIS + Online</div></div>
-        <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Di bawah batas minimum</div></div>
-        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.25rem;">Seluruh Stasiun Kerja</div></div>
+        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.72rem; color:var(--text-muted);">Target: Rp 150.000.000</div></div>
+        <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.72rem; color:var(--success);">Tunai + QRIS + Online</div></div>
+        <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.72rem; color:var(--text-muted);">Batas minimum</div></div>
+        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.72rem; color:var(--text-muted);">Seluruh Stasiun</div></div>
       </div>
 
       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem; margin-bottom:1.25rem;">
         <div class="card">
           <div style="font-size:0.78rem; font-weight:700; text-transform:uppercase; margin-bottom:0.6rem;">Status Checklist Stasiun Hari Ini</div>
           <div style="display:flex; flex-direction:column; gap:0.6rem;">
-            <div>
-              <div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Barista & Kasir</span><strong id="barProgBarista">0/0</strong></div>
-              <div class="station-bar-wrap"><div class="station-bar-fill" id="fillBarista" style="width:0%;"></div></div>
-            </div>
-            <div>
-              <div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Kitchen</span><strong id="barProgKitchen">0/0</strong></div>
-              <div class="station-bar-wrap"><div class="station-bar-fill" id="fillKitchen" style="width:0%;"></div></div>
-            </div>
-            <div>
-              <div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Server</span><strong id="barProgServer">0/0</strong></div>
-              <div class="station-bar-wrap"><div class="station-bar-fill" id="fillServer" style="width:0%;"></div></div>
-            </div>
+            <div><div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Barista & Kasir</span><strong id="barProgBarista">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillBarista"></div></div></div>
+            <div><div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Kitchen</span><strong id="barProgKitchen">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillKitchen"></div></div></div>
+            <div><div style="display:flex; justify-content:space-between; font-size:0.75rem;"><span>Server</span><strong id="barProgServer">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillServer"></div></div></div>
           </div>
         </div>
         <div class="card">
@@ -180,17 +146,17 @@
       </div>
 
       <div class="charts-grid">
-        <div class="card"><div class="card-title">Breakdown Penjualan Saluran Pembayaran</div><canvas id="chartSales" style="max-height:250px; margin-top:0.75rem;"></canvas></div>
-        <div class="card"><div class="card-title">Sebaran Tugas Checklist per Stasiun</div><canvas id="chartChecklist" style="max-height:250px; margin-top:0.75rem;"></canvas></div>
+        <div class="card"><div class="card-title">Breakdown Penjualan</div><canvas id="chartSales" style="max-height:220px;"></canvas></div>
+        <div class="card"><div class="card-title">Sebaran Tugas Stasiun</div><canvas id="chartChecklist" style="max-height:220px;"></canvas></div>
       </div>
     </section>
 
     <!-- VIEW 2: KALENDER -->
     <section id="view-kalender" style="display:none;">
-      <div class="card" style="margin-bottom:1.5rem;">
-        <div class="cal-header-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:0.5rem;">
           <div style="display:flex; align-items:center; gap:0.5rem;">
-            <h3 id="calMonthTitle" style="font-family:'Space Grotesk', sans-serif;">Bulan Ini</h3>
+            <h3 id="calMonthTitle" style="font-family:'Space Grotesk',sans-serif;">Bulan Ini</h3>
             <button class="btn" onclick="changeMonth(-1)">◀</button><button class="btn" onclick="changeMonth(1)">▶</button>
           </div>
           <div style="display:flex; gap:0.4rem;">
@@ -202,13 +168,10 @@
       </div>
     </section>
 
-    <!-- VIEW 3: CHECKLIST -->
+    <!-- VIEW 3: CHECKLIST (FILTER KETAT PER DIVISI) -->
     <section id="view-checklist" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div>
-          <h3>Checklist Shift Harian per Stasiun</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Centang tugas otomatis mencatat Username & Waktu Penyelesaian Anda.</p>
-        </div>
+        <div><h3>Checklist Shift Harian per Stasiun</h3><p style="font-size:0.75rem; color:var(--text-muted);" id="txtChecklistSubtitle">Centang otomatis mencatat Username & Waktu Penyelesaian Anda.</p></div>
         <button class="btn btn-solid" id="btnAddChecklistTask" onclick="openNewTaskModal()">+ Buat Tugas Baru</button>
       </div>
       <div id="stationGrid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem;"></div>
@@ -217,37 +180,28 @@
     <!-- VIEW 4: INVENTARIS STOK -->
     <section id="view-stok" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div>
-          <h3>Inventaris: Stok Gudang (Utama) & Stok Harian Divisi</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Waste/Kalibrasi dihitung otomatis dari Log Kalender hari ini. Total = Gudang + Sisa di Divisi.</p>
-        </div>
+        <div><h3>Inventaris: Stok Gudang & Harian Divisi</h3><p style="font-size:0.75rem; color:var(--text-muted);">Waste/Kalibrasi dihitung otomatis dari Log Kalender hari ini.</p></div>
         <div style="display:flex; gap:0.4rem;">
-          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem 0.6rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.78rem;">
+          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem; background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; font-size:0.78rem;">
             <option value="SEMUA">Semua Divisi</option><option value="BARISTA">Barista</option><option value="KITCHEN">Kitchen</option><option value="SERVER">Server</option>
           </select>
-          <button class="btn btn-solid" id="btnAddStokGlobal" onclick="openNewStokModal()">+ Tambah Barang Baru</button>
+          <button class="btn btn-solid" id="btnAddStokGlobal" onclick="openNewStokModal()">+ Tambah Barang</button>
         </div>
       </div>
       <div class="table-card">
         <table>
           <thead>
-            <tr>
-              <th>ID</th><th>Divisi</th><th>Nama Barang</th><th>Satuan</th><th>Stok Gudang (Utama)</th><th>Stok Harian Divisi</th>
-              <th>Waste / Kalibrasi</th><th>Opname S1</th><th>Opname S2</th><th>Pemakaian</th><th>Total Keseluruhan</th><th>Batas Min</th><th>Status</th><th>Aksi</th>
-            </tr>
+            <tr><th>ID</th><th>Divisi</th><th>Nama Barang</th><th>Satuan</th><th>Gudang (Utama)</th><th>Harian Divisi</th><th>Waste / Kalibrasi</th><th>Opname S1</th><th>Opname S2</th><th>Pemakaian</th><th>Total Aset</th><th>Batas Min</th><th>Status</th><th>Aksi</th></tr>
           </thead>
           <tbody id="stokTableBody"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- VIEW 5: SERAH TERIMA KASIR -->
+    <!-- VIEW 5: SERAH TERIMA KASIR (DUA SHIFT TERPISAH) -->
     <section id="view-serah-terima" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div>
-          <h3>Serah Terima Kasir & Rekap Kas Laci (Sistem Imprest)</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Dikoordinasikan oleh Barista Kasir. Shift 1 dan Shift 2 memiliki data terpisah.</p>
-        </div>
+        <div><h3>Serah Terima Kasir & Kas Laci (Imprest)</h3><p style="font-size:0.75rem; color:var(--text-muted);">Dikoordinasikan oleh Barista Kasir. Shift 1 & 2 tercatat terpisah.</p></div>
         <div style="display:flex; gap:0.4rem;">
           <button class="btn" style="border-color:var(--accent);" onclick="openNewHandoverShift(1)">+ Serah Terima Shift 1 (Sore 16:30)</button>
           <button class="btn btn-solid" onclick="openNewHandoverShift(2)">+ Serah Terima Shift 2 (Closing 00:00)</button>
@@ -256,33 +210,26 @@
       <div class="table-card">
         <table>
           <thead>
-            <tr>
-              <th>ID</th><th>Tanggal/Jam</th><th>Tahap Shift</th><th>PIC Serah</th><th>Total Omset Shift</th><th>Tunai Masuk</th><th>EDC / QRIS</th><th>Kas Keluar</th><th>Keterangan</th><th>Setor Bersih</th><th>Modal Laci</th><th>Catatan Handover</th><th>Aksi</th>
-            </tr>
+            <tr><th>ID</th><th>Tanggal/Jam</th><th>Tahap Shift</th><th>PIC Serah</th><th>Total Omset</th><th>Tunai</th><th>EDC / QRIS</th><th>Kas Keluar</th><th>Keterangan</th><th>Setor Bersih</th><th>Modal Laci</th><th>Catatan Handover</th><th>Aksi</th></tr>
           </thead>
           <tbody id="stTableBody"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- VIEW 6: DAILY REPORT -->
+    <!-- VIEW 6: DAILY REPORT (DENGAN 3 KOLOM BELANJA BESOK) -->
     <section id="view-daily-report" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div>
-          <h3>Daily Report & Evaluasi Operasional Malam</h3>
-          <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Dikoordinasikan Barista Closing saat briefing malam. Rincian belanja besok diteruskan ke WhatsApp.</p>
-        </div>
+        <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.75rem; color:var(--text-muted);">Dikoordinasikan Barista Closing saat briefing malam. Rincian belanja besok otomatis ke WhatsApp.</p></div>
         <div style="display:flex; gap:0.4rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
-          <button class="btn btn-solid" onclick="openNewDailyReportModal()">+ Simpan Report Hari Ini</button>
+          <button class="btn btn-solid" onclick="openNewDailyReportModal()">+ Simpan Report</button>
         </div>
       </div>
       <div class="table-card">
         <table>
           <thead>
-            <tr>
-              <th>ID Report</th><th>Tanggal</th><th>Total Omset</th><th>EDC / QRIS</th><th>Target Harian</th><th>Capaian %</th><th>Kas Keluar</th><th>Belanja Barista Besok</th><th>Belanja Kitchen Besok</th><th>Belanja Server Besok</th><th>Aksi</th>
-            </tr>
+            <tr><th>ID Report</th><th>Tanggal</th><th>Total Omset</th><th>EDC / QRIS</th><th>Target</th><th>Capaian %</th><th>Kas Keluar</th><th>Belanja Barista Besok</th><th>Belanja Kitchen Besok</th><th>Belanja Server Besok</th><th>Aksi</th></tr>
           </thead>
           <tbody id="drTableBody"></tbody>
         </table>
@@ -297,84 +244,61 @@
       </div>
       <div class="table-card">
         <table>
-          <thead>
-            <tr><th>ID</th><th>Kategori</th><th>Nama Produk</th><th>HPP</th><th>Harga Jual</th><th>Margin (Rp)</th><th>Margin %</th><th>Food Cost %</th><th>Aksi</th></tr>
-          </thead>
+          <thead><tr><th>ID</th><th>Kategori</th><th>Nama Produk</th><th>HPP</th><th>Harga Jual</th><th>Margin (Rp)</th><th>Margin %</th><th>Food Cost %</th><th>Aksi</th></tr></thead>
           <tbody id="menuTableBody"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- VIEW 8: DATA PERUSAHAAN -->
+    <!-- VIEW 8: DATA PERUSAHAAN (MATRIKS RBAC DINAMIS) -->
     <section id="view-perusahaan" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; flex-wrap:wrap; gap:0.5rem;">
-        <div><h3>Master Vault Karyawan</h3><p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.2rem;">Terkunci khusus Level >= 4.</p></div>
+        <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.75rem; color:var(--text-muted);">Terkunci khusus Level >= 4. Atur tab mana saja yang boleh dibuka oleh anggota tim.</p></div>
         <button class="btn btn-solid" onclick="openNewUserModal()">+ Tambah Karyawan Baru</button>
       </div>
       <div class="table-card">
         <table>
-          <thead>
-            <tr><th>User ID</th><th>Username</th><th>Nama Lengkap</th><th>Role</th><th>Level</th><th>Divisi</th><th>PIN</th><th>Aksi</th></tr>
-          </thead>
+          <thead><tr><th>User ID</th><th>Username</th><th>Nama Lengkap</th><th>Role</th><th>Level</th><th>Divisi</th><th>PIN</th><th>Tab yang Diaktifkan</th><th>Aksi</th></tr></thead>
           <tbody id="vaultTableBody"></tbody>
         </table>
       </div>
     </section>
 
-    <!-- VIEW 9: ABOUT ME & DATABASE VAULT -->
+    <!-- VIEW 9: ABOUT & DATABASE (TERKUNCI BOY LEVEL 6) -->
     <section id="view-info-sistem" style="display:none;">
-      <div class="card" style="border-left: 4px solid var(--accent); background: linear-gradient(145deg, var(--surface), var(--surface-elevated));">
-        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
-          <div>
-            <h2 style="font-family:'Space Grotesk', sans-serif; font-size:1.4rem; letter-spacing:0.03em;">HOLLO COFFEE & ROASTERY'S</h2>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:0.25rem;">Executive F&B Operations & Real-Time Control Suite — V17 Engine</p>
-          </div>
-          <span class="tag tag-safe" style="padding:0.4rem 0.8rem; font-size:0.75rem;">● SISTEM AKTIF & TERKONEKSI</span>
-        </div>
+      <div class="card" style="border-left:4px solid var(--accent);">
+        <h2 style="font-family:'Space Grotesk',sans-serif; font-size:1.3rem;">HOLLO COFFEE & ROASTERY'S</h2>
+        <p style="font-size:0.8rem; color:var(--text-muted);">Executive F&B Operations Suite — V18 Engine</p>
       </div>
-
-      <div class="vault-grid">
-        <div class="vault-box">
-          <h4>👤 Hak Cipta & Arsitek Sistem</h4>
-          <div style="font-size:0.8rem; line-height:1.6; margin-top:0.6rem;">
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1rem; margin-top:1rem;">
+        <div class="card">
+          <h4 style="font-size:0.85rem; text-transform:uppercase; margin-bottom:0.5rem;">👤 Hak Cipta & Arsitek</h4>
+          <div style="font-size:0.8rem; line-height:1.6;">
             <div><strong>System Architect / Owner:</strong> Boy (RAJA_UTAMA)</div>
             <div><strong>Lead Developer:</strong> Ardian Ramadhan</div>
-            <div><strong>Entitas Bisnis:</strong> PT. HOLLO CIPTA RASA</div>
-            <div><strong>Brand Resmi:</strong> HOLLO COFFEE & ROASTERY'S</div>
-            <div style="color:var(--text-muted); font-size:0.72rem; margin-top:0.6rem; border-top:1px dashed var(--border); padding-top:0.5rem;">
-              © 2026 HOLLO COFFEE & ROASTERY'S. Seluruh hak cipta dilindungi undang-undang.
-            </div>
+            <div><strong>Badan Usaha:</strong> PT. HOLLO CIPTA RASA</div>
+            <div style="color:var(--text-muted); font-size:0.72rem; margin-top:0.5rem;">© 2026 HOLLO COFFEE. All Rights Reserved.</div>
           </div>
         </div>
-
-        <div class="vault-box" style="border:1px solid var(--accent);">
-          <h4 style="color:var(--accent);">📂 File Google Spreadsheet Aktif</h4>
-          <div style="font-size:0.8rem; margin-top:0.6rem; line-height:1.6;">
-            <div><strong>Nama File:</strong> <span id="infoSheetName">HOLLO COFFEE DATABASE</span></div>
-            <div style="word-break:break-all; font-size:0.72rem; color:var(--text-muted); margin-top:0.3rem;">
-              <strong>ID File:</strong> <code id="infoSheetId">Terdeteksi dari Script Aktif</code>
-            </div>
+        <div class="card" style="border-color:var(--accent);">
+          <h4 style="font-size:0.85rem; text-transform:uppercase; margin-bottom:0.5rem; color:var(--accent);">📂 File Google Sheet Aktif</h4>
+          <div style="font-size:0.8rem;">
+            <div><strong>Nama File:</strong> <span id="infoSheetName">HOLLO DATABASE</span></div>
+            <div style="font-size:0.7rem; color:var(--text-muted); margin:0.3rem 0;">ID: <code id="infoSheetId">...</code></div>
           </div>
-          <div style="margin-top:1rem;" id="boxSheetActionWrap"></div>
+          <div id="boxSheetActionWrap" style="margin-top:0.8rem;"></div>
         </div>
-
-        <div class="vault-box">
-          <h4>⚡ Webhook Apps Script Aktif</h4>
-          <div style="font-size:0.75rem; color:var(--text-muted); margin-top:0.4rem; word-break:break-all;">
-            URL Endpoint yang sedang ditembak:
-            <div style="background:var(--bg); padding:0.5rem; border-radius:4px; border:1px solid var(--border); margin-top:0.3rem; font-family:monospace; font-size:0.7rem; color:var(--text);" id="infoWebhookUrl">...</div>
-          </div>
-          <div style="display:flex; gap:0.4rem; margin-top:0.85rem;" id="boxWebhookActionWrap"></div>
+        <div class="card">
+          <h4 style="font-size:0.85rem; text-transform:uppercase; margin-bottom:0.5rem;">⚡ Webhook Apps Script</h4>
+          <div style="font-size:0.7rem; color:var(--text-muted); word-break:break-all; background:var(--bg); padding:0.4rem; border-radius:4px;" id="infoWebhookUrl">...</div>
+          <div style="display:flex; gap:0.4rem; margin-top:0.8rem;" id="boxWebhookActionWrap"></div>
         </div>
       </div>
-
-      <div class="card" style="margin-top:1.25rem;">
-        <h4 style="margin-bottom:0.75rem; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.05em;">Peta 9 Tabel Database Terkoneksi</h4>
+      <div class="card" style="margin-top:1rem;">
+        <h4 style="font-size:0.8rem; text-transform:uppercase; margin-bottom:0.6rem;">Peta 9 Tabel Database</h4>
         <div class="table-card">
           <table>
-            <thead>
-              <tr><th>Nama Tabel (Sheet)</th><th>Fungsi Utama</th><th>Status Data</th><th>Jumlah Baris</th></tr>
-            </thead>
+            <thead><tr><th>Nama Tabel (Sheet)</th><th>Fungsi Utama</th><th>Status Data</th><th>Jumlah Baris</th></tr></thead>
             <tbody id="infoTablesBody"></tbody>
           </table>
         </div>
@@ -384,7 +308,22 @@
 
   <!-- ==================== MODALS ==================== -->
 
-  <!-- MODAL: DETAIL TANGGAL KALENDER -->
+  <!-- MODAL: KALENDER POP-UP DASHBOARD -->
+  <div class="modal-backdrop" id="modalDashCalendarPicker">
+    <div class="modal" style="max-width:380px; text-align:center;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+        <h3 id="popCalMonthTitle" style="font-family:'Space Grotesk',sans-serif; font-size:1rem;">Pilih Tanggal</h3>
+        <div style="display:flex; gap:0.3rem;"><button class="btn" onclick="changePopCalMonth(-1)">◀</button><button class="btn" onclick="changePopCalMonth(1)">▶</button></div>
+      </div>
+      <div class="mini-cal-grid" id="popCalendarGrid"></div>
+      <div style="display:flex; justify-content:space-between; margin-top:1rem;">
+        <button class="btn" onclick="selectTodayInPopCal()">Hari Ini</button>
+        <button class="btn btn-solid" onclick="closeModal('modalDashCalendarPicker')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETAIL TANGGAL KALENDER OPERASIONAL -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
       <h3 id="inspectDateTitle" style="margin-bottom:0.8rem; font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
@@ -409,94 +348,88 @@
   <!-- MODAL: JADWAL STAFF -->
   <div class="modal-backdrop" id="modalRoster">
     <div class="modal">
-      <h3 id="modalRosterTitle" style="margin-bottom:0.8rem;">Jadwal Staff & Hari Libur</h3>
+      <h3 id="modalRosterTitle" style="margin-bottom:0.8rem;">Jadwal Staff</h3>
       <input type="hidden" id="fJdwEditId">
       <div class="form-group"><label>Tanggal</label><input type="date" id="fJdwTanggal"></div>
-      <div class="form-group"><label>Pilih Karyawan</label><select id="fJdwUser"></select></div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Shift Kerja</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div>
-        <div class="form-group"><label>Status Kehadiran</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur (Off)</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div>
+      <div class="form-group"><label>Karyawan</label><select id="fJdwUser"></select></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Shift</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div>
+        <div class="form-group"><label>Status</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div>
       </div>
-      <div class="form-group"><label>Catatan Tugas / Posisi</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista Shift 1"></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan Jadwal</button></div>
+      <div class="form-group"><label>Catatan</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista S1"></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: LOG KALENDER -->
+  <!-- MODAL: LOG KALENDER (WASTE / BARANG MASUK) -->
   <div class="modal-backdrop" id="modalLog">
     <div class="modal">
       <h3 id="modalLogTitle" style="margin-bottom:0.8rem;">Catat Log, Waste & Mutasi</h3>
       <input type="hidden" id="fLogEditId">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Pilih Tanggal</label><input type="date" id="fLogTanggal"></div>
-        <div class="form-group"><label>Pilih Jam Waktu</label><input type="time" id="fLogJam"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Tanggal</label><input type="date" id="fLogTanggal"></div>
+        <div class="form-group"><label>Jam</label><input type="time" id="fLogJam"></div>
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogItemDropdown()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
-        <div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1 (Siang)</option><option value="2">Shift 2 (Malam)</option></select></div>
-        <div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"><option value="Waste Bahan (Afkir / Kalibrasi)">Waste Bahan (Afkir / Kalibrasi)</option><option value="Barang Masuk (Restock)">Barang Masuk (Restock)</option><option value="Insiden Kerusakan Alat">Insiden Kerusakan Alat</option><option value="Rencana Mendatang">Rencana Mendatang</option><option value="Lainnya">Lainnya</option></select></div>
+        <div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
+        <div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"><option value="Waste Bahan (Afkir / Kalibrasi)">Waste Bahan (Afkir / Kalibrasi)</option><option value="Barang Masuk (Restock)">Barang Masuk (Restock)</option><option value="Insiden Kerusakan Alat">Insiden Alat</option><option value="Lainnya">Lainnya</option></select></div>
       </div>
       <div id="fLogStockSection">
         <div class="form-group"><label>Pilih Bahan dari Stok</label><select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select></div>
-        <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem;">
-          <div class="form-group">
-            <label id="labelQtyLog" style="color:var(--warning);">JUMLAH BAHAN AFKIR / KALIBRASI (MEMOTONG STOK STASIUN)</label>
-            <input type="number" id="fLogJumlahVal" placeholder="Contoh: 100" oninput="updateLogEffectNotice()">
-          </div>
-          <div class="form-group"><label>Satuan</label><input type="text" id="fLogSatuan" readonly style="background:var(--surface-elevated);"></div>
+        <div style="display:grid; grid-template-columns:2fr 1fr; gap:0.5rem;">
+          <div class="form-group"><label id="labelQtyLog" style="color:var(--warning);">JUMLAH BAHAN AFKIR / KALIBRASI</label><input type="number" id="fLogJumlahVal" placeholder="Contoh: 100" oninput="updateLogEffectNotice()"></div>
+          <div class="form-group"><label>Satuan</label><input type="text" id="fLogSatuan" readonly></div>
         </div>
-        <div class="calc-box" id="logEffectBox" style="border-left: 3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis sinkron dengan Stok.</span></div>
+        <div class="calc-box" id="logEffectBox" style="border-left:3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis sinkron dengan Stok.</span></div>
       </div>
-      <div id="fLogNonStockSection" style="display:none;">
-        <div class="form-group"><label>Nama Alat / Agenda Terkait</label><input type="text" id="fLogItemManual" placeholder="Contoh: Grinder Eureka / Kompor Burner"></div>
-      </div>
-      <div class="form-group"><label>Keterangan Detail Kejadian</label><textarea id="fLogDetail" rows="3" placeholder="Tuliskan keterangan detail kejadian..."></textarea></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan Log</button></div>
+      <div id="fLogNonStockSection" style="display:none;"><div class="form-group"><label>Nama Alat / Kejadian</label><input type="text" id="fLogItemManual" placeholder="Grinder / Kompor"></div></div>
+      <div class="form-group"><label>Detail</label><textarea id="fLogDetail" rows="2"></textarea></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: KELOLA BARANG INVENTARIS LENGKAP -->
+  <!-- MODAL: KELOLA BARANG STOK -->
   <div class="modal-backdrop" id="modalStok">
     <div class="modal">
       <h3 id="modalStokTitle" style="margin-bottom:0.8rem;">Kelola Barang: Gudang & Divisi</h3>
       <input type="hidden" id="fStkEditId">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Tanggal Update</label><input type="date" id="fStkTanggal"></div>
-        <div class="form-group"><label>Jam Update</label><input type="time" id="fStkJam"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Tanggal</label><input type="date" id="fStkTanggal"></div>
+        <div class="form-group"><label>Jam</label><input type="time" id="fStkJam"></div>
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Divisi</label><select id="fStkDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
-        <div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori" placeholder="Biji Kopi / Protein"></div>
+        <div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori"></div>
       </div>
-      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="Contoh: Espresso Dark Roast"></div>
-        <div class="form-group"><label>Satuan</label><input type="text" id="fStkSatuan" placeholder="gram/liter/pcs"></div>
+      <div style="display:grid; grid-template-columns:2fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama"></div>
+        <div class="form-group"><label>Satuan</label><input type="text" id="fStkSatuan"></div>
       </div>
-      <div class="section-title">1. Stok Gudang (Utama) & Batas Minimum</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Batas Minimum (Restock)</label><input type="text" id="fStkMin" value="700" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Stok Gudang (Makro Cadangan)</label><input type="text" id="fStkGudang" value="1.000" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+      <div class="section-title">1. Gudang & Batas Minimum</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Batas Minimum</label><input type="text" id="fStkMin" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Stok Gudang (Makro)</label><input type="text" id="fStkGudang" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
       </div>
-      <div class="section-title">2. Persediaan Harian Divisi (Mikro di Stasiun)</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" value="700" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" value="0" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+      <div class="section-title">2. Persediaan Stasiun (Mikro)</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
       </div>
-      <div class="section-title">3. Opname & Waste/Kalibrasi</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Waste / Kalibrasi</label><input type="text" id="fStkWaste" value="100" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="300" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
-        <div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="150" placeholder="Isi closing" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+      <div class="section-title">3. Opname & Waste</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Waste / Kalibrasi</label><input type="text" id="fStkWaste" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Opname S1</label><input type="text" id="fStkOpnameS1" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
+        <div class="form-group"><label>Opname S2</label><input type="text" id="fStkOpnameS2" oninput="formatLiveNumberInput(this); calcModalStokPreview();"></div>
       </div>
       <div class="calc-box">
-        <div class="calc-row"><span>Total Persediaan Divisi:</span><span id="fStkPreviewTersedia">700</span></div>
-        <div class="calc-row"><span>Sisa Nyata di Divisi:</span><span id="fStkPreviewSisa" style="font-weight:700;">150</span></div>
-        <div class="calc-row"><span>Estimasi Pemakaian Hari Ini:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);">550</span></div>
-        <div class="calc-row total"><span>Total Keseluruhan (Gudang + Divisi):</span><span id="fStkPreviewTotal" style="color:var(--accent);">1.150</span></div>
-        <div class="calc-row" style="margin-top:0.25rem;"><span>Status Kesehatan:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div>
+        <div class="calc-row"><span>Persediaan Harian:</span><span id="fStkPreviewTersedia">0</span></div>
+        <div class="calc-row"><span>Sisa Nyata Opname:</span><span id="fStkPreviewSisa">0</span></div>
+        <div class="calc-row total"><span>Total Keseluruhan (Aset):</span><span id="fStkPreviewTotal">0</span></div>
+        <div class="calc-row" style="margin-top:0.25rem;"><span>Status:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div>
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan</button></div>
     </div>
   </div>
 
@@ -506,105 +439,97 @@
       <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem;">Form Serah Terima Kasir</h3>
       <input type="hidden" id="fStEditId">
       <input type="hidden" id="fStShiftNum" value="1">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Pilih Tanggal</label><input type="date" id="fStTanggal"></div>
-        <div class="form-group"><label>Pilih Waktu Jam</label><input type="time" id="fStJam"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Tanggal</label><input type="date" id="fStTanggal"></div>
+        <div class="form-group"><label>Jam</label><input type="time" id="fStJam"></div>
       </div>
-      <div class="form-group">
-        <label>Tahap Shift</label>
-        <select id="fStTahap" onchange="toggleHandoverNotesLabel()">
-          <option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option>
-          <option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option>
-        </select>
-      </div>
-      <div class="section-title">1. Total Omset Penjualan Shift Ini</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Penjualan Tunai</label><input type="text" id="fStTunai" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+      <div class="form-group"><label>Tahap Shift</label><select id="fStTahap" onchange="toggleHandoverNotesLabel()"><option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option><option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option></select></div>
+      <div class="section-title">1. Omset Penjualan Shift Ini</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Tunai</label><input type="text" id="fStTunai" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
         <div class="form-group"><label>QRIS / EDC</label><input type="text" id="fStNonTunai" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
-        <div class="form-group"><label>Online Food</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+        <div class="form-group"><label>Online</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
       </div>
-      <div class="calc-row" style="background:var(--surface-elevated); padding:0.5rem; border-radius:4px; font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div>
-      <div class="section-title">2. Rekap Kas Laci Fisik (Sistem Imprest)</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Modal Awal (Stay di Laci)</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
-        <div class="form-group"><label>Kas Kecil Keluar</label><input type="text" id="fStPengeluaran" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+      <div class="calc-row" style="background:var(--elevated); padding:0.4rem; border-radius:4px; font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div>
+      <div class="section-title">2. Rekap Kas Laci (Imprest)</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Modal Laci Stay</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
+        <div class="form-group"><label>Kas Keluar</label><input type="text" id="fStPengeluaran" value="0" oninput="formatLiveRupiahInput(this); calcCashDenom();"></div>
       </div>
-      <div class="form-group"><label>Keterangan Kas Kecil</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es batu kristal / lakban"></div>
+      <div class="form-group"><label>Keterangan Kasir</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es / lakban"></div>
       <div class="calc-box">
-        <div class="calc-row"><span>Uang Penjualan Tunai:</span><span id="boxTunaiText">Rp 0</span></div>
-        <div class="calc-row"><span>- Kas Kecil Keluar:</span><span id="boxKeluarText">- Rp 0</span></div>
-        <div class="calc-row total"><span>Uang Setor Bersih (Amplop):</span><span id="boxSetoranText" style="color:var(--warning);">Rp 0</span></div>
-        <div class="calc-row" style="margin-top:0.35rem; padding-top:0.35rem; border-top:1px dashed var(--border);"><span>Modal Tetap di Laci (Stay):</span><span id="boxModalText" style="color:var(--success); font-weight:700;">Rp 110.000</span></div>
+        <div class="calc-row"><span>Uang Setoran Tunai Bersih:</span><span id="boxSetoranText" style="color:var(--warning); font-weight:700;">Rp 0</span></div>
+        <div class="calc-row"><span>Modal Tetap Tinggal di Laci:</span><span id="boxModalText" style="color:var(--success); font-weight:700;">Rp 110.000</span></div>
       </div>
       <div class="section-title" id="handoverNotesHeader">3. Catatan Operasional Shift 1 untuk Shift 2</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Prep Barista</label><textarea id="fStPrepBar" rows="2" placeholder="Susu sisa 2 pack"></textarea></div>
-        <div class="form-group"><label>Prep Kitchen</label><textarea id="fStPrepKit" rows="2" placeholder="Defrost ayam"></textarea></div>
-        <div class="form-group"><label>Prep Server</label><textarea id="fStPrepSrv" rows="2" placeholder="Restock tisu"></textarea></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Prep Barista</label><textarea id="fStPrepBar" rows="2"></textarea></div>
+        <div class="form-group"><label>Prep Kitchen</label><textarea id="fStPrepKit" rows="2"></textarea></div>
+        <div class="form-group"><label>Prep Server</label><textarea id="fStPrepSrv" rows="2"></textarea></div>
       </div>
-      <div class="form-group"><label>Catatan Kasir / Evaluasi Kas</label><textarea id="fStCatatan" rows="2" placeholder="Uang receh 2000 menipis..."></textarea></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan Serah Terima</button></div>
+      <div class="form-group"><label>Catatan Kasir</label><textarea id="fStCatatan" rows="1"></textarea></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: DAILY REPORT -->
+  <!-- MODAL: DAILY REPORT (DENGAN 3 KOLOM BELANJA BESOK) -->
   <div class="modal-backdrop" id="modalDailyReport">
     <div class="modal">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; flex-wrap:wrap; gap:0.4rem;">
         <h3 id="modalDrTitle">Daily Report & Evaluasi Malam</h3>
-        <button class="btn btn-solid" style="font-size:0.7rem; padding:0.3rem 0.6rem;" onclick="autoPullDailyReportData()">⚡ Tarik Data Otomatis Lengkap</button>
+        <button class="btn btn-solid" style="font-size:0.7rem;" onclick="autoPullDailyReportData()">⚡ Tarik Data Otomatis</button>
       </div>
       <input type="hidden" id="fDrEditId">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Tanggal Report</label><input type="date" id="fDrTanggal"></div>
-        <div class="form-group"><label>Target Omset Harian (Rp)</label><input type="text" id="fDrTarget" value="5.000.000" oninput="formatLiveRupiahInput(this)"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Tanggal</label><input type="date" id="fDrTanggal"></div>
+        <div class="form-group"><label>Target Harian</label><input type="text" id="fDrTarget" value="5.000.000" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div class="section-title">1. Konsolidasi Omset Shift 1 + Shift 2</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Omset Shift 1 (Sore 16:30)</label><input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)"></div>
-        <div class="form-group"><label>Omset Shift 2 (Closing 00:00)</label><input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)"></div>
+      <div class="section-title">1. Omset Shift 1 + Shift 2</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Omset S1 (Sore)</label><input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)"></div>
+        <div class="form-group"><label>Omset S2 (Closing)</label><input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Total EDC / QRIS (Bank)</label><input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)"></div>
-        <div class="form-group"><label>Total Online Food (Portal)</label><input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Total EDC / QRIS</label><input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)"></div>
+        <div class="form-group"><label>Total Online Food</label><input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div class="section-title">2. Pengeluaran Kas Kecil Hari Ini</div>
-      <div style="display:grid; grid-template-columns: 1fr 2fr; gap:0.5rem;">
-        <div class="form-group"><label>Total Kas Keluar</label><input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)"></div>
-        <div class="form-group"><label>Rincian Pengeluaran</label><input type="text" id="fDrKetKasKeluar" placeholder="Beli es batu, lakban..."></div>
+      <div class="section-title">2. Kas Kecil Keluar</div>
+      <div style="display:grid; grid-template-columns:1fr 2fr; gap:0.5rem;">
+        <div class="form-group"><label>Total Keluar</label><input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)"></div>
+        <div class="form-group"><label>Rincian</label><input type="text" id="fDrKetKasKeluar"></div>
       </div>
-      <div class="section-title" style="border-left-color:var(--warning);">3. 🛒 Kebutuhan Belanja & Prep Besok Pagi (Untuk Owner / Purchasing)</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Belanja Barista Besok</label><textarea id="fDrBelanjaBar" rows="3" placeholder="Contoh: Fresh milk 2 krat, es kristal 3 bag"></textarea></div>
-        <div class="form-group"><label>Belanja Kitchen Besok</label><textarea id="fDrBelanjaKit" rows="3" placeholder="Contoh: Ayam fillet 5kg, sayur sup"></textarea></div>
-        <div class="form-group"><label>Belanja Server Besok</label><textarea id="fDrBelanjaSrv" rows="3" placeholder="Contoh: Tisu dining 2 pak, sedotan"></textarea></div>
+      <div class="section-title" style="border-left-color:var(--warning);">3. 🛒 Kebutuhan Belanja & Prep Besok Pagi (Owner / Purchasing)</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Belanja Barista Besok</label><textarea id="fDrBelanjaBar" rows="3" placeholder="Susu, es batu..."></textarea></div>
+        <div class="form-group"><label>Belanja Kitchen Besok</label><textarea id="fDrBelanjaKit" rows="3" placeholder="Ayam, sayuran..."></textarea></div>
+        <div class="form-group"><label>Belanja Server Besok</label><textarea id="fDrBelanjaSrv" rows="3" placeholder="Tisu, sedotan..."></textarea></div>
       </div>
-      <div class="section-title">4. QC, Waste & Kalibrasi Hari Ini</div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Beans Kalibrasi</label><input type="text" id="fDrKalibrasi" placeholder="100g Espresso Dark Roast"></div>
-        <div class="form-group"><label>Ringkasan Waste</label><input type="text" id="fDrWaste" placeholder="Kentang 200g afkir"></div>
+      <div class="section-title">4. QC, Waste & Evaluasi</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Beans Kalibrasi</label><input type="text" id="fDrKalibrasi"></div>
+        <div class="form-group"><label>Ringkasan Waste</label><input type="text" id="fDrWaste"></div>
       </div>
-      <div class="form-group"><label>Bahan Kritis Perlu Restock</label><textarea id="fDrRestockList" rows="2" readonly style="background:var(--surface-elevated);"></textarea></div>
-      <div class="form-group"><label>Evaluasi Briefing Malam</label><textarea id="fDrEvaluasi" rows="2" placeholder="Catatan evaluasi closing..."></textarea></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan Report</button></div>
+      <div class="form-group"><label>Bahan Kritis Restock</label><textarea id="fDrRestockList" rows="2" readonly></textarea></div>
+      <div class="form-group"><label>Evaluasi Closing</label><textarea id="fDrEvaluasi" rows="2"></textarea></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan</button></div>
     </div>
   </div>
 
   <!-- MODAL: CHECKLIST TASK -->
   <div class="modal-backdrop" id="modalTask">
     <div class="modal">
-      <h3 id="modalTaskTitle" style="margin-bottom:0.8rem;">Tugas Checklist Stasiun</h3>
+      <h3 id="modalTaskTitle" style="margin-bottom:0.8rem;">Tugas Checklist</h3>
       <input type="hidden" id="fTaskEditId">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Stasiun</label><select id="fTaskStation"><option value="BARISTA & KASIR">BARISTA & KASIR</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
-        <div class="form-group"><label>Shift Target</label><select id="fTaskShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
+        <div class="form-group"><label>Shift</label><select id="fTaskShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Fase</label><select id="fTaskFase"><option value="Prep">Prep</option><option value="Operasional">Operasional</option><option value="Closing">Closing</option></select></div>
-        <div class="form-group"><label>Target Waktu</label><input type="time" id="fTaskJam" value="08:30"></div>
+        <div class="form-group"><label>Target Jam</label><input type="time" id="fTaskJam" value="08:30"></div>
       </div>
-      <div class="form-group"><label>Uraian Tugas</label><input type="text" id="fTaskUraian" placeholder="Contoh: Kalibrasi grinder espresso"></div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan Tugas</button></div>
+      <div class="form-group"><label>Tugas</label><input type="text" id="fTaskUraian"></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan</button></div>
     </div>
   </div>
 
@@ -613,73 +538,84 @@
     <div class="modal">
       <h3 id="modalMenuTitle" style="margin-bottom:0.8rem;">Menu Produk & HPP</h3>
       <input type="hidden" id="fMenuEditId">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
-        <div class="form-group"><label>Jenis Menu</label><select id="fMenuJenis"><option value="Minuman">Minuman (Barista)</option><option value="Makanan">Makanan (Kitchen)</option></select></div>
-        <div class="form-group"><label>Kategori</label><input type="text" id="fMenuKategori" placeholder="Black / White / Snack"></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+        <div class="form-group"><label>Jenis</label><select id="fMenuJenis"><option value="Minuman">Minuman (Bar)</option><option value="Makanan">Makanan (Kitchen)</option></select></div>
+        <div class="form-group"><label>Kategori</label><input type="text" id="fMenuKategori"></div>
       </div>
       <div class="form-group"><label>Nama Produk</label><input type="text" id="fMenuNama"></div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>HPP (Rp)</label><input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Harga Jual (Rp)</label><input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan Menu</button></div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: KARYAWAN -->
+  <!-- MODAL: KARYAWAN & MATRIKS HAK AKSES 9 TAB -->
   <div class="modal-backdrop" id="modalUser">
     <div class="modal">
-      <h3 id="modalUserTitle" style="margin-bottom:0.8rem;">Kelola Karyawan & PIN</h3>
+      <h3 id="modalUserTitle" style="margin-bottom:0.8rem;">Kelola Karyawan & Matriks Hak Akses</h3>
       <input type="hidden" id="fUserEditId">
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Username</label><input type="text" id="fUserUsername"></div>
         <div class="form-group"><label>PIN (4 Digit)</label><input type="password" id="fUserPin" placeholder="1234" maxlength="4"></div>
       </div>
       <div class="form-group"><label>Nama Lengkap</label><input type="text" id="fUserNamaLengkap"></div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.5rem;">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
         <div class="form-group"><label>Role</label><select id="fUserRole" onchange="syncUserLevel()"><option value="BARISTA">BARISTA (L1)</option><option value="KITCHEN">KITCHEN (L1)</option><option value="SERVER">SERVER (L1)</option><option value="HEAD">HEAD (L2)</option><option value="PURCHASING">PURCHASING (L3)</option><option value="HRD">HRD (L3)</option><option value="MANAGER">MANAGER (L4)</option><option value="OWNER">OWNER (L5)</option><option value="RAJA_UTAMA">RAJA_UTAMA (L6)</option></select></div>
         <div class="form-group"><label>Divisi</label><select id="fUserDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
       </div>
-      <div style="display:flex; justify-content:flex-end; gap:0.4rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan Karyawan</button></div>
+      <div class="section-title" style="border-left-color:var(--warning);">PILIH TAB YANG BOLEH DIAKSES ANGGOTA INI:</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.4rem; font-size:0.75rem; background:var(--elevated); padding:0.6rem; border-radius:6px; border:1px solid var(--border);">
+        <label><input type="checkbox" id="chkTab_dashboard"> 📊 Dashboard</label>
+        <label><input type="checkbox" id="chkTab_kalender"> 📅 Kalender & Roster</label>
+        <label><input type="checkbox" id="chkTab_checklist"> ✅ Checklist Stasiun</label>
+        <label><input type="checkbox" id="chkTab_stok"> 📦 Inventaris Stok</label>
+        <label><input type="checkbox" id="chkTab_serah_terima"> 💵 Kasir & Serah Terima</label>
+        <label><input type="checkbox" id="chkTab_daily_report"> 📋 Daily Report</label>
+        <label><input type="checkbox" id="chkTab_menu"> ☕ Menu & HPP</label>
+        <label><input type="checkbox" id="chkTab_perusahaan"> 🏢 Data Perusahaan</label>
+        <label><input type="checkbox" id="chkTab_info_sistem"> ℹ️ Info & Database</label>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:0.4rem; margin-top:1rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan</button></div>
     </div>
   </div>
 
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwcHDgOrN9PwRbbw_alN8fmY_YVQju2uHi_4A_FoETIqC_EVyrNp9kG3snhhRPg9kIj/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwSWClfnV8pp8xSlh1d6U5WdP0tsPS76JZxjL1PCu-T-KxecP_Lbikcy61TSTGMGf8E/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
     let API_URL = localStorage.getItem(STORAGE_KEY_URL) || HARDCODED_API_URL;
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
-    let metaInfo = { sheet_name: "HOLLO COFFEE DATABASE", sheet_url: "#", sheet_id: "Terdeteksi dari Script Aktif" };
+    let metaInfo = { sheet_name: "HOLLO COFFEE DATABASE", sheet_url: "#", sheet_id: "Terdeteksi dari Script" };
 
     let calDate = new Date();
+    let popCalDate = new Date();
+    let selectedTrackingDate = new Date().toISOString().split('T')[0];
     let activeInspectDate = new Date().toISOString().split('T')[0];
     let chartSalesInst = null;
     let chartChecklistInst = null;
 
-    function cleanMoney(val) {
-      if (val === null || val === undefined || val === '') return 0;
-      if (typeof val === 'number') return val;
-      let str = String(val).trim().replace(/Rp/gi, '').trim();
-      if (str.includes('.') && str.includes(',')) {
-        str = (str.lastIndexOf(',') > str.lastIndexOf('.')) ? str.split(',')[0].replace(/\./g, '') : str.split('.')[0].replace(/,/g, '');
-      } else if (str.includes(',')) {
-        str = str.replace(/,/g, '');
-      } else if (str.includes('.')) {
-        str = str.replace(/\./g, '');
-      }
-      const num = parseFloat(str);
-      return isNaN(num) ? 0 : num;
+    function cleanMoney(v) {
+      if (v === null || v === undefined || v === '') return 0;
+      if (typeof v === 'number') return v;
+      let s = String(v).trim().replace(/Rp/gi, '').trim();
+      if (s.includes('.') && s.includes(',')) {
+        s = (s.lastIndexOf(',') > s.lastIndexOf('.')) ? s.split(',')[0].replace(/\./g, '') : s.split('.')[0].replace(/,/g, '');
+      } else if (s.includes(',')) { s = s.replace(/,/g, ''); }
+      else if (s.includes('.')) { s = s.replace(/\./g, ''); }
+      const n = parseFloat(s);
+      return isNaN(n) ? 0 : n;
     }
 
-    function formatRupiah(val) { return "Rp " + Math.round(cleanMoney(val)).toLocaleString('id-ID'); }
-    function formatLiveRupiahInput(input) { const val = cleanMoney(input.value); if(val === 0 && input.value.trim() === '') return; input.value = Math.round(val).toLocaleString('id-ID'); }
-    function formatLiveNumberInput(input) { const val = cleanMoney(input.value); if(val === 0 && input.value.trim() === '') return; input.value = Math.round(val).toLocaleString('id-ID'); }
-    function cleanPercent(val) { if(!val) return "0.0%"; if(typeof val === 'string' && val.includes('%')) return val; const num = parseFloat(val); return (num <= 1 ? num * 100 : num).toFixed(1) + "%"; }
+    function formatRupiah(v) { return "Rp " + Math.round(cleanMoney(v)).toLocaleString('id-ID'); }
+    function formatLiveRupiahInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = Math.round(v).toLocaleString('id-ID'); }
+    function formatLiveNumberInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = v.toLocaleString('id-ID'); }
+    function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
 
     function updateWebhookPrompt() {
       if (!currentUser || currentUser.level < 6) {
@@ -701,7 +637,7 @@
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
 
       if (u === "boy" && p === "0000") {
-        currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA" };
+        currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA", akses_tabs: "dashboard,kalender,checklist,stok,serah-terima,daily-report,menu,perusahaan,info-sistem" };
         localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
         unlockPortal();
         showToast("Selamat datang, Superadmin!");
@@ -727,43 +663,62 @@
     function unlockPortal() {
       document.getElementById("gatekeeper").style.display = "none";
       document.getElementById("userNameBadge").innerText = `${currentUser.username.toUpperCase()} (${currentUser.role})`;
-      applyRolePermissions();
-      const todayStr = new Date().toISOString().split('T')[0];
-      const dashInput = document.getElementById("dashFilterTanggal");
-      if (dashInput) dashInput.value = todayStr;
+      applyDynamicPermissions();
+      selectedTrackingDate = new Date().toISOString().split('T')[0];
+      document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
       fetchAllData();
       startLiveClock();
     }
 
-    function applyRolePermissions() {
+    function applyDynamicPermissions() {
       const lvl = currentUser ? currentUser.level : 1;
       const div = currentUser ? currentUser.divisi : "BARISTA";
-      const role = currentUser ? currentUser.role : "STAFF";
+      const allowedStr = (currentUser && currentUser.akses_tabs) ? currentUser.akses_tabs : "";
 
-      document.getElementById("tabPerusahaan").style.display = lvl >= 4 ? "block" : "none";
-      document.getElementById("tabMenu").style.display = lvl >= 2 ? "block" : "none";
+      const tabsList = [
+        { id: "dashboard", navId: "tabDashboard" },
+        { id: "kalender", navId: "tabKalender" },
+        { id: "checklist", navId: "tabChecklist" },
+        { id: "stok", navId: "tabStok" },
+        { id: "serah-terima", navId: "tabSerahTerima" },
+        { id: "daily-report", navId: "tabDailyReport" },
+        { id: "menu", navId: "tabMenu" },
+        { id: "perusahaan", navId: "tabPerusahaan" },
+        { id: "info-sistem", navId: "tabInfoSistem" }
+      ];
 
-      const canAccessKasir = (lvl >= 2 || div === "BARISTA" || role === "BARISTA");
-      document.getElementById("tabSerahTerima").style.display = canAccessKasir ? "block" : "none";
-      document.getElementById("tabDailyReport").style.display = canAccessKasir ? "block" : "none";
+      let firstAllowed = null;
 
-      const filterSelect = document.getElementById("stokFilter");
-      if (lvl === 1) {
-        filterSelect.value = div;
-        filterSelect.disabled = true;
-      } else {
-        filterSelect.disabled = false;
-      }
+      tabsList.forEach(t => {
+        let isAllowed = false;
+        if (allowedStr && allowedStr.trim() !== "") {
+          isAllowed = allowedStr.includes(t.id);
+        } else {
+          if (t.id === "dashboard") isAllowed = (lvl >= 2);
+          else if (t.id === "perusahaan") isAllowed = (lvl >= 4);
+          else if (t.id === "menu") isAllowed = (lvl >= 2);
+          else if (t.id === "serah-terima" || t.id === "daily-report") isAllowed = (lvl >= 2 || div === "BARISTA");
+          else isAllowed = true;
+        }
+
+        const el = document.getElementById(t.navId);
+        if (el) el.style.display = isAllowed ? "block" : "none";
+        if (isAllowed && !firstAllowed) firstAllowed = t.id;
+      });
+
+      const topInfoBtn = document.getElementById("btnTopInfo");
+      if (topInfoBtn) topInfoBtn.style.display = (allowedStr.includes("info-sistem") || lvl >= 4) ? "inline-flex" : "none";
+
+      if (firstAllowed) switchView(firstAllowed);
+
+      const fSel = document.getElementById("stokFilter");
+      if (lvl === 1) { fSel.value = div; fSel.disabled = true; }
+      else { fSel.disabled = false; }
 
       const isSuper = (lvl >= 4);
-      const btnAddStok = document.getElementById("btnAddStokGlobal");
-      if (btnAddStok) btnAddStok.style.display = isSuper ? "inline-flex" : "none";
-
-      const btnAddTask = document.getElementById("btnAddChecklistTask");
-      if (btnAddTask) btnAddTask.style.display = (lvl >= 2) ? "inline-flex" : "none";
-
-      const btnAddRoster = document.getElementById("btnAddRosterGlobal");
-      if (btnAddRoster) btnAddRoster.style.display = (lvl >= 3) ? "inline-flex" : "none";
+      document.getElementById("btnAddStokGlobal").style.display = isSuper ? "inline-flex" : "none";
+      document.getElementById("btnAddChecklistTask").style.display = (lvl >= 2) ? "inline-flex" : "none";
+      document.getElementById("btnAddRosterGlobal").style.display = (lvl >= 3) ? "inline-flex" : "none";
     }
 
     function logout() { localStorage.removeItem(STORAGE_KEY_USER); currentUser = null; document.getElementById("gatekeeper").style.display = "flex"; }
@@ -785,8 +740,8 @@
 
     function switchView(viewId) {
       document.querySelectorAll("nav .nav-tab").forEach(t => t.classList.remove("active"));
-      const activeNav = Array.from(document.querySelectorAll("nav .nav-tab")).find(t => t.getAttribute('onclick') && t.getAttribute('onclick').includes(viewId));
-      if (activeNav) activeNav.classList.add("active");
+      const navEl = Array.from(document.querySelectorAll("nav .nav-tab")).find(t => t.getAttribute('onclick') && t.getAttribute('onclick').includes(viewId));
+      if (navEl) navEl.classList.add("active");
 
       ['dashboard', 'kalender', 'checklist', 'stok', 'serah-terima', 'daily-report', 'menu', 'perusahaan', 'info-sistem'].forEach(v => {
         const el = document.getElementById("view-" + v);
@@ -795,26 +750,24 @@
 
       if (viewId === 'dashboard') renderDashboard();
       if (viewId === 'kalender') renderCalendar();
+      if (viewId === 'checklist') renderChecklistStations();
       if (viewId === 'info-sistem') renderInfoSistemView();
     }
 
     async function postToGas(action, sheet, payloadOrData) {
-      let bodyData = { action: action, sheet: sheet };
-      if(action === "insert") bodyData.data = payloadOrData;
-      else if(action === "update") { bodyData.key = payloadOrData.key; bodyData.val = payloadOrData.val; bodyData.updates = payloadOrData.updates; }
-      else if(action === "delete") { bodyData.key = payloadOrData.key; bodyData.val = payloadOrData.val; }
+      let b = { action: action, sheet: sheet };
+      if(action === "insert") b.data = payloadOrData;
+      else if(action === "update") { b.key = payloadOrData.key; b.val = payloadOrData.val; b.updates = payloadOrData.updates; }
+      else if(action === "delete") { b.key = payloadOrData.key; b.val = payloadOrData.val; }
 
-      const res = await fetch(API_URL, {
-        method: "POST",
-        body: JSON.stringify(bodyData)
-      });
+      const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(b) });
       const json = await res.json();
       if(!json.success) throw new Error(json.message || json.error);
       return json;
     }
 
     async function fetchAllData() {
-      showToast("Menyinkronkan data...");
+      showToast("Menyinkronkan...");
       try {
         const res = await fetch(`${API_URL}?action=read_all`);
         const json = await res.json();
@@ -837,24 +790,52 @@
       if(sel) sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
     }
 
-    // 1. DASHBOARD TIME MACHINE
-    function resetDashboardDateToToday() {
-      document.getElementById("dashFilterTanggal").value = new Date().toISOString().split('T')[0];
+    // 1. DASHBOARD TIME MACHINE & KALENDER POP-UP
+    function openDashCalendarPickerModal() { renderPopCalendar(); openModal('modalDashCalendarPicker'); }
+    function changePopCalMonth(delta) { popCalDate.setMonth(popCalDate.getMonth() + delta); renderPopCalendar(); }
+    function selectTodayInPopCal() {
+      selectedTrackingDate = new Date().toISOString().split('T')[0];
+      document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
+      closeModal('modalDashCalendarPicker');
       renderDashboard();
     }
+    function selectPopCalDate(dateStr) {
+      selectedTrackingDate = dateStr;
+      document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
+      closeModal('modalDashCalendarPicker');
+      renderDashboard();
+    }
+    function renderPopCalendar() {
+      const y = popCalDate.getFullYear(), m = popCalDate.getMonth();
+      const mNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+      document.getElementById("popCalMonthTitle").innerText = `${mNames[m]} ${y}`;
+      const grid = document.getElementById("popCalendarGrid");
+      grid.innerHTML = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(d => `<div style="font-size:0.65rem; font-weight:700; color:var(--text-muted);">${d}</div>`).join('');
+
+      const first = new Date(y, m, 1).getDay();
+      const totalDays = new Date(y, m + 1, 0).getDate();
+      for (let i = 0; i < first; i++) grid.innerHTML += `<div></div>`;
+
+      for (let d = 1; d <= totalDays; d++) {
+        const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const isSel = (dateStr === selectedTrackingDate);
+        const hasData = (localData.SERAH_TERIMA || []).some(h => h.tanggal === dateStr);
+        grid.innerHTML += `<div class="mini-cal-cell ${isSel ? 'selected' : ''}" onclick="selectPopCalDate('${dateStr}')"><span>${d}</span>${hasData ? '<div class="mini-cal-dot"></div>' : ''}</div>`;
+      }
+    }
+    function resetDashboardDateToToday() { selectTodayInPopCal(); }
 
     function renderDashboard() {
-      const selectedDate = document.getElementById("dashFilterTanggal").value || new Date().toISOString().split('T')[0];
-      const isToday = (selectedDate === new Date().toISOString().split('T')[0]);
-      
-      document.getElementById("dashDateBadge").innerText = isToday ? "● Menampilkan Data Hari Ini" : `● Tracking Riwayat: ${selectedDate}`;
-      document.getElementById("kpiSalesTitle").innerText = isToday ? "Total Penjualan Hari Ini (Omset)" : `Omset Tanggal ${selectedDate}`;
+      const isToday = (selectedTrackingDate === new Date().toISOString().split('T')[0]);
+      document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
+      document.getElementById("dashDateBadge").innerText = isToday ? "● Menampilkan Data Hari Ini" : `● Tracking Riwayat: ${selectedTrackingDate}`;
+      document.getElementById("kpiSalesTitle").innerText = isToday ? "Total Penjualan Hari Ini (Omset)" : `Omset Tanggal ${selectedTrackingDate}`;
 
-      const dateHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === selectedDate);
-      let salesDate = 0, tunaiTotal = 0, nonTunaiTotal = 0, onlineTotal = 0;
+      const dateHandovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === selectedTrackingDate);
+      let salesDate = 0, tTotal = 0, ntTotal = 0, onlTotal = 0;
       dateHandovers.forEach(h => {
         const t = cleanMoney(h.penjualan_tunai), nt = cleanMoney(h.non_tunai_qris), onl = cleanMoney(h.online_food);
-        tunaiTotal += t; nonTunaiTotal += nt; onlineTotal += onl; salesDate += (t + nt + onl);
+        tTotal += t; ntTotal += nt; onlTotal += onl; salesDate += (t + nt + onl);
       });
       document.getElementById("kpiSalesToday").innerText = formatRupiah(salesDate);
 
@@ -864,8 +845,8 @@
 
       const restock = (localData.STOK || []).filter(s => {
         const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
-        const wasteLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
-        const waste = wasteLogs.length ? wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+        const waste = wLogs.length ? wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
         const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
         const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikro - waste));
         return (gudang + sisa) <= cleanMoney(s.min_stok);
@@ -883,10 +864,8 @@
 
       document.getElementById("barProgBarista").innerText = `${barDone}/${barTasks.length}`;
       document.getElementById("fillBarista").style.width = barTasks.length ? `${(barDone/barTasks.length)*100}%` : '0%';
-
       document.getElementById("barProgKitchen").innerText = `${kitDone}/${kitTasks.length}`;
       document.getElementById("fillKitchen").style.width = kitTasks.length ? `${(kitDone/kitTasks.length)*100}%` : '0%';
-
       document.getElementById("barProgServer").innerText = `${srvDone}/${srvTasks.length}`;
       document.getElementById("fillServer").style.width = srvTasks.length ? `${(srvDone/srvTasks.length)*100}%` : '0%';
 
@@ -894,7 +873,7 @@
       const totalAll = allTasks.length || 1;
       document.getElementById("kpiChecklistProgress").innerText = `${Math.round((totalDone/totalAll)*100)}%`;
 
-      const roster = (localData.JADWAL || []).filter(j => j.tanggal === selectedDate);
+      const roster = (localData.JADWAL || []).filter(j => j.tanggal === selectedTrackingDate);
       document.getElementById("dashStaffS1").innerText = roster.filter(j => j.shift === '1').map(x => `${x.nama} (${x.divisi})`).join(', ') || 'Belum diatur';
       document.getElementById("dashStaffS2").innerText = roster.filter(j => j.shift === '2').map(x => `${x.nama} (${x.divisi})`).join(', ') || 'Belum diatur';
       document.getElementById("dashStaffOff").innerText = roster.filter(j => j.status_hadir === 'Libur').map(x => x.nama).join(', ') || '-';
@@ -902,28 +881,34 @@
       if(chartSalesInst) chartSalesInst.destroy();
       chartSalesInst = new Chart(document.getElementById("chartSales").getContext("2d"), {
         type: 'bar',
-        data: { labels: ['Tunai', 'QRIS/EDC', 'Online'], datasets: [{ data: [tunaiTotal, nonTunaiTotal, onlineTotal], backgroundColor: ['#ffffff', '#a1a1aa', '#71717a'], borderRadius: 6 }] },
+        data: { labels: ['Tunai', 'QRIS/EDC', 'Online'], datasets: [{ data: [tTotal, ntTotal, onlTotal], backgroundColor: ['#ffffff', '#a1a1aa', '#71717a'], borderRadius: 6 }] },
         options: { responsive: true, plugins: { legend: { display: false } } }
       });
 
       if(chartChecklistInst) chartChecklistInst.destroy();
       chartChecklistInst = new Chart(document.getElementById("chartChecklist").getContext("2d"), {
         type: 'doughnut',
-        data: {
-          labels: ['Barista & Kasir', 'Kitchen', 'Server'],
-          datasets: [{
-            data: [barTasks.length || 1, kitTasks.length || 1, srvTasks.length || 1],
-            backgroundColor: ['#ffffff', '#a1a1aa', '#52525b'], borderWidth: 0
-          }]
-        },
+        data: { labels: ['Barista', 'Kitchen', 'Server'], datasets: [{ data: [barTasks.length || 1, kitTasks.length || 1, srvTasks.length || 1], backgroundColor: ['#ffffff', '#a1a1aa', '#52525b'], borderWidth: 0 }] },
         options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
       });
     }
 
-    // 2. CHECKLIST STASIUN
+    // 2. CHECKLIST (TERISOLASI DIVISI)
     function renderChecklistStations() {
       const container = document.getElementById("stationGrid");
-      const stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
+      const lvl = currentUser ? currentUser.level : 1;
+      const uDiv = currentUser ? currentUser.divisi : "BARISTA";
+
+      let stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
+      if (lvl === 1) {
+        if (uDiv === "BARISTA") stations = ['BARISTA & KASIR'];
+        else if (uDiv === "KITCHEN") stations = ['KITCHEN'];
+        else if (uDiv === "SERVER") stations = ['SERVER'];
+        document.getElementById("txtChecklistSubtitle").innerText = `Checklist Khusus Divisi Anda (${uDiv}).`;
+      } else {
+        document.getElementById("txtChecklistSubtitle").innerText = `Monitoring Semua Stasiun.`;
+      }
+
       container.innerHTML = stations.map(st => {
         const tasks = (localData.CHECKLIST || []).filter(c => c.station === st);
         return `
@@ -933,12 +918,10 @@
             </div>
             ${tasks.map(t => `
               <div style="display:flex; align-items:flex-start; gap:0.65rem; padding:0.45rem 0; border-bottom:1px solid var(--border-subtle);">
-                <input type="checkbox" style="margin-top:0.15rem; width:17px; height:17px; cursor:pointer;" ${t.status==='Selesai'?'checked':''} onchange="toggleTaskState('${t.task_id}', this.checked)">
+                <input type="checkbox" style="margin-top:0.15rem; width:17px; height:17px;" ${t.status==='Selesai'?'checked':''} onchange="toggleTaskState('${t.task_id}', this.checked)">
                 <div style="flex:1; font-size:0.8rem;">
                   <div style="${t.status==='Selesai'?'text-decoration:line-through; color:var(--text-muted);':''}">${t.tugas}</div>
-                  <div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.15rem;">
-                    Shift ${t.shift} • Target ${t.jam_target} • PIC Selesai: <strong>${t.petugas || '-'}</strong> ${t.jam_selesai ? '('+t.jam_selesai+')' : ''}
-                  </div>
+                  <div style="font-size:0.68rem; color:var(--text-muted); margin-top:0.15rem;">Shift ${t.shift} • Target ${t.jam_target} • PIC: <strong>${t.petugas || '-'}</strong> ${t.jam_selesai ? '('+t.jam_selesai+')' : ''}</div>
                 </div>
                 ${currentUser && currentUser.level >= 2 ? `
                   <div style="display:flex; gap:0.2rem;">
@@ -957,20 +940,10 @@
       const task = (localData.CHECKLIST || []).find(c => c.task_id === id);
       const pet = isChecked ? currentUser.username : "";
       const jam = isChecked ? new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':') : "";
-      
-      if(task) {
-        task.status = isChecked ? "Selesai" : "Belum";
-        task.petugas = pet;
-        task.jam_selesai = jam;
-      }
+      if(task) { task.status = isChecked ? "Selesai" : "Belum"; task.petugas = pet; task.jam_selesai = jam; }
       renderChecklistStations();
       renderDashboard();
-
-      await postToGas("update", "CHECKLIST", { 
-        key: "task_id", 
-        val: id, 
-        updates: { status: isChecked ? "Selesai" : "Belum", jam_selesai: jam, petugas: pet } 
-      });
+      await postToGas("update", "CHECKLIST", { key: "task_id", val: id, updates: { status: isChecked ? "Selesai" : "Belum", jam_selesai: jam, petugas: pet } });
       await fetchAllData();
     }
 
@@ -1000,35 +973,25 @@
         const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = cleanMoney(s.min_stok);
         const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
 
-        const wasteLogs = (localData.LOG_KALENDER || []).filter(l => 
-          String(l.item_id).trim() === String(s.item_id).trim() && 
-          (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi"))
-        );
-        const totalWasteFromLog = wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
-        const waste = totalWasteFromLog > 0 ? totalWasteFromLog : cleanMoney(s.waste_mikro);
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+        const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
+        const waste = totalW > 0 ? totalW : cleanMoney(s.waste_mikro);
 
         const sisaDivisi = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
         const pemakaian = Math.max(0, mikroT - sisaDivisi);
-        const totalKeseluruhan = gudang + sisaDivisi;
-        const status = totalKeseluruhan <= min ? "RESTOCK" : "AMAN";
+        const totalAset = gudang + sisaDivisi;
+        const status = totalAset <= min ? "RESTOCK" : "AMAN";
 
         return `
           <tr>
-            <td><code>${s.item_id}</code></td>
-            <td>${s.divisi}</td>
-            <td><strong>${s.nama_barang}</strong></td>
-            <td>${s.satuan}</td>
+            <td><code>${s.item_id}</code></td><td>${s.divisi}</td><td><strong>${s.nama_barang}</strong></td><td>${s.satuan}</td>
             <td style="font-weight:700;">${gudang.toLocaleString('id-ID')}</td>
             <td style="font-weight:700; color:var(--success);">${sisaDivisi.toLocaleString('id-ID')}</td>
-            <td style="color:var(--danger); font-weight:700;">
-              ${waste > 0 ? waste.toLocaleString('id-ID') : '-'}
-              ${totalWasteFromLog > 0 ? '<span style="font-size:0.6rem; color:var(--warning); display:block;">(Dari Log)</span>' : ''}
-            </td>
+            <td style="color:var(--danger); font-weight:700;">${waste > 0 ? waste.toLocaleString('id-ID') : '-'} ${totalW > 0 ? '<span style="font-size:0.6rem; color:var(--warning); display:block;">(Dari Log)</span>' : ''}</td>
             <td><input type="text" style="width:65px; padding:0.2rem;" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
             <td><input type="text" style="width:65px; padding:0.2rem;" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
             <td style="font-weight:700; color:var(--warning);">${pemakaian.toLocaleString('id-ID')}</td>
-            <td><strong>${totalKeseluruhan.toLocaleString('id-ID')}</strong></td>
-            <td>${min.toLocaleString('id-ID')}</td>
+            <td><strong>${totalAset.toLocaleString('id-ID')}</strong></td><td>${min.toLocaleString('id-ID')}</td>
             <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span></td>
             <td>
               <button class="btn" onclick="editStokModal('${s.item_id}')">Edit</button>
@@ -1041,8 +1004,8 @@
 
     async function quickUpdateOpnameShift(id, field, val) {
       showToast("Menyimpan opname...");
-      let updates = {}; updates[field] = cleanMoney(val);
-      await postToGas("update", "STOK", { key: "item_id", val: id, updates: updates });
+      let u = {}; u[field] = cleanMoney(val);
+      await postToGas("update", "STOK", { key: "item_id", val: id, updates: u });
       await fetchAllData();
     }
 
@@ -1057,16 +1020,14 @@
 
       document.getElementById("fStkPreviewTersedia").innerText = totalT.toLocaleString('id-ID');
       document.getElementById("fStkPreviewSisa").innerText = sisa.toLocaleString('id-ID');
-      document.getElementById("fStkPreviewPemakaian").innerText = pemakaian.toLocaleString('id-ID');
       document.getElementById("fStkPreviewTotal").innerText = total.toLocaleString('id-ID');
-
       const tag = document.getElementById("fStkPreviewStatus");
       tag.className = (total <= min) ? "tag tag-restock" : "tag tag-safe";
       tag.innerText = (total <= min) ? `RESTOCK (Kurang ${Math.abs(total - min)})` : `AMAN (Surplus +${total - min})`;
     }
 
     function openNewStokModal() {
-      document.getElementById("modalStokTitle").innerText = "Tambah Barang Baru"; document.getElementById("fStkEditId").value = "";
+      document.getElementById("modalStokTitle").innerText = "Tambah Barang"; document.getElementById("fStkEditId").value = "";
       document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
       document.getElementById("fStkNama").value = ""; document.getElementById("fStkSatuan").value = "";
       document.getElementById("fStkMin").value = "700"; document.getElementById("fStkGudang").value = "1.000"; document.getElementById("fStkPagi").value = "700";
@@ -1085,9 +1046,9 @@
       document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID'); document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID');
       document.getElementById("fStkRefillS2").value = cleanMoney(item.refill_s2).toLocaleString('id-ID');
       
-      const wasteLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
-      const totalWasteFromLog = wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
-      document.getElementById("fStkWaste").value = (totalWasteFromLog > 0 ? totalWasteFromLog : cleanMoney(item.waste_mikro)).toLocaleString('id-ID');
+      const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+      const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
+      document.getElementById("fStkWaste").value = (totalW > 0 ? totalW : cleanMoney(item.waste_mikro)).toLocaleString('id-ID');
 
       document.getElementById("fStkOpnameS1").value = item.opname_s1 ? cleanMoney(item.opname_s1).toLocaleString('id-ID') : "";
       document.getElementById("fStkOpnameS2").value = item.opname_s2 ? cleanMoney(item.opname_s2).toLocaleString('id-ID') : "";
@@ -1109,28 +1070,25 @@
       else { payload.item_id = `${prefix}-${Date.now().toString().slice(-4)}`; await postToGas("insert", "STOK", payload); }
       await fetchAllData();
     }
-
     async function deleteStokItem(id) { if(confirm(`Hapus barang ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "STOK", { key: "item_id", val: id }); await fetchAllData(); } }
 
     // 4. KASIR & SERAH TERIMA
     function calcCashDenom() {
-      const tunai = cleanMoney(document.getElementById("fStTunai").value), nonTunai = cleanMoney(document.getElementById("fStNonTunai").value), online = cleanMoney(document.getElementById("fStOnline").value);
-      const modal = cleanMoney(document.getElementById("fStModal").value), pengeluaran = cleanMoney(document.getElementById("fStPengeluaran").value);
-      document.getElementById("fStOmsetShiftText").innerText = formatRupiah(tunai + nonTunai + online);
-      document.getElementById("boxTunaiText").innerText = formatRupiah(tunai);
-      document.getElementById("boxKeluarText").innerText = "- " + formatRupiah(pengeluaran);
-      document.getElementById("boxSetoranText").innerText = formatRupiah(tunai - pengeluaran);
-      document.getElementById("boxModalText").innerText = formatRupiah(modal);
+      const t = cleanMoney(document.getElementById("fStTunai").value), nt = cleanMoney(document.getElementById("fStNonTunai").value), onl = cleanMoney(document.getElementById("fStOnline").value);
+      const m = cleanMoney(document.getElementById("fStModal").value), k = cleanMoney(document.getElementById("fStPengeluaran").value);
+      document.getElementById("fStOmsetShiftText").innerText = formatRupiah(t + nt + onl);
+      document.getElementById("boxSetoranText").innerText = formatRupiah(t - k);
+      document.getElementById("boxModalText").innerText = formatRupiah(m);
     }
 
     function toggleHandoverNotesLabel() {
-      const tahap = document.getElementById("fStTahap").value;
-      document.getElementById("handoverNotesHeader").innerText = tahap.includes("Closing") ? "3. Catatan Kasir Closing Shift 2" : "3. Catatan Operasional Shift 1 untuk Shift 2";
+      const thp = document.getElementById("fStTahap").value;
+      document.getElementById("handoverNotesHeader").innerText = thp.includes("Closing") ? "3. Catatan Kasir Closing Shift 2" : "3. Catatan Operasional Shift 1 untuk Shift 2";
     }
 
-    function openNewHandoverShift(shiftNumber) {
+    function openNewHandoverShift(sNum) {
       document.getElementById("fStEditId").value = "";
-      document.getElementById("fStShiftNum").value = shiftNumber;
+      document.getElementById("fStShiftNum").value = sNum;
       document.getElementById("fStTanggal").value = new Date().toISOString().split('T')[0];
       document.getElementById("fStModal").value = "110.000";
       document.getElementById("fStTunai").value = "0";
@@ -1139,7 +1097,7 @@
       document.getElementById("fStPengeluaran").value = "0";
       document.getElementById("fStKetPengeluaran").value = "";
 
-      if (shiftNumber === 1) {
+      if (sNum === 1) {
         document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 1 (Sore 16:30)";
         document.getElementById("fStTahap").value = "Shift 1 → 2 (Sore 16:30)";
         document.getElementById("fStJam").value = "16:30";
@@ -1167,59 +1125,41 @@
     }
 
     async function submitHandoverForm() {
-      const editId = document.getElementById("fStEditId").value, tunai = cleanMoney(document.getElementById("fStTunai").value);
-      const nontunai = cleanMoney(document.getElementById("fStNonTunai").value), online = cleanMoney(document.getElementById("fStOnline").value);
-      const modal = cleanMoney(document.getElementById("fStModal").value), keluar = cleanMoney(document.getElementById("fStPengeluaran").value);
-      const tahapVal = document.getElementById("fStTahap").value;
-      const shiftVal = document.getElementById("fStShiftNum").value || (tahapVal.includes("Shift 1") ? "1" : "2");
+      const editId = document.getElementById("fStEditId").value, t = cleanMoney(document.getElementById("fStTunai").value);
+      const nt = cleanMoney(document.getElementById("fStNonTunai").value), onl = cleanMoney(document.getElementById("fStOnline").value);
+      const m = cleanMoney(document.getElementById("fStModal").value), k = cleanMoney(document.getElementById("fStPengeluaran").value);
+      const thp = document.getElementById("fStTahap").value;
+      const sNum = document.getElementById("fStShiftNum").value || (thp.includes("Shift 1") ? "1" : "2");
 
       const payload = {
-        tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0],
-        jam: document.getElementById("fStJam").value || "16:30",
-        tahap: tahapVal,
-        shift: shiftVal,
-        petugas_serah: currentUser.username,
-        petugas_terima: shiftVal === "1" ? "Shift 2" : "Shift Opening Besok",
-        penjualan_tunai: tunai,
-        non_tunai_qris: nontunai,
-        online_food: online,
-        total_omset_shift: tunai + nontunai + online,
-        kas_modal_stay: modal,
-        pengeluaran_kas_kecil: keluar,
-        keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
-        uang_setor_bersih: tunai - keluar,
-        prep_barista: document.getElementById("fStPrepBar").value,
-        prep_kitchen: document.getElementById("fStPrepKit").value,
-        prep_server: document.getElementById("fStPrepSrv").value,
-        catatan_evaluasi: document.getElementById("fStCatatan").value
+        tanggal: document.getElementById("fStTanggal").value || new Date().toISOString().split('T')[0], jam: document.getElementById("fStJam").value || "16:30",
+        tahap: thp, shift: sNum, petugas_serah: currentUser.username, petugas_terima: sNum === "1" ? "Shift 2" : "Opening Besok",
+        penjualan_tunai: t, non_tunai_qris: nt, online_food: onl, total_omset_shift: t + nt + onl,
+        kas_modal_stay: m, pengeluaran_kas_kecil: k, keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
+        uang_setor_bersih: t - k, prep_barista: document.getElementById("fStPrepBar").value, prep_kitchen: document.getElementById("fStPrepKit").value,
+        prep_server: document.getElementById("fStPrepSrv").value, catatan_evaluasi: document.getElementById("fStCatatan").value
       };
 
       closeModal('modalHandover'); showToast("Menyimpan serah terima...");
       if(editId) {
         await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
       } else {
-        payload.id = `ST-S${shiftVal}-${Date.now().toString().slice(-5)}`;
+        payload.id = `ST-S${sNum}-${Date.now().toString().slice(-5)}`;
         await postToGas("insert", "SERAH_TERIMA", payload);
       }
       await fetchAllData();
     }
-
-    async function deleteHandoverItem(id) { if(confirm(`Hapus data ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id }); await fetchAllData(); } }
+    async function deleteHandoverItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id }); await fetchAllData(); } }
 
     function renderHandoverTable() {
       document.getElementById("stTableBody").innerHTML = (localData.SERAH_TERIMA || []).map(st => {
         const isS1 = String(st.tahap).includes("Shift 1") || String(st.shift) === "1";
-        const badgeTahap = isS1 ? `<span class="tag tag-safe">SHIFT 1 (SORE)</span>` : `<span class="tag tag-restock">SHIFT 2 (CLOSING)</span>`;
+        const badge = isS1 ? `<span class="tag tag-safe">SHIFT 1 (SORE)</span>` : `<span class="tag tag-restock">SHIFT 2 (CLOSING)</span>`;
         return `
           <tr>
-            <td><code>${st.id}</code></td>
-            <td>${st.tanggal} ${st.jam || ''}</td>
-            <td>${badgeTahap}</td>
-            <td>${st.petugas_serah}</td>
+            <td><code>${st.id}</code></td><td>${st.tanggal} ${st.jam || ''}</td><td>${badge}</td><td>${st.petugas_serah}</td>
             <td><strong>${formatRupiah(st.total_omset_shift || (cleanMoney(st.penjualan_tunai)+cleanMoney(st.non_tunai_qris)+cleanMoney(st.online_food)))}</strong></td>
-            <td>${formatRupiah(st.penjualan_tunai)}</td>
-            <td>${formatRupiah(st.non_tunai_qris)}</td>
-            <td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
+            <td>${formatRupiah(st.penjualan_tunai)}</td><td>${formatRupiah(st.non_tunai_qris)}</td><td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
             <td style="font-size:0.72rem;">${st.keterangan_pengeluaran||'-'}</td>
             <td style="font-weight:700; color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
             <td style="font-weight:700; color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
@@ -1234,17 +1174,10 @@
     }
 
     // 5. DAILY REPORT
-    function openNewDailyReportModal() { 
-      document.getElementById("modalDrTitle").innerText = "Simpan Report Harian"; 
-      document.getElementById("fDrEditId").value = ""; 
-      document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0]; 
-      autoPullDailyReportData(); 
-      openModal('modalDailyReport'); 
-    }
-
+    function openNewDailyReportModal() { document.getElementById("modalDrTitle").innerText = "Simpan Report"; document.getElementById("fDrEditId").value = ""; document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0]; autoPullDailyReportData(); openModal('modalDailyReport'); }
     function editDailyReportModal(id) {
       const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
-      document.getElementById("modalDrTitle").innerText = "Edit Daily Report: " + id; document.getElementById("fDrEditId").value = id;
+      document.getElementById("modalDrTitle").innerText = "Edit Report: " + id; document.getElementById("fDrEditId").value = id;
       document.getElementById("fDrTanggal").value = dr.tanggal; document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
       document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2).toLocaleString('id-ID'); document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc).toLocaleString('id-ID');
       document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID'); document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 5000000).toLocaleString('id-ID');
@@ -1262,13 +1195,9 @@
       let s1 = 0, s2 = 0, qris = 0, online = 0, keluar = 0, ketKeluar = [], evalText = [];
       handovers.forEach(h => {
         const omset = cleanMoney(h.penjualan_tunai) + cleanMoney(h.non_tunai_qris) + cleanMoney(h.online_food);
-        if (String(h.tahap).includes("Shift 1") || String(h.shift) === "1") {
-          s1 += omset;
-        } else {
-          s2 += omset;
-        }
-        qris += cleanMoney(h.non_tunai_qris);
-        online += cleanMoney(h.online_food);
+        if (String(h.tahap).includes("Shift 1") || String(h.shift) === "1") s1 += omset;
+        else s2 += omset;
+        qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food);
         keluar += cleanMoney(h.pengeluaran_kas_kecil);
         if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
         if(h.catatan_evaluasi) evalText.push(h.catatan_evaluasi);
@@ -1282,8 +1211,8 @@
       document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === tgl);
-      const wasteLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi"));
-      document.getElementById("fDrWaste").value = wasteLogs.length ? wasteLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada waste";
+      const wLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi"));
+      document.getElementById("fDrWaste").value = wLogs.length ? wLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada waste";
       document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
 
       const restockList = (localData.STOK || []).filter(s => {
@@ -1292,7 +1221,7 @@
       }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || 'Semua stok aman.';
       document.getElementById("fDrRestockList").value = restockList;
       if(evalText.length) document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
-      showToast("Data operasional Shift 1 & Shift 2 berhasil ditarik!");
+      showToast("Data Shift 1 & Shift 2 berhasil ditarik!");
     }
 
     async function submitDailyReportForm() {
@@ -1312,19 +1241,14 @@
       else { payload.report_id = "REP-" + Date.now().toString().slice(-6); await postToGas("insert", "DAILY_REPORT", payload); }
       await fetchAllData();
     }
-
-    async function deleteDailyReportItem(id) { if(confirm(`Hapus Report ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id }); await fetchAllData(); } }
+    async function deleteDailyReportItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id }); await fetchAllData(); } }
 
     function renderDailyReportTable() {
       document.getElementById("drTableBody").innerHTML = (localData.DAILY_REPORT || []).map(dr => `
         <tr>
-          <td><code>${dr.report_id}</code></td>
-          <td>${dr.tanggal}</td>
-          <td><strong>${formatRupiah(dr.total_omset)}</strong></td>
-          <td>${formatRupiah(dr.qris_edc)}</td>
-          <td>${formatRupiah(dr.target_harian)}</td>
-          <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td>
-          <td>${formatRupiah(dr.total_kas_keluar)}</td>
+          <td><code>${dr.report_id}</code></td><td>${dr.tanggal}</td><td><strong>${formatRupiah(dr.total_omset)}</strong></td>
+          <td>${formatRupiah(dr.qris_edc)}</td><td>${formatRupiah(dr.target_harian)}</td>
+          <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td><td>${formatRupiah(dr.total_kas_keluar)}</td>
           <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_barista||'-'}</td>
           <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_kitchen||'-'}</td>
           <td style="font-size:0.72rem; color:var(--warning);">${dr.belanja_server||'-'}</td>
@@ -1339,7 +1263,6 @@
     function sendWhatsAppDaily() {
       const todayStr = new Date().toISOString().split('T')[0], todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
       const dr = (localData.DAILY_REPORT || []).find(d => d.tanggal === todayStr) || {};
-
       const handovers = (localData.SERAH_TERIMA || []).filter(h => h.tanggal === todayStr);
       let tunai = 0, qris = 0, online = 0, modal = 110000, keluar = 0, ketKeluar = [];
       handovers.forEach(h => {
@@ -1354,86 +1277,63 @@
       const offStaff = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === todayStr);
-      const wasteItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste';
+      const wItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste';
 
       const restockItems = (localData.STOK || []).filter(s => {
         const total = cleanMoney(s.total_makro) || (cleanMoney(s.stok_gudang) + cleanMoney(s.opname_s2 || s.opname_s1));
         return total <= cleanMoney(s.min_stok);
-      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || '• Semua stok aman di atas limit';
+      }).map(s => `• ${s.nama_barang} (Sisa: ${cleanMoney(s.opname_s2||s.opname_s1||s.stok_gudang)} ${s.satuan})`).join('\n') || '• Semua stok aman';
 
-      const fullMessage = 
+      const msg = 
         `*LAPORAN OPERASIONAL HARIAN — HOLLO COFFEE*\n` +
         `📅 Tanggal: ${todayFormatted}\n` +
-        `👤 PIC Pelapor: ${currentUser ? currentUser.nama_lengkap : 'Admin'} (${currentUser ? currentUser.role : 'MANAJEMEN'})\n\n` +
+        `👤 Pelapor: ${currentUser ? currentUser.nama_lengkap : 'Admin'} (${currentUser ? currentUser.role : 'MANAJEMEN'})\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*1. RINGKASAN OMSET & REVENUE:*\n` +
-        `• Omset Shift 1: ${formatRupiah(dr.rev_shift1 || 0)}\n` +
-        `• Omset Shift 2: ${formatRupiah(dr.rev_shift2 || 0)}\n` +
-        `• *TOTAL REVENUE OMSET: ${formatRupiah((cleanMoney(dr.rev_shift1) + cleanMoney(dr.rev_shift2)) || (tunai + qris + online))}*\n` +
-        `  - Penjualan Tunai: ${formatRupiah(tunai)}\n` +
-        `  - Non-Tunai (EDC/QRIS): ${formatRupiah(qris)}\n` +
-        `  - Online Food Portal: ${formatRupiah(online)}\n\n` +
-        `*2. REKAP FISIK UANG KAS LACI (SISTEM IMPREST):*\n` +
-        `• Modal Awal Kasir (Stay di Laci): ${formatRupiah(modal)}\n` +
-        `• Pengeluaran Kas Kecil: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
-        `• *Uang Setoran Tunai Bersih (Amplop): ${formatRupiah(tunai - keluar)}*\n\n` +
+        `*1. OMSET REVENUE:*\n` +
+        `• Shift 1: ${formatRupiah(dr.rev_shift1 || 0)}\n` +
+        `• Shift 2: ${formatRupiah(dr.rev_shift2 || 0)}\n` +
+        `• *TOTAL: ${formatRupiah((cleanMoney(dr.rev_shift1) + cleanMoney(dr.rev_shift2)) || (tunai + qris + online))}*\n` +
+        `  - Tunai: ${formatRupiah(tunai)}\n  - Non-Tunai: ${formatRupiah(qris)}\n  - Online: ${formatRupiah(online)}\n\n` +
+        `*2. KAS LACI (IMPREST):*\n` +
+        `• Modal Stay: ${formatRupiah(modal)}\n` +
+        `• Kas Keluar: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
+        `• *Setor Bersih Amplop: ${formatRupiah(tunai - keluar)}*\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*3. 🛒 KEBUTUHAN BELANJA & PREP BESOK PAGI:*\n` +
-        `☕ *Barista:* ${dr.belanja_barista || 'Lengkap / Aman'}\n` +
-        `🍳 *Kitchen:* ${dr.belanja_kitchen || 'Lengkap / Aman'}\n` +
-        `🍽️ *Server:* ${dr.belanja_server || 'Lengkap / Aman'}\n\n` +
+        `*3. 🛒 KEBUTUHAN BELANJA BESOK PAGI:*\n` +
+        `☕ *Barista:* ${dr.belanja_barista || 'Aman'}\n` +
+        `🍳 *Kitchen:* ${dr.belanja_kitchen || 'Aman'}\n` +
+        `🍽️ *Server:* ${dr.belanja_server || 'Aman'}\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*4. ⚠️ BAHAN KRITIS (STATUS RESTOCK):*\n` +
-        `${restockItems}\n\n` +
+        `*4. ⚠️ STOK RESTOCK:*\n${restockItems}\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*5. ROSTER TIM & KEHADIRAN:*\n` +
-        `• Shift 1: ${s1Staff}\n` +
-        `• Shift 2: ${s2Staff}\n` +
-        `• Libur (Off): ${offStaff}\n\n` +
+        `*5. ROSTER TIM:*\n• S1: ${s1Staff}\n• S2: ${s2Staff}\n• Off: ${offStaff}\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*6. QC, KALIBRASI & LOG WASTE:*\n` +
-        `${wasteItems}\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*7. EVALUASI BRIEFING CLOSING:*\n` +
-        `${dr.evaluasi_harian || 'Operasional shift berjalan tertib dan lancar.'}\n\n` +
+        `*6. WASTE & KALIBRASI:*\n${wItems}\n\n` +
+        `*7. EVALUASI:* ${dr.evaluasi_harian || 'Operasional lancar.'}\n\n` +
         `_Laporan resmi sah terkirim melalui Sistem Terintegrasi Kafe._`;
 
-      window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(fullMessage), '_blank');
+      window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg), '_blank');
     }
 
-    // 6. INFO & DATABASE (TERKUNCI KHUSUS BOY)
+    // 6. INFO & DATABASE (HANYA BOY LEVEL 6)
     function renderInfoSistemView() {
       document.getElementById("infoWebhookUrl").innerText = API_URL;
-      document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO COFFEE & ROASTERY'S — MASTER";
-      document.getElementById("infoSheetId").innerText = metaInfo.sheet_id || "Terdeteksi dari Script Aktif";
+      document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO COFFEE DATABASE";
+      document.getElementById("infoSheetId").innerText = metaInfo.sheet_id || "Script Aktif";
       
       const isSuper = (currentUser && currentUser.level === 6);
-
-      const wrapSheet = document.getElementById("boxSheetActionWrap");
+      const wSheet = document.getElementById("boxSheetActionWrap");
       if (isSuper) {
-        wrapSheet.innerHTML = `
-          <a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/u/0/'}" target="_blank" class="btn btn-solid" style="width:100%; justify-content:center; padding:0.65rem; text-decoration:none;">
-            🔗 Buka Google Spreadsheet di Tab Baru ↗
-          </a>
-        `;
+        wSheet.innerHTML = `<a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/u/0/'}" target="_blank" class="btn btn-solid" style="width:100%; justify-content:center; text-decoration:none;">🔗 Buka Google Sheet di Tab Baru ↗</a>`;
       } else {
-        wrapSheet.innerHTML = `
-          <div style="background:var(--bg); padding:0.5rem; border-radius:4px; font-size:0.75rem; color:var(--text-muted); border:1px dashed var(--border); text-align:center;">
-            🔒 File Database Terkunci Khusus Owner / Superadmin
-          </div>
-        `;
+        wSheet.innerHTML = `<div style="background:var(--bg); padding:0.5rem; border-radius:4px; font-size:0.75rem; color:var(--text-muted); text-align:center;">🔒 File Database Terkunci Khusus Owner / Superadmin</div>`;
       }
 
-      const wrapWebhook = document.getElementById("boxWebhookActionWrap");
+      const wHook = document.getElementById("boxWebhookActionWrap");
       if (isSuper) {
-        wrapWebhook.innerHTML = `
-          <button class="btn" style="flex:1; justify-content:center;" onclick="testPingConnection()">🔌 Tes Ping Koneksi</button>
-          <button class="btn btn-solid" style="flex:1; justify-content:center;" onclick="updateWebhookPrompt()">⚙ Ganti URL</button>
-        `;
+        wHook.innerHTML = `<button class="btn" style="flex:1;" onclick="testPingConnection()">🔌 Tes Ping</button><button class="btn btn-solid" style="flex:1;" onclick="updateWebhookPrompt()">⚙ Ganti URL</button>`;
       } else {
-        wrapWebhook.innerHTML = `
-          <button class="btn" style="width:100%; justify-content:center;" onclick="testPingConnection()">🔌 Tes Ping Koneksi</button>
-        `;
+        wHook.innerHTML = `<button class="btn" style="width:100%;" onclick="testPingConnection()">🔌 Tes Ping</button>`;
       }
 
       const tables = [
@@ -1449,38 +1349,47 @@
       ];
 
       document.getElementById("infoTablesBody").innerHTML = tables.map(t => `
-        <tr>
-          <td><code>${t.name}</code></td>
-          <td>${t.desc}</td>
-          <td><span class="tag tag-safe">ONLINE</span></td>
-          <td><strong>${t.count} Data</strong></td>
-        </tr>
+        <tr><td><code>${t.name}</code></td><td>${t.desc}</td><td><span class="tag tag-safe">ONLINE</span></td><td><strong>${t.count} Baris</strong></td></tr>
       `).join('');
+    }
+
+    async function testPingConnection() {
+      showToast("Menguji ping...");
+      try {
+        const res = await fetch(`${API_URL}?action=ping`);
+        const json = await res.json();
+        if (json.success) {
+          if (json.sheet_url) metaInfo.sheet_url = json.sheet_url;
+          if (json.sheet_name) metaInfo.sheet_name = json.sheet_name;
+          if (json.sheet_id) metaInfo.sheet_id = json.sheet_id;
+          renderInfoSistemView();
+          alert(`✅ KONEKSI BERHASIL!\n\nPesan: ${json.message}\nSheet: ${json.sheet_name}\nURL: ${json.sheet_url}`);
+        } else { alert("❌ PING GAGAL: " + json.message); }
+      } catch (e) { alert("❌ GAGAL MENGHUBUNGI APPS SCRIPT!\nPastikan Webhook URL benar dan diset 'Anyone'."); }
     }
 
     // 7. KALENDER OPERASIONAL
     function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
     function renderCalendar() {
       const y = calDate.getFullYear(), m = calDate.getMonth();
-      const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-      document.getElementById("calMonthTitle").innerText = `${monthNames[m]} ${y}`;
+      const mNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+      document.getElementById("calMonthTitle").innerText = `${mNames[m]} ${y}`;
       const grid = document.getElementById("calendarGrid");
       grid.innerHTML = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d => `<div class="cal-day-name">${d}</div>`).join('');
-      const daysInMonth = new Date(y, m + 1, 0).getDate();
-      for (let day = 1; day <= daysInMonth; day++) {
+      const totalDays = new Date(y, m + 1, 0).getDate();
+      for (let day = 1; day <= totalDays; day++) {
         const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
         const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
         const s1 = roster.filter(j => j.shift === '1'), s2 = roster.filter(j => j.shift === '2'), off = roster.filter(j => j.status_hadir === 'Libur');
         const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
         const hasData = (roster.length > 0 || logs.length > 0);
         grid.innerHTML += `
-          <div class="cal-cell ${hasData ? 'has-data' : ''}" onclick="openDayInspector('${dateStr}')">
-            <div class="cal-date-num">${day}</div>
-            <div class="cal-tags-wrap">
-              ${s1.length ? `<span class="cal-badge badge-shift">S1: ${s1.map(x=>x.nama).join(',')}</span>` : ''}
-              ${s2.length ? `<span class="cal-badge badge-shift">S2: ${s2.map(x=>x.nama).join(',')}</span>` : ''}
-              ${off.length ? `<span class="cal-badge badge-off">Off: ${off.map(x=>x.nama).join(',')}</span>` : ''}
-              ${logs.length ? `<span class="cal-badge badge-log">${logs.length} Log</span>` : ''}
+          <div class="cal-cell" onclick="openDayInspector('${dateStr}')">
+            <div style="font-weight:700; font-size:0.8rem;">${day}</div>
+            <div style="display:flex; flex-direction:column; gap:0.15rem; margin-top:0.25rem;">
+              ${s1.length ? `<span class="cal-badge">S1: ${s1.map(x=>x.nama).join(',')}</span>` : ''}
+              ${s2.length ? `<span class="cal-badge">S2: ${s2.map(x=>x.nama).join(',')}</span>` : ''}
+              ${logs.length ? `<span class="cal-badge" style="background:rgba(245,158,11,0.2); color:var(--warning);">${logs.length} Log</span>` : ''}
             </div>
           </div>
         `;
@@ -1492,7 +1401,7 @@
       document.getElementById("inspectDateTitle").innerText = `Detail Tanggal: ${dateStr}`;
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
       document.getElementById("inspectRosterList").innerHTML = roster.length ? roster.map(r => `
-        <div style="font-size:0.78rem; padding:0.35rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="font-size:0.75rem; padding:0.35rem; background:var(--elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
           <div><strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift} <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}">${r.status_hadir}</span></div>
           ${currentUser && currentUser.level >= 2 ? `
             <div style="display:flex; gap:0.2rem;">
@@ -1505,8 +1414,8 @@
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
       document.getElementById("inspectLogList").innerHTML = logs.length ? logs.map(l => `
-        <div style="font-size:0.78rem; padding:0.35rem; background:var(--surface-elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
-          <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted); font-size:0.72rem;">${l.detail} (PIC: ${l.pic})</div></div>
+        <div style="font-size:0.75rem; padding:0.35rem; background:var(--elevated); border:1px solid var(--border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted); font-size:0.7rem;">${l.detail} (PIC: ${l.pic})</div></div>
           ${currentUser && currentUser.level >= 2 ? `
             <div style="display:flex; gap:0.2rem;">
               <button class="btn" style="padding:0.15rem 0.35rem; font-size:0.65rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
@@ -1521,12 +1430,12 @@
     function openRosterForCurrentInspectDate() { document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal"; document.getElementById("fJdwEditId").value = ""; document.getElementById("fJdwTanggal").value = activeInspectDate; openModal('modalRoster'); }
     function editRosterModal(id) {
       const r = (localData.JADWAL || []).find(x => x.id === id); if(!r) return;
-      document.getElementById("modalRosterTitle").innerText = "Edit Jadwal: " + r.nama;
-      document.getElementById("fJdwEditId").value = r.id; document.getElementById("fJdwTanggal").value = r.tanggal; document.getElementById("fJdwUser").value = r.username;
+      document.getElementById("modalRosterTitle").innerText = "Edit Jadwal: " + r.nama; document.getElementById("fJdwEditId").value = r.id;
+      document.getElementById("fJdwTanggal").value = r.tanggal; document.getElementById("fJdwUser").value = r.username;
       document.getElementById("fJdwShift").value = r.shift; document.getElementById("fJdwStatus").value = r.status_hadir; document.getElementById("fJdwCatatan").value = r.catatan;
       openModal('modalRoster');
     }
-    async function deleteRosterItem(id) { if(confirm(`Hapus jadwal ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "JADWAL", { key: "id", val: id }); await fetchAllData(); openDayInspector(activeInspectDate); renderCalendar(); } }
+    async function deleteRosterItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "JADWAL", { key: "id", val: id }); await fetchAllData(); openDayInspector(activeInspectDate); renderCalendar(); } }
 
     function handleLogCategoryChange() {
       const kat = document.getElementById("fLogKategori").value;
@@ -1534,14 +1443,10 @@
       document.getElementById("fLogStockSection").style.display = isStock ? "block" : "none";
       document.getElementById("fLogNonStockSection").style.display = isStock ? "none" : "block";
 
-      const labelQty = document.getElementById("labelQtyLog");
-      if (kat.includes("Waste")) {
-        labelQty.innerText = "JUMLAH BAHAN AFKIR / KALIBRASI (MEMOTONG STOK STASIUN)";
-      } else if (kat.includes("Barang Masuk")) {
-        labelQty.innerText = "JUMLAH BARANG MASUK / RESTOCK (MENAMBAH GUDANG UTAMA)";
-      } else {
-        labelQty.innerText = "JUMLAH FISIK";
-      }
+      const lQty = document.getElementById("labelQtyLog");
+      if (kat.includes("Waste")) lQty.innerText = "JUMLAH BAHAN AFKIR / KALIBRASI (MEMOTONG STOK STASIUN)";
+      else if (kat.includes("Barang Masuk")) lQty.innerText = "JUMLAH BARANG MASUK / RESTOCK (MENAMBAH GUDANG UTAMA)";
+      else lQty.innerText = "JUMLAH FISIK";
       updateLogEffectNotice();
     }
 
@@ -1550,8 +1455,8 @@
       const select = document.getElementById("fLogItemSelect");
       const filtered = (localData.STOK || []).filter(s => s.divisi === div);
       select.innerHTML = filtered.length ? filtered.map(s => {
-        const wasteLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
-        const waste = wasteLogs.length ? wasteLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Kalibrasi")));
+        const waste = wLogs.length ? wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
         const sisa = (cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || Math.max(0, cleanMoney(s.tersedia_pagi)+cleanMoney(s.refill_s1)+cleanMoney(s.refill_s2)-waste));
         return `<option value="${s.item_id}" data-nama="${s.nama_barang}" data-satuan="${s.satuan}" data-gudang="${cleanMoney(s.stok_gudang)}" data-mikro="${sisa}">${s.nama_barang} (${s.satuan} | Gudang: ${cleanMoney(s.stok_gudang)} | Divisi: ${sisa})</option>`;
       }).join('') : '<option value="">[Tidak ada barang di divisi ini]</option>';
@@ -1600,13 +1505,13 @@
     }
 
     async function deleteLogItem(id) { 
-      if(confirm(`Hapus log ${id}? Stok akan otomatis direvert/disesuaikan!`)) { 
-        showToast("Menghapus log & menyesuaikan stok..."); 
+      if(confirm(`Hapus log ${id}? Stok akan otomatis disesuaikan!`)) { 
+        showToast("Menghapus log..."); 
         await postToGas("delete", "LOG_KALENDER", { key: "log_id", val: id }); 
         await fetchAllData(); 
         openDayInspector(activeInspectDate); 
         renderCalendar(); 
-        showToast("Log dihapus & stok berhasil direvert!");
+        showToast("Log dihapus!");
       } 
     }
 
@@ -1638,19 +1543,13 @@
         detail: document.getElementById("fLogDetail").value, pic: currentUser.username, tindak_lanjut: "Tercatat & Terkoneksi Stok"
       };
 
-      closeModal('modalLog'); showToast("Menyimpan log & mutasi stok...");
-
-      if(editId) {
-        await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
-      } else {
-        payload.log_id = "LOG-" + Date.now().toString().slice(-5);
-        await postToGas("insert", "LOG_KALENDER", payload);
-      }
-
+      closeModal('modalLog'); showToast("Menyimpan log...");
+      if(editId) { await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload }); }
+      else { payload.log_id = "LOG-" + Date.now().toString().slice(-5); await postToGas("insert", "LOG_KALENDER", payload); }
       await fetchAllData(); renderCalendar(); showToast("Log & Stok otomatis tersinkron!");
     }
 
-    // 8. MENU & HPP
+    // 8. MENU & MASTER KARYAWAN
     function filterMenuCategory(cat) {
       document.getElementById("btnMenuMinuman").classList.toggle("active", cat==='Minuman');
       document.getElementById("btnMenuMakanan").classList.toggle("active", cat==='Makanan');
@@ -1692,32 +1591,78 @@
     }
     async function deleteMenuItem(id) { if(confirm(`Hapus menu ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "MENU", { key: "menu_id", val: id }); await fetchAllData(); } }
 
-    // 9. MASTER VAULT KARYAWAN
+    // 9. MASTER VAULT KARYAWAN & MATRIKS TAB
     function renderVaultTable() {
       document.getElementById("vaultTableBody").innerHTML = (localData.USERS || []).map(u => `
         <tr>
           <td><code>${u.user_id}</code></td><td><strong>${u.username}</strong></td><td onclick="editUserModal('${u.user_id}')" style="cursor:pointer;">${u.nama_lengkap}</td>
           <td>${u.role}</td><td>Level ${u.level}</td><td>${u.divisi}</td><td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
+          <td style="font-size:0.7rem; color:var(--text-muted); max-width:200px; overflow:hidden; text-overflow:ellipsis;">${u.akses_tabs || 'Default'}</td>
           <td><button class="btn" onclick="editUserModal('${u.user_id}')">Edit</button><button class="btn btn-danger" onclick="deleteUserItem('${u.user_id}')">Hapus</button></td>
         </tr>
       `).join('');
     }
-    function openNewUserModal() { document.getElementById("modalUserTitle").innerText = "Tambah Karyawan"; document.getElementById("fUserEditId").value = ""; document.getElementById("fUserUsername").value = ""; document.getElementById("fUserNamaLengkap").value = ""; document.getElementById("fUserPin").value = "1234"; openModal('modalUser'); }
+
+    function openNewUserModal() {
+      document.getElementById("modalUserTitle").innerText = "Tambah Karyawan"; document.getElementById("fUserEditId").value = "";
+      document.getElementById("fUserUsername").value = ""; document.getElementById("fUserNamaLengkap").value = ""; document.getElementById("fUserPin").value = "1234";
+      setTabCheckboxesValue("kalender,checklist,stok");
+      openModal('modalUser');
+    }
+
     function editUserModal(id) {
       const u = (localData.USERS || []).find(x => x.user_id === id); if(!u) return;
       document.getElementById("modalUserTitle").innerText = "Edit Karyawan: " + u.username; document.getElementById("fUserEditId").value = u.user_id;
       document.getElementById("fUserUsername").value = u.username; document.getElementById("fUserNamaLengkap").value = u.nama_lengkap;
-      document.getElementById("fUserRole").value = u.role; document.getElementById("fUserDivisi").value = u.divisi; document.getElementById("fUserPin").value = u.pin; openModal('modalUser');
+      document.getElementById("fUserRole").value = u.role; document.getElementById("fUserDivisi").value = u.divisi; document.getElementById("fUserPin").value = u.pin;
+      setTabCheckboxesValue(u.akses_tabs || "");
+      openModal('modalUser');
     }
+
+    function setTabCheckboxesValue(str) {
+      const tabs = ["dashboard","kalender","checklist","stok","serah_terima","daily_report","menu","perusahaan","info_sistem"];
+      tabs.forEach(t => {
+        const hyphenated = t.replace(/_/g, '-');
+        const el = document.getElementById(`chkTab_${t}`);
+        if (el) el.checked = str.includes(hyphenated);
+      });
+    }
+
+    function getTabCheckboxesValue() {
+      const tabs = ["dashboard","kalender","checklist","stok","serah_terima","daily_report","menu","perusahaan","info_sistem"];
+      let activeTabs = [];
+      tabs.forEach(t => {
+        const el = document.getElementById(`chkTab_${t}`);
+        if (el && el.checked) activeTabs.push(t.replace(/_/g, '-'));
+      });
+      return activeTabs.join(',');
+    }
+
     function syncUserLevel() {
-      const role = document.getElementById("fUserRole").value, divSel = document.getElementById("fUserDivisi");
-      if(role === "BARISTA" || role === "HEAD") divSel.value = "BARISTA"; else if(role === "KITCHEN") divSel.value = "KITCHEN"; else if(role === "SERVER") divSel.value = "SERVER"; else divSel.value = "MANAJEMEN";
+      const r = document.getElementById("fUserRole").value, divSel = document.getElementById("fUserDivisi");
+      if(r === "BARISTA" || r === "HEAD") divSel.value = "BARISTA";
+      else if(r === "KITCHEN") divSel.value = "KITCHEN";
+      else if(r === "SERVER") divSel.value = "SERVER";
+      else divSel.value = "MANAJEMEN";
     }
+
     async function submitUserForm() {
-      const editId = document.getElementById("fUserEditId").value, role = document.getElementById("fUserRole").value;
+      const editId = document.getElementById("fUserEditId").value, r = document.getElementById("fUserRole").value;
       let level = 1;
-      if(role === "HEAD") level = 2; else if(role === "PURCHASING" || role === "HRD") level = 3; else if(role === "MANAGER") level = 4; else if(role === "OWNER") level = 5; else if(role === "RAJA_UTAMA") level = 6;
-      const payload = { username: document.getElementById("fUserUsername").value.toLowerCase().trim(), nama_lengkap: document.getElementById("fUserNamaLengkap").value, role: role, level: level, divisi: document.getElementById("fUserDivisi").value, pin: document.getElementById("fUserPin").value.trim(), status: "Aktif", akses_perusahaan: level >= 4 ? "YA" : "TIDAK" };
+      if(r === "HEAD") level = 2; else if(r === "PURCHASING" || r === "HRD") level = 3; else if(r === "MANAGER") level = 4; else if(r === "OWNER") level = 5; else if(r === "RAJA_UTAMA") level = 6;
+      
+      const allowedTabs = getTabCheckboxesValue();
+
+      const payload = {
+        username: document.getElementById("fUserUsername").value.toLowerCase().trim(),
+        nama_lengkap: document.getElementById("fUserNamaLengkap").value,
+        role: r, level: level, divisi: document.getElementById("fUserDivisi").value,
+        pin: document.getElementById("fUserPin").value.trim(),
+        status: "Aktif",
+        akses_perusahaan: level >= 4 ? "YA" : "TIDAK",
+        akses_tabs: allowedTabs
+      };
+
       closeModal('modalUser'); showToast("Menyimpan karyawan...");
       if(editId) await postToGas("update", "USERS", { key: "user_id", val: editId, updates: payload });
       else { payload.user_id = "USR-" + Date.now().toString().slice(-4); payload.tipe_kerja = "Tetap"; await postToGas("insert", "USERS", payload); }
