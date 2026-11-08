@@ -3,71 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>HOLLO COFFEE & ROASTERY'S — Executive F&B Portal</title>
+  <title>HOLLO COFFEE & ROASTERY'S — Executive Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    :root{--bg:#09090b;--surface:#121215;--elevated:#1a1a20;--border:#27272a;--border-subtle:#1e1e24;--text:#f4f4f5;--text-muted:#a1a1aa;--accent:#fff;--accent-inv:#000;--danger:#ef4444;--success:#10b981;--warning:#f59e0b;--radius:10px;--radius-sm:6px;}
+    :root{--bg:#09090b;--surface:#121215;--elevated:#1a1a20;--border:#27272a;--border-subtle:#1e1e24;--text:#f4f4f5;--text-muted:#a1a1aa;--accent:#fff;--accent-inv:#000;--danger:#ef4444;--success:#10b981;--warning:#f59e0b;--radius:8px;}
     [data-theme="light"]{--bg:#f4f4f5;--surface:#fff;--elevated:#f1f3f5;--border:#e4e4e7;--border-subtle:#ebebef;--text:#09090b;--text-muted:#71717a;--accent:#000;--accent-inv:#fff;--danger:#dc2626;--success:#059669;--warning:#d97706;}
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Plus Jakarta Sans',sans-serif;}
     body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;-webkit-tap-highlight-color:transparent;}
     #gatekeeper{position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;}
-    .lock-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem 1.5rem;width:100%;max-width:380px;text-align:center;}
-    header{padding:0.75rem 1.25rem;border-bottom:1px solid var(--border);background:var(--surface);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:0.5rem;}
-    .brand-wrap{display:flex;align-items:center;gap:0.6rem;}
-    .live-clock-pill{display:flex;align-items:center;gap:0.4rem;background:var(--elevated);border:1px solid var(--border);padding:0.25rem 0.55rem;border-radius:999px;font-size:0.72rem;font-weight:600;}
-    .live-dot{width:7px;height:7px;border-radius:50%;background:var(--success);}
-    .btn{min-height:36px;padding:0.45rem 0.8rem;border-radius:var(--radius-sm);font-size:0.78rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);display:inline-flex;align-items:center;justify-content:center;gap:0.35rem;white-space:nowrap;}
+    .lock-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem 1.5rem;width:100%;max-width:360px;text-align:center;}
+    header{padding:0.6rem 1rem;border-bottom:1px solid var(--border);background:var(--surface);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:0.4rem;}
+    .btn{min-height:34px;padding:0.4rem 0.75rem;border-radius:6px;font-size:0.75rem;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--text);display:inline-flex;align-items:center;justify-content:center;gap:0.3rem;white-space:nowrap;}
     .btn:hover{background:var(--elevated);}
     .btn-solid{background:var(--accent);color:var(--accent-inv);border-color:var(--accent);}
     .btn-danger{color:var(--danger);border-color:rgba(239,68,68,0.3);}
     .btn-wa{background:#25D366;color:#fff;border-color:#25D366;}
-    nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;gap:0.25rem;padding:0.25rem 1rem;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+    nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;gap:0.2rem;padding:0.2rem 0.8rem;overflow-x:auto;scrollbar-width:none;}
     nav::-webkit-scrollbar{display:none;}
-    .nav-tab{padding:0.7rem 1rem;font-size:0.82rem;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
+    .nav-tab{padding:0.6rem 0.85rem;font-size:0.8rem;font-weight:500;color:var(--text-muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;}
     .nav-tab.active{color:var(--text);border-color:var(--accent);font-weight:600;}
-    main{padding:1.25rem;max-width:1440px;margin:0 auto;width:100%;flex:1;}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.15rem;margin-bottom:1rem;}
-    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.85rem;margin-bottom:1.25rem;}
-    .card-title{font-size:0.72rem;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-bottom:0.3rem;}
-    .card-val{font-size:1.5rem;font-family:'Space Grotesk',sans-serif;font-weight:700;}
-    .charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:1rem;margin-bottom:1.5rem;}
-    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.35rem;}
-    .cal-day-name{text-align:center;font-size:0.72rem;font-weight:600;color:var(--text-muted);padding-bottom:0.4rem;text-transform:uppercase;}
-    .cal-cell{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);min-height:80px;padding:0.4rem;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;}
+    main{padding:1rem;max-width:1440px;margin:0 auto;width:100%;flex:1;}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;margin-bottom:0.85rem;}
+    .kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.75rem;margin-bottom:1rem;}
+    .card-title{font-size:0.7rem;text-transform:uppercase;font-weight:600;color:var(--text-muted);margin-bottom:0.2rem;}
+    .card-val{font-size:1.35rem;font-family:'Space Grotesk',sans-serif;font-weight:700;}
+    .charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:0.85rem;margin-bottom:1rem;}
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.3rem;}
+    .cal-cell{background:var(--surface);border:1px solid var(--border);border-radius:6px;min-height:75px;padding:0.35rem;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;}
     .cal-cell:hover{border-color:var(--accent);background:var(--elevated);}
-    .cal-badge{font-size:0.62rem;padding:0.1rem 0.25rem;border-radius:3px;font-weight:600;background:rgba(255,255,255,0.08);}
-    .table-card{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow-x:auto;-webkit-overflow-scrolling:touch;}
-    table{width:100%;border-collapse:collapse;font-size:0.82rem;text-align:left;}
-    th{background:var(--elevated);color:var(--text-muted);padding:0.75rem 0.85rem;font-size:0.72rem;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;}
-    td{padding:0.75rem 0.85rem;border-bottom:1px solid var(--border-subtle);vertical-align:middle;white-space:nowrap;}
+    .cal-badge{font-size:0.6rem;padding:0.1rem 0.2rem;border-radius:3px;font-weight:600;background:rgba(255,255,255,0.08);}
+    .table-card{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow-x:auto;}
+    table{width:100%;border-collapse:collapse;font-size:0.8rem;text-align:left;}
+    th{background:var(--elevated);color:var(--text-muted);padding:0.65rem 0.75rem;font-size:0.7rem;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;}
+    td{padding:0.65rem 0.75rem;border-bottom:1px solid var(--border-subtle);vertical-align:middle;white-space:nowrap;}
     tr:hover td{background:var(--elevated);}
-    .tag{padding:0.18rem 0.45rem;border-radius:4px;font-size:0.68rem;font-weight:600;text-transform:uppercase;}
+    .tag{padding:0.15rem 0.4rem;border-radius:4px;font-size:0.65rem;font-weight:600;text-transform:uppercase;}
     .tag-restock{background:rgba(239,68,68,0.15);color:var(--danger);border:1px solid var(--danger);}
     .tag-safe{background:rgba(16,185,129,0.15);color:var(--success);border:1px solid var(--success);}
-    .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);align-items:center;justify-content:center;z-index:99999;padding:0.75rem;}
-    .modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;}
-    .form-group{margin-bottom:0.85rem;text-align:left;}
-    .form-group label{display:block;font-size:0.72rem;color:var(--text-muted);margin-bottom:0.3rem;font-weight:600;text-transform:uppercase;}
-    .form-group input,.form-group select,.form-group textarea{width:100%;min-height:36px;padding:0.55rem 0.75rem;border-radius:var(--radius-sm);background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;font-size:0.82rem;}
-    .section-title{background:var(--elevated);border-left:3px solid var(--accent);padding:0.35rem 0.55rem;font-size:0.75rem;font-weight:700;text-transform:uppercase;margin:1rem 0 0.65rem;}
-    .calc-box{background:var(--elevated);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.65rem;margin-bottom:0.85rem;font-size:0.75rem;}
-    .calc-row{display:flex;justify-content:space-between;margin-bottom:0.2rem;}
-    .calc-row.total{font-weight:700;border-top:1px solid var(--border);padding-top:0.3rem;margin-top:0.3rem;}
-    #toast{position:fixed;bottom:1.5rem;right:1.5rem;padding:0.65rem 1.15rem;background:var(--accent);color:var(--accent-inv);border-radius:var(--radius-sm);font-size:0.82rem;font-weight:600;opacity:0;pointer-events:none;transition:0.3s;z-index:100000;}
-    #toast.show{opacity:1;transform:translateY(-5px);}
-    .station-bar-wrap{background:var(--bg);border-radius:999px;height:7px;overflow:hidden;margin-top:0.3rem;border:1px solid var(--border);}
+    .modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(5px);align-items:center;justify-content:center;z-index:99999;padding:0.75rem;}
+    .modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;}
+    .form-group{margin-bottom:0.75rem;}
+    .form-group label{display:block;font-size:0.7rem;color:var(--text-muted);margin-bottom:0.25rem;font-weight:600;text-transform:uppercase;}
+    .form-group input,.form-group select,.form-group textarea{width:100%;min-height:34px;padding:0.5rem 0.65rem;border-radius:6px;background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;font-size:0.8rem;}
+    .section-title{background:var(--elevated);border-left:3px solid var(--accent);padding:0.3rem 0.5rem;font-size:0.72rem;font-weight:700;text-transform:uppercase;margin:0.85rem 0 0.5rem;}
+    .calc-box{background:var(--elevated);border:1px solid var(--border);border-radius:6px;padding:0.55rem;margin-bottom:0.75rem;font-size:0.72rem;}
+    .calc-row{display:flex;justify-content:space-between;margin-bottom:0.15rem;}
+    .calc-row.total{font-weight:700;border-top:1px solid var(--border);padding-top:0.25rem;margin-top:0.25rem;}
+    #toast{position:fixed;bottom:1.25rem;right:1.25rem;padding:0.6rem 1rem;background:var(--accent);color:var(--accent-inv);border-radius:6px;font-size:0.78rem;font-weight:600;opacity:0;pointer-events:none;transition:0.3s;z-index:100000;}
+    #toast.show{opacity:1;transform:translateY(-4px);}
+    .station-bar-wrap{background:var(--bg);border-radius:999px;height:6px;overflow:hidden;margin-top:0.25rem;border:1px solid var(--border);}
     .station-bar-fill{height:100%;background:var(--success);transition:width 0.3s;}
-    .mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.25rem;margin-top:0.5rem;}
-    .mini-cal-cell{min-height:44px;border:1px solid var(--border);background:var(--surface);border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:0.75rem;cursor:pointer;}
+    .mini-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.2rem;margin-top:0.4rem;}
+    .mini-cal-cell{min-height:38px;border:1px solid var(--border);background:var(--surface);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:0.72rem;cursor:pointer;}
     .mini-cal-cell:hover{border-color:var(--accent);background:var(--elevated);}
-    .mini-cal-cell.selected{border-color:var(--accent);background:var(--accent);color:var(--accent-inv);font-weight:700;}
+    .mini-cal-cell.selected{background:var(--accent);color:var(--accent-inv);font-weight:700;}
     .mini-cal-dot{width:4px;height:4px;border-radius:50%;background:var(--warning);margin-top:2px;}
-    .month-picker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5rem;margin-top:1rem;}
-    .month-picker-btn{padding:0.75rem 0.5rem;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:6px;font-weight:600;font-size:0.8rem;cursor:pointer;}
-    .month-picker-btn:hover,.month-picker-btn.active{background:var(--accent);color:var(--accent-inv);border-color:var(--accent);}
+    .month-picker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.4rem;margin-top:0.8rem;}
+    .month-picker-btn{padding:0.6rem 0.4rem;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:6px;font-weight:600;font-size:0.75rem;cursor:pointer;}
+    .month-picker-btn:hover,.month-picker-btn.active{background:var(--accent);color:var(--accent-inv);}
     @media(max-width:768px){.kpi-grid,.charts-grid{grid-template-columns:1fr;}header{flex-direction:column;align-items:flex-start;}}
   </style>
 </head>
@@ -76,22 +71,25 @@
   <!-- GATEKEEPER LOCK -->
   <div id="gatekeeper">
     <div class="lock-card">
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;">HOLLO COFFEE & ROASTERY'S</div>
-      <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;">Executive Operations Suite</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;">HOLLO COFFEE & ROASTERY'S</div>
+      <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:1.25rem;">Executive Operations Suite</div>
       <div class="form-group"><label>Username</label><input type="text" id="loginUser" value="boy"></div>
-      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" value="0000" maxlength="6" style="letter-spacing:0.35em;font-size:1.15rem;text-align:center;"></div>
-      <button class="btn btn-solid" style="width:100%;justify-content:center;padding:0.7rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
-      <div style="margin-top:1.25rem;"><button class="btn" style="border:none;font-size:0.7rem;color:var(--text-muted);background:transparent;" onclick="updateWebhookPrompt()">⚙ Ganti URL Webhook</button></div>
+      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" value="0000" maxlength="6" style="letter-spacing:0.3em;font-size:1.1rem;text-align:center;"></div>
+      <button class="btn btn-solid" style="width:100%;padding:0.65rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
+      <div style="margin-top:1rem;"><button class="btn" style="border:none;font-size:0.68rem;color:var(--text-muted);background:transparent;" onclick="updateWebhookPrompt()">⚙ Ganti URL Webhook</button></div>
     </div>
   </div>
 
   <!-- PORTAL HEADER -->
   <header>
     <div class="brand-wrap">
-      <div class="brand-title">HOLLO COFFEE</div>
-      <div class="live-clock-pill"><div class="live-dot"></div><span id="liveClock">00:00:00</span><span style="opacity:0.4;">|</span><span id="liveShiftIndicator">SHIFT 1 (PREP)</span></div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;">HOLLO COFFEE</div>
+      <div style="display:flex;align-items:center;gap:0.35rem;background:var(--elevated);border:1px solid var(--border);padding:0.2rem 0.5rem;border-radius:999px;font-size:0.7rem;font-weight:600;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--success);"></span>
+        <span id="liveClock">00:00:00</span><span style="opacity:0.3;">|</span><span id="liveShiftIndicator">SHIFT 1 (PREP)</span>
+      </div>
     </div>
-    <div style="display:flex;gap:0.4rem;align-items:center;flex-wrap:wrap;">
+    <div style="display:flex;gap:0.35rem;align-items:center;flex-wrap:wrap;">
       <button class="btn btn-solid" id="btnTopInfo" onclick="switchView('info-sistem')">ℹ️ Info & Database</button>
       <button class="btn" onclick="refreshAllData()">↻ Refresh</button>
       <button class="btn" id="themeBtn" onclick="toggleTheme()">Light</button>
@@ -100,7 +98,7 @@
     </div>
   </header>
 
-  <!-- NAVIGATION -->
+  <!-- NAVIGATION TABS -->
   <nav id="mainNav">
     <div class="nav-tab active" id="tabDashboard" onclick="switchView('dashboard')">Dashboard</div>
     <div class="nav-tab" id="tabKalender" onclick="switchView('kalender')">Kalender & Roster</div>
@@ -115,36 +113,36 @@
 
   <!-- MAIN CONTAINER -->
   <main>
-    <!-- VIEW 1: DASHBOARD (TERKUNCI KHUSUS LEVEL >= 2) -->
+    <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
-      <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.6rem;padding:0.8rem 1rem;">
-        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
-          <span style="font-size:0.78rem;font-weight:700;color:var(--text-muted);">📅 TRACKING TANGGAL:</span>
-          <button class="btn btn-solid" onclick="openDashCalendarPickerModal()"><span id="btnDashSelectedDateText">Hari Ini</span> 📅 Pilih Kalender Pop-Up</button>
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;padding:0.7rem 0.85rem;">
+        <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
+          <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);">📅 TRACKING TANGGAL:</span>
+          <button class="btn btn-solid" onclick="openDashCalendarPickerModal()"><span id="btnDashSelectedDateText">Hari Ini</span> 📅 Kalender Pop-Up</button>
           <button class="btn" onclick="resetDashboardDateToToday()">Hari Ini</button>
         </div>
-        <div style="font-size:0.75rem;color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
+        <div style="font-size:0.72rem;color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
       </div>
 
       <div class="kpi-grid">
-        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.72rem;color:var(--text-muted);">Target: Rp 150.000.000</div></div>
-        <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.72rem;color:var(--success);">Tunai + QRIS + Online</div></div>
-        <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.72rem;color:var(--text-muted);">Batas minimum</div></div>
-        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.72rem;color:var(--text-muted);">Seluruh Stasiun</div></div>
+        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.68rem;color:var(--text-muted);">Target: Rp 150.000.000</div></div>
+        <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.68rem;color:var(--success);">Tunai + QRIS + Online</div></div>
+        <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.68rem;color:var(--text-muted);">Batas minimum</div></div>
+        <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.68rem;color:var(--text-muted);">Seluruh Stasiun</div></div>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1.25rem;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;margin-bottom:1rem;">
         <div class="card">
-          <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Status Checklist Stasiun Hari Ini</div>
-          <div style="display:flex;flex-direction:column;gap:0.6rem;">
-            <div><div style="display:flex;justify-content:space-between;font-size:0.75rem;"><span>Barista & Kasir</span><strong id="barProgBarista">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillBarista"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:0.75rem;"><span>Kitchen</span><strong id="barProgKitchen">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillKitchen"></div></div></div>
-            <div><div style="display:flex;justify-content:space-between;font-size:0.75rem;"><span>Server</span><strong id="barProgServer">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillServer"></div></div></div>
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;">Status Checklist Stasiun</div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;">
+            <div><div style="display:flex;justify-content:space-between;font-size:0.72rem;"><span>Barista & Kasir</span><strong id="barProgBarista">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillBarista"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:0.72rem;"><span>Kitchen</span><strong id="barProgKitchen">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillKitchen"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:0.72rem;"><span>Server</span><strong id="barProgServer">0/0</strong></div><div class="station-bar-wrap"><div class="station-bar-fill" id="fillServer"></div></div></div>
           </div>
         </div>
         <div class="card">
-          <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;margin-bottom:0.6rem;">Tim Bertugas Pada Tanggal Terpilih</div>
-          <div style="font-size:0.78rem;line-height:1.7;">
+          <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;">Tim Bertugas Pada Tanggal Terpilih</div>
+          <div style="font-size:0.75rem;line-height:1.6;">
             <div>☕ <strong>Shift 1:</strong> <span id="dashStaffS1">-</span></div>
             <div>🌙 <strong>Shift 2:</strong> <span id="dashStaffS2">-</span></div>
             <div>🏖️ <strong>Libur (Off):</strong> <span id="dashStaffOff">-</span></div>
@@ -153,21 +151,21 @@
       </div>
 
       <div class="charts-grid">
-        <div class="card"><div class="card-title">Breakdown Penjualan</div><canvas id="chartSales" style="max-height:220px;"></canvas></div>
-        <div class="card"><div class="card-title">Sebaran Tugas Stasiun</div><canvas id="chartChecklist" style="max-height:220px;"></canvas></div>
+        <div class="card"><div class="card-title">Breakdown Penjualan</div><canvas id="chartSales" style="max-height:200px;"></canvas></div>
+        <div class="card"><div class="card-title">Sebaran Tugas Stasiun</div><canvas id="chartChecklist" style="max-height:200px;"></canvas></div>
       </div>
     </section>
 
-    <!-- VIEW 2: KALENDER DENGAN BULAN POPUP -->
+    <!-- VIEW 2: KALENDER -->
     <section id="view-kalender" style="display:none;">
       <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
-          <div style="display:flex;align-items:center;gap:0.5rem;">
-            <button class="btn btn-solid" onclick="openMonthPickerModal()" title="Klik untuk pilih bulan langsung"><h3 id="calMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Bulan Ini ▾</h3></button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;flex-wrap:wrap;gap:0.4rem;">
+          <div style="display:flex;align-items:center;gap:0.4rem;">
+            <button class="btn btn-solid" onclick="openMonthPickerModal()"><h3 id="calMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.9rem;">Bulan Ini ▾</h3></button>
             <button class="btn" onclick="changeMonth(-1)">◀</button><button class="btn" onclick="changeMonth(1)">▶</button>
             <button class="btn" onclick="jumpToCurrentMonth()">Bulan Sekarang</button>
           </div>
-          <div style="display:flex;gap:0.4rem;">
+          <div style="display:flex;gap:0.35rem;">
             <button class="btn" id="btnAddNewLog" onclick="openNewLogModal()">+ Tambah Log / Spoil</button>
             <button class="btn btn-solid" id="btnAddRosterGlobal" onclick="openNewRosterModal()">+ Tambah Jadwal</button>
           </div>
@@ -176,24 +174,21 @@
       </div>
     </section>
 
-    <!-- VIEW 3: CHECKLIST (FILTER KETAT PER DIVISI) -->
+    <!-- VIEW 3: CHECKLIST (FILTER PER DIVISI) -->
     <section id="view-checklist" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
-        <div><h3>Checklist Shift Harian per Stasiun</h3><p style="font-size:0.75rem;color:var(--text-muted);" id="txtChecklistSubtitle">Centang otomatis mencatat Username & Jam Anda.</p></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
+        <div><h3>Checklist Shift Harian per Stasiun</h3><p style="font-size:0.72rem;color:var(--text-muted);" id="txtChecklistSubtitle">Centang otomatis mencatat Username & Jam Anda.</p></div>
         <button class="btn btn-solid" id="btnAddChecklistTask" onclick="openNewTaskModal()">+ Buat Tugas</button>
       </div>
-      <div id="stationGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;"></div>
+      <div id="stationGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;"></div>
     </section>
 
-    <!-- VIEW 4: INVENTARIS STOK (MAKRO-MIKRO F&B STANDARD) -->
+    <!-- VIEW 4: INVENTARIS STOK (MAKRO-MIKRO STANDAR F&B) -->
     <section id="view-stok" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
-        <div>
-          <h3>Inventaris Stok: Makro (Gudang Segel) & Mikro (Stasiun)</h3>
-          <p style="font-size:0.75rem;color:var(--text-muted);">Gudang tersegel (FIFO/FEFO). Saat dibongkar otomatis terkonversi ke gram/liter/pcs stasiun.</p>
-        </div>
-        <div style="display:flex;gap:0.4rem;">
-          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.4rem;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:0.78rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
+        <div><h3>Inventaris: Makro (Gudang Segel) & Mikro (Stasiun)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Gudang tersegel (FIFO/FEFO). Saat dibongkar, terkonversi otomatis ke gram/ml/pcs stasiun.</p></div>
+        <div style="display:flex;gap:0.35rem;">
+          <select id="stokFilter" onchange="renderStokTable()" style="padding:0.35rem;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:0.75rem;">
             <option value="SEMUA">Semua Divisi</option><option value="BARISTA">Barista</option><option value="KITCHEN">Kitchen</option><option value="SERVER">Server</option>
           </select>
           <button class="btn btn-solid" id="btnAddStokGlobal" onclick="openNewStokModal()">+ Tambah Barang</button>
@@ -204,7 +199,7 @@
           <thead>
             <tr>
               <th>ID</th><th>Divisi</th><th>Nama Barang</th><th>Kemasan Makro</th><th>Isi Konversi</th><th>Satuan Mikro</th>
-              <th>Gudang (Makro)</th><th>Persediaan Harian</th><th>Waste / Spoil</th><th>Opname S1</th><th>Opname S2</th>
+              <th>Gudang (Makro)</th><th>Harian Stasiun</th><th>Waste / Spoil</th><th>Opname S1</th><th>Opname S2</th>
               <th>Pemakaian Hari Ini</th><th>Total Aset Fisik</th><th>Batas Min</th><th>Status</th><th>Aksi</th>
             </tr>
           </thead>
@@ -215,9 +210,9 @@
 
     <!-- VIEW 5: SERAH TERIMA KASIR (DUA SHIFT TERPISAH) -->
     <section id="view-serah-terima" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
-        <div><h3>Serah Terima Kasir & Kas Laci (Imprest)</h3><p style="font-size:0.75rem;color:var(--text-muted);">Dikoordinasikan oleh Barista Kasir. Shift 1 & 2 tercatat terpisah.</p></div>
-        <div style="display:flex;gap:0.4rem;" id="handoverActionWrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
+        <div><h3>Serah Terima Kasir & Kas Laci (Imprest)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan oleh Barista Kasir. Shift 1 & 2 tercatat terpisah.</p></div>
+        <div style="display:flex;gap:0.35rem;" id="handoverActionWrap">
           <button class="btn" style="border-color:var(--accent);" onclick="openNewHandoverShift(1)">+ Serah Terima Shift 1 (Sore 16:30)</button>
           <button class="btn btn-solid" onclick="openNewHandoverShift(2)">+ Serah Terima Shift 2 (Closing 00:00)</button>
         </div>
@@ -232,11 +227,11 @@
       </div>
     </section>
 
-    <!-- VIEW 6: DAILY REPORT -->
+    <!-- VIEW 6: DAILY REPORT (DENGAN 3 KOLOM BELANJA BESOK) -->
     <section id="view-daily-report" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
-        <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.75rem;color:var(--text-muted);">Dikoordinasikan Barista Closing. Rincian belanja besok otomatis ke WhatsApp.</p></div>
-        <div style="display:flex;gap:0.4rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
+        <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan Barista Closing saat briefing malam. Rincian belanja besok diteruskan ke WhatsApp.</p></div>
+        <div style="display:flex;gap:0.35rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
           <button class="btn btn-solid" id="btnOpenNewReport" onclick="openNewDailyReportModal()">+ Simpan Report</button>
         </div>
@@ -253,9 +248,9 @@
 
     <!-- VIEW 7: MENU & HPP -->
     <section id="view-menu" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
-        <div style="display:flex;gap:0.4rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
-        <button class="btn btn-solid" id="btnAddMenuGlobal" onclick="openNewMenuModal()">+ Tambah Menu</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
+        <div style="display:flex;gap:0.35rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
+        <button class="btn btn-solid" id="btnAddMenuGlobal" onclick="openNewMenuModal()">+ Tambah Menu Baru</button>
       </div>
       <div class="table-card">
         <table>
@@ -265,10 +260,10 @@
       </div>
     </section>
 
-    <!-- VIEW 8: DATA PERUSAHAAN (RBAC DINAMIS DENGAN MODE EDIT/VIEW) -->
+    <!-- VIEW 8: DATA PERUSAHAAN (RBAC MATRIX) -->
     <section id="view-perusahaan" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.5rem;">
-        <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.75rem;color:var(--text-muted);">Tentukan tab mana saja yang boleh dibuka serta hak akses Ubah (Edit) vs Hanya Lihat (View).</p></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
+        <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.72rem;color:var(--text-muted);">Tentukan tab mana saja yang boleh dibuka oleh anggota tim serta hak akses Ubah (Edit) vs Hanya Lihat (View).</p></div>
         <button class="btn btn-solid" id="btnAddNewUser" onclick="openNewUserModal()">+ Tambah Karyawan</button>
       </div>
       <div class="table-card">
@@ -282,38 +277,38 @@
     <!-- VIEW 9: ABOUT & DATABASE -->
     <section id="view-info-sistem" style="display:none;">
       <div class="card" style="border-left:4px solid var(--accent);">
-        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.3rem;">HOLLO COFFEE & ROASTERY'S</h2>
-        <p style="font-size:0.8rem;color:var(--text-muted);">Executive F&B Operations Suite — V20 Engine</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;">HOLLO COFFEE & ROASTERY'S</h2>
+        <p style="font-size:0.75rem;color:var(--text-muted);">Executive F&B Operations Suite — V20 Engine</p>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1rem;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;">
         <div class="card">
-          <h4 style="font-size:0.85rem;text-transform:uppercase;margin-bottom:0.5rem;">👤 Hak Cipta & Arsitek</h4>
-          <div style="font-size:0.8rem;line-height:1.6;">
+          <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.4rem;">👤 Hak Cipta & Arsitek</h4>
+          <div style="font-size:0.75rem;line-height:1.6;">
             <div><strong>System Architect / Owner:</strong> Boy (RAJA_UTAMA)</div>
             <div><strong>Lead Developer:</strong> Ardian Ramadhan</div>
             <div><strong>Badan Usaha:</strong> PT. HOLLO CIPTA RASA</div>
-            <div style="color:var(--text-muted);font-size:0.72rem;margin-top:0.5rem;">© 2026 HOLLO COFFEE. All Rights Reserved.</div>
+            <div style="color:var(--text-muted);font-size:0.68rem;margin-top:0.4rem;">© 2026 HOLLO COFFEE. All Rights Reserved.</div>
           </div>
         </div>
         <div class="card" style="border-color:var(--accent);">
-          <h4 style="font-size:0.85rem;text-transform:uppercase;margin-bottom:0.5rem;color:var(--accent);">📂 File Google Sheet Aktif</h4>
-          <div style="font-size:0.8rem;">
+          <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.4rem;color:var(--accent);">📂 File Google Sheet Aktif</h4>
+          <div style="font-size:0.75rem;">
             <div><strong>Nama File:</strong> <span id="infoSheetName">HOLLO OPERASIONAL</span></div>
-            <div style="font-size:0.7rem;color:var(--text-muted);margin:0.3rem 0;">ID: <code id="infoSheetId">1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q</code></div>
+            <div style="font-size:0.68rem;color:var(--text-muted);margin:0.25rem 0;">ID: <code id="infoSheetId">1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q</code></div>
           </div>
-          <div id="boxSheetActionWrap" style="margin-top:0.8rem;"></div>
+          <div id="boxSheetActionWrap" style="margin-top:0.65rem;"></div>
         </div>
         <div class="card">
-          <h4 style="font-size:0.85rem;text-transform:uppercase;margin-bottom:0.5rem;">⚡ Webhook Apps Script</h4>
-          <div style="font-size:0.7rem;color:var(--text-muted);word-break:break-all;background:var(--bg);padding:0.4rem;border-radius:4px;" id="infoWebhookUrl">...</div>
-          <div style="display:flex;gap:0.4rem;margin-top:0.8rem;" id="boxWebhookActionWrap"></div>
+          <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.4rem;">⚡ Webhook Apps Script</h4>
+          <div style="font-size:0.68rem;color:var(--text-muted);word-break:break-all;background:var(--bg);padding:0.35rem;border-radius:4px;" id="infoWebhookUrl">...</div>
+          <div style="display:flex;gap:0.35rem;margin-top:0.65rem;" id="boxWebhookActionWrap"></div>
         </div>
       </div>
-      <div class="card" style="margin-top:1rem;">
-        <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.6rem;">Peta 9 Tabel Database</h4>
+      <div class="card" style="margin-top:0.85rem;">
+        <h4 style="font-size:0.75rem;text-transform:uppercase;margin-bottom:0.5rem;">Peta 9 Tabel Database</h4>
         <div class="table-card">
           <table>
-            <thead><tr><th>Nama Tabel (Sheet)</th><th>Fungsi Utama</th><th>Status Data</th><th>Jumlah Baris</th></tr></thead>
+            <thead><tr><th>Nama Tabel (Sheet)</th><th>Fungsi Utama</th><th>Status</th><th>Jumlah Baris</th></tr></thead>
             <tbody id="infoTablesBody"></tbody>
           </table>
         </div>
@@ -323,17 +318,17 @@
 
   <!-- ==================== MODALS ==================== -->
 
-  <!-- MODAL: PEMILIH BULAN POP-UP (CEPAT) -->
+  <!-- MODAL: PEMILIH BULAN CEPAT -->
   <div class="modal-backdrop" id="modalMonthPicker">
-    <div class="modal" style="max-width:360px;text-align:center;">
-      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin-bottom:0.5rem;">Pilih Bulan & Tahun</h3>
-      <div style="display:flex;justify-content:center;align-items:center;gap:0.8rem;margin-bottom:0.8rem;">
+    <div class="modal" style="max-width:340px;text-align:center;">
+      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;margin-bottom:0.4rem;">Pilih Bulan & Tahun</h3>
+      <div style="display:flex;justify-content:center;align-items:center;gap:0.8rem;margin-bottom:0.6rem;">
         <button class="btn" onclick="changePickerYear(-1)">◀</button>
-        <span id="txtPickerYear" style="font-size:1.1rem;font-weight:700;">2026</span>
+        <span id="txtPickerYear" style="font-size:1rem;font-weight:700;">2026</span>
         <button class="btn" onclick="changePickerYear(1)">▶</button>
       </div>
       <div class="month-picker-grid" id="gridMonthButtons"></div>
-      <div style="display:flex;justify-content:space-between;margin-top:1.2rem;">
+      <div style="display:flex;justify-content:space-between;margin-top:1rem;">
         <button class="btn" onclick="jumpToCurrentMonth()">Bulan Sekarang</button>
         <button class="btn btn-solid" onclick="closeModal('modalMonthPicker')">Tutup</button>
       </div>
@@ -342,13 +337,13 @@
 
   <!-- MODAL: KALENDER POP-UP DASHBOARD -->
   <div class="modal-backdrop" id="modalDashCalendarPicker">
-    <div class="modal" style="max-width:380px;text-align:center;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.6rem;">
-        <h3 id="popCalMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:1rem;">Pilih Tanggal</h3>
-        <div style="display:flex;gap:0.3rem;"><button class="btn" onclick="changePopCalMonth(-1)">◀</button><button class="btn" onclick="changePopCalMonth(1)">▶</button></div>
+    <div class="modal" style="max-width:360px;text-align:center;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+        <h3 id="popCalMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Pilih Tanggal</h3>
+        <div style="display:flex;gap:0.25rem;"><button class="btn" onclick="changePopCalMonth(-1)">◀</button><button class="btn" onclick="changePopCalMonth(1)">▶</button></div>
       </div>
       <div class="mini-cal-grid" id="popCalendarGrid"></div>
-      <div style="display:flex;justify-content:space-between;margin-top:1rem;">
+      <div style="display:flex;justify-content:space-between;margin-top:0.85rem;">
         <button class="btn" onclick="selectTodayInPopCal()">Hari Ini</button>
         <button class="btn btn-solid" onclick="closeModal('modalDashCalendarPicker')">Tutup</button>
       </div>
@@ -358,20 +353,20 @@
   <!-- MODAL: DETAIL TANGGAL KALENDER OPERASIONAL -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
-      <h3 id="inspectDateTitle" style="margin-bottom:0.8rem;font-family:'Space Grotesk',sans-serif;">Detail Tanggal</h3>
-      <div style="margin-bottom:1rem;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
-          <h4 style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;">Roster Kerja & Shift</h4>
-          <button class="btn" id="btnDayAddStaff" style="padding:0.2rem 0.5rem;font-size:0.7rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button>
+      <h3 id="inspectDateTitle" style="margin-bottom:0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Detail Tanggal</h3>
+      <div style="margin-bottom:0.85rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;">
+          <h4 style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Roster Kerja & Shift</h4>
+          <button class="btn" id="btnDayAddStaff" style="padding:0.15rem 0.4rem;font-size:0.68rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button>
         </div>
-        <div id="inspectRosterList" style="display:flex;flex-direction:column;gap:0.3rem;"></div>
+        <div id="inspectRosterList" style="display:flex;flex-direction:column;gap:0.25rem;"></div>
       </div>
-      <div style="margin-bottom:1rem;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.35rem;">
-          <h4 style="font-size:0.72rem;color:var(--text-muted);text-transform:uppercase;">Log Insiden, Waste & Spoil</h4>
-          <button class="btn" id="btnDayAddLog" style="padding:0.2rem 0.5rem;font-size:0.7rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button>
+      <div style="margin-bottom:0.85rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;">
+          <h4 style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Log Insiden, Waste & Spoil</h4>
+          <button class="btn" id="btnDayAddLog" style="padding:0.15rem 0.4rem;font-size:0.68rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button>
         </div>
-        <div id="inspectLogList" style="display:flex;flex-direction:column;gap:0.3rem;"></div>
+        <div id="inspectLogList" style="display:flex;flex-direction:column;gap:0.25rem;"></div>
       </div>
       <div style="display:flex;justify-content:flex-end;"><button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button></div>
     </div>
@@ -380,252 +375,249 @@
   <!-- MODAL: JADWAL STAFF -->
   <div class="modal-backdrop" id="modalRoster">
     <div class="modal">
-      <h3 id="modalRosterTitle" style="margin-bottom:0.8rem;">Jadwal Staff</h3>
+      <h3 id="modalRosterTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Jadwal Staff</h3>
       <input type="hidden" id="fJdwEditId">
       <div class="form-group"><label>Tanggal</label><input type="date" id="fJdwTanggal"></div>
       <div class="form-group"><label>Karyawan</label><select id="fJdwUser"></select></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Shift</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div>
         <div class="form-group"><label>Status</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div>
       </div>
       <div class="form-group"><label>Catatan</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista S1"></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: LOG KALENDER (WASTE / SPOIL / DIAL-IN / RESTOCK) -->
+  <!-- MODAL: LOG KALENDER -->
   <div class="modal-backdrop" id="modalLog">
     <div class="modal">
-      <h3 id="modalLogTitle" style="margin-bottom:0.8rem;">Catat Log Operasional</h3>
+      <h3 id="modalLogTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Catat Log Operasional</h3>
       <input type="hidden" id="fLogEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Tanggal</label><input type="date" id="fLogTanggal"></div>
         <div class="form-group"><label>Jam</label><input type="time" id="fLogJam"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogCategoryAndItems()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
         <div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
         <div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"></select></div>
       </div>
       <div id="fLogStockSection">
         <div class="form-group"><label>Pilih Bahan dari Stok</label><select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select></div>
-        <div style="display:grid;grid-template-columns:2fr 1fr;gap:0.5rem;">
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:0.4rem;">
           <div class="form-group"><label id="labelQtyLog" style="color:var(--warning);">JUMLAH BAHAN</label><input type="number" id="fLogJumlahVal" placeholder="Contoh: 100" oninput="updateLogEffectNotice()"></div>
           <div class="form-group"><label>Satuan</label><input type="text" id="fLogSatuan" readonly></div>
         </div>
         <div class="calc-box" id="logEffectBox" style="border-left:3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis sinkron dengan Stok.</span></div>
       </div>
       <div id="fLogNonStockSection" style="display:none;"><div class="form-group"><label>Nama Alat / Kejadian</label><input type="text" id="fLogItemManual" placeholder="Grinder / Kompor"></div></div>
-      <div class="form-group"><label>Detail Keterangan Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan alasan afkir / rusak / dial-in..."></textarea></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div>
+      <div class="form-group"><label>Detail Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan keterangan detail..."></textarea></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: KELOLA BARANG STOK (DROPDOWN MAKRO-MIKRO & KONVERSI) -->
+  <!-- MODAL: KELOLA BARANG STOK (CUSTOM SATUAN FLEKSIBEL) -->
   <div class="modal-backdrop" id="modalStok">
     <div class="modal">
-      <h3 id="modalStokTitle" style="margin-bottom:0.8rem;">Kelola Barang: Makro Gudang & Mikro Stasiun</h3>
+      <h3 id="modalStokTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Barang: Makro Gudang & Mikro Stasiun</h3>
       <input type="hidden" id="fStkEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Tanggal</label><input type="date" id="fStkTanggal"></div>
         <div class="form-group"><label>Jam</label><input type="time" id="fStkJam"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Divisi</label><select id="fStkDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
         <div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori" placeholder="Biji Kopi / Karbo / Protein"></div>
       </div>
-      <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="Contoh: Kentang Shoestring"></div>
+      <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="Contoh: BBB-Beans Dark Roast / Fresh Milk"></div>
       
-      <div class="section-title">1. Pengaturan Kemasan Pembelian (Makro) & Konversi Satuan</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+      <div class="section-title">1. Satuan Pembelian (Makro) & Konversi ke Resep (Mikro)</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
         <div class="form-group">
           <label>Satuan Makro (Gudang)</label>
-          <select id="fStkSatuanMakro" onchange="calcModalStokPreview()">
-            <option value="pack">pack</option><option value="dus">dus</option><option value="bag">bag</option><option value="karton">karton</option><option value="krat">krat</option><option value="jerigen">jerigen</option><option value="bal">bal</option><option value="botol">botol</option><option value="can">can</option><option value="pail">pail</option>
-          </select>
+          <input type="text" id="fStkSatuanMakro" list="listSatuanMakro" placeholder="pack / Kotak / dus" oninput="calcModalStokPreview()">
+          <datalist id="listSatuanMakro"><option value="pack"><option value="Kotak"><option value="karton"><option value="bag"><option value="dus"><option value="bal"><option value="jerigen"><option value="botol"><option value="can"><option value="pail"><option value="ikat"></datalist>
         </div>
-        <div class="form-group"><label>Isi per Kemasan</label><input type="number" id="fStkIsiKonversi" value="2500" placeholder="2500 / 1000 / 12" oninput="calcModalStokPreview()"></div>
+        <div class="form-group"><label>Isi Konversi per Kemasan</label><input type="number" id="fStkIsiKonversi" value="1000" oninput="calcModalStokPreview()"></div>
         <div class="form-group">
-          <label>Satuan Mikro (Stasiun)</label>
-          <select id="fStkSatuanMikro" onchange="calcModalStokPreview()">
-            <option value="gram">gram</option><option value="liter">liter</option><option value="ml">ml</option><option value="pcs">pcs</option><option value="porsi">porsi</option><option value="pack">pack</option><option value="slice">slice</option>
-          </select>
+          <label>Satuan Mikro (Resep)</label>
+          <input type="text" id="fStkSatuanMikro" list="listSatuanMikro" placeholder="gram / Mililiter / pcs" oninput="calcModalStokPreview()">
+          <datalist id="listSatuanMikro"><option value="gram"><option value="Mililiter"><option value="ml"><option value="pcs"><option value="slice"><option value="porsi"><option value="lembar"><option value="shot"></datalist>
         </div>
       </div>
 
-      <div class="section-title">2. Stok Gudang (Makro Segel) & Batas Restock</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
-        <div class="form-group"><label>Stok Gudang (Jumlah Makro / Segel)</label><input type="text" id="fStkGudang" value="5" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Batas Minimum Restock (Satuan Mikro)</label><input type="text" id="fStkMin" value="7500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+      <div class="section-title">2. Stok Gudang (Makro Segel) & Batas Minimum</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
+        <div class="form-group"><label>Stok Gudang (Jumlah Makro / Segel)</label><input type="text" id="fStkGudang" value="2" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Batas Min Restock (Satuan Mikro)</label><input type="text" id="fStkMin" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
 
       <div class="section-title">3. Persediaan Terbuka di Stasiun (Mikro)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
-        <div class="form-group"><label>Tersedia Pagi (Mikro)</label><input type="text" id="fStkPagi" value="2500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S1 (Mikro)</label><input type="text" id="fStkRefillS1" value="2500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
+        <div class="form-group"><label>Tersedia Pagi (Mikro)</label><input type="text" id="fStkPagi" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S1 (Mikro)</label><input type="text" id="fStkRefillS1" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
         <div class="form-group"><label>Refill S2 (Mikro)</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
 
       <div class="section-title">4. Sensus Opname & Waste/Spoil</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
-        <div class="form-group"><label>Waste / Spoil (Mikro)</label><input type="text" id="fStkWaste" value="200" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="2200" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="1500" placeholder="Closing" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
+        <div class="form-group"><label>Waste / Spoil (Mikro)</label><input type="text" id="fStkWaste" value="100" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="550" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="250" placeholder="Closing" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
 
       <div class="calc-box">
-        <div class="calc-row"><span>Rasio Konversi:</span><span id="fStkPreviewKonversi" style="color:var(--warning);">1 pack = 2.500 gram</span></div>
-        <div class="calc-row"><span>Persediaan Harian Stasiun:</span><span id="fStkPreviewTersedia">5.000 gram</span></div>
-        <div class="calc-row"><span>Estimasi Pemakaian Hari Ini:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);font-weight:700;">3.500 gram</span></div>
-        <div class="calc-row total"><span>Total Aset Fisik (Gudang + Stasiun):</span><span id="fStkPreviewTotal" style="color:var(--accent);">14.000 gram (setara 5 pack + 1.500g)</span></div>
-        <div class="calc-row" style="margin-top:0.25rem;"><span>Status Kesehatan:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div>
+        <div class="calc-row"><span>Rasio Konversi:</span><span id="fStkPreviewKonversi" style="color:var(--warning);">1 pack = 1.000 gram</span></div>
+        <div class="calc-row"><span>Persediaan Harian:</span><span id="fStkPreviewTersedia">1.000 gram</span></div>
+        <div class="calc-row"><span>Estimasi Pemakaian:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);font-weight:700;">750 gram</span></div>
+        <div class="calc-row total"><span>Total Aset Fisik:</span><span id="fStkPreviewTotal" style="color:var(--accent);">2.250 gram</span></div>
+        <div class="calc-row" style="margin-top:0.25rem;"><span>Status:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div>
       </div>
-      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button></div>
     </div>
   </div>
 
   <!-- MODAL: SERAH TERIMA KASIR -->
   <div class="modal-backdrop" id="modalHandover">
     <div class="modal">
-      <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem;">Form Serah Terima Kasir</h3>
-      <input type="hidden" id="fStEditId">
-      <input type="hidden" id="fStShiftNum" value="1">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem;font-size:0.95rem;">Form Serah Terima Kasir</h3>
+      <input type="hidden" id="fStEditId"><input type="hidden" id="fStShiftNum" value="1">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Tanggal</label><input type="date" id="fStTanggal"></div>
         <div class="form-group"><label>Jam</label><input type="time" id="fStJam"></div>
       </div>
       <div class="form-group"><label>Tahap Shift</label><select id="fStTahap" onchange="toggleHandoverNotesLabel()"><option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option><option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option></select></div>
       <div class="section-title">1. Omset Penjualan Shift Ini</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Tunai</label><input type="text" id="fStTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
         <div class="form-group"><label>QRIS / EDC</label><input type="text" id="fStNonTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
         <div class="form-group"><label>Online</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
       </div>
-      <div class="calc-row" style="background:var(--elevated);padding:0.4rem;border-radius:4px;font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div>
+      <div class="calc-row" style="background:var(--elevated);padding:0.35rem;border-radius:4px;font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div>
       <div class="section-title">2. Rekap Kas Laci (Imprest)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Modal Laci Stay</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
         <div class="form-group"><label>Kas Keluar</label><input type="text" id="fStPengeluaran" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
       </div>
-      <div class="form-group"><label>Keterangan Kasir</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es / lakban"></div>
+      <div class="form-group"><label>Keterangan Kas Keluar</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es / lakban"></div>
       <div class="calc-box">
         <div class="calc-row"><span>Uang Setoran Tunai Bersih:</span><span id="boxSetoranText" style="color:var(--warning);font-weight:700;">Rp 0</span></div>
-        <div class="calc-row"><span>Modal Tetap Tinggal di Laci:</span><span id="boxModalText" style="color:var(--success);font-weight:700;">Rp 110.000</span></div>
+        <div class="calc-row"><span>Modal Tetap di Laci:</span><span id="boxModalText" style="color:var(--success);font-weight:700;">Rp 110.000</span></div>
       </div>
       <div class="section-title" id="handoverNotesHeader">3. Catatan Operasional Shift 1 untuk Shift 2</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Prep Barista</label><textarea id="fStPrepBar" rows="2"></textarea></div>
         <div class="form-group"><label>Prep Kitchen</label><textarea id="fStPrepKit" rows="2"></textarea></div>
         <div class="form-group"><label>Prep Server</label><textarea id="fStPrepSrv" rows="2"></textarea></div>
       </div>
       <div class="form-group"><label>Catatan Kasir</label><textarea id="fStCatatan" rows="1"></textarea></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: DAILY REPORT (DENGAN 3 KOLOM BELANJA BESOK) -->
+  <!-- MODAL: DAILY REPORT -->
   <div class="modal-backdrop" id="modalDailyReport">
     <div class="modal">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.8rem;flex-wrap:wrap;gap:0.4rem;">
-        <h3 id="modalDrTitle">Daily Report & Evaluasi Malam</h3>
-        <button class="btn btn-solid" style="font-size:0.7rem;" onclick="autoPullDailyReportData()">⚡ Tarik Data Otomatis</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.35rem;">
+        <h3 id="modalDrTitle" style="font-size:0.95rem;">Daily Report & Evaluasi Malam</h3>
+        <button class="btn btn-solid" style="font-size:0.68rem;" onclick="autoPullDailyReportData()">⚡ Tarik Data Otomatis</button>
       </div>
       <input type="hidden" id="fDrEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Tanggal</label><input type="date" id="fDrTanggal"></div>
         <div class="form-group"><label>Target Harian</label><input type="text" id="fDrTarget" value="5.000.000" oninput="formatLiveRupiahInput(this)"></div>
       </div>
       <div class="section-title">1. Omset Shift 1 + Shift 2</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Omset S1 (Sore)</label><input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Omset S2 (Closing)</label><input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Total EDC / QRIS</label><input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Total Online Food</label><input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)"></div>
       </div>
       <div class="section-title">2. Kas Kecil Keluar</div>
-      <div style="display:grid;grid-template-columns:1fr 2fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:0.4rem;">
         <div class="form-group"><label>Total Keluar</label><input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Rincian</label><input type="text" id="fDrKetKasKeluar"></div>
       </div>
       <div class="section-title" style="border-left-color:var(--warning);">3. 🛒 Kebutuhan Belanja & Prep Besok Pagi (Owner / Purchasing)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;">
-        <div class="form-group"><label>Belanja Barista Besok</label><textarea id="fDrBelanjaBar" rows="3" placeholder="Susu, es batu..."></textarea></div>
-        <div class="form-group"><label>Belanja Kitchen Besok</label><textarea id="fDrBelanjaKit" rows="3" placeholder="Kentang, ayam..."></textarea></div>
-        <div class="form-group"><label>Belanja Server Besok</label><textarea id="fDrBelanjaSrv" rows="3" placeholder="Tisu, sedotan..."></textarea></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
+        <div class="form-group"><label>Belanja Barista</label><textarea id="fDrBelanjaBar" rows="2" placeholder="Susu, es batu..."></textarea></div>
+        <div class="form-group"><label>Belanja Kitchen</label><textarea id="fDrBelanjaKit" rows="2" placeholder="Kentang, ayam..."></textarea></div>
+        <div class="form-group"><label>Belanja Server</label><textarea id="fDrBelanjaSrv" rows="2" placeholder="Tisu, sedotan..."></textarea></div>
       </div>
       <div class="section-title">4. QC, Waste, Spoil & Evaluasi</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Beans Kalibrasi</label><input type="text" id="fDrKalibrasi"></div>
         <div class="form-group"><label>Ringkasan Waste / Spoil</label><input type="text" id="fDrWaste"></div>
       </div>
       <div class="form-group"><label>Bahan Kritis Restock</label><textarea id="fDrRestockList" rows="2" readonly></textarea></div>
       <div class="form-group"><label>Evaluasi Closing</label><textarea id="fDrEvaluasi" rows="2"></textarea></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan</button></div>
     </div>
   </div>
 
   <!-- MODAL: CHECKLIST TASK -->
   <div class="modal-backdrop" id="modalTask">
     <div class="modal">
-      <h3 id="modalTaskTitle" style="margin-bottom:0.8rem;">Tugas Checklist</h3>
+      <h3 id="modalTaskTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Tugas Checklist</h3>
       <input type="hidden" id="fTaskEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Stasiun</label><select id="fTaskStation"><option value="BARISTA & KASIR">BARISTA & KASIR</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
         <div class="form-group"><label>Shift</label><select id="fTaskShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Fase</label><select id="fTaskFase"><option value="Prep">Prep</option><option value="Operasional">Operasional</option><option value="Closing">Closing</option></select></div>
         <div class="form-group"><label>Target Jam</label><input type="time" id="fTaskJam" value="08:30"></div>
       </div>
       <div class="form-group"><label>Tugas</label><input type="text" id="fTaskUraian"></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan</button></div>
     </div>
   </div>
 
   <!-- MODAL: MENU -->
   <div class="modal-backdrop" id="modalMenu">
     <div class="modal">
-      <h3 id="modalMenuTitle" style="margin-bottom:0.8rem;">Menu Produk & HPP</h3>
+      <h3 id="modalMenuTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Menu Produk & HPP</h3>
       <input type="hidden" id="fMenuEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Jenis</label><select id="fMenuJenis"><option value="Minuman">Minuman (Bar)</option><option value="Makanan">Makanan (Kitchen)</option></select></div>
         <div class="form-group"><label>Kategori</label><input type="text" id="fMenuKategori"></div>
       </div>
       <div class="form-group"><label>Nama Produk</label><input type="text" id="fMenuNama"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>HPP (Rp)</label><input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Harga Jual (Rp)</label><input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this)"></div>
       </div>
-      <div style="display:flex;justify-content:flex-end;gap:0.4rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan</button></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: KARYAWAN & MATRIKS HAK AKSES -->
+  <!-- MODAL: KARYAWAN & RBAC MATRIKS -->
   <div class="modal-backdrop" id="modalUser">
     <div class="modal">
-      <h3 id="modalUserTitle" style="margin-bottom:0.8rem;">Kelola Karyawan & Matriks Hak Akses</h3>
+      <h3 id="modalUserTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Karyawan & Matriks Hak Akses</h3>
       <input type="hidden" id="fUserEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Username</label><input type="text" id="fUserUsername"></div>
         <div class="form-group"><label>PIN (4 Digit)</label><input type="password" id="fUserPin" placeholder="1234" maxlength="4"></div>
       </div>
       <div class="form-group"><label>Nama Lengkap</label><input type="text" id="fUserNamaLengkap"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
         <div class="form-group"><label>Role</label><select id="fUserRole" onchange="syncUserLevel()"><option value="BARISTA">BARISTA (L1)</option><option value="KITCHEN">KITCHEN (L1)</option><option value="SERVER">SERVER (L1)</option><option value="HEAD">HEAD (L2)</option><option value="PURCHASING">PURCHASING (L3)</option><option value="HRD">HRD (L3)</option><option value="MANAGER">MANAGER (L4)</option><option value="OWNER">OWNER (L5)</option><option value="RAJA_UTAMA">RAJA_UTAMA (L6)</option></select></div>
         <div class="form-group"><label>Divisi</label><select id="fUserDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
       </div>
       <div class="section-title" style="border-left-color:var(--warning);">PILIH TAB & TENTUKAN HAK AKSES:</div>
-      <div style="display:flex;flex-direction:column;gap:0.4rem;font-size:0.75rem;background:var(--elevated);padding:0.6rem;border-radius:6px;border:1px solid var(--border);" id="boxTabPermissionsMatrix"></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.4rem;margin-top:1rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan Karyawan</button></div>
+      <div style="display:flex;flex-direction:column;gap:0.35rem;font-size:0.72rem;background:var(--elevated);padding:0.5rem;border-radius:6px;border:1px solid var(--border);" id="boxTabPermissionsMatrix"></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.35rem;margin-top:0.85rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan</button></div>
     </div>
   </div>
 
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbycxvhHIIBWBqnZpe_DRxWK-FYdoAtu7u-wuNo9ck6tjHsHwv_RBMmfdCIe-1twGwni/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbzTdaNxPN68xaXSkFocgK7LRWW4k4NrqAt6ibTIisonlrEQEnUt_MZoeUp_oazhe1nB/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
@@ -634,13 +626,9 @@
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
     let metaInfo = { sheet_name: "HOLLO OPERASIONAL", sheet_url: "#", sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" };
 
-    let calDate = new Date();
-    let popCalDate = new Date();
-    let pickerYear = new Date().getFullYear();
-    let selectedTrackingDate = new Date().toISOString().split('T')[0];
-    let activeInspectDate = new Date().toISOString().split('T')[0];
-    let chartSalesInst = null;
-    let chartChecklistInst = null;
+    let calDate = new Date(), popCalDate = new Date(), pickerYear = new Date().getFullYear();
+    let selectedTrackingDate = new Date().toISOString().split('T')[0], activeInspectDate = new Date().toISOString().split('T')[0];
+    let chartSalesInst = null, chartChecklistInst = null;
 
     const TAB_DEFINITIONS = [
       { id: "dashboard", label: "📊 Dashboard" },
@@ -670,6 +658,8 @@
     function formatLiveRupiahInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = Math.round(v).toLocaleString('id-ID'); }
     function formatLiveNumberInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = v.toLocaleString('id-ID'); }
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
+    function dayString(d) { return String(d).padStart(2,'0'); }
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
     function updateWebhookPrompt() {
       if (!currentUser || currentUser.level < 6) {
@@ -706,12 +696,8 @@
           currentUser = json.user; 
           localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser)); 
           unlockPortal(); 
-        } else {
-          alert(json.message);
-        }
-      } catch (err) { 
-        alert("Gagal koneksi ke Apps Script. Pastikan Webhook URL aktif & diset 'Anyone'."); 
-      }
+        } else { alert(json.message); }
+      } catch (err) { alert("Gagal koneksi ke Apps Script. Pastikan Webhook aktif & Anyone."); }
     }
 
     function unlockPortal() {
@@ -753,7 +739,6 @@
     function applyDynamicPermissions() {
       const lvl = currentUser ? currentUser.level : 1;
       const div = currentUser ? currentUser.divisi : "BARISTA";
-
       let firstAllowed = null;
 
       TAB_DEFINITIONS.forEach(t => {
@@ -772,27 +757,14 @@
       if (lvl === 1) { fSel.value = div; fSel.disabled = true; }
       else { fSel.disabled = false; }
 
-      const permStok = getTabPermission("stok");
-      document.getElementById("btnAddStokGlobal").style.display = permStok.canEdit ? "inline-flex" : "none";
-
-      const permChk = getTabPermission("checklist");
-      document.getElementById("btnAddChecklistTask").style.display = permChk.canEdit ? "inline-flex" : "none";
-
-      const permKal = getTabPermission("kalender");
-      document.getElementById("btnAddRosterGlobal").style.display = permKal.canEdit ? "inline-flex" : "none";
-      document.getElementById("btnAddNewLog").style.display = permKal.canEdit ? "inline-flex" : "none";
-
-      const permMnu = getTabPermission("menu");
-      document.getElementById("btnAddMenuGlobal").style.display = permMnu.canEdit ? "inline-flex" : "none";
-
-      const permRep = getTabPermission("daily-report");
-      document.getElementById("btnOpenNewReport").style.display = permRep.canEdit ? "inline-flex" : "none";
-
-      const permST = getTabPermission("serah-terima");
-      document.getElementById("handoverActionWrap").style.display = permST.canEdit ? "flex" : "none";
+      document.getElementById("btnAddStokGlobal").style.display = getTabPermission("stok").canEdit ? "inline-flex" : "none";
+      document.getElementById("btnAddChecklistTask").style.display = getTabPermission("checklist").canEdit ? "inline-flex" : "none";
+      document.getElementById("btnAddRosterGlobal").style.display = getTabPermission("kalender").canEdit ? "inline-flex" : "none";
+      document.getElementById("btnAddNewLog").style.display = getTabPermission("kalender").canEdit ? "inline-flex" : "none";
+      document.getElementById("btnAddMenuGlobal").style.display = getTabPermission("menu").canEdit ? "inline-flex" : "none";
+      document.getElementById("btnOpenNewReport").style.display = getTabPermission("daily-report").canEdit ? "inline-flex" : "none";
+      document.getElementById("handoverActionWrap").style.display = getTabPermission("serah-terima").canEdit ? "flex" : "none";
     }
-
-    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
     function logout() { localStorage.removeItem(STORAGE_KEY_USER); currentUser = null; document.getElementById("gatekeeper").style.display = "flex"; }
 
@@ -863,7 +835,7 @@
       if(sel) sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
     }
 
-    // 1. DASHBOARD TIME MACHINE & KALENDER POP-UP
+    // DASHBOARD & TIME MACHINE
     function openDashCalendarPickerModal() { renderPopCalendar(); openModal('modalDashCalendarPicker'); }
     function changePopCalMonth(delta) { popCalDate.setMonth(popCalDate.getMonth() + delta); renderPopCalendar(); }
     function selectTodayInPopCal() {
@@ -883,7 +855,7 @@
       const mNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
       document.getElementById("popCalMonthTitle").innerText = `${mNames[m]} ${y}`;
       const grid = document.getElementById("popCalendarGrid");
-      grid.innerHTML = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(d => `<div style="font-size:0.65rem;font-weight:700;color:var(--text-muted);">${d}</div>`).join('');
+      grid.innerHTML = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(d => `<div style="font-size:0.6rem;font-weight:700;color:var(--text-muted);">${d}</div>`).join('');
 
       const first = new Date(y, m, 1).getDay();
       const totalDays = new Date(y, m + 1, 0).getDate();
@@ -896,7 +868,6 @@
         grid.innerHTML += `<div class="mini-cal-cell ${isSel ? 'selected' : ''}" onclick="selectPopCalDate('${dateStr}')"><span>${d}</span>${hasData ? '<div class="mini-cal-dot"></div>' : ''}</div>`;
       }
     }
-    function dayString(d) { return String(d).padStart(2,'0'); }
     function resetDashboardDateToToday() { selectTodayInPopCal(); }
 
     function renderDashboard() {
@@ -969,7 +940,7 @@
       });
     }
 
-    // 2. CHECKLIST (TERISOLASI DIVISI)
+    // CHECKLIST
     function renderChecklistStations() {
       const container = document.getElementById("stationGrid");
       const lvl = currentUser ? currentUser.level : 1;
@@ -990,20 +961,20 @@
         const tasks = (localData.CHECKLIST || []).filter(c => c.station === st);
         return `
           <div class="card">
-            <div style="font-size:0.82rem;font-weight:700;border-bottom:1px solid var(--border-subtle);padding-bottom:0.45rem;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:0.8rem;font-weight:700;border-bottom:1px solid var(--border-subtle);padding-bottom:0.4rem;display:flex;justify-content:space-between;align-items:center;">
               <span>Station ${st}</span><span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span>
             </div>
             ${tasks.map(t => `
-              <div style="display:flex;align-items:flex-start;gap:0.65rem;padding:0.45rem 0;border-bottom:1px solid var(--border-subtle);">
-                <input type="checkbox" style="margin-top:0.15rem;width:17px;height:17px;" ${t.status==='Selesai'?'checked':''} ${!perm.canEdit ? 'disabled' : ''} onchange="toggleTaskState('${t.task_id}', this.checked)">
-                <div style="flex:1;font-size:0.8rem;">
+              <div style="display:flex;align-items:flex-start;gap:0.5rem;padding:0.4rem 0;border-bottom:1px solid var(--border-subtle);">
+                <input type="checkbox" style="margin-top:0.15rem;width:16px;height:16px;" ${t.status==='Selesai'?'checked':''} ${!perm.canEdit ? 'disabled' : ''} onchange="toggleTaskState('${t.task_id}', this.checked)">
+                <div style="flex:1;font-size:0.78rem;">
                   <div style="${t.status==='Selesai'?'text-decoration:line-through;color:var(--text-muted);':''}">${t.tugas}</div>
-                  <div style="font-size:0.68rem;color:var(--text-muted);margin-top:0.15rem;">Shift ${t.shift} • Target ${t.jam_target} • PIC: <strong>${t.petugas || '-'}</strong> ${t.jam_selesai ? '('+t.jam_selesai+')' : ''}</div>
+                  <div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.1rem;">Shift ${t.shift} • Target ${t.jam_target} • PIC: <strong>${t.petugas || '-'}</strong> ${t.jam_selesai ? '('+t.jam_selesai+')' : ''}</div>
                 </div>
                 ${perm.canEdit && lvl >= 2 ? `
                   <div style="display:flex;gap:0.2rem;">
-                    <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="editTaskModal('${t.task_id}')">Edit</button>
-                    <button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button>
+                    <button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editTaskModal('${t.task_id}')">Edit</button>
+                    <button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button>
                   </div>
                 ` : ''}
               </div>
@@ -1041,7 +1012,41 @@
     }
     async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); await fetchAllData(); } }
 
-    // 3. INVENTARIS STOK (MAKRO-MIKRO STANDAR KITCHEN)
+    // INVENTARIS STOK DENGAN LIVE RECALC
+    function liveRecalcRow(inputEl, itemId) {
+      const item = (localData.STOK || []).find(s => s.item_id === itemId);
+      if (!item) return;
+
+      const rowTr = inputEl.closest('tr');
+      const op1Val = cleanMoney(rowTr.querySelector('.input-opname-s1').value);
+      const op2Val = cleanMoney(rowTr.querySelector('.input-opname-s2').value);
+
+      const gudang = cleanMoney(item.stok_gudang);
+      const min = cleanMoney(item.min_stok);
+      const konv = cleanMoney(item.isi_konversi) || 1;
+      const satMakro = item.satuan_makro || 'pack';
+      const satMikro = item.satuan_mikro || item.satuan || 'gram';
+
+      const mikroT = cleanMoney(item.tersedia_pagi) + cleanMoney(item.refill_s1) + cleanMoney(item.refill_s2);
+
+      const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
+      const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
+      const waste = totalW > 0 ? totalW : cleanMoney(item.waste_mikro);
+
+      const sisaDivisi = op2Val > 0 ? op2Val : (op1Val > 0 ? op1Val : Math.max(0, mikroT - waste));
+      const pemakaian = Math.max(0, mikroT - sisaDivisi);
+      const totalAset = (gudang * konv) + sisaDivisi;
+      const status = totalAset <= min ? "RESTOCK" : "AMAN";
+
+      rowTr.querySelector('.cell-sisa-divisi').innerText = `${sisaDivisi.toLocaleString('id-ID')} ${satMikro}`;
+      rowTr.querySelector('.cell-pemakaian').innerText = `${pemakaian.toLocaleString('id-ID')} ${satMikro}`;
+      rowTr.querySelector('.cell-total-aset').innerHTML = `<strong>${totalAset.toLocaleString('id-ID')} ${satMikro}</strong><div style="font-size:0.65rem;color:var(--text-muted);">${gudang} ${satMakro} + ${sisaDivisi} ${satMikro}</div>`;
+      
+      const tagEl = rowTr.querySelector('.cell-status');
+      tagEl.className = `tag ${status === 'RESTOCK' ? 'tag-restock' : 'tag-safe'}`;
+      tagEl.innerText = status;
+    }
+
     function renderStokTable() {
       const filter = document.getElementById("stokFilter").value;
       const data = (filter === "SEMUA") ? (localData.STOK || []) : (localData.STOK || []).filter(s => s.divisi === filter);
@@ -1072,14 +1077,14 @@
             <td><code>${s.item_id}</code></td><td>${s.divisi}</td><td><strong>${s.nama_barang}</strong></td>
             <td>${satMakro}</td><td style="color:var(--warning);font-weight:700;">${konv.toLocaleString('id-ID')} ${satMikro}</td><td>${satMikro}</td>
             <td style="font-weight:700;">${gudang.toLocaleString('id-ID')} ${satMakro}</td>
-            <td style="font-weight:700;color:var(--success);">${sisaDivisi.toLocaleString('id-ID')} ${satMikro}</td>
+            <td style="font-weight:700;color:var(--success);" class="cell-sisa-divisi">${sisaDivisi.toLocaleString('id-ID')} ${satMikro}</td>
             <td style="color:var(--danger);font-weight:700;">${waste > 0 ? waste.toLocaleString('id-ID') : '-'} ${totalW > 0 ? '<span style="font-size:0.6rem;color:var(--warning);display:block;">(Dari Log)</span>' : ''}</td>
-            <td><input type="text" style="width:65px;padding:0.2rem;" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" ${!perm.canEdit ? 'disabled' : ''} onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
-            <td><input type="text" style="width:65px;padding:0.2rem;" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" ${!perm.canEdit ? 'disabled' : ''} onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
-            <td style="font-weight:700;color:var(--warning);">${pemakaian.toLocaleString('id-ID')} ${satMikro}</td>
-            <td><strong>${totalAset.toLocaleString('id-ID')} ${satMikro}</strong><div style="font-size:0.65rem;color:var(--text-muted);">${gudang} ${satMakro} + ${sisaDivisi} ${satMikro}</div></td>
+            <td><input type="text" class="input-opname-s1" style="width:60px;padding:0.2rem;" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" ${!perm.canEdit ? 'disabled' : ''} oninput="liveRecalcRow(this, '${s.item_id}')" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
+            <td><input type="text" class="input-opname-s2" style="width:60px;padding:0.2rem;" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" ${!perm.canEdit ? 'disabled' : ''} oninput="liveRecalcRow(this, '${s.item_id}')" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
+            <td style="font-weight:700;color:var(--warning);" class="cell-pemakaian">${pemakaian.toLocaleString('id-ID')} ${satMikro}</td>
+            <td class="cell-total-aset"><strong>${totalAset.toLocaleString('id-ID')} ${satMikro}</strong><div style="font-size:0.65rem;color:var(--text-muted);">${gudang} ${satMakro} + ${sisaDivisi} ${satMikro}</div></td>
             <td>${min.toLocaleString('id-ID')} ${satMikro}</td>
-            <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'}">${status}</span></td>
+            <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'} cell-status">${status}</span></td>
             <td>
               ${perm.canEdit ? `
                 <button class="btn" onclick="editStokModal('${s.item_id}')">Edit</button>
@@ -1093,7 +1098,11 @@
 
     async function quickUpdateOpnameShift(id, field, val) {
       showToast("Menyimpan opname...");
-      let u = {}; u[field] = cleanMoney(val);
+      const cleanVal = cleanMoney(val);
+      const item = (localData.STOK || []).find(s => s.item_id === id);
+      if (item) item[field] = cleanVal;
+
+      let u = {}; u[field] = cleanVal;
       await postToGas("update", "STOK", { key: "item_id", val: id, updates: u });
       await fetchAllData();
     }
@@ -1109,8 +1118,8 @@
       const op1 = cleanMoney(document.getElementById("fStkOpnameS1").value);
       const op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
 
-      const sMakro = document.getElementById("fStkSatuanMakro").value;
-      const sMikro = document.getElementById("fStkSatuanMikro").value;
+      const sMakro = document.getElementById("fStkSatuanMakro").value || "pack";
+      const sMikro = document.getElementById("fStkSatuanMikro").value || "gram";
 
       const totalT = pagi + r1 + r2;
       const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, totalT - waste));
@@ -1132,13 +1141,13 @@
       document.getElementById("fStkTanggal").value = new Date().toISOString().split('T')[0]; document.getElementById("fStkJam").value = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.',':');
       document.getElementById("fStkNama").value = "";
       document.getElementById("fStkSatuanMakro").value = "pack";
-      document.getElementById("fStkIsiKonversi").value = "2500";
+      document.getElementById("fStkIsiKonversi").value = "1000";
       document.getElementById("fStkSatuanMikro").value = "gram";
-      document.getElementById("fStkGudang").value = "5";
-      document.getElementById("fStkMin").value = "7500";
-      document.getElementById("fStkPagi").value = "2500";
+      document.getElementById("fStkGudang").value = "2";
+      document.getElementById("fStkMin").value = "500";
+      document.getElementById("fStkPagi").value = "500";
       document.getElementById("fStkRefillS1").value = "0"; document.getElementById("fStkRefillS2").value = "0"; document.getElementById("fStkWaste").value = "0";
-      document.getElementById("fStkOpnameS1").value = "2200"; document.getElementById("fStkOpnameS2").value = "1500";
+      document.getElementById("fStkOpnameS1").value = ""; document.getElementById("fStkOpnameS2").value = "";
       calcModalStokPreview(); openModal('modalStok');
     }
 
@@ -1193,7 +1202,7 @@
     }
     async function deleteStokItem(id) { if(confirm(`Hapus barang ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "STOK", { key: "item_id", val: id }); await fetchAllData(); } }
 
-    // 4. KASIR & SERAH TERIMA
+    // KASIR & SERAH TERIMA
     function calcCashDenom() {
       const t = cleanMoney(document.getElementById("fStTunai").value), nt = cleanMoney(document.getElementById("fStNonTunai").value), onl = cleanMoney(document.getElementById("fStOnline").value);
       const m = cleanMoney(document.getElementById("fStModal").value), k = cleanMoney(document.getElementById("fStPengeluaran").value);
@@ -1262,12 +1271,8 @@
       };
 
       closeModal('modalHandover'); showToast("Menyimpan serah terima...");
-      if(editId) {
-        await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
-      } else {
-        payload.id = `ST-S${sNum}-${Date.now().toString().slice(-5)}`;
-        await postToGas("insert", "SERAH_TERIMA", payload);
-      }
+      if(editId) { await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload }); }
+      else { payload.id = `ST-S${sNum}-${Date.now().toString().slice(-5)}`; await postToGas("insert", "SERAH_TERIMA", payload); }
       await fetchAllData();
     }
     async function deleteHandoverItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id }); await fetchAllData(); } }
@@ -1282,22 +1287,22 @@
             <td><code>${st.id}</code></td><td>${st.tanggal} ${st.jam || ''}</td><td>${badge}</td><td>${st.petugas_serah}</td>
             <td><strong>${formatRupiah(st.total_omset_shift || (cleanMoney(st.penjualan_tunai)+cleanMoney(st.non_tunai_qris)+cleanMoney(st.online_food)))}</strong></td>
             <td>${formatRupiah(st.penjualan_tunai)}</td><td>${formatRupiah(st.non_tunai_qris)}</td><td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
-            <td style="font-size:0.72rem;">${st.keterangan_pengeluaran||'-'}</td>
+            <td style="font-size:0.7rem;">${st.keterangan_pengeluaran||'-'}</td>
             <td style="font-weight:700;color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
             <td style="font-weight:700;color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
-            <td style="font-size:0.72rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
+            <td style="font-size:0.7rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
             <td>
               ${perm.canEdit ? `
-                <button class="btn" style="padding:0.2rem 0.4rem;font-size:0.7rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
-                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.2rem 0.4rem;font-size:0.7rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>` : ''}
-              ` : '<span style="color:var(--text-muted);font-size:0.7rem;">Lihat</span>'}
+                <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
+                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>` : ''}
+              ` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}
             </td>
           </tr>
         `;
       }).join('');
     }
 
-    // 5. DAILY REPORT
+    // DAILY REPORT
     function openNewDailyReportModal() { document.getElementById("modalDrTitle").innerText = "Simpan Report"; document.getElementById("fDrEditId").value = ""; document.getElementById("fDrTanggal").value = new Date().toISOString().split('T')[0]; autoPullDailyReportData(); openModal('modalDailyReport'); }
     function editDailyReportModal(id) {
       const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
@@ -1340,10 +1345,7 @@
       document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
 
       const restockList = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang);
-        const op1 = cleanMoney(s.opname_s1);
-        const op2 = cleanMoney(s.opname_s2);
-        const konv = cleanMoney(s.isi_konversi) || 1;
+        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), konv = cleanMoney(s.isi_konversi) || 1;
         const total = (gudang * konv) + (op2 > 0 ? op2 : (op1 > 0 ? op1 : cleanMoney(s.tersedia_pagi)));
         return total <= cleanMoney(s.min_stok);
       }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || 'Semua stok aman.';
@@ -1378,14 +1380,14 @@
           <td><code>${dr.report_id}</code></td><td>${dr.tanggal}</td><td><strong>${formatRupiah(dr.total_omset)}</strong></td>
           <td>${formatRupiah(dr.qris_edc)}</td><td>${formatRupiah(dr.target_harian)}</td>
           <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td><td>${formatRupiah(dr.total_kas_keluar)}</td>
-          <td style="font-size:0.72rem;color:var(--warning);">${dr.belanja_barista||'-'}</td>
-          <td style="font-size:0.72rem;color:var(--warning);">${dr.belanja_kitchen||'-'}</td>
-          <td style="font-size:0.72rem;color:var(--warning);">${dr.belanja_server||'-'}</td>
+          <td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_barista||'-'}</td>
+          <td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_kitchen||'-'}</td>
+          <td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_server||'-'}</td>
           <td>
             ${perm.canEdit ? `
-              <button class="btn" style="padding:0.2rem 0.4rem;font-size:0.7rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
-              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.2rem 0.4rem;font-size:0.7rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>` : ''}
-            ` : '<span style="color:var(--text-muted);font-size:0.7rem;">Lihat</span>'}
+              <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
+              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>` : ''}
+            ` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}
           </td>
         </tr>
       `).join('');
@@ -1411,10 +1413,7 @@
       const wItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste / spoil';
 
       const restockItems = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang);
-        const op1 = cleanMoney(s.opname_s1);
-        const op2 = cleanMoney(s.opname_s2);
-        const konv = cleanMoney(s.isi_konversi) || 1;
+        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), konv = cleanMoney(s.isi_konversi) || 1;
         const total = (gudang * konv) + (op2 > 0 ? op2 : (op1 > 0 ? op1 : cleanMoney(s.tersedia_pagi)));
         return total <= cleanMoney(s.min_stok);
       }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || '• Semua stok aman';
@@ -1450,7 +1449,7 @@
       window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg), '_blank');
     }
 
-    // 6. INFO & DATABASE (HANYA BOY LEVEL 6)
+    // INFO & DATABASE (TERKUNCI BOY LEVEL 6)
     function renderInfoSistemView() {
       document.getElementById("infoWebhookUrl").innerText = API_URL;
       document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO OPERASIONAL";
@@ -1461,7 +1460,7 @@
       if (isSuper) {
         wSheet.innerHTML = `<a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/u/0/'}" target="_blank" class="btn btn-solid" style="width:100%;justify-content:center;text-decoration:none;">🔗 Buka Google Sheet di Tab Baru ↗</a>`;
       } else {
-        wSheet.innerHTML = `<div style="background:var(--bg);padding:0.5rem;border-radius:4px;font-size:0.75rem;color:var(--text-muted);text-align:center;">🔒 File Database Terkunci Khusus Owner / Superadmin</div>`;
+        wSheet.innerHTML = `<div style="background:var(--bg);padding:0.4rem;border-radius:4px;font-size:0.72rem;color:var(--text-muted);text-align:center;">🔒 File Database Terkunci Khusus Owner / Superadmin</div>`;
       }
 
       const wHook = document.getElementById("boxWebhookActionWrap");
@@ -1503,7 +1502,7 @@
       } catch (e) { alert("❌ GAGAL MENGHUBUNGI APPS SCRIPT!\nPastikan Webhook URL benar dan diset 'Anyone'."); }
     }
 
-    // 7. KALENDER OPERASIONAL DENGAN PEMILIH BULAN CEPAT
+    // KALENDER OPERASIONAL DENGAN PEMILIH BULAN CEPAT
     function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
     function jumpToCurrentMonth() {
       calDate = new Date();
@@ -1537,9 +1536,7 @@
       const grid = document.getElementById("gridMonthButtons");
       const curM = (calDate.getFullYear() === pickerYear) ? calDate.getMonth() : -1;
       grid.innerHTML = mNames.map((name, idx) => `
-        <button class="month-picker-btn ${curM === idx ? 'active' : ''}" onclick="selectPickerMonth(${idx})">
-          ${name}
-        </button>
+        <button class="month-picker-btn ${curM === idx ? 'active' : ''}" onclick="selectPickerMonth(${idx})">${name}</button>
       `).join('');
     }
 
@@ -1553,12 +1550,12 @@
       for (let day = 1; day <= totalDays; day++) {
         const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${dayString(day)}`;
         const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
-        const s1 = roster.filter(j => j.shift === '1'), s2 = roster.filter(j => j.shift === '2'), off = roster.filter(j => j.status_hadir === 'Libur');
+        const s1 = roster.filter(j => j.shift === '1'), s2 = roster.filter(j => j.shift === '2');
         const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
         grid.innerHTML += `
           <div class="cal-cell" onclick="openDayInspector('${dateStr}')">
-            <div style="font-weight:700;font-size:0.8rem;">${day}</div>
-            <div style="display:flex;flex-direction:column;gap:0.15rem;margin-top:0.25rem;">
+            <div style="font-weight:700;font-size:0.75rem;">${day}</div>
+            <div style="display:flex;flex-direction:column;gap:0.15rem;margin-top:0.2rem;">
               ${s1.length ? `<span class="cal-badge">S1: ${s1.map(x=>x.nama).join(',')}</span>` : ''}
               ${s2.length ? `<span class="cal-badge">S2: ${s2.map(x=>x.nama).join(',')}</span>` : ''}
               ${logs.length ? `<span class="cal-badge" style="background:rgba(245,158,11,0.2);color:var(--warning);">${logs.length} Log</span>` : ''}
@@ -1575,33 +1572,32 @@
 
       const roster = (localData.JADWAL || []).filter(j => j.tanggal === dateStr);
       document.getElementById("inspectRosterList").innerHTML = roster.length ? roster.map(r => `
-        <div style="font-size:0.75rem;padding:0.35rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:0.72rem;padding:0.3rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
           <div><strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift} <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}">${r.status_hadir}</span></div>
           ${perm.canEdit ? `
             <div style="display:flex;gap:0.2rem;">
-              <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="editRosterModal('${r.id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button>
+              <button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editRosterModal('${r.id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button>
             </div>
           ` : ''}
         </div>
-      `).join('') : '<div style="font-size:0.75rem;color:var(--text-muted);">Belum ada jadwal staff.</div>';
+      `).join('') : '<div style="font-size:0.72rem;color:var(--text-muted);">Belum ada jadwal staff.</div>';
 
       const logs = (localData.LOG_KALENDER || []).filter(l => l.tanggal === dateStr);
       document.getElementById("inspectLogList").innerHTML = logs.length ? logs.map(l => `
-        <div style="font-size:0.75rem;padding:0.35rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
-          <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted);font-size:0.7rem;">${l.detail} (PIC: ${l.pic})</div></div>
+        <div style="font-size:0.72rem;padding:0.3rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
+          <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted);font-size:0.65rem;">${l.detail} (PIC: ${l.pic})</div></div>
           ${perm.canEdit ? `
             <div style="display:flex;gap:0.2rem;">
-              <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.65rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button>
+              <button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
+              <button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button>
             </div>
           ` : ''}
         </div>
-      `).join('') : '<div style="font-size:0.75rem;color:var(--text-muted);">Tidak ada log / catatan.</div>';
+      `).join('') : '<div style="font-size:0.72rem;color:var(--text-muted);">Tidak ada log / catatan.</div>';
 
       document.getElementById("btnDayAddStaff").style.display = perm.canEdit ? "inline-flex" : "none";
       document.getElementById("btnDayAddLog").style.display = perm.canEdit ? "inline-flex" : "none";
-
       openModal('modalDayInspector');
     }
 
@@ -1645,11 +1641,7 @@
           <option value="Lainnya">Lainnya</option>
         `;
       } else {
-        catSel.innerHTML = `
-          <option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option>
-          <option value="Audit Selisih Opname">Audit Selisih Opname</option>
-          <option value="Lainnya">Lainnya</option>
-        `;
+        catSel.innerHTML = `<option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option><option value="Audit Selisih Opname">Audit Selisih Opname</option><option value="Lainnya">Lainnya</option>`;
       }
       updateLogItemDropdown();
       handleLogCategoryChange();
@@ -1662,15 +1654,10 @@
       document.getElementById("fLogNonStockSection").style.display = isStock ? "none" : "block";
 
       const lQty = document.getElementById("labelQtyLog");
-      if (kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi")) {
-        lQty.innerText = "JUMLAH DIBUANG / RUSAK / KALIBRASI (MEMOTONG STASIUN)";
-      } else if (kat.includes("Barang Masuk")) {
-        lQty.innerText = "JUMLAH KEMASAN MASUK (MENAMBAH GUDANG MAKRO)";
-      } else if (kat.includes("Bongkar") || kat.includes("Refill")) {
-        lQty.innerText = "JUMLAH PACK DIBONGKAR (POTONG GUDANG, TAMBAH STASIUN)";
-      } else {
-        lQty.innerText = "JUMLAH FISIK";
-      }
+      if (kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi")) lQty.innerText = "JUMLAH DIBUANG / RUSAK / KALIBRASI (MEMOTONG STASIUN)";
+      else if (kat.includes("Barang Masuk")) lQty.innerText = "JUMLAH KEMASAN MASUK (MENAMBAH GUDANG MAKRO)";
+      else if (kat.includes("Bongkar") || kat.includes("Refill")) lQty.innerText = "JUMLAH PACK DIBONGKAR (POTONG GUDANG, TAMBAH STASIUN)";
+      else lQty.innerText = "JUMLAH FISIK";
       updateLogEffectNotice();
     }
 
@@ -1795,7 +1782,7 @@
       await fetchAllData(); renderCalendar(); showToast("Log & Stok otomatis tersinkron!");
     }
 
-    // 8. MENU & HPP
+    // MENU & HPP
     function filterMenuCategory(cat) {
       document.getElementById("btnMenuMinuman").classList.toggle("active", cat==='Minuman');
       document.getElementById("btnMenuMakanan").classList.toggle("active", cat==='Makanan');
@@ -1814,9 +1801,9 @@
             <td>${cleanPercent(m.margin_pct) || ((marginRp/jual)*100).toFixed(1)+'%'}</td><td>${cleanPercent(m.food_cost_pct) || ((hpp/jual)*100).toFixed(1)+'%'}</td>
             <td>
               ${perm.canEdit ? `
-                <button class="btn" onclick="editMenuModal('${m.menu_id}')">Edit</button>
-                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>` : ''}
-              ` : '<span style="color:var(--text-muted);font-size:0.7rem;">Lihat</span>'}
+                <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editMenuModal('${m.menu_id}')">Edit</button>
+                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>` : ''}
+              ` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}
             </td>
           </tr>
         `;
@@ -1840,16 +1827,14 @@
     }
     async function deleteMenuItem(id) { if(confirm(`Hapus menu ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "MENU", { key: "menu_id", val: id }); await fetchAllData(); } }
 
-    // ========================================================
-    // 9. MASTER VAULT KARYAWAN & MATRIKS HAK AKSES PER-TAB
-    // ========================================================
+    // MASTER VAULT KARYAWAN & RBAC MATRIKS
     function renderVaultTable() {
       document.getElementById("vaultTableBody").innerHTML = (localData.USERS || []).map(u => `
         <tr>
           <td><code>${u.user_id}</code></td><td><strong>${u.username}</strong></td><td onclick="editUserModal('${u.user_id}')" style="cursor:pointer;">${u.nama_lengkap}</td>
           <td>${u.role}</td><td>Level ${u.level}</td><td>${u.divisi}</td><td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
-          <td style="font-size:0.7rem;color:var(--text-muted);max-width:220px;overflow:hidden;text-overflow:ellipsis;">${u.akses_tabs || 'Default'}</td>
-          <td><button class="btn" onclick="editUserModal('${u.user_id}')">Edit</button><button class="btn btn-danger" onclick="deleteUserItem('${u.user_id}')">Hapus</button></td>
+          <td style="font-size:0.68rem;color:var(--text-muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;">${u.akses_tabs || 'Default'}</td>
+          <td><button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editUserModal('${u.user_id}')">Edit</button><button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteUserItem('${u.user_id}')">Hapus</button></td>
         </tr>
       `).join('');
     }
@@ -1873,8 +1858,7 @@
     function renderTabPermissionCheckboxes(permStr) {
       const container = document.getElementById("boxTabPermissionsMatrix");
       container.innerHTML = TAB_DEFINITIONS.map(t => {
-        let isChecked = false;
-        let isEdit = true;
+        let isChecked = false, isEdit = true;
         if (permStr && permStr.trim() !== "") {
           const parts = permStr.split(',').map(s => s.trim());
           for (let p of parts) {
@@ -1886,14 +1870,14 @@
           }
         }
         return `
-          <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding:0.35rem 0;">
-            <label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer;">
+          <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding:0.25rem 0;">
+            <label style="display:flex;align-items:center;gap:0.35rem;cursor:pointer;">
               <input type="checkbox" id="chkActive_${t.id}" ${isChecked ? 'checked' : ''} onchange="toggleModeRadios('${t.id}', this.checked)">
               <span>${t.label}</span>
             </label>
-            <div style="display:flex;gap:0.6rem;align-items:center;">
-              <label style="font-size:0.7rem;color:var(--text-muted);cursor:pointer;"><input type="radio" name="mode_${t.id}" id="modeEdit_${t.id}" value="edit" ${isEdit ? 'checked' : ''} ${!isChecked ? 'disabled' : ''}> Bisa Edit</label>
-              <label style="font-size:0.7rem;color:var(--text-muted);cursor:pointer;"><input type="radio" name="mode_${t.id}" id="modeView_${t.id}" value="view" ${!isEdit ? 'checked' : ''} ${!isChecked ? 'disabled' : ''}> Hanya Lihat</label>
+            <div style="display:flex;gap:0.5rem;align-items:center;">
+              <label style="font-size:0.68rem;color:var(--text-muted);cursor:pointer;"><input type="radio" name="mode_${t.id}" id="modeEdit_${t.id}" value="edit" ${isEdit ? 'checked' : ''} ${!isChecked ? 'disabled' : ''}> Bisa Edit</label>
+              <label style="font-size:0.68rem;color:var(--text-muted);cursor:pointer;"><input type="radio" name="mode_${t.id}" id="modeView_${t.id}" value="view" ${!isEdit ? 'checked' : ''} ${!isChecked ? 'disabled' : ''}> Hanya Lihat</label>
             </div>
           </div>
         `;
