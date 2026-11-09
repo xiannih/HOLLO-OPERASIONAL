@@ -2,7 +2,7 @@
 <html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>HOLLO COFFEE & ROASTERY'S — Executive F&B Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
@@ -68,7 +68,6 @@
 </head>
 <body>
 
-  <!-- GATEKEEPER LOCK -->
   <div id="gatekeeper">
     <div class="lock-card">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;">HOLLO COFFEE & ROASTERY'S</div>
@@ -80,7 +79,6 @@
     </div>
   </div>
 
-  <!-- PORTAL HEADER -->
   <header>
     <div class="brand-wrap">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;">HOLLO COFFEE</div>
@@ -98,7 +96,6 @@
     </div>
   </header>
 
-  <!-- NAVIGATION TABS -->
   <nav id="mainNav">
     <div class="nav-tab active" id="tabDashboard" onclick="switchView('dashboard')">Dashboard</div>
     <div class="nav-tab" id="tabKalender" onclick="switchView('kalender')">Kalender & Roster</div>
@@ -111,9 +108,7 @@
     <div class="nav-tab" id="tabInfoSistem" onclick="switchView('info-sistem')">ℹ️ Info & Database</div>
   </nav>
 
-  <!-- MAIN CONTAINER -->
   <main>
-    <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
       <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;padding:0.7rem 0.85rem;">
         <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
@@ -123,14 +118,12 @@
         </div>
         <div style="font-size:0.72rem;color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
       </div>
-
       <div class="kpi-grid">
         <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.68rem;color:var(--text-muted);">Target: Rp 150.000.000</div></div>
         <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.68rem;color:var(--success);">Tunai + QRIS + Online</div></div>
         <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.68rem;color:var(--text-muted);">Batas minimum</div></div>
         <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.68rem;color:var(--text-muted);">Seluruh Stasiun</div></div>
       </div>
-
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;margin-bottom:1rem;">
         <div class="card">
           <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;">Status Checklist Stasiun</div>
@@ -149,14 +142,12 @@
           </div>
         </div>
       </div>
-
       <div class="charts-grid">
         <div class="card"><div class="card-title">Breakdown Penjualan</div><canvas id="chartSales" style="max-height:200px;"></canvas></div>
         <div class="card"><div class="card-title">Sebaran Tugas Stasiun</div><canvas id="chartChecklist" style="max-height:200px;"></canvas></div>
       </div>
     </section>
 
-    <!-- VIEW 2: KALENDER -->
     <section id="view-kalender" style="display:none;">
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;flex-wrap:wrap;gap:0.4rem;">
@@ -174,7 +165,6 @@
       </div>
     </section>
 
-    <!-- VIEW 3: CHECKLIST -->
     <section id="view-checklist" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Checklist Shift Harian per Stasiun</h3><p style="font-size:0.72rem;color:var(--text-muted);" id="txtChecklistSubtitle">Centang otomatis mencatat Username & Jam Anda.</p></div>
@@ -183,10 +173,9 @@
       <div id="stationGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;"></div>
     </section>
 
-    <!-- VIEW 4: INVENTARIS STOK -->
     <section id="view-stok" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
-        <div><h3>Inventaris: Makro (Gudang Segel) & Mikro (Stasiun)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Gudang tersegel (FIFO/FEFO). Saat dibongkar, terkonversi otomatis ke gram/ml/pcs stasiun.</p></div>
+        <div><h3>Inventaris: Makro (Gudang Segel) & Mikro (Stasiun)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Gudang tersegel. Saat dibongkar, terkonversi otomatis ke satuan mikro.</p></div>
         <div style="display:flex;gap:0.35rem;">
           <select id="stokFilter" onchange="renderStokTable()" style="padding:0.35rem;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:6px;font-size:0.75rem;">
             <option value="SEMUA">Semua Divisi</option><option value="BARISTA">Barista</option><option value="KITCHEN">Kitchen</option><option value="SERVER">Server</option>
@@ -208,7 +197,6 @@
       </div>
     </section>
 
-    <!-- VIEW 5: SERAH TERIMA KASIR -->
     <section id="view-serah-terima" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Serah Terima Kasir & Kas Laci (Imprest)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan oleh Barista Kasir. Shift 1 & 2 tercatat terpisah.</p></div>
@@ -227,10 +215,9 @@
       </div>
     </section>
 
-    <!-- VIEW 6: DAILY REPORT -->
     <section id="view-daily-report" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
-        <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan Barista Closing saat briefing malam. Rincian belanja besok diteruskan ke WhatsApp.</p></div>
+        <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan Barista Closing saat briefing malam.</p></div>
         <div style="display:flex;gap:0.35rem;">
           <button class="btn btn-wa" onclick="sendWhatsAppDaily()">Kirim WhatsApp</button>
           <button class="btn btn-solid" id="btnOpenNewReport" onclick="openNewDailyReportModal()">+ Simpan Report</button>
@@ -246,7 +233,6 @@
       </div>
     </section>
 
-    <!-- VIEW 7: MENU & HPP -->
     <section id="view-menu" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div style="display:flex;gap:0.35rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
@@ -260,10 +246,9 @@
       </div>
     </section>
 
-    <!-- VIEW 8: DATA PERUSAHAAN -->
     <section id="view-perusahaan" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
-        <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.72rem;color:var(--text-muted);">Tentukan tab mana saja yang boleh dibuka oleh anggota tim serta hak akses Ubah (Edit) vs Hanya Lihat (View).</p></div>
+        <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.72rem;color:var(--text-muted);">Kelola akses dan hak edit/view per tab.</p></div>
         <button class="btn btn-solid" id="btnAddNewUser" onclick="openNewUserModal()">+ Tambah Karyawan</button>
       </div>
       <div class="table-card">
@@ -274,16 +259,13 @@
       </div>
     </section>
 
-    <!-- VIEW 9: ABOUT & DATABASE -->
     <section id="view-info-sistem" style="display:none;">
       <div class="card" style="border-left:4px solid var(--accent);">
         <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;">HOLLO COFFEE & ROASTERY'S</h2>
         <p style="font-size:0.75rem;color:var(--text-muted);">Executive F&B Operations Suite — V23 Engine</p>
       </div>
-
       <div class="card" style="border:1px dashed var(--accent);background:var(--elevated);">
         <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.4rem;color:var(--warning);">⚡ Pusat Pengelolaan Database & Tambah Item Mandiri</h4>
-        <p style="font-size:0.72rem;color:var(--text-muted);margin-bottom:0.75rem;">Tambahkan data baru langsung ke database atau perbaiki struktur kolom Google Sheets Anda secara instan.</p>
         <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
           <button class="btn btn-solid" onclick="openNewStokModal()">➕ Tambah Barang Stok</button>
           <button class="btn btn-solid" onclick="openNewMenuModal()">➕ Tambah Menu Produk</button>
@@ -292,7 +274,6 @@
           <button class="btn btn-danger" onclick="triggerRepairDatabase()">🛠️ Sinkronkan & Perbaiki Kolom Sheet (Tanpa Hapus Data)</button>
         </div>
       </div>
-
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;">
         <div class="card">
           <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.4rem;">👤 Hak Cipta & Arsitek</h4>
@@ -300,7 +281,6 @@
             <div><strong>System Architect / Owner:</strong> Boy (RAJA_UTAMA)</div>
             <div><strong>Lead Developer:</strong> Ardian Ramadhan</div>
             <div><strong>Badan Usaha:</strong> PT. HOLLO CIPTA RASA</div>
-            <div style="color:var(--text-muted);font-size:0.68rem;margin-top:0.4rem;">© 2026 HOLLO COFFEE. All Rights Reserved.</div>
           </div>
         </div>
         <div class="card" style="border-color:var(--accent);">
@@ -329,9 +309,6 @@
     </section>
   </main>
 
-  <!-- ==================== MODALS ==================== -->
-
-  <!-- MODAL: PEMILIH BULAN CEPAT -->
   <div class="modal-backdrop" id="modalMonthPicker">
     <div class="modal" style="max-width:340px;text-align:center;">
       <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;margin-bottom:0.4rem;">Pilih Bulan & Tahun</h3>
@@ -348,7 +325,6 @@
     </div>
   </div>
 
-  <!-- MODAL: KALENDER POP-UP DASHBOARD -->
   <div class="modal-backdrop" id="modalDashCalendarPicker">
     <div class="modal" style="max-width:360px;text-align:center;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
@@ -363,7 +339,6 @@
     </div>
   </div>
 
-  <!-- MODAL: DETAIL TANGGAL KALENDER -->
   <div class="modal-backdrop" id="modalDayInspector">
     <div class="modal">
       <h3 id="inspectDateTitle" style="margin-bottom:0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Detail Tanggal</h3>
@@ -385,7 +360,6 @@
     </div>
   </div>
 
-  <!-- MODAL: JADWAL STAFF -->
   <div class="modal-backdrop" id="modalRoster">
     <div class="modal">
       <h3 id="modalRosterTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Jadwal Staff</h3>
@@ -401,7 +375,6 @@
     </div>
   </div>
 
-  <!-- MODAL: LOG KALENDER -->
   <div class="modal-backdrop" id="modalLog">
     <div class="modal">
       <h3 id="modalLogTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Catat Log Operasional</h3>
@@ -424,12 +397,11 @@
         <div class="calc-box" id="logEffectBox" style="border-left:3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis sinkron dengan Stok.</span></div>
       </div>
       <div id="fLogNonStockSection" style="display:none;"><div class="form-group"><label>Nama Alat / Kejadian</label><input type="text" id="fLogItemManual" placeholder="Grinder / Kompor"></div></div>
-      <div class="form-group"><label>Detail Keterangan Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan alasan afkir / rusak / dial-in..."></textarea></div>
+      <div class="form-group"><label>Detail Keterangan Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan alasan..."></textarea></div>
       <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div>
     </div>
   </div>
 
-  <!-- MODAL: KELOLA BARANG STOK -->
   <div class="modal-backdrop" id="modalStok">
     <div class="modal">
       <h3 id="modalStokTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Barang: Makro Gudang & Mikro Stasiun</h3>
@@ -443,42 +415,29 @@
         <div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori" placeholder="Biji Kopi / Karbo / Protein"></div>
       </div>
       <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="Contoh: BBB-Beans Dark Roast / Fresh Milk"></div>
-      
       <div class="section-title">1. Satuan Pembelian (Makro) & Konversi ke Resep (Mikro)</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group">
-          <label>Satuan Makro (Gudang)</label>
-          <input type="text" id="fStkSatuanMakro" list="listSatuanMakro" placeholder="pack / Kotak / dus" oninput="calcModalStokPreview()">
-          <datalist id="listSatuanMakro"><option value="pack"><option value="Kotak"><option value="karton"><option value="bag"><option value="dus"><option value="bal"><option value="jerigen"><option value="botol"><option value="can"><option value="pail"><option value="ikat"></datalist>
-        </div>
-        <div class="form-group"><label>Isi Konversi per Kemasan</label><input type="number" id="fStkIsiKonversi" value="1000" oninput="calcModalStokPreview()"></div>
-        <div class="form-group">
-          <label>Satuan Mikro (Resep)</label>
-          <input type="text" id="fStkSatuanMikro" list="listSatuanMikro" placeholder="gram / Mililiter / pcs" oninput="calcModalStokPreview()">
-          <datalist id="listSatuanMikro"><option value="gram"><option value="Mililiter"><option value="ml"><option value="pcs"><option value="slice"><option value="porsi"><option value="lembar"><option value="shot"></datalist>
-        </div>
+        <div class="form-group"><label>Satuan Makro</label><input type="text" id="fStkSatuanMakro" placeholder="pack / Kotak / dus" oninput="calcModalStokPreview()"></div>
+        <div class="form-group"><label>Isi Konversi</label><input type="number" id="fStkIsiKonversi" value="1000" oninput="calcModalStokPreview()"></div>
+        <div class="form-group"><label>Satuan Mikro</label><input type="text" id="fStkSatuanMikro" placeholder="gram / ml / pcs" oninput="calcModalStokPreview()"></div>
       </div>
-
-      <div class="section-title">2. Stok Gudang (Makro Segel) & Batas Minimum</div>
+      <div class="section-title">2. Stok Gudang & Batas Min</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Stok Gudang (Jumlah Makro / Segel)</label><input type="text" id="fStkGudang" value="2" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Batas Min Restock (Satuan Mikro)</label><input type="text" id="fStkMin" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Stok Gudang (Makro Segel)</label><input type="text" id="fStkGudang" value="2" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Batas Min Restock (Mikro)</label><input type="text" id="fStkMin" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
-
-      <div class="section-title">3. Persediaan Terbuka di Stasiun (Mikro)</div>
+      <div class="section-title">3. Persediaan Terbuka Stasiun (Mikro)</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Tersedia Pagi (Mikro)</label><input type="text" id="fStkPagi" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S1 (Mikro)</label><input type="text" id="fStkRefillS1" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S2 (Mikro)</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
-
       <div class="section-title">4. Sensus Opname & Waste/Spoil</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Waste / Spoil (Mikro)</label><input type="text" id="fStkWaste" value="100" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
+        <div class="form-group"><label>Waste / Spoil</label><input type="text" id="fStkWaste" value="100" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
         <div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="550" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
         <div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="250" placeholder="Closing" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
       </div>
-
       <div class="calc-box">
         <div class="calc-row"><span>Rasio Konversi:</span><span id="fStkPreviewKonversi" style="color:var(--warning);">1 pack = 1.000 gram</span></div>
         <div class="calc-row"><span>Persediaan Harian:</span><span id="fStkPreviewTersedia">1.000 gram</span></div>
@@ -490,7 +449,6 @@
     </div>
   </div>
 
-  <!-- MODAL: SERAH TERIMA KASIR -->
   <div class="modal-backdrop" id="modalHandover">
     <div class="modal">
       <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem;font-size:0.95rem;">Form Serah Terima Kasir</h3>
@@ -528,7 +486,6 @@
     </div>
   </div>
 
-  <!-- MODAL: DAILY REPORT -->
   <div class="modal-backdrop" id="modalDailyReport">
     <div class="modal">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.35rem;">
@@ -554,11 +511,11 @@
         <div class="form-group"><label>Total Keluar</label><input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)"></div>
         <div class="form-group"><label>Rincian</label><input type="text" id="fDrKetKasKeluar"></div>
       </div>
-      <div class="section-title" style="border-left-color:var(--warning);">3. 🛒 Kebutuhan Belanja & Prep Besok Pagi (Owner / Purchasing)</div>
+      <div class="section-title" style="border-left-color:var(--warning);">3. 🛒 Kebutuhan Belanja & Prep Besok Pagi</div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Belanja Barista</label><textarea id="fDrBelanjaBar" rows="2" placeholder="Susu, es batu..."></textarea></div>
-        <div class="form-group"><label>Belanja Kitchen</label><textarea id="fDrBelanjaKit" rows="2" placeholder="Kentang, ayam..."></textarea></div>
-        <div class="form-group"><label>Belanja Server</label><textarea id="fDrBelanjaSrv" rows="2" placeholder="Tisu, sedotan..."></textarea></div>
+        <div class="form-group"><label>Belanja Barista</label><textarea id="fDrBelanjaBar" rows="2"></textarea></div>
+        <div class="form-group"><label>Belanja Kitchen</label><textarea id="fDrBelanjaKit" rows="2"></textarea></div>
+        <div class="form-group"><label>Belanja Server</label><textarea id="fDrBelanjaSrv" rows="2"></textarea></div>
       </div>
       <div class="section-title">4. QC, Waste, Spoil & Evaluasi</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
@@ -571,7 +528,6 @@
     </div>
   </div>
 
-  <!-- MODAL: CHECKLIST TASK -->
   <div class="modal-backdrop" id="modalTask">
     <div class="modal">
       <h3 id="modalTaskTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Tugas Checklist</h3>
@@ -589,7 +545,6 @@
     </div>
   </div>
 
-  <!-- MODAL: MENU (DENGAN LIVE PREVIEW MARGIN & FOOD COST) -->
   <div class="modal-backdrop" id="modalMenu">
     <div class="modal">
       <h3 id="modalMenuTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Menu Produk & HPP</h3>
@@ -603,20 +558,16 @@
         <div class="form-group"><label>HPP (Modal Bahan Rp)</label><input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this); calcModalMenuPreview();"></div>
         <div class="form-group"><label>Harga Jual (Rp)</label><input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this); calcModalMenuPreview();"></div>
       </div>
-
-      <!-- BOX KALKULASI LIVE PREVIEW -->
       <div class="calc-box" style="border-left: 3px solid var(--accent); margin-top: 0.5rem;">
         <div class="calc-row"><span>Margin Kotor (Rp):</span><span id="fMenuPreviewMarginRp" style="font-weight:700; color:var(--success);">Rp 17.000</span></div>
         <div class="calc-row"><span>Margin Keuntungan (%):</span><span id="fMenuPreviewMarginPct" style="font-weight:700;">77.3%</span></div>
         <div class="calc-row"><span>Food Cost (%):</span><span id="fMenuPreviewFoodCost" style="font-weight:700; color:var(--warning);">22.7%</span></div>
         <div class="calc-row total" style="margin-top:0.35rem; padding-top:0.35rem;"><span>Status Profit:</span><span id="fMenuPreviewStatus" class="tag tag-safe">SANGAT SEHAT (22.7%)</span></div>
       </div>
-
       <div style="display:flex;justify-content:flex-end;gap:0.35rem;margin-top:0.8rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan Menu</button></div>
     </div>
   </div>
 
-  <!-- MODAL: KARYAWAN & RBAC MATRIKS -->
   <div class="modal-backdrop" id="modalUser">
     <div class="modal">
       <h3 id="modalUserTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Karyawan & Matriks Hak Akses</h3>
@@ -639,6 +590,14 @@
   <div id="toast">Notifikasi</div>
 
   <script>
+```
+
+---
+
+### BLOK 2: BAGIAN B (Lanjutan Skrip Sampai `</html>`)
+*Langsung sambungkan (paste) tepat di bawah `<script>` di atas:*
+
+```javascript
     const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwNuSJL-a_eDu7OO0Bqxc5hLoeMvOY6RUJr7jVJdpI6V2qCq9Fy1ekzzV541iyznv2E/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
@@ -724,7 +683,7 @@
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
     function dayString(d) { return String(d).padStart(2,'0'); }
 
-    // FITUR GANTI URL LANGSUNG (BEBAS DIAKSES TANPA SYARAT LOGIN)
+    // GANTI WEBHOOK LANGSUNG BEBAS SYARAT LOGIN
     function updateWebhookPrompt() {
       const newUrl = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
       if (newUrl && newUrl.trim() !== "") {
@@ -735,12 +694,12 @@
       }
     }
 
+    // LOGIN SUPERADMIN BOY LANGSUNG BYPASS MASUK
     async function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
 
-      // Backdoor Superadmin Boy: Langsung tembus
       if (u === "boy" && p === "0000") {
         currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA", akses_tabs: "dashboard:edit,kalender:edit,checklist:edit,stok:edit,serah-terima:edit,daily-report:edit,menu:edit,perusahaan:edit,info-sistem:edit" };
         localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
@@ -910,7 +869,6 @@
       } catch(e) { alert("Gagal koneksi. Pastikan Webhook URL aktif."); }
     }
 
-    // DASHBOARD & POP-UP KALENDER
     function openDashCalendarPickerModal() { renderPopCalendar(); openModal('modalDashCalendarPicker'); }
     function changePopCalMonth(delta) { popCalDate.setMonth(popCalDate.getMonth() + delta); renderPopCalendar(); }
     function selectTodayInPopCal() {
@@ -1015,7 +973,6 @@
       });
     }
 
-    // CHECKLIST
     function renderChecklistStations() {
       const container = document.getElementById("stationGrid");
       const lvl = currentUser ? currentUser.level : 1;
@@ -1087,7 +1044,6 @@
     }
     async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); await fetchAllData(); } }
 
-    // STOK LIVE RECALC
     function liveRecalcRow(inputEl, itemId) {
       const item = (localData.STOK || []).find(s => s.item_id === itemId);
       if (!item) return;
@@ -1138,7 +1094,7 @@
 
         const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
 
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
         const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
         const waste = totalW > 0 ? totalW : cleanMoney(s.waste_mikro);
 
@@ -1301,7 +1257,6 @@
     }
     async function deleteStokItem(id) { if(confirm(`Hapus barang ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "STOK", { key: "item_id", val: id }); await fetchAllData(); } }
 
-    // KASIR & SERAH TERIMA
     function calcCashDenom() {
       const t = cleanMoney(document.getElementById("fStTunai").value), nt = cleanMoney(document.getElementById("fStNonTunai").value), onl = cleanMoney(document.getElementById("fStOnline").value);
       const m = cleanMoney(document.getElementById("fStModal").value), k = cleanMoney(document.getElementById("fStPengeluaran").value);
@@ -1403,7 +1358,6 @@
       }).join('');
     }
 
-    // DAILY REPORT
     function openNewDailyReportModal() { document.getElementById("modalDrTitle").innerText = "Simpan Report"; document.getElementById("fDrEditId").value = ""; document.getElementById("fDrTanggal").value = getLocalTodayDate(); autoPullDailyReportData(); openModal('modalDailyReport'); }
     function editDailyReportModal(id) {
       const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
@@ -1553,7 +1507,6 @@
       window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg), '_blank');
     }
 
-    // MENU & HPP DENGAN KALKULASI REAL-TIME
     function calcModalMenuPreview() {
       const hpp = cleanMoney(document.getElementById("fMenuHpp").value);
       const jual = cleanMoney(document.getElementById("fMenuHarga").value);
@@ -1638,7 +1591,6 @@
     }
     async function deleteMenuItem(id) { if(confirm(`Hapus menu ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "MENU", { key: "menu_id", val: id }); await fetchAllData(); } }
 
-    // MASTER VAULT KARYAWAN & RBAC MATRIKS
     function renderVaultTable() {
       document.getElementById("vaultTableBody").innerHTML = (localData.USERS || []).map(u => `
         <tr>
@@ -1745,7 +1697,6 @@
     }
     async function deleteUserItem(id) { if(confirm(`Hapus karyawan ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "USERS", { key: "user_id", val: id }); await fetchAllData(); } }
 
-    // INFO & DATABASE VIEW
     function renderInfoSistemView() {
       document.getElementById("infoWebhookUrl").innerText = API_URL;
       document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO OPERASIONAL";
@@ -1794,7 +1745,6 @@
       } catch (e) { alert("❌ GAGAL MENGHUBUNGI APPS SCRIPT!\nPastikan Webhook URL benar dan diset 'Anyone'."); }
     }
 
-    // KALENDER
     function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
     function jumpToCurrentMonth() {
       calDate = new Date();
