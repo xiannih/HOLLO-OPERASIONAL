@@ -633,12 +633,12 @@
   <script>
     // URL Webhook Resmi dari Sheet HOLLO OPERASIONAL Anda
     const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbxivm490srbyjPeQ6jbm86jXavnQP6JhU33RVvFHg9B0HYkwy_ECdcNcbBHF3NBVQAD/exec";
-    const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
-    const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
+const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
+const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
     // KOREKSI OTOMATIS: Jika di kode sudah diperbarui ke link baru, utamakan link di kode ini!
     let storedUrl = localStorage.getItem(STORAGE_KEY_URL);
-    let API_URL = HARDCODED_API_URL;
+let API_URL = (storedUrl && storedUrl.startsWith("https://script.google.com/")) ? storedUrl : HARDCODED_API_URL;
     if (storedUrl && storedUrl.includes("AKfycbynpP2i1qvGS")) {
       API_URL = storedUrl;
     } else {
@@ -648,7 +648,11 @@
 
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
-    let metaInfo = { sheet_name: "HOLLO OPERASIONAL", sheet_url: "#", sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" };
+    let metaInfo = { 
+  sheet_name: "HOLLO OPERASIONAL", 
+  sheet_url: "https://docs.google.com/spreadsheets/d/1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q/edit", 
+  sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" 
+};
 
     function getLocalTodayDate() {
       // Mengambil tanggal lokal WIB YYYY-MM-DD secara aman (tanpa offset UTC)
