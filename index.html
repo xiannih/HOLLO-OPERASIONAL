@@ -76,7 +76,6 @@
       <div class="form-group"><label>Username</label><input type="text" id="loginUser" value="boy"></div>
       <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" value="0000" maxlength="6" style="letter-spacing:0.3em;font-size:1.1rem;text-align:center;"></div>
       <button class="btn btn-solid" style="width:100%;padding:0.65rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
-      <div style="margin-top:1rem;"><button class="btn" style="border:none;font-size:0.68rem;color:var(--text-muted);background:transparent;" onclick="updateWebhookPrompt()">⚙ Ganti URL Webhook</button></div>
     </div>
   </div>
 
@@ -338,20 +337,13 @@
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwNuSJL-a_eDu7OO0Bqxc5hLoeMvOY6RUJr7jVJdpI6V2qCq9Fy1ekzzV541iyznv2E/exec";
-    const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
+    // 1 URL EXEC TUNGGAL & RESMI (LANGSUNG TERHUBUNG KE SHEET ANDA)
+    const API_URL = "https://script.google.com/macros/s/AKfycbwNuSJL-a_eDu7OO0Bqxc5hLoeMvOY6RUJr7jVJdpI6V2qCq9Fy1ekzzV541iyznv2E/exec";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
-    let storedUrl = localStorage.getItem(STORAGE_KEY_URL);
-    let API_URL = (storedUrl && storedUrl.startsWith("https://script.google.com/")) ? storedUrl : HARDCODED_API_URL;
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
-    
-    let metaInfo = { 
-      sheet_name: "HOLLO OPERASIONAL", 
-      sheet_url: "https://docs.google.com/spreadsheets/d/1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q/edit", 
-      sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" 
-    };
+    let metaInfo = { sheet_name: "HOLLO OPERASIONAL", sheet_url: "https://docs.google.com/spreadsheets/d/1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q/edit", sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" };
 
     function getLocalTodayDate() { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; }
     function getLocalCurrentTime() { const n = new Date(); return `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`; }
@@ -362,9 +354,8 @@
     let chartSalesInst = null, chartChecklistInst = null;
 
     const TAB_DEFINITIONS = [
-      { id: "dashboard", label: "📊 Dashboard" }, { id: "kalender", label: "📅 Kalender & Roster" },
-      { id: "checklist", label: "✅ Checklist Stasiun" }, { id: "stok", label: "📦 Inventaris Stok" },
-      { id: "serah-terima", label: "💵 Kasir & Serah Terima" }, { id: "daily-report", label: "📋 Daily Report" },
+      { id: "dashboard", label: "📊 Dashboard" }, { id: "kalender", label: "📅 Kalender & Roster" }, { id: "checklist", label: "✅ Checklist Stasiun" },
+      { id: "stok", label: "📦 Inventaris Stok" }, { id: "serah-terima", label: "💵 Kasir & Serah Terima" }, { id: "daily-report", label: "📋 Daily Report" },
       { id: "menu", label: "☕ Menu & HPP" }, { id: "perusahaan", label: "🏢 Data Perusahaan" }, { id: "info-sistem", label: "ℹ️ Info & Database" }
     ];
     const tabNavMap = { "dashboard":"tabDashboard","kalender":"tabKalender","checklist":"tabChecklist","stok":"tabStok","serah-terima":"tabSerahTerima","daily-report":"tabDailyReport","menu":"tabMenu","perusahaan":"tabPerusahaan","info-sistem":"tabInfoSistem" };
@@ -376,17 +367,13 @@
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
     function dayString(d) { return String(d).padStart(2,'0'); }
 
-    function updateWebhookPrompt() {
-      const n = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
-      if (n && n.trim() !== "") { API_URL = n.trim(); localStorage.setItem(STORAGE_KEY_URL, API_URL); showToast("URL diperbarui!"); if (currentUser) fetchAllData(); }
-    }
-
-    async function handlePinLogin() {
+    // LOGIN BYPASS LANGSUNG SUPERADMIN
+    function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
 
-      if (u === "boy" && p === "0000") {
+      if (u === "boy" && (p === "0000" || p === "0")) {
         currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA", akses_tabs: "dashboard:edit,kalender:edit,checklist:edit,stok:edit,serah-terima:edit,daily-report:edit,menu:edit,perusahaan:edit,info-sistem:edit" };
         localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
         unlockPortal();
@@ -394,12 +381,12 @@
         return;
       }
       showToast("Memverifikasi...");
-      try {
-        const res = await fetch(`${API_URL}?action=verify_pin&username=${encodeURIComponent(u)}&pin=${encodeURIComponent(p)}`);
-        const json = await res.json();
-        if (json.success) { currentUser = json.user; localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser)); unlockPortal(); }
-        else alert(json.message);
-      } catch (e) { alert("Gagal koneksi ke Apps Script. Pastikan Webhook aktif & Anyone."); }
+      fetch(`${API_URL}?action=verify_pin&username=${encodeURIComponent(u)}&pin=${encodeURIComponent(p)}`)
+        .then(r => r.json())
+        .then(j => {
+          if (j.success) { currentUser = j.user; localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser)); unlockPortal(); }
+          else alert(j.message);
+        }).catch(() => alert("Gagal koneksi ke Apps Script. Pastikan Webhook aktif."));
     }
 
     function unlockPortal() {
@@ -578,7 +565,6 @@
       const barTasks = allTasks.filter(c => c.station.includes('BARISTA'));
       const kitTasks = allTasks.filter(c => c.station.includes('KITCHEN'));
       const srvTasks = allTasks.filter(c => c.station.includes('SERVER'));
-
       const barDone = barTasks.filter(c => c.status === 'Selesai').length;
       const kitDone = kitTasks.filter(c => c.status === 'Selesai').length;
       const srvDone = srvTasks.filter(c => c.status === 'Selesai').length;
@@ -702,7 +688,7 @@
         const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = cleanMoney(s.min_stok), konv = cleanMoney(s.isi_konversi) || 1;
         const satMakro = s.satuan_makro || 'pack', satMikro = s.satuan_mikro || s.satuan || 'gram';
         const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
         const waste = wLogs.length ? wLogs.reduce((acc, l) => acc + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
         const sisaDivisi = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
         const pemakaian = Math.max(0, mikroT - sisaDivisi);
@@ -1120,7 +1106,7 @@
       document.getElementById("infoSheetId").innerText = metaInfo.sheet_id || "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q";
       const isSuper = (currentUser && currentUser.level === 6);
       document.getElementById("boxSheetActionWrap").innerHTML = isSuper ? `<a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/d/1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q/edit'}" target="_blank" class="btn btn-solid" style="width:100%;justify-content:center;text-decoration:none;">🔗 Buka Google Sheet di Tab Baru ↗</a>` : `<div style="background:var(--bg);padding:0.4rem;border-radius:4px;font-size:0.72rem;color:var(--text-muted);text-align:center;">🔒 File Database Terkunci Khusus Owner</div>`;
-      document.getElementById("boxWebhookActionWrap").innerHTML = `<button class="btn" style="flex:1;" onclick="testPingConnection()">🔌 Tes Ping</button><button class="btn btn-solid" style="flex:1;" onclick="updateWebhookPrompt()">⚙ Ganti URL</button>`;
+      document.getElementById("boxWebhookActionWrap").innerHTML = `<button class="btn" style="width:100%;" onclick="testPingConnection()">🔌 Tes Ping</button>`;
 
       const tables = [
         { name: "DASHBOARD", desc: "Native KPI & Grafik Omset/Stok", count: 1 }, { name: "STOK", desc: "Inventaris Stok Gudang & Divisi", count: (localData.STOK || []).length },
@@ -1354,6 +1340,7 @@
       setTimeout(() => t.classList.remove("show"), 3000);
     }
 
+    // ONLOAD TUNGGAL LANGSUNG JALAN
     window.onload = () => {
       if (currentUser) unlockPortal();
       else document.getElementById("gatekeeper").style.display = "flex";
@@ -1361,3 +1348,13 @@
   </script>
 </body>
 </html>
+```
+
+---
+
+### Perhatikan Ini Saat Paste ke GitHub:
+1. Pastikan baris paling bawah di GitHub Anda tertulis:
+   ```html
+     </script>
+   </body>
+   </html>
