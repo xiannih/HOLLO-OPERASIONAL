@@ -183,7 +183,7 @@
       <div id="stationGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;"></div>
     </section>
 
-    <!-- VIEW 4: INVENTARIS STOK (21 KOLOM MAKRO-MIKRO) -->
+    <!-- VIEW 4: INVENTARIS STOK -->
     <section id="view-stok" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Inventaris: Makro (Gudang Segel) & Mikro (Stasiun)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Gudang tersegel (FIFO/FEFO). Saat dibongkar, terkonversi otomatis ke gram/ml/pcs stasiun.</p></div>
@@ -278,7 +278,7 @@
     <section id="view-info-sistem" style="display:none;">
       <div class="card" style="border-left:4px solid var(--accent);">
         <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;">HOLLO COFFEE & ROASTERY'S</h2>
-        <p style="font-size:0.75rem;color:var(--text-muted);">Executive F&B Operations Suite — V22 Engine</p>
+        <p style="font-size:0.75rem;color:var(--text-muted);">Executive F&B Operations Suite — V23 Engine</p>
       </div>
 
       <div class="card" style="border:1px dashed var(--accent);background:var(--elevated);">
@@ -589,7 +589,7 @@
     </div>
   </div>
 
-  <!-- MODAL: MENU (DENGAN KALKULASI REAL-TIME MARGIN & FOOD COST) -->
+  <!-- MODAL: MENU (DENGAN LIVE PREVIEW MARGIN & FOOD COST) -->
   <div class="modal-backdrop" id="modalMenu">
     <div class="modal">
       <h3 id="modalMenuTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Menu Produk & HPP</h3>
@@ -639,7 +639,7 @@
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbw57aeU_9pWt0Kw9XNcbJ7vtAT5Kuv7Ba0AS_4lIs47jK4sYoADXoxtmGzSrswCSbar/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbx9IgN-SaMytM9OpP_2ucts55qWfD6KiXbOqzXiWp2KBeWdxZ3WgzDqq5qXX_worLSu/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
@@ -649,7 +649,6 @@
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
     
-    // TAUTAN LANGSUNG KE FILE GOOGLE SHEET AKTIF ANDA
     let metaInfo = { 
       sheet_name: "HOLLO OPERASIONAL", 
       sheet_url: "https://docs.google.com/spreadsheets/d/1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q/edit", 
@@ -736,7 +735,7 @@
         alert("Akses Terkunci! Hanya Superadmin (Level 6) yang memiliki hak mengganti Webhook.");
         return;
       }
-      const newUrl = prompt("https://script.google.com/macros/s/AKfycbw57aeU_9pWt0Kw9XNcbJ7vtAT5Kuv7Ba0AS_4lIs47jK4sYoADXoxtmGzSrswCSbar/exec:", API_URL);
+      const newUrl = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
       if (newUrl && newUrl.trim() !== "") {
         API_URL = newUrl.trim();
         localStorage.setItem(STORAGE_KEY_URL, API_URL);
@@ -1634,7 +1633,7 @@
       document.getElementById("fMenuHpp").value = cleanMoney(item.hpp).toLocaleString('id-ID');
       document.getElementById("fMenuHarga").value = cleanMoney(item.harga_jual).toLocaleString('id-ID'); 
       calcModalMenuPreview();
-      openModal('modalMenu');
+      openModal('modalMenu'); 
     }
     async function submitMenuForm() {
       const editId = document.getElementById("fMenuEditId").value, jenis = document.getElementById("fMenuJenis").value;
