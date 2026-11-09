@@ -68,6 +68,7 @@
 </head>
 <body>
 
+  <!-- GATEKEEPER LOCK -->
   <div id="gatekeeper">
     <div class="lock-card">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;">HOLLO COFFEE & ROASTERY'S</div>
@@ -79,6 +80,7 @@
     </div>
   </div>
 
+  <!-- PORTAL HEADER -->
   <header>
     <div class="brand-wrap">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;">HOLLO COFFEE</div>
@@ -96,6 +98,7 @@
     </div>
   </header>
 
+  <!-- NAVIGATION TABS -->
   <nav id="mainNav">
     <div class="nav-tab active" id="tabDashboard" onclick="switchView('dashboard')">Dashboard</div>
     <div class="nav-tab" id="tabKalender" onclick="switchView('kalender')">Kalender & Roster</div>
@@ -108,7 +111,9 @@
     <div class="nav-tab" id="tabInfoSistem" onclick="switchView('info-sistem')">ℹ️ Info & Database</div>
   </nav>
 
+  <!-- MAIN CONTAINER -->
   <main>
+    <!-- VIEW 1: DASHBOARD -->
     <section id="view-dashboard">
       <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;padding:0.7rem 0.85rem;">
         <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;">
@@ -118,12 +123,14 @@
         </div>
         <div style="font-size:0.72rem;color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
       </div>
+
       <div class="kpi-grid">
         <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.68rem;color:var(--text-muted);">Target: Rp 150.000.000</div></div>
         <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.68rem;color:var(--success);">Tunai + QRIS + Online</div></div>
         <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.68rem;color:var(--text-muted);">Batas minimum</div></div>
         <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.68rem;color:var(--text-muted);">Seluruh Stasiun</div></div>
       </div>
+
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;margin-bottom:1rem;">
         <div class="card">
           <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;">Status Checklist Stasiun</div>
@@ -142,12 +149,14 @@
           </div>
         </div>
       </div>
+
       <div class="charts-grid">
         <div class="card"><div class="card-title">Breakdown Penjualan</div><canvas id="chartSales" style="max-height:200px;"></canvas></div>
         <div class="card"><div class="card-title">Sebaran Tugas Stasiun</div><canvas id="chartChecklist" style="max-height:200px;"></canvas></div>
       </div>
     </section>
 
+    <!-- VIEW 2: KALENDER -->
     <section id="view-kalender" style="display:none;">
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.85rem;flex-wrap:wrap;gap:0.4rem;">
@@ -165,6 +174,7 @@
       </div>
     </section>
 
+    <!-- VIEW 3: CHECKLIST -->
     <section id="view-checklist" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Checklist Shift Harian per Stasiun</h3><p style="font-size:0.72rem;color:var(--text-muted);" id="txtChecklistSubtitle">Centang otomatis mencatat Username & Jam Anda.</p></div>
@@ -173,6 +183,7 @@
       <div id="stationGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;"></div>
     </section>
 
+    <!-- VIEW 4: INVENTARIS STOK -->
     <section id="view-stok" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Inventaris: Makro (Gudang Segel) & Mikro (Stasiun)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Gudang tersegel. Saat dibongkar, terkonversi otomatis ke satuan mikro.</p></div>
@@ -197,6 +208,7 @@
       </div>
     </section>
 
+    <!-- VIEW 5: SERAH TERIMA KASIR -->
     <section id="view-serah-terima" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Serah Terima Kasir & Kas Laci (Imprest)</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan oleh Barista Kasir. Shift 1 & 2 tercatat terpisah.</p></div>
@@ -215,6 +227,7 @@
       </div>
     </section>
 
+    <!-- VIEW 6: DAILY REPORT -->
     <section id="view-daily-report" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Daily Report & Evaluasi Operasional Malam</h3><p style="font-size:0.72rem;color:var(--text-muted);">Dikoordinasikan Barista Closing saat briefing malam.</p></div>
@@ -233,6 +246,7 @@
       </div>
     </section>
 
+    <!-- VIEW 7: MENU & HPP -->
     <section id="view-menu" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div style="display:flex;gap:0.35rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
@@ -246,6 +260,7 @@
       </div>
     </section>
 
+    <!-- VIEW 8: DATA PERUSAHAAN -->
     <section id="view-perusahaan" style="display:none;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
         <div><h3>Master Vault Karyawan & Matriks Hak Akses</h3><p style="font-size:0.72rem;color:var(--text-muted);">Kelola akses dan hak edit/view per tab.</p></div>
@@ -259,6 +274,7 @@
       </div>
     </section>
 
+    <!-- VIEW 9: ABOUT & DATABASE -->
     <section id="view-info-sistem" style="display:none;">
       <div class="card" style="border-left:4px solid var(--accent);">
         <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;">HOLLO COFFEE & ROASTERY'S</h2>
@@ -309,296 +325,23 @@
     </section>
   </main>
 
-  <div class="modal-backdrop" id="modalMonthPicker">
-    <div class="modal" style="max-width:340px;text-align:center;">
-      <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;margin-bottom:0.4rem;">Pilih Bulan & Tahun</h3>
-      <div style="display:flex;justify-content:center;align-items:center;gap:0.8rem;margin-bottom:0.6rem;">
-        <button class="btn" onclick="changePickerYear(-1)">◀</button>
-        <span id="txtPickerYear" style="font-size:1rem;font-weight:700;">2026</span>
-        <button class="btn" onclick="changePickerYear(1)">▶</button>
-      </div>
-      <div class="month-picker-grid" id="gridMonthButtons"></div>
-      <div style="display:flex;justify-content:space-between;margin-top:1rem;">
-        <button class="btn" onclick="jumpToCurrentMonth()">Bulan Sekarang</button>
-        <button class="btn btn-solid" onclick="closeModal('modalMonthPicker')">Tutup</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalDashCalendarPicker">
-    <div class="modal" style="max-width:360px;text-align:center;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
-        <h3 id="popCalMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Pilih Tanggal</h3>
-        <div style="display:flex;gap:0.25rem;"><button class="btn" onclick="changePopCalMonth(-1)">◀</button><button class="btn" onclick="changePopCalMonth(1)">▶</button></div>
-      </div>
-      <div class="mini-cal-grid" id="popCalendarGrid"></div>
-      <div style="display:flex;justify-content:space-between;margin-top:0.85rem;">
-        <button class="btn" onclick="selectTodayInPopCal()">Hari Ini</button>
-        <button class="btn btn-solid" onclick="closeModal('modalDashCalendarPicker')">Tutup</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalDayInspector">
-    <div class="modal">
-      <h3 id="inspectDateTitle" style="margin-bottom:0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Detail Tanggal</h3>
-      <div style="margin-bottom:0.85rem;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;">
-          <h4 style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Roster Kerja & Shift</h4>
-          <button class="btn" id="btnDayAddStaff" style="padding:0.15rem 0.4rem;font-size:0.68rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button>
-        </div>
-        <div id="inspectRosterList" style="display:flex;flex-direction:column;gap:0.25rem;"></div>
-      </div>
-      <div style="margin-bottom:0.85rem;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;">
-          <h4 style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Log Insiden, Waste & Spoil</h4>
-          <button class="btn" id="btnDayAddLog" style="padding:0.15rem 0.4rem;font-size:0.68rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button>
-        </div>
-        <div id="inspectLogList" style="display:flex;flex-direction:column;gap:0.25rem;"></div>
-      </div>
-      <div style="display:flex;justify-content:flex-end;"><button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button></div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalRoster">
-    <div class="modal">
-      <h3 id="modalRosterTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Jadwal Staff</h3>
-      <input type="hidden" id="fJdwEditId">
-      <div class="form-group"><label>Tanggal</label><input type="date" id="fJdwTanggal"></div>
-      <div class="form-group"><label>Karyawan</label><select id="fJdwUser"></select></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Shift</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div>
-        <div class="form-group"><label>Status</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div>
-      </div>
-      <div class="form-group"><label>Catatan</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista S1"></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalLog">
-    <div class="modal">
-      <h3 id="modalLogTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Catat Log Operasional</h3>
-      <input type="hidden" id="fLogEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Tanggal</label><input type="date" id="fLogTanggal"></div>
-        <div class="form-group"><label>Jam</label><input type="time" id="fLogJam"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogCategoryAndItems()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
-        <div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
-        <div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"></select></div>
-      </div>
-      <div id="fLogStockSection">
-        <div class="form-group"><label>Pilih Bahan dari Stok</label><select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select></div>
-        <div style="display:grid;grid-template-columns:2fr 1fr;gap:0.4rem;">
-          <div class="form-group"><label id="labelQtyLog" style="color:var(--warning);">JUMLAH BAHAN</label><input type="number" id="fLogJumlahVal" placeholder="Contoh: 100" oninput="updateLogEffectNotice()"></div>
-          <div class="form-group"><label>Satuan</label><input type="text" id="fLogSatuan" readonly></div>
-        </div>
-        <div class="calc-box" id="logEffectBox" style="border-left:3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis sinkron dengan Stok.</span></div>
-      </div>
-      <div id="fLogNonStockSection" style="display:none;"><div class="form-group"><label>Nama Alat / Kejadian</label><input type="text" id="fLogItemManual" placeholder="Grinder / Kompor"></div></div>
-      <div class="form-group"><label>Detail Keterangan Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan alasan..."></textarea></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalStok">
-    <div class="modal">
-      <h3 id="modalStokTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Barang: Makro Gudang & Mikro Stasiun</h3>
-      <input type="hidden" id="fStkEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Tanggal</label><input type="date" id="fStkTanggal"></div>
-        <div class="form-group"><label>Jam</label><input type="time" id="fStkJam"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Divisi</label><select id="fStkDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
-        <div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori" placeholder="Biji Kopi / Karbo / Protein"></div>
-      </div>
-      <div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="Contoh: BBB-Beans Dark Roast / Fresh Milk"></div>
-      <div class="section-title">1. Satuan Pembelian (Makro) & Konversi ke Resep (Mikro)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Satuan Makro</label><input type="text" id="fStkSatuanMakro" placeholder="pack / Kotak / dus" oninput="calcModalStokPreview()"></div>
-        <div class="form-group"><label>Isi Konversi</label><input type="number" id="fStkIsiKonversi" value="1000" oninput="calcModalStokPreview()"></div>
-        <div class="form-group"><label>Satuan Mikro</label><input type="text" id="fStkSatuanMikro" placeholder="gram / ml / pcs" oninput="calcModalStokPreview()"></div>
-      </div>
-      <div class="section-title">2. Stok Gudang & Batas Min</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Stok Gudang (Makro Segel)</label><input type="text" id="fStkGudang" value="2" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Batas Min Restock (Mikro)</label><input type="text" id="fStkMin" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-      </div>
-      <div class="section-title">3. Persediaan Terbuka Stasiun (Mikro)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-      </div>
-      <div class="section-title">4. Sensus Opname & Waste/Spoil</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Waste / Spoil</label><input type="text" id="fStkWaste" value="100" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="550" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-        <div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="250" placeholder="Closing" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div>
-      </div>
-      <div class="calc-box">
-        <div class="calc-row"><span>Rasio Konversi:</span><span id="fStkPreviewKonversi" style="color:var(--warning);">1 pack = 1.000 gram</span></div>
-        <div class="calc-row"><span>Persediaan Harian:</span><span id="fStkPreviewTersedia">1.000 gram</span></div>
-        <div class="calc-row"><span>Estimasi Pemakaian:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);font-weight:700;">750 gram</span></div>
-        <div class="calc-row total"><span>Total Aset Fisik:</span><span id="fStkPreviewTotal" style="color:var(--accent);">2.250 gram</span></div>
-        <div class="calc-row" style="margin-top:0.25rem;"><span>Status:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div>
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button></div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalHandover">
-    <div class="modal">
-      <h3 id="modalHandoverTitle" style="margin-bottom:0.5rem;font-size:0.95rem;">Form Serah Terima Kasir</h3>
-      <input type="hidden" id="fStEditId"><input type="hidden" id="fStShiftNum" value="1">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Tanggal</label><input type="date" id="fStTanggal"></div>
-        <div class="form-group"><label>Jam</label><input type="time" id="fStJam"></div>
-      </div>
-      <div class="form-group"><label>Tahap Shift</label><select id="fStTahap" onchange="toggleHandoverNotesLabel()"><option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option><option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option></select></div>
-      <div class="section-title">1. Omset Penjualan Shift Ini</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Tunai</label><input type="text" id="fStTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
-        <div class="form-group"><label>QRIS / EDC</label><input type="text" id="fStNonTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
-        <div class="form-group"><label>Online</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
-      </div>
-      <div class="calc-row" style="background:var(--elevated);padding:0.35rem;border-radius:4px;font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div>
-      <div class="section-title">2. Rekap Kas Laci (Imprest)</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Modal Laci Stay</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
-        <div class="form-group"><label>Kas Keluar</label><input type="text" id="fStPengeluaran" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div>
-      </div>
-      <div class="form-group"><label>Keterangan Kas Keluar</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es / lakban"></div>
-      <div class="calc-box">
-        <div class="calc-row"><span>Uang Setoran Tunai Bersih:</span><span id="boxSetoranText" style="color:var(--warning);font-weight:700;">Rp 0</span></div>
-        <div class="calc-row"><span>Modal Tetap Tinggal di Laci:</span><span id="boxModalText" style="color:var(--success);font-weight:700;">Rp 110.000</span></div>
-      </div>
-      <div class="section-title" id="handoverNotesHeader">3. Catatan Operasional Shift 1 untuk Shift 2</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Prep Barista</label><textarea id="fStPrepBar" rows="2"></textarea></div>
-        <div class="form-group"><label>Prep Kitchen</label><textarea id="fStPrepKit" rows="2"></textarea></div>
-        <div class="form-group"><label>Prep Server</label><textarea id="fStPrepSrv" rows="2"></textarea></div>
-      </div>
-      <div class="form-group"><label>Catatan Kasir</label><textarea id="fStCatatan" rows="1"></textarea></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan</button></div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalDailyReport">
-    <div class="modal">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.35rem;">
-        <h3 id="modalDrTitle" style="font-size:0.95rem;">Daily Report & Evaluasi Malam</h3>
-        <button class="btn btn-solid" style="font-size:0.68rem;" onclick="autoPullDailyReportData()">⚡ Tarik Data Otomatis</button>
-      </div>
-      <input type="hidden" id="fDrEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Tanggal</label><input type="date" id="fDrTanggal"></div>
-        <div class="form-group"><label>Target Harian</label><input type="text" id="fDrTarget" value="5.000.000" oninput="formatLiveRupiahInput(this)"></div>
-      </div>
-      <div class="section-title">1. Omset Shift 1 + Shift 2</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Omset S1 (Sore)</label><input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)"></div>
-        <div class="form-group"><label>Omset S2 (Closing)</label><input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Total EDC / QRIS</label><input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)"></div>
-        <div class="form-group"><label>Total Online Food</label><input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)"></div>
-      </div>
-      <div class="section-title">2. Kas Kecil Keluar</div>
-      <div style="display:grid;grid-template-columns:1fr 2fr;gap:0.4rem;">
-        <div class="form-group"><label>Total Keluar</label><input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)"></div>
-        <div class="form-group"><label>Rincian</label><input type="text" id="fDrKetKasKeluar"></div>
-      </div>
-      <div class="section-title" style="border-left-color:var(--warning);">3. 🛒 Kebutuhan Belanja & Prep Besok Pagi</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Belanja Barista</label><textarea id="fDrBelanjaBar" rows="2"></textarea></div>
-        <div class="form-group"><label>Belanja Kitchen</label><textarea id="fDrBelanjaKit" rows="2"></textarea></div>
-        <div class="form-group"><label>Belanja Server</label><textarea id="fDrBelanjaSrv" rows="2"></textarea></div>
-      </div>
-      <div class="section-title">4. QC, Waste, Spoil & Evaluasi</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Beans Kalibrasi</label><input type="text" id="fDrKalibrasi"></div>
-        <div class="form-group"><label>Ringkasan Waste / Spoil</label><input type="text" id="fDrWaste"></div>
-      </div>
-      <div class="form-group"><label>Bahan Kritis Restock</label><textarea id="fDrRestockList" rows="2" readonly></textarea></div>
-      <div class="form-group"><label>Evaluasi Closing</label><textarea id="fDrEvaluasi" rows="2"></textarea></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan</button></div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalTask">
-    <div class="modal">
-      <h3 id="modalTaskTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Tugas Checklist</h3>
-      <input type="hidden" id="fTaskEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Stasiun</label><select id="fTaskStation"><option value="BARISTA & KASIR">BARISTA & KASIR</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div>
-        <div class="form-group"><label>Shift</label><select id="fTaskShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Fase</label><select id="fTaskFase"><option value="Prep">Prep</option><option value="Operasional">Operasional</option><option value="Closing">Closing</option></select></div>
-        <div class="form-group"><label>Target Jam</label><input type="time" id="fTaskJam" value="08:30"></div>
-      </div>
-      <div class="form-group"><label>Tugas</label><input type="text" id="fTaskUraian"></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan</button></div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalMenu">
-    <div class="modal">
-      <h3 id="modalMenuTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Menu Produk & HPP</h3>
-      <input type="hidden" id="fMenuEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Jenis</label><select id="fMenuJenis"><option value="Minuman">Minuman (Bar)</option><option value="Makanan">Makanan (Kitchen)</option></select></div>
-        <div class="form-group"><label>Kategori</label><input type="text" id="fMenuKategori" placeholder="Black / White / Snack"></div>
-      </div>
-      <div class="form-group"><label>Nama Produk</label><input type="text" id="fMenuNama" placeholder="Nama Menu"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>HPP (Modal Bahan Rp)</label><input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this); calcModalMenuPreview();"></div>
-        <div class="form-group"><label>Harga Jual (Rp)</label><input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this); calcModalMenuPreview();"></div>
-      </div>
-      <div class="calc-box" style="border-left: 3px solid var(--accent); margin-top: 0.5rem;">
-        <div class="calc-row"><span>Margin Kotor (Rp):</span><span id="fMenuPreviewMarginRp" style="font-weight:700; color:var(--success);">Rp 17.000</span></div>
-        <div class="calc-row"><span>Margin Keuntungan (%):</span><span id="fMenuPreviewMarginPct" style="font-weight:700;">77.3%</span></div>
-        <div class="calc-row"><span>Food Cost (%):</span><span id="fMenuPreviewFoodCost" style="font-weight:700; color:var(--warning);">22.7%</span></div>
-        <div class="calc-row total" style="margin-top:0.35rem; padding-top:0.35rem;"><span>Status Profit:</span><span id="fMenuPreviewStatus" class="tag tag-safe">SANGAT SEHAT (22.7%)</span></div>
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;margin-top:0.8rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan Menu</button></div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="modalUser">
-    <div class="modal">
-      <h3 id="modalUserTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Karyawan & Matriks Hak Akses</h3>
-      <input type="hidden" id="fUserEditId">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Username</label><input type="text" id="fUserUsername"></div>
-        <div class="form-group"><label>PIN (4 Digit)</label><input type="password" id="fUserPin" placeholder="1234" maxlength="4"></div>
-      </div>
-      <div class="form-group"><label>Nama Lengkap</label><input type="text" id="fUserNamaLengkap"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;">
-        <div class="form-group"><label>Role</label><select id="fUserRole" onchange="syncUserLevel()"><option value="BARISTA">BARISTA (L1)</option><option value="KITCHEN">KITCHEN (L1)</option><option value="SERVER">SERVER (L1)</option><option value="HEAD">HEAD (L2)</option><option value="PURCHASING">PURCHASING (L3)</option><option value="HRD">HRD (L3)</option><option value="MANAGER">MANAGER (L4)</option><option value="OWNER">OWNER (L5)</option><option value="RAJA_UTAMA">RAJA_UTAMA (L6)</option></select></div>
-        <div class="form-group"><label>Divisi</label><select id="fUserDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div>
-      </div>
-      <div class="section-title" style="border-left-color:var(--warning);">PILIH TAB & TENTUKAN HAK AKSES:</div>
-      <div style="display:flex;flex-direction:column;gap:0.35rem;font-size:0.72rem;background:var(--elevated);padding:0.5rem;border-radius:6px;border:1px solid var(--border);" id="boxTabPermissionsMatrix"></div>
-      <div style="display:flex;justify-content:flex-end;gap:0.35rem;margin-top:0.85rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan Karyawan</button></div>
-    </div>
-  </div>
+  <!-- MODALS -->
+  <div class="modal-backdrop" id="modalMonthPicker"><div class="modal" style="max-width:340px;text-align:center;"><h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;margin-bottom:0.4rem;">Pilih Bulan & Tahun</h3><div style="display:flex;justify-content:center;align-items:center;gap:0.8rem;margin-bottom:0.6rem;"><button class="btn" onclick="changePickerYear(-1)">◀</button><span id="txtPickerYear" style="font-size:1rem;font-weight:700;">2026</span><button class="btn" onclick="changePickerYear(1)">▶</button></div><div class="month-picker-grid" id="gridMonthButtons"></div><div style="display:flex;justify-content:space-between;margin-top:1rem;"><button class="btn" onclick="jumpToCurrentMonth()">Bulan Sekarang</button><button class="btn btn-solid" onclick="closeModal('modalMonthPicker')">Tutup</button></div></div></div>
+  <div class="modal-backdrop" id="modalDashCalendarPicker"><div class="modal" style="max-width:360px;text-align:center;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;"><h3 id="popCalMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Pilih Tanggal</h3><div style="display:flex;gap:0.25rem;"><button class="btn" onclick="changePopCalMonth(-1)">◀</button><button class="btn" onclick="changePopCalMonth(1)">▶</button></div></div><div class="mini-cal-grid" id="popCalendarGrid"></div><div style="display:flex;justify-content:space-between;margin-top:0.85rem;"><button class="btn" onclick="selectTodayInPopCal()">Hari Ini</button><button class="btn btn-solid" onclick="closeModal('modalDashCalendarPicker')">Tutup</button></div></div></div>
+  <div class="modal-backdrop" id="modalDayInspector"><div class="modal"><h3 id="inspectDateTitle" style="margin-bottom:0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Detail Tanggal</h3><div style="margin-bottom:0.85rem;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;"><h4 style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Roster Kerja & Shift</h4><button class="btn" id="btnDayAddStaff" style="padding:0.15rem 0.4rem;font-size:0.68rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button></div><div id="inspectRosterList" style="display:flex;flex-direction:column;gap:0.25rem;"></div></div><div style="margin-bottom:0.85rem;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;"><h4 style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Log Insiden, Waste & Spoil</h4><button class="btn" id="btnDayAddLog" style="padding:0.15rem 0.4rem;font-size:0.68rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button></div><div id="inspectLogList" style="display:flex;flex-direction:column;gap:0.25rem;"></div></div><div style="display:flex;justify-content:flex-end;"><button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button></div></div></div>
+  <div class="modal-backdrop" id="modalRoster"><div class="modal"><h3 id="modalRosterTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Jadwal Staff</h3><input type="hidden" id="fJdwEditId"><div class="form-group"><label>Tanggal</label><input type="date" id="fJdwTanggal"></div><div class="form-group"><label>Karyawan</label><select id="fJdwUser"></select></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Shift</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div><div class="form-group"><label>Status</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div></div><div class="form-group"><label>Catatan</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista S1"></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div></div></div>
+  <div class="modal-backdrop" id="modalLog"><div class="modal"><h3 id="modalLogTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Catat Log Operasional</h3><input type="hidden" id="fLogEditId"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tanggal</label><input type="date" id="fLogTanggal"></div><div class="form-group"><label>Jam</label><input type="time" id="fLogJam"></div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogCategoryAndItems()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div><div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div><div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"></select></div></div><div id="fLogStockSection"><div class="form-group"><label>Pilih Bahan dari Stok</label><select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select></div><div style="display:grid;grid-template-columns:2fr 1fr;gap:0.4rem;"><div class="form-group"><label id="labelQtyLog" style="color:var(--warning);">JUMLAH BAHAN</label><input type="number" id="fLogJumlahVal" placeholder="Contoh: 100" oninput="updateLogEffectNotice()"></div><div class="form-group"><label>Satuan</label><input type="text" id="fLogSatuan" readonly></div></div><div class="calc-box" id="logEffectBox" style="border-left:3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis sinkron dengan Stok.</span></div></div><div id="fLogNonStockSection" style="display:none;"><div class="form-group"><label>Nama Alat / Kejadian</label><input type="text" id="fLogItemManual" placeholder="Grinder / Kompor"></div></div><div class="form-group"><label>Detail Keterangan Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan alasan..."></textarea></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div></div></div>
+  <div class="modal-backdrop" id="modalStok"><div class="modal"><h3 id="modalStokTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Barang: Makro Gudang & Mikro Stasiun</h3><input type="hidden" id="fStkEditId"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tanggal</label><input type="date" id="fStkTanggal"></div><div class="form-group"><label>Jam</label><input type="time" id="fStkJam"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Divisi</label><select id="fStkDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div><div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori" placeholder="Biji Kopi / Karbo"></div></div><div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="BBB-Beans Dark Roast"></div><div class="section-title">1. Satuan Pembelian (Makro) & Konversi (Mikro)</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Satuan Makro</label><input type="text" id="fStkSatuanMakro" placeholder="pack / dus" oninput="calcModalStokPreview()"></div><div class="form-group"><label>Isi Konversi</label><input type="number" id="fStkIsiKonversi" value="1000" oninput="calcModalStokPreview()"></div><div class="form-group"><label>Satuan Mikro</label><input type="text" id="fStkSatuanMikro" placeholder="gram / ml / pcs" oninput="calcModalStokPreview()"></div></div><div class="section-title">2. Stok Gudang & Batas Min</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Stok Gudang (Makro Segel)</label><input type="text" id="fStkGudang" value="2" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Batas Min (Mikro)</label><input type="text" id="fStkMin" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div></div><div class="section-title">3. Persediaan Terbuka Stasiun (Mikro)</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div></div><div class="section-title">4. Sensus Opname & Waste/Spoil</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Waste / Spoil</label><input type="text" id="fStkWaste" value="100" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="550" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="250" placeholder="Closing" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div></div><div class="calc-box"><div class="calc-row"><span>Rasio:</span><span id="fStkPreviewKonversi" style="color:var(--warning);">1 pack = 1.000 gram</span></div><div class="calc-row"><span>Persediaan Harian:</span><span id="fStkPreviewTersedia">1.000 gram</span></div><div class="calc-row"><span>Estimasi Pemakaian:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);font-weight:700;">750 gram</span></div><div class="calc-row total"><span>Total Aset Fisik:</span><span id="fStkPreviewTotal" style="color:var(--accent);">2.250 gram</span></div><div class="calc-row" style="margin-top:0.25rem;"><span>Status:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button></div></div></div>
+  <div class="modal-backdrop" id="modalHandover"><div class="modal"><h3 id="modalHandoverTitle" style="margin-bottom:0.5rem;font-size:0.95rem;">Form Serah Terima Kasir</h3><input type="hidden" id="fStEditId"><input type="hidden" id="fStShiftNum" value="1"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tanggal</label><input type="date" id="fStTanggal"></div><div class="form-group"><label>Jam</label><input type="time" id="fStJam"></div></div><div class="form-group"><label>Tahap Shift</label><select id="fStTahap" onchange="toggleHandoverNotesLabel()"><option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option><option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option></select></div><div class="section-title">1. Omset Penjualan Shift Ini</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tunai</label><input type="text" id="fStTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div><div class="form-group"><label>QRIS / EDC</label><input type="text" id="fStNonTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div><div class="form-group"><label>Online</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div></div><div class="calc-row" style="background:var(--elevated);padding:0.35rem;border-radius:4px;font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div><div class="section-title">2. Rekap Kas Laci (Imprest)</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Modal Laci Stay</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div><div class="form-group"><label>Kas Keluar</label><input type="text" id="fStPengeluaran" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div></div><div class="form-group"><label>Keterangan Kas Keluar</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es / lakban"></div><div class="calc-box"><div class="calc-row"><span>Uang Setoran Tunai Bersih:</span><span id="boxSetoranText" style="color:var(--warning);font-weight:700;">Rp 0</span></div><div class="calc-row"><span>Modal Tetap Tinggal di Laci:</span><span id="boxModalText" style="color:var(--success);font-weight:700;">Rp 110.000</span></div></div><div class="section-title" id="handoverNotesHeader">3. Catatan Shift</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Prep Barista</label><textarea id="fStPrepBar" rows="2"></textarea></div><div class="form-group"><label>Prep Kitchen</label><textarea id="fStPrepKit" rows="2"></textarea></div><div class="form-group"><label>Prep Server</label><textarea id="fStPrepSrv" rows="2"></textarea></div></div><div class="form-group"><label>Catatan Kasir</label><textarea id="fStCatatan" rows="1"></textarea></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan</button></div></div></div>
+  <div class="modal-backdrop" id="modalDailyReport"><div class="modal"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.35rem;"><h3 id="modalDrTitle" style="font-size:0.95rem;">Daily Report & Evaluasi Malam</h3><button class="btn btn-solid" style="font-size:0.68rem;" onclick="autoPullDailyReportData()">⚡ Tarik Data Otomatis</button></div><input type="hidden" id="fDrEditId"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tanggal</label><input type="date" id="fDrTanggal"></div><div class="form-group"><label>Target Harian</label><input type="text" id="fDrTarget" value="5.000.000" oninput="formatLiveRupiahInput(this)"></div></div><div class="section-title">1. Omset Shift 1 + Shift 2</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Omset S1 (Sore)</label><input type="text" id="fDrRevS1" value="0" oninput="formatLiveRupiahInput(this)"></div><div class="form-group"><label>Omset S2 (Closing)</label><input type="text" id="fDrRevS2" value="0" oninput="formatLiveRupiahInput(this)"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Total EDC / QRIS</label><input type="text" id="fDrQrisEdc" value="0" oninput="formatLiveRupiahInput(this)"></div><div class="form-group"><label>Total Online Food</label><input type="text" id="fDrOnlineFood" value="0" oninput="formatLiveRupiahInput(this)"></div></div><div class="section-title">2. Kas Kecil Keluar</div><div style="display:grid;grid-template-columns:1fr 2fr;gap:0.4rem;"><div class="form-group"><label>Total Keluar</label><input type="text" id="fDrKasKeluar" value="0" oninput="formatLiveRupiahInput(this)"></div><div class="form-group"><label>Rincian</label><input type="text" id="fDrKetKasKeluar"></div></div><div class="section-title" style="border-left-color:var(--warning);">3. 🛒 Kebutuhan Belanja Besok Pagi</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Belanja Barista</label><textarea id="fDrBelanjaBar" rows="2"></textarea></div><div class="form-group"><label>Belanja Kitchen</label><textarea id="fDrBelanjaKit" rows="2"></textarea></div><div class="form-group"><label>Belanja Server</label><textarea id="fDrBelanjaSrv" rows="2"></textarea></div></div><div class="section-title">4. QC, Waste, Spoil & Evaluasi</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Beans Kalibrasi</label><input type="text" id="fDrKalibrasi"></div><div class="form-group"><label>Ringkasan Waste</label><input type="text" id="fDrWaste"></div></div><div class="form-group"><label>Bahan Kritis Restock</label><textarea id="fDrRestockList" rows="2" readonly></textarea></div><div class="form-group"><label>Evaluasi Closing</label><textarea id="fDrEvaluasi" rows="2"></textarea></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalDailyReport')">Batal</button><button class="btn btn-solid" onclick="submitDailyReportForm()">Simpan</button></div></div></div>
+  <div class="modal-backdrop" id="modalTask"><div class="modal"><h3 id="modalTaskTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Tugas Checklist</h3><input type="hidden" id="fTaskEditId"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Stasiun</label><select id="fTaskStation"><option value="BARISTA & KASIR">BARISTA & KASIR</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div><div class="form-group"><label>Shift</label><select id="fTaskShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Fase</label><select id="fTaskFase"><option value="Prep">Prep</option><option value="Operasional">Operasional</option><option value="Closing">Closing</option></select></div><div class="form-group"><label>Target Jam</label><input type="time" id="fTaskJam" value="08:30"></div></div><div class="form-group"><label>Tugas</label><input type="text" id="fTaskUraian"></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalTask')">Batal</button><button class="btn btn-solid" onclick="submitTaskForm()">Simpan</button></div></div></div>
+  <div class="modal-backdrop" id="modalMenu"><div class="modal"><h3 id="modalMenuTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Menu Produk & HPP</h3><input type="hidden" id="fMenuEditId"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Jenis</label><select id="fMenuJenis"><option value="Minuman">Minuman (Bar)</option><option value="Makanan">Makanan (Kitchen)</option></select></div><div class="form-group"><label>Kategori</label><input type="text" id="fMenuKategori" placeholder="Black / White / Snack"></div></div><div class="form-group"><label>Nama Produk</label><input type="text" id="fMenuNama" placeholder="Nama Menu"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>HPP (Modal Bahan Rp)</label><input type="text" id="fMenuHpp" value="5.000" oninput="formatLiveRupiahInput(this); calcModalMenuPreview();"></div><div class="form-group"><label>Harga Jual (Rp)</label><input type="text" id="fMenuHarga" value="22.000" oninput="formatLiveRupiahInput(this); calcModalMenuPreview();"></div></div><div class="calc-box" style="border-left: 3px solid var(--accent); margin-top: 0.5rem;"><div class="calc-row"><span>Margin Kotor (Rp):</span><span id="fMenuPreviewMarginRp" style="font-weight:700; color:var(--success);">Rp 17.000</span></div><div class="calc-row"><span>Margin (%):</span><span id="fMenuPreviewMarginPct" style="font-weight:700;">77.3%</span></div><div class="calc-row"><span>Food Cost (%):</span><span id="fMenuPreviewFoodCost" style="font-weight:700; color:var(--warning);">22.7%</span></div><div class="calc-row total" style="margin-top:0.35rem; padding-top:0.35rem;"><span>Status Profit:</span><span id="fMenuPreviewStatus" class="tag tag-safe">SANGAT SEHAT (22.7%)</span></div></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;margin-top:0.8rem;"><button class="btn" onclick="closeModal('modalMenu')">Batal</button><button class="btn btn-solid" onclick="submitMenuForm()">Simpan Menu</button></div></div></div>
+  <div class="modal-backdrop" id="modalUser"><div class="modal"><h3 id="modalUserTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Karyawan & Matriks Hak Akses</h3><input type="hidden" id="fUserEditId"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Username</label><input type="text" id="fUserUsername"></div><div class="form-group"><label>PIN (4 Digit)</label><input type="password" id="fUserPin" placeholder="1234" maxlength="4"></div></div><div class="form-group"><label>Nama Lengkap</label><input type="text" id="fUserNamaLengkap"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Role</label><select id="fUserRole" onchange="syncUserLevel()"><option value="BARISTA">BARISTA (L1)</option><option value="KITCHEN">KITCHEN (L1)</option><option value="SERVER">SERVER (L1)</option><option value="HEAD">HEAD (L2)</option><option value="PURCHASING">PURCHASING (L3)</option><option value="HRD">HRD (L3)</option><option value="MANAGER">MANAGER (L4)</option><option value="OWNER">OWNER (L5)</option><option value="RAJA_UTAMA">RAJA_UTAMA (L6)</option></select></div><div class="form-group"><label>Divisi</label><select id="fUserDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div></div><div class="section-title" style="border-left-color:var(--warning);">PILIH TAB & TENTUKAN HAK AKSES:</div><div style="display:flex;flex-direction:column;gap:0.35rem;font-size:0.72rem;background:var(--elevated);padding:0.5rem;border-radius:6px;border:1px solid var(--border);" id="boxTabPermissionsMatrix"></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;margin-top:0.85rem;"><button class="btn" onclick="closeModal('modalUser')">Batal</button><button class="btn btn-solid" onclick="submitUserForm()">Simpan Karyawan</button></div></div></div>
 
   <div id="toast">Notifikasi</div>
 
   <script>
-```
-
----
-
-### BLOK 2: BAGIAN B (Lanjutan Skrip Sampai `</html>`)
-*Langsung sambungkan (paste) tepat di bawah `<script>` di atas:*
-
-```javascript
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwNuSJL-a_eDu7OO0Bqxc5hLoeMvOY6RUJr7jVJdpI6V2qCq9Fy1ekzzV541iyznv2E/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbxivm490srbyjPeQ6jbm86jXavnQP6JhU33RVvFHg9B0HYkwy_ECdcNcbBHF3NBVQAD/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
@@ -654,15 +397,9 @@
     ];
 
     const tabNavMap = {
-      "dashboard": "tabDashboard",
-      "kalender": "tabKalender",
-      "checklist": "tabChecklist",
-      "stok": "tabStok",
-      "serah-terima": "tabSerahTerima",
-      "daily-report": "tabDailyReport",
-      "menu": "tabMenu",
-      "perusahaan": "tabPerusahaan",
-      "info-sistem": "tabInfoSistem"
+      "dashboard": "tabDashboard", "kalender": "tabKalender", "checklist": "tabChecklist",
+      "stok": "tabStok", "serah-terima": "tabSerahTerima", "daily-report": "tabDailyReport",
+      "menu": "tabMenu", "perusahaan": "tabPerusahaan", "info-sistem": "tabInfoSistem"
     };
 
     function cleanMoney(v) {
@@ -683,7 +420,7 @@
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
     function dayString(d) { return String(d).padStart(2,'0'); }
 
-    // GANTI WEBHOOK LANGSUNG BEBAS SYARAT LOGIN
+    // GANTI WEBHOOK LANGSUNG AKTIF DI DEPAN
     function updateWebhookPrompt() {
       const newUrl = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
       if (newUrl && newUrl.trim() !== "") {
@@ -694,7 +431,7 @@
       }
     }
 
-    // LOGIN SUPERADMIN BOY LANGSUNG BYPASS MASUK
+    // LOGIN SUPERADMIN BOY BYPASS LANGSUNG TEMBUS
     async function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
