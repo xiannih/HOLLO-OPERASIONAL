@@ -639,7 +639,7 @@
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbx9IgN-SaMytM9OpP_2ucts55qWfD6KiXbOqzXiWp2KBeWdxZ3WgzDqq5qXX_worLSu/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwNuSJL-a_eDu7OO0Bqxc5hLoeMvOY6RUJr7jVJdpI6V2qCq9Fy1ekzzV541iyznv2E/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
@@ -730,17 +730,14 @@
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
     function dayString(d) { return String(d).padStart(2,'0'); }
 
+    // FITUR GANTI URL LANGSUNG (BEBAS AKSES DI HALAMAN LOGIN DEPAN)
     function updateWebhookPrompt() {
-      if (!currentUser || currentUser.level < 6) {
-        alert("Akses Terkunci! Hanya Superadmin (Level 6) yang memiliki hak mengganti Webhook.");
-        return;
-      }
       const newUrl = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
       if (newUrl && newUrl.trim() !== "") {
         API_URL = newUrl.trim();
         localStorage.setItem(STORAGE_KEY_URL, API_URL);
         showToast("URL Webhook diperbarui!");
-        fetchAllData();
+        if (currentUser) fetchAllData();
       }
     }
 
@@ -749,6 +746,7 @@
       const p = document.getElementById("loginPin").value.trim();
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
 
+      // Backdoor Superadmin Boy: Selalu bisa masuk dalam kondisi darurat
       if (u === "boy" && p === "0000") {
         currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA", akses_tabs: "dashboard:edit,kalender:edit,checklist:edit,stok:edit,serah-terima:edit,daily-report:edit,menu:edit,perusahaan:edit,info-sistem:edit" };
         localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
@@ -766,7 +764,7 @@
           localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser)); 
           unlockPortal(); 
         } else { alert(json.message); }
-      } catch (err) { alert("Gagal koneksi ke Apps Script. Pastikan Webhook aktif & Anyone."); }
+      } catch (err) { alert("Gagal koneksi ke Apps Script. Pastikan Webhook aktif & diset Anyone."); }
     }
 
     function unlockPortal() {
@@ -1146,7 +1144,7 @@
 
         const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
 
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
         const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
         const waste = totalW > 0 ? totalW : cleanMoney(s.waste_mikro);
 
@@ -1476,6 +1474,7 @@
         belanja_barista: document.getElementById("fDrBelanjaBar").value, belanja_kitchen: document.getElementById("fDrBelanjaKit").value, belanja_server: document.getElementById("fDrBelanjaSrv").value,
         evaluasi_harian: document.getElementById("fDrEvaluasi").value, pelapor: currentUser.username
       };
+
       closeModal('modalDailyReport'); showToast("Menyimpan Daily Report...");
       if(editId) await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
       else { payload.report_id = "REP-" + Date.now().toString().slice(-6); await postToGas("insert", "DAILY_REPORT", payload); }
