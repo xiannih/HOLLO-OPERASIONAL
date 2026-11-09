@@ -123,14 +123,12 @@
         </div>
         <div style="font-size:0.72rem;color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
       </div>
-
       <div class="kpi-grid">
         <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.68rem;color:var(--text-muted);">Target: Rp 150.000.000</div></div>
         <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.68rem;color:var(--success);">Tunai + QRIS + Online</div></div>
         <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.68rem;color:var(--text-muted);">Batas minimum</div></div>
         <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.68rem;color:var(--text-muted);">Seluruh Stasiun</div></div>
       </div>
-
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.85rem;margin-bottom:1rem;">
         <div class="card">
           <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;margin-bottom:0.5rem;">Status Checklist Stasiun</div>
@@ -149,7 +147,6 @@
           </div>
         </div>
       </div>
-
       <div class="charts-grid">
         <div class="card"><div class="card-title">Breakdown Penjualan</div><canvas id="chartSales" style="max-height:200px;"></canvas></div>
         <div class="card"><div class="card-title">Sebaran Tugas Stasiun</div><canvas id="chartChecklist" style="max-height:200px;"></canvas></div>
@@ -248,7 +245,7 @@
 
     <!-- VIEW 7: MENU & HPP -->
     <section id="view-menu" style="display:none;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.4rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:gap:0.4rem;">
         <div style="display:flex;gap:0.35rem;"><button class="btn active" id="btnMenuMinuman" onclick="filterMenuCategory('Minuman')">Minuman (Bar)</button><button class="btn" id="btnMenuMakanan" onclick="filterMenuCategory('Makanan')">Makanan (Kitchen)</button></div>
         <button class="btn btn-solid" id="btnAddMenuGlobal" onclick="openNewMenuModal()">+ Tambah Menu Baru</button>
       </div>
@@ -341,13 +338,12 @@
   <div id="toast">Notifikasi</div>
 
   <script>
-    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbxivm490srbyjPeQ6jbm86jXavnQP6JhU33RVvFHg9B0HYkwy_ECdcNcbBHF3NBVQAD/exec";
+    const HARDCODED_API_URL = "https://script.google.com/macros/s/AKfycbwNuSJL-a_eDu7OO0Bqxc5hLoeMvOY6RUJr7jVJdpI6V2qCq9Fy1ekzzV541iyznv2E/exec";
     const STORAGE_KEY_URL = "HOLLO_STABLE_API_URL";
     const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
 
     let storedUrl = localStorage.getItem(STORAGE_KEY_URL);
     let API_URL = (storedUrl && storedUrl.startsWith("https://script.google.com/")) ? storedUrl : HARDCODED_API_URL;
-
     let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
     
@@ -357,81 +353,34 @@
       sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" 
     };
 
-    function getLocalTodayDate() {
-      const now = new Date();
-      return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-    }
-
-    function getLocalCurrentTime() {
-      const now = new Date();
-      return `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-    }
-
-    function cleanDateForInput(rawVal) {
-      if (!rawVal) return getLocalTodayDate();
-      const str = String(rawVal).trim();
-      if (/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
-      if (str.includes('T')) return str.split('T')[0];
-      if (str.includes(' ')) return str.split(' ')[0];
-      const parsed = new Date(str);
-      if (!isNaN(parsed.getTime())) {
-        return `${parsed.getFullYear()}-${String(parsed.getMonth()+1).padStart(2,'0')}-${String(parsed.getDate()).padStart(2,'0')}`;
-      }
-      return getLocalTodayDate();
-    }
+    function getLocalTodayDate() { const n = new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,'0')}-${String(n.getDate()).padStart(2,'0')}`; }
+    function getLocalCurrentTime() { const n = new Date(); return `${String(n.getHours()).padStart(2,'0')}:${String(n.getMinutes()).padStart(2,'0')}`; }
+    function cleanDateForInput(r) { if (!r) return getLocalTodayDate(); const s = String(r).trim(); if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s; if (s.includes('T')) return s.split('T')[0]; if (s.includes(' ')) return s.split(' ')[0]; const p = new Date(s); return !isNaN(p.getTime()) ? `${p.getFullYear()}-${String(p.getMonth()+1).padStart(2,'0')}-${String(p.getDate()).padStart(2,'0')}` : getLocalTodayDate(); }
 
     let calDate = new Date(), popCalDate = new Date(), pickerYear = new Date().getFullYear();
     let selectedTrackingDate = getLocalTodayDate(), activeInspectDate = getLocalTodayDate();
     let chartSalesInst = null, chartChecklistInst = null;
 
     const TAB_DEFINITIONS = [
-      { id: "dashboard", label: "📊 Dashboard" },
-      { id: "kalender", label: "📅 Kalender & Roster" },
-      { id: "checklist", label: "✅ Checklist Stasiun" },
-      { id: "stok", label: "📦 Inventaris Stok" },
-      { id: "serah-terima", label: "💵 Kasir & Serah Terima" },
-      { id: "daily-report", label: "📋 Daily Report" },
-      { id: "menu", label: "☕ Menu & HPP" },
-      { id: "perusahaan", label: "🏢 Data Perusahaan" },
-      { id: "info-sistem", label: "ℹ️ Info & Database" }
+      { id: "dashboard", label: "📊 Dashboard" }, { id: "kalender", label: "📅 Kalender & Roster" },
+      { id: "checklist", label: "✅ Checklist Stasiun" }, { id: "stok", label: "📦 Inventaris Stok" },
+      { id: "serah-terima", label: "💵 Kasir & Serah Terima" }, { id: "daily-report", label: "📋 Daily Report" },
+      { id: "menu", label: "☕ Menu & HPP" }, { id: "perusahaan", label: "🏢 Data Perusahaan" }, { id: "info-sistem", label: "ℹ️ Info & Database" }
     ];
+    const tabNavMap = { "dashboard":"tabDashboard","kalender":"tabKalender","checklist":"tabChecklist","stok":"tabStok","serah-terima":"tabSerahTerima","daily-report":"tabDailyReport","menu":"tabMenu","perusahaan":"tabPerusahaan","info-sistem":"tabInfoSistem" };
 
-    const tabNavMap = {
-      "dashboard": "tabDashboard", "kalender": "tabKalender", "checklist": "tabChecklist",
-      "stok": "tabStok", "serah-terima": "tabSerahTerima", "daily-report": "tabDailyReport",
-      "menu": "tabMenu", "perusahaan": "tabPerusahaan", "info-sistem": "tabInfoSistem"
-    };
-
-    function cleanMoney(v) {
-      if (v === null || v === undefined || v === '') return 0;
-      if (typeof v === 'number') return v;
-      let s = String(v).trim().replace(/Rp/gi, '').trim();
-      if (s.includes('.') && s.includes(',')) {
-        s = (s.lastIndexOf(',') > s.lastIndexOf('.')) ? s.split(',')[0].replace(/\./g, '') : s.split('.')[0].replace(/,/g, '');
-      } else if (s.includes(',')) { s = s.replace(/,/g, ''); }
-      else if (s.includes('.')) { s = s.replace(/\./g, ''); }
-      const n = parseFloat(s);
-      return isNaN(n) ? 0 : n;
-    }
-
+    function cleanMoney(v) { if (!v) return 0; if (typeof v === 'number') return v; let s = String(v).trim().replace(/Rp/gi, '').trim(); if (s.includes('.') && s.includes(',')) s = (s.lastIndexOf(',') > s.lastIndexOf('.')) ? s.split(',')[0].replace(/\./g, '') : s.split('.')[0].replace(/,/g, ''); else if (s.includes(',')) s = s.replace(/,/g, ''); else if (s.includes('.')) s = s.replace(/\./g, ''); const n = parseFloat(s); return isNaN(n) ? 0 : n; }
     function formatRupiah(v) { return "Rp " + Math.round(cleanMoney(v)).toLocaleString('id-ID'); }
     function formatLiveRupiahInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = Math.round(v).toLocaleString('id-ID'); }
     function formatLiveNumberInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = v.toLocaleString('id-ID'); }
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
     function dayString(d) { return String(d).padStart(2,'0'); }
 
-    // GANTI WEBHOOK LANGSUNG AKTIF DI DEPAN
     function updateWebhookPrompt() {
-      const newUrl = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
-      if (newUrl && newUrl.trim() !== "") {
-        API_URL = newUrl.trim();
-        localStorage.setItem(STORAGE_KEY_URL, API_URL);
-        showToast("URL Webhook diperbarui!");
-        if (currentUser) fetchAllData();
-      }
+      const n = prompt("Masukkan Webhook URL Apps Script baru (/exec):", API_URL);
+      if (n && n.trim() !== "") { API_URL = n.trim(); localStorage.setItem(STORAGE_KEY_URL, API_URL); showToast("URL diperbarui!"); if (currentUser) fetchAllData(); }
     }
 
-    // LOGIN SUPERADMIN BOY BYPASS LANGSUNG TEMBUS
     async function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
@@ -444,17 +393,13 @@
         showToast("Selamat datang, Superadmin!");
         return;
       }
-
       showToast("Memverifikasi...");
       try {
         const res = await fetch(`${API_URL}?action=verify_pin&username=${encodeURIComponent(u)}&pin=${encodeURIComponent(p)}`);
         const json = await res.json();
-        if (json.success) { 
-          currentUser = json.user; 
-          localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser)); 
-          unlockPortal(); 
-        } else { alert(json.message); }
-      } catch (err) { alert("Gagal koneksi ke Apps Script. Pastikan Webhook aktif & diset Anyone."); }
+        if (json.success) { currentUser = json.user; localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser)); unlockPortal(); }
+        else alert(json.message);
+      } catch (e) { alert("Gagal koneksi ke Apps Script. Pastikan Webhook aktif & Anyone."); }
     }
 
     function unlockPortal() {
@@ -470,25 +415,10 @@
     function getTabPermission(tabId) {
       if (!currentUser) return { active: false, canEdit: false };
       if (currentUser.level === 6 || currentUser.role === "RAJA_UTAMA") return { active: true, canEdit: true };
-
-      const allowedStr = currentUser.akses_tabs || "";
-      if (!allowedStr || allowedStr.trim() === "") {
-        if (tabId === "dashboard") return { active: currentUser.level >= 2, canEdit: false };
-        if (tabId === "perusahaan") return { active: currentUser.level >= 4, canEdit: currentUser.level >= 5 };
-        if (tabId === "menu") return { active: currentUser.level >= 2, canEdit: currentUser.level >= 3 };
-        if (tabId === "serah-terima" || tabId === "daily-report") {
-          const isBar = (currentUser.divisi === "BARISTA" || currentUser.level >= 2);
-          return { active: isBar, canEdit: isBar };
-        }
-        return { active: true, canEdit: true };
-      }
-
-      const parts = allowedStr.split(',').map(s => s.trim());
-      for (let p of parts) {
-        if (p === tabId || p.startsWith(tabId + ":")) {
-          const mode = p.includes(":") ? p.split(":")[1] : "edit";
-          return { active: true, canEdit: (mode === "edit") };
-        }
+      const s = currentUser.akses_tabs || "";
+      if (!s.trim()) return { active: true, canEdit: true };
+      for (let p of s.split(',').map(x => x.trim())) {
+        if (p === tabId || p.startsWith(tabId + ":")) return { active: true, canEdit: !p.includes(":view") };
       }
       return { active: false, canEdit: false };
     }
@@ -496,25 +426,17 @@
     function applyDynamicPermissions() {
       const lvl = currentUser ? currentUser.level : 1;
       const div = currentUser ? currentUser.divisi : "BARISTA";
-      let firstAllowed = null;
-
+      let first = null;
       TAB_DEFINITIONS.forEach(t => {
         const perm = getTabPermission(t.id);
-        const navId = tabNavMap[t.id];
-        const navEl = document.getElementById(navId);
-        if (navEl) navEl.style.display = perm.active ? "block" : "none";
-        if (perm.active && !firstAllowed) firstAllowed = t.id;
+        const el = document.getElementById(tabNavMap[t.id]);
+        if (el) el.style.display = perm.active ? "block" : "none";
+        if (perm.active && !first) first = t.id;
       });
-
-      const topInfoBtn = document.getElementById("btnTopInfo");
-      if (topInfoBtn) topInfoBtn.style.display = (getTabPermission("info-sistem").active) ? "inline-flex" : "none";
-
-      if (firstAllowed) switchView(firstAllowed);
-
+      document.getElementById("btnTopInfo").style.display = getTabPermission("info-sistem").active ? "inline-flex" : "none";
+      if (first) switchView(first);
       const fSel = document.getElementById("stokFilter");
-      if (lvl === 1) { fSel.value = div; fSel.disabled = true; }
-      else { fSel.disabled = false; }
-
+      if (lvl === 1) { fSel.value = div; fSel.disabled = true; } else fSel.disabled = false;
       document.getElementById("btnAddStokGlobal").style.display = getTabPermission("stok").canEdit ? "inline-flex" : "none";
       document.getElementById("btnAddChecklistTask").style.display = getTabPermission("checklist").canEdit ? "inline-flex" : "none";
       document.getElementById("btnAddRosterGlobal").style.display = getTabPermission("kalender").canEdit ? "inline-flex" : "none";
@@ -528,29 +450,27 @@
 
     function startLiveClock() {
       setInterval(() => {
-        const now = new Date();
-        document.getElementById("liveClock").innerText = now.toLocaleTimeString('id-ID');
-        const m = now.getHours() * 60 + now.getMinutes();
-        let phase = "SHIFT 1 (OPERASIONAL)";
-        if (m >= 510 && m < 540) phase = "SHIFT 1 (PREP 08:30)";
-        else if (m >= 990 && m < 1020) phase = "SERAH TERIMA 16:30";
-        else if (m >= 1020 && m < 1380) phase = "SHIFT 2 (OPERASIONAL)";
-        else if (m >= 1380 && m < 1440) phase = "CLOSING SHIFT 2 (23:00)";
-        else if (m >= 0 && m < 30) phase = "CLOSE ORDER KASIR (00:00)";
-        document.getElementById("liveShiftIndicator").innerText = phase;
+        const n = new Date();
+        document.getElementById("liveClock").innerText = n.toLocaleTimeString('id-ID');
+        const m = n.getHours() * 60 + n.getMinutes();
+        let p = "SHIFT 1 (OPERASIONAL)";
+        if (m >= 510 && m < 540) p = "SHIFT 1 (PREP 08:30)";
+        else if (m >= 990 && m < 1020) p = "SERAH TERIMA 16:30";
+        else if (m >= 1020 && m < 1380) p = "SHIFT 2 (OPERASIONAL)";
+        else if (m >= 1380 && m < 1440) p = "CLOSING SHIFT 2 (23:00)";
+        else if (m >= 0 && m < 30) p = "CLOSE ORDER KASIR (00:00)";
+        document.getElementById("liveShiftIndicator").innerText = p;
       }, 1000);
     }
 
     function switchView(viewId) {
       document.querySelectorAll("nav .nav-tab").forEach(t => t.classList.remove("active"));
-      const navEl = document.getElementById(tabNavMap[viewId]);
-      if (navEl) navEl.classList.add("active");
-
+      const elNav = document.getElementById(tabNavMap[viewId]);
+      if (elNav) elNav.classList.add("active");
       ['dashboard', 'kalender', 'checklist', 'stok', 'serah-terima', 'daily-report', 'menu', 'perusahaan', 'info-sistem'].forEach(v => {
         const el = document.getElementById("view-" + v);
         if (el) el.style.display = (v === viewId) ? "block" : "none";
       });
-
       if (viewId === 'dashboard') renderDashboard();
       if (viewId === 'kalender') renderCalendar();
       if (viewId === 'checklist') renderChecklistStations();
@@ -562,7 +482,6 @@
       if(action === "insert") b.data = payloadOrData;
       else if(action === "update") { b.key = payloadOrData.key; b.val = payloadOrData.val; b.updates = payloadOrData.updates; }
       else if(action === "delete") { b.key = payloadOrData.key; b.val = payloadOrData.val; }
-
       const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(b) });
       const json = await res.json();
       if(!json.success) throw new Error(json.message || json.error);
@@ -589,53 +508,39 @@
 
     function refreshAllData() { fetchAllData(); }
     function populateUserDropdowns() {
-      const sel = document.getElementById("fJdwUser");
-      if(sel) sel.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
+      const s = document.getElementById("fJdwUser");
+      if(s) s.innerHTML = (localData.USERS || []).map(u => `<option value="${u.username}">${u.nama_lengkap} (${u.divisi})</option>`).join('');
     }
 
     async function triggerRepairDatabase() {
       if (!confirm("Jalankan penyelarasan kolom Google Sheet? Seluruh data riwayat Anda dijamin aman 100%!")) return;
-      showToast("Menyelaraskan struktur kolom sheet...");
+      showToast("Menyelaraskan struktur sheet...");
       try {
         const res = await fetch(`${API_URL}?action=repair_db`);
         const json = await res.json();
-        if (json.success) {
-          alert("✅ BERHASIL:\n" + json.message);
-          fetchAllData();
-        } else { alert("Gagal: " + json.error); }
+        if (json.success) { alert("✅ BERHASIL:\n" + json.message); fetchAllData(); }
+        else alert("Gagal: " + json.error);
       } catch(e) { alert("Gagal koneksi. Pastikan Webhook URL aktif."); }
     }
 
     function openDashCalendarPickerModal() { renderPopCalendar(); openModal('modalDashCalendarPicker'); }
     function changePopCalMonth(delta) { popCalDate.setMonth(popCalDate.getMonth() + delta); renderPopCalendar(); }
-    function selectTodayInPopCal() {
-      selectedTrackingDate = getLocalTodayDate();
-      document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
-      closeModal('modalDashCalendarPicker');
-      renderDashboard();
-    }
-    function selectPopCalDate(dateStr) {
-      selectedTrackingDate = dateStr;
-      document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate;
-      closeModal('modalDashCalendarPicker');
-      renderDashboard();
-    }
+    function selectTodayInPopCal() { selectedTrackingDate = getLocalTodayDate(); document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate; closeModal('modalDashCalendarPicker'); renderDashboard(); }
+    function selectPopCalDate(d) { selectedTrackingDate = d; document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate; closeModal('modalDashCalendarPicker'); renderDashboard(); }
+
     function renderPopCalendar() {
       const y = popCalDate.getFullYear(), m = popCalDate.getMonth();
       const mNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
       document.getElementById("popCalMonthTitle").innerText = `${mNames[m]} ${y}`;
-      const grid = document.getElementById("popCalendarGrid");
-      grid.innerHTML = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(d => `<div style="font-size:0.6rem;font-weight:700;color:var(--text-muted);">${d}</div>`).join('');
-
+      const g = document.getElementById("popCalendarGrid");
+      g.innerHTML = ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(d => `<div style="font-size:0.6rem;font-weight:700;color:var(--text-muted);">${d}</div>`).join('');
       const first = new Date(y, m, 1).getDay();
       const totalDays = new Date(y, m + 1, 0).getDate();
-      for (let i = 0; i < first; i++) grid.innerHTML += `<div></div>`;
-
+      for (let i = 0; i < first; i++) g.innerHTML += `<div></div>`;
       for (let d = 1; d <= totalDays; d++) {
-        const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${dayString(d)}`;
-        const isSel = (dateStr === selectedTrackingDate);
-        const hasData = (localData.SERAH_TERIMA || []).some(h => cleanDateForInput(h.tanggal) === dateStr);
-        grid.innerHTML += `<div class="mini-cal-cell ${isSel ? 'selected' : ''}" onclick="selectPopCalDate('${dateStr}')"><span>${d}</span>${hasData ? '<div class="mini-cal-dot"></div>' : ''}</div>`;
+        const ds = `${y}-${String(m+1).padStart(2,'0')}-${dayString(d)}`;
+        const has = (localData.SERAH_TERIMA || []).some(h => cleanDateForInput(h.tanggal) === ds);
+        g.innerHTML += `<div class="mini-cal-cell ${ds === selectedTrackingDate ? 'selected' : ''}" onclick="selectPopCalDate('${ds}')"><span>${d}</span>${has ? '<div class="mini-cal-dot"></div>' : ''}</div>`;
       }
     }
     function resetDashboardDateToToday() { selectTodayInPopCal(); }
@@ -646,27 +551,26 @@
       document.getElementById("dashDateBadge").innerText = isToday ? "● Menampilkan Data Hari Ini" : `● Tracking Riwayat: ${selectedTrackingDate}`;
       document.getElementById("kpiSalesTitle").innerText = isToday ? "Total Penjualan Hari Ini (Omset)" : `Omset Tanggal ${selectedTrackingDate}`;
 
-      const dateHandovers = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === selectedTrackingDate);
-      let salesDate = 0, tTotal = 0, ntTotal = 0, onlTotal = 0;
-      dateHandovers.forEach(h => {
+      const hList = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === selectedTrackingDate);
+      let sDate = 0, tTot = 0, ntTot = 0, onlTot = 0;
+      hList.forEach(h => {
         const t = cleanMoney(h.penjualan_tunai), nt = cleanMoney(h.non_tunai_qris), onl = cleanMoney(h.online_food);
-        tTotal += t; ntTotal += nt; onlTotal += onl; salesDate += (t + nt + onl);
+        tTot += t; ntTot += nt; onlTot += onl; sDate += (t + nt + onl);
       });
-      document.getElementById("kpiSalesToday").innerText = formatRupiah(salesDate);
+      document.getElementById("kpiSalesToday").innerText = formatRupiah(sDate);
 
-      let mtdTotal = 0;
-      (localData.DAILY_REPORT || []).forEach(d => mtdTotal += cleanMoney(d.total_omset));
-      document.getElementById("kpiTargetMtd").innerText = formatRupiah(mtdTotal || salesDate);
+      let mtd = 0;
+      (localData.DAILY_REPORT || []).forEach(d => mtd += cleanMoney(d.total_omset));
+      document.getElementById("kpiTargetMtd").innerText = formatRupiah(mtd || sDate);
 
       const restock = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
+        const g = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
         const konv = cleanMoney(s.isi_konversi) || 1;
         const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-        const waste = wLogs.length ? wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
+        const waste = wLogs.length ? wLogs.reduce((acc, x) => acc + cleanMoney(x.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
         const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
         const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikro - waste));
-        const totalAset = (gudang * konv) + sisa;
-        return totalAset <= cleanMoney(s.min_stok);
+        return ((g * konv) + sisa) <= cleanMoney(s.min_stok);
       }).length;
       document.getElementById("kpiRestockCount").innerText = `${restock} Item`;
 
@@ -686,9 +590,8 @@
       document.getElementById("barProgServer").innerText = `${srvDone}/${srvTasks.length}`;
       document.getElementById("fillServer").style.width = srvTasks.length ? `${(srvDone/srvTasks.length)*100}%` : '0%';
 
-      const totalDone = barDone + kitDone + srvDone;
-      const totalAll = allTasks.length || 1;
-      document.getElementById("kpiChecklistProgress").innerText = `${Math.round((totalDone/totalAll)*100)}%`;
+      const totDone = barDone + kitDone + srvDone;
+      document.getElementById("kpiChecklistProgress").innerText = `${Math.round((totDone/(allTasks.length || 1))*100)}%`;
 
       const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === selectedTrackingDate);
       document.getElementById("dashStaffS1").innerText = roster.filter(j => j.shift === '1').map(x => `${x.nama} (${x.divisi})`).join(', ') || 'Belum diatur';
@@ -698,7 +601,7 @@
       if(chartSalesInst) chartSalesInst.destroy();
       chartSalesInst = new Chart(document.getElementById("chartSales").getContext("2d"), {
         type: 'bar',
-        data: { labels: ['Tunai', 'QRIS/EDC', 'Online'], datasets: [{ data: [tTotal, ntTotal, onlTotal], backgroundColor: ['#ffffff', '#a1a1aa', '#71717a'], borderRadius: 6 }] },
+        data: { labels: ['Tunai', 'QRIS/EDC', 'Online'], datasets: [{ data: [tTot, ntTot, onlTot], backgroundColor: ['#ffffff', '#a1a1aa', '#71717a'], borderRadius: 6 }] },
         options: { responsive: true, plugins: { legend: { display: false } } }
       });
 
@@ -715,22 +618,14 @@
       const lvl = currentUser ? currentUser.level : 1;
       const uDiv = currentUser ? currentUser.divisi : "BARISTA";
       const perm = getTabPermission("checklist");
+      let stList = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
+      if (lvl === 1) stList = [uDiv === "BARISTA" ? 'BARISTA & KASIR' : (uDiv === "KITCHEN" ? 'KITCHEN' : 'SERVER')];
 
-      let stations = ['BARISTA & KASIR', 'KITCHEN', 'SERVER'];
-      if (lvl === 1) {
-        if (uDiv === "BARISTA") stations = ['BARISTA & KASIR'];
-        else if (uDiv === "KITCHEN") stations = ['KITCHEN'];
-        else if (uDiv === "SERVER") stations = ['SERVER'];
-        document.getElementById("txtChecklistSubtitle").innerText = `Checklist Khusus Divisi Anda (${uDiv}).`;
-      } else {
-        document.getElementById("txtChecklistSubtitle").innerText = `Monitoring Semua Stasiun.`;
-      }
-
-      container.innerHTML = stations.map(st => {
+      container.innerHTML = stList.map(st => {
         const tasks = (localData.CHECKLIST || []).filter(c => c.station === st);
         return `
           <div class="card">
-            <div style="font-size:0.8rem;font-weight:700;border-bottom:1px solid var(--border-subtle);padding-bottom:0.4rem;display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:0.8rem;font-weight:700;border-bottom:1px solid var(--border-subtle);padding-bottom:0.4rem;display:flex;justify-content:space-between;">
               <span>Station ${st}</span><span class="tag tag-safe">${tasks.filter(t=>t.status==='Selesai').length}/${tasks.length}</span>
             </div>
             ${tasks.map(t => `
@@ -740,12 +635,7 @@
                   <div style="${t.status==='Selesai'?'text-decoration:line-through;color:var(--text-muted);':''}">${t.tugas}</div>
                   <div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.1rem;">Shift ${t.shift} • Target ${t.jam_target} • PIC: <strong>${t.petugas || '-'}</strong> ${t.jam_selesai ? '('+t.jam_selesai+')' : ''}</div>
                 </div>
-                ${perm.canEdit && lvl >= 2 ? `
-                  <div style="display:flex;gap:0.2rem;">
-                    <button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editTaskModal('${t.task_id}')">Edit</button>
-                    <button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button>
-                  </div>
-                ` : ''}
+                ${perm.canEdit && lvl >= 2 ? `<div style="display:flex;gap:0.2rem;"><button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editTaskModal('${t.task_id}')">Edit</button><button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteTaskItem('${t.task_id}')">Hapus</button></div>` : ''}
               </div>
             `).join('')}
           </div>
@@ -764,7 +654,7 @@
       await fetchAllData();
     }
 
-    function openNewTaskModal() { document.getElementById("modalTaskTitle").innerText = "Buat Tugas Checklist"; document.getElementById("fTaskEditId").value = ""; document.getElementById("fTaskUraian").value = ""; openModal('modalTask'); }
+    function openNewTaskModal() { document.getElementById("modalTaskTitle").innerText = "Buat Tugas"; document.getElementById("fTaskEditId").value = ""; document.getElementById("fTaskUraian").value = ""; openModal('modalTask'); }
     function editTaskModal(id) {
       const t = (localData.CHECKLIST || []).find(x => x.task_id === id); if(!t) return;
       document.getElementById("modalTaskTitle").innerText = "Edit Tugas"; document.getElementById("fTaskEditId").value = t.task_id;
@@ -782,34 +672,22 @@
     async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); await fetchAllData(); } }
 
     function liveRecalcRow(inputEl, itemId) {
-      const item = (localData.STOK || []).find(s => s.item_id === itemId);
-      if (!item) return;
-
+      const item = (localData.STOK || []).find(s => s.item_id === itemId); if (!item) return;
       const rowTr = inputEl.closest('tr');
       const op1Val = cleanMoney(rowTr.querySelector('.input-opname-s1').value);
       const op2Val = cleanMoney(rowTr.querySelector('.input-opname-s2').value);
-
-      const gudang = cleanMoney(item.stok_gudang);
-      const min = cleanMoney(item.min_stok);
-      const konv = cleanMoney(item.isi_konversi) || 1;
-      const satMakro = item.satuan_makro || 'pack';
-      const satMikro = item.satuan_mikro || item.satuan || 'gram';
-
+      const gudang = cleanMoney(item.stok_gudang), min = cleanMoney(item.min_stok), konv = cleanMoney(item.isi_konversi) || 1;
+      const satMakro = item.satuan_makro || 'pack', satMikro = item.satuan_mikro || item.satuan || 'gram';
       const mikroT = cleanMoney(item.tersedia_pagi) + cleanMoney(item.refill_s1) + cleanMoney(item.refill_s2);
-
       const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-      const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
-      const waste = totalW > 0 ? totalW : cleanMoney(item.waste_mikro);
-
+      const waste = wLogs.length ? wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(item.waste_mikro);
       const sisaDivisi = op2Val > 0 ? op2Val : (op1Val > 0 ? op1Val : Math.max(0, mikroT - waste));
       const pemakaian = Math.max(0, mikroT - sisaDivisi);
       const totalAset = (gudang * konv) + sisaDivisi;
       const status = totalAset <= min ? "RESTOCK" : "AMAN";
-
       rowTr.querySelector('.cell-sisa-divisi').innerText = `${sisaDivisi.toLocaleString('id-ID')} ${satMikro}`;
       rowTr.querySelector('.cell-pemakaian').innerText = `${pemakaian.toLocaleString('id-ID')} ${satMikro}`;
       rowTr.querySelector('.cell-total-aset').innerHTML = `<strong>${totalAset.toLocaleString('id-ID')} ${satMikro}</strong><div style="font-size:0.65rem;color:var(--text-muted);">${gudang} ${satMakro} + ${sisaDivisi} ${satMikro}</div>`;
-      
       const tagEl = rowTr.querySelector('.cell-status');
       tagEl.className = `tag ${status === 'RESTOCK' ? 'tag-restock' : 'tag-safe'}`;
       tagEl.innerText = status;
@@ -821,20 +699,11 @@
       const perm = getTabPermission("stok");
 
       document.getElementById("stokTableBody").innerHTML = data.map(s => {
-        const gudang = cleanMoney(s.stok_gudang);
-        const op1 = cleanMoney(s.opname_s1);
-        const op2 = cleanMoney(s.opname_s2);
-        const min = cleanMoney(s.min_stok);
-        const konv = cleanMoney(s.isi_konversi) || 1;
-        const satMakro = s.satuan_makro || 'pack';
-        const satMikro = s.satuan_mikro || s.satuan || 'gram';
-
+        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = cleanMoney(s.min_stok), konv = cleanMoney(s.isi_konversi) || 1;
+        const satMakro = s.satuan_makro || 'pack', satMikro = s.satuan_mikro || s.satuan || 'gram';
         const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
-
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-        const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
-        const waste = totalW > 0 ? totalW : cleanMoney(s.waste_mikro);
-
+        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
+        const waste = wLogs.length ? wLogs.reduce((acc, l) => acc + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
         const sisaDivisi = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
         const pemakaian = Math.max(0, mikroT - sisaDivisi);
         const totalAset = (gudang * konv) + sisaDivisi;
@@ -846,19 +715,14 @@
             <td>${satMakro}</td><td style="color:var(--warning);font-weight:700;">${konv.toLocaleString('id-ID')} ${satMikro}</td><td>${satMikro}</td>
             <td style="font-weight:700;">${gudang.toLocaleString('id-ID')} ${satMakro}</td>
             <td style="font-weight:700;color:var(--success);" class="cell-sisa-divisi">${sisaDivisi.toLocaleString('id-ID')} ${satMikro}</td>
-            <td style="color:var(--danger);font-weight:700;">${waste > 0 ? waste.toLocaleString('id-ID') : '-'} ${totalW > 0 ? '<span style="font-size:0.6rem;color:var(--warning);display:block;">(Dari Log)</span>' : ''}</td>
+            <td style="color:var(--danger);font-weight:700;">${waste > 0 ? waste.toLocaleString('id-ID') : '-'}</td>
             <td><input type="text" class="input-opname-s1" style="width:60px;padding:0.2rem;" value="${op1 ? op1.toLocaleString('id-ID') : ''}" placeholder="S1" ${!perm.canEdit ? 'disabled' : ''} oninput="liveRecalcRow(this, '${s.item_id}')" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s1', this.value)"></td>
             <td><input type="text" class="input-opname-s2" style="width:60px;padding:0.2rem;" value="${op2 ? op2.toLocaleString('id-ID') : ''}" placeholder="S2" ${!perm.canEdit ? 'disabled' : ''} oninput="liveRecalcRow(this, '${s.item_id}')" onchange="quickUpdateOpnameShift('${s.item_id}', 'opname_s2', this.value)"></td>
             <td style="font-weight:700;color:var(--warning);" class="cell-pemakaian">${pemakaian.toLocaleString('id-ID')} ${satMikro}</td>
             <td class="cell-total-aset"><strong>${totalAset.toLocaleString('id-ID')} ${satMikro}</strong><div style="font-size:0.65rem;color:var(--text-muted);">${gudang} ${satMakro} + ${sisaDivisi} ${satMikro}</div></td>
             <td>${min.toLocaleString('id-ID')} ${satMikro}</td>
             <td><span class="tag ${status==='RESTOCK'?'tag-restock':'tag-safe'} cell-status">${status}</span></td>
-            <td>
-              ${perm.canEdit ? `
-                <button class="btn" onclick="editStokModal('${s.item_id}')">Edit</button>
-                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteStokItem('${s.item_id}')">Hapus</button>` : ''}
-              ` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}
-            </td>
+            <td>${perm.canEdit ? `<button class="btn" onclick="editStokModal('${s.item_id}')">Edit</button>${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" onclick="deleteStokItem('${s.item_id}')">Hapus</button>` : ''}` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}</td>
           </tr>
         `;
       }).join('');
@@ -869,30 +733,19 @@
       const cleanVal = cleanMoney(val);
       const item = (localData.STOK || []).find(s => s.item_id === id);
       if (item) item[field] = cleanVal;
-
       let u = {}; u[field] = cleanVal;
       await postToGas("update", "STOK", { key: "item_id", val: id, updates: u });
       await fetchAllData();
     }
 
     function calcModalStokPreview() {
-      const min = cleanMoney(document.getElementById("fStkMin").value);
-      const gudang = cleanMoney(document.getElementById("fStkGudang").value);
+      const min = cleanMoney(document.getElementById("fStkMin").value), gudang = cleanMoney(document.getElementById("fStkGudang").value);
       const konv = cleanMoney(document.getElementById("fStkIsiKonversi").value) || 1;
-      const pagi = cleanMoney(document.getElementById("fStkPagi").value);
-      const r1 = cleanMoney(document.getElementById("fStkRefillS1").value);
-      const r2 = cleanMoney(document.getElementById("fStkRefillS2").value);
-      const waste = cleanMoney(document.getElementById("fStkWaste").value);
-      const op1 = cleanMoney(document.getElementById("fStkOpnameS1").value);
-      const op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
-
-      const sMakro = document.getElementById("fStkSatuanMakro").value || "pack";
-      const sMikro = document.getElementById("fStkSatuanMikro").value || "gram";
-
-      const totalT = pagi + r1 + r2;
-      const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, totalT - waste));
-      const pemakaian = Math.max(0, totalT - sisa);
-      const totalAset = (gudang * konv) + sisa;
+      const pagi = cleanMoney(document.getElementById("fStkPagi").value), r1 = cleanMoney(document.getElementById("fStkRefillS1").value), r2 = cleanMoney(document.getElementById("fStkRefillS2").value);
+      const waste = cleanMoney(document.getElementById("fStkWaste").value), op1 = cleanMoney(document.getElementById("fStkOpnameS1").value), op2 = cleanMoney(document.getElementById("fStkOpnameS2").value);
+      const sMakro = document.getElementById("fStkSatuanMakro").value || "pack", sMikro = document.getElementById("fStkSatuanMikro").value || "gram";
+      const totalT = pagi + r1 + r2, sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, totalT - waste));
+      const pemakaian = Math.max(0, totalT - sisa), totalAset = (gudang * konv) + sisa;
 
       document.getElementById("fStkPreviewKonversi").innerText = `1 ${sMakro} = ${konv.toLocaleString('id-ID')} ${sMikro}`;
       document.getElementById("fStkPreviewTersedia").innerText = `${totalT.toLocaleString('id-ID')} ${sMikro}`;
@@ -907,39 +760,24 @@
     function openNewStokModal() {
       document.getElementById("modalStokTitle").innerText = "Tambah Barang"; document.getElementById("fStkEditId").value = "";
       document.getElementById("fStkTanggal").value = getLocalTodayDate(); document.getElementById("fStkJam").value = getLocalCurrentTime();
-      document.getElementById("fStkNama").value = "";
-      document.getElementById("fStkSatuanMakro").value = "pack";
-      document.getElementById("fStkIsiKonversi").value = "1000";
-      document.getElementById("fStkSatuanMikro").value = "gram";
-      document.getElementById("fStkGudang").value = "2";
-      document.getElementById("fStkMin").value = "500";
-      document.getElementById("fStkPagi").value = "500";
-      document.getElementById("fStkRefillS1").value = "0"; document.getElementById("fStkRefillS2").value = "0"; document.getElementById("fStkWaste").value = "0";
-      document.getElementById("fStkOpnameS1").value = ""; document.getElementById("fStkOpnameS2").value = "";
+      document.getElementById("fStkNama").value = ""; document.getElementById("fStkSatuanMakro").value = "pack"; document.getElementById("fStkIsiKonversi").value = "1000";
+      document.getElementById("fStkSatuanMikro").value = "gram"; document.getElementById("fStkGudang").value = "2"; document.getElementById("fStkMin").value = "500";
+      document.getElementById("fStkPagi").value = "500"; document.getElementById("fStkRefillS1").value = "0"; document.getElementById("fStkRefillS2").value = "0";
+      document.getElementById("fStkWaste").value = "0"; document.getElementById("fStkOpnameS1").value = ""; document.getElementById("fStkOpnameS2").value = "";
       calcModalStokPreview(); openModal('modalStok');
     }
 
     function editStokModal(id) {
       const item = (localData.STOK || []).find(s => s.item_id === id); if(!item) return;
       document.getElementById("modalStokTitle").innerText = "Edit Barang: " + id; document.getElementById("fStkEditId").value = id;
-      document.getElementById("fStkTanggal").value = cleanDateForInput(item.tgl_update); 
-      document.getElementById("fStkJam").value = item.jam_update || getLocalCurrentTime();
-      document.getElementById("fStkDivisi").value = item.divisi; document.getElementById("fStkKategori").value = item.kategori;
-      document.getElementById("fStkNama").value = item.nama_barang;
-      document.getElementById("fStkSatuanMakro").value = item.satuan_makro || "pack";
-      document.getElementById("fStkIsiKonversi").value = cleanMoney(item.isi_konversi) || 1;
-      document.getElementById("fStkSatuanMikro").value = item.satuan_mikro || item.satuan || "gram";
-
-      document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID');
-      document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID');
-      document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID');
-      document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID');
-      document.getElementById("fStkRefillS2").value = cleanMoney(item.refill_s2).toLocaleString('id-ID');
-      
+      document.getElementById("fStkTanggal").value = cleanDateForInput(item.tgl_update); document.getElementById("fStkJam").value = item.jam_update || getLocalCurrentTime();
+      document.getElementById("fStkDivisi").value = item.divisi; document.getElementById("fStkKategori").value = item.kategori; document.getElementById("fStkNama").value = item.nama_barang;
+      document.getElementById("fStkSatuanMakro").value = item.satuan_makro || "pack"; document.getElementById("fStkIsiKonversi").value = cleanMoney(item.isi_konversi) || 1;
+      document.getElementById("fStkSatuanMikro").value = item.satuan_mikro || item.satuan || "gram"; document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID');
+      document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID'); document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID');
+      document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID'); document.getElementById("fStkRefillS2").value = cleanMoney(item.refill_s2).toLocaleString('id-ID');
       const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-      const totalW = wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0);
-      document.getElementById("fStkWaste").value = (totalW > 0 ? totalW : cleanMoney(item.waste_mikro)).toLocaleString('id-ID');
-
+      document.getElementById("fStkWaste").value = (wLogs.length ? wLogs.reduce((acc, l) => acc + cleanMoney(l.jumlah_angka), 0) : cleanMoney(item.waste_mikro)).toLocaleString('id-ID');
       document.getElementById("fStkOpnameS1").value = item.opname_s1 ? cleanMoney(item.opname_s1).toLocaleString('id-ID') : "";
       document.getElementById("fStkOpnameS2").value = item.opname_s2 ? cleanMoney(item.opname_s2).toLocaleString('id-ID') : "";
       calcModalStokPreview(); openModal('modalStok');
@@ -948,46 +786,21 @@
     async function submitStokForm() {
       const editId = document.getElementById("fStkEditId").value, div = document.getElementById("fStkDivisi").value;
       const prefix = div === "BARISTA" ? "BAR" : (div === "KITCHEN" ? "KIT" : "SRV");
-      
-      const gudangVal = cleanMoney(document.getElementById("fStkGudang").value);
-      const minVal = cleanMoney(document.getElementById("fStkMin").value);
+      const gudangVal = cleanMoney(document.getElementById("fStkGudang").value), minVal = cleanMoney(document.getElementById("fStkMin").value);
       const konvVal = cleanMoney(document.getElementById("fStkIsiKonversi").value) || 1;
-      const pagiVal = cleanMoney(document.getElementById("fStkPagi").value);
-      const r1Val = cleanMoney(document.getElementById("fStkRefillS1").value);
-      const r2Val = cleanMoney(document.getElementById("fStkRefillS2").value);
-      const wasteVal = cleanMoney(document.getElementById("fStkWaste").value);
-      const op1Val = cleanMoney(document.getElementById("fStkOpnameS1").value);
-      const op2Val = cleanMoney(document.getElementById("fStkOpnameS2").value);
-
-      const totalTersedia = pagiVal + r1Val + r2Val;
-      const sisaNyata = op2Val > 0 ? op2Val : (op1Val > 0 ? op1Val : Math.max(0, totalTersedia - wasteVal));
-      const pemakaianReal = Math.max(0, totalTersedia - sisaNyata);
-      const totalAsetReal = (gudangVal * konvVal) + sisaNyata;
-      const statusReal = totalAsetReal <= minVal ? "RESTOCK" : "AMAN";
+      const pagiVal = cleanMoney(document.getElementById("fStkPagi").value), r1Val = cleanMoney(document.getElementById("fStkRefillS1").value), r2Val = cleanMoney(document.getElementById("fStkRefillS2").value);
+      const wasteVal = cleanMoney(document.getElementById("fStkWaste").value), op1Val = cleanMoney(document.getElementById("fStkOpnameS1").value), op2Val = cleanMoney(document.getElementById("fStkOpnameS2").value);
+      const totalTersedia = pagiVal + r1Val + r2Val, sisaNyata = op2Val > 0 ? op2Val : (op1Val > 0 ? op1Val : Math.max(0, totalTersedia - wasteVal));
+      const pemakaianReal = Math.max(0, totalTersedia - sisaNyata), totalAsetReal = (gudangVal * konvVal) + sisaNyata;
 
       const payload = {
         divisi: div, kategori: document.getElementById("fStkKategori").value, nama_barang: document.getElementById("fStkNama").value,
-        satuan_makro: document.getElementById("fStkSatuanMakro").value,
-        isi_konversi: konvVal,
-        satuan_mikro: document.getElementById("fStkSatuanMikro").value,
-        satuan: document.getElementById("fStkSatuanMikro").value,
-        min_stok: minVal,
-        stok_gudang: gudangVal,
-        tersedia_pagi: pagiVal,
-        refill_s1: r1Val,
-        refill_s2: r2Val,
-        waste_mikro: wasteVal,
-        opname_s1: op1Val,
-        opname_s2: op2Val,
-        stok_mikro: sisaNyata,
-        pemakaian_hari_ini: pemakaianReal,
-        total_makro: totalAsetReal,
-        status: statusReal,
-        tgl_update: document.getElementById("fStkTanggal").value || getLocalTodayDate(), 
-        jam_update: document.getElementById("fStkJam").value || getLocalCurrentTime()
+        satuan_makro: document.getElementById("fStkSatuanMakro").value, isi_konversi: konvVal, satuan_mikro: document.getElementById("fStkSatuanMikro").value, satuan: document.getElementById("fStkSatuanMikro").value,
+        min_stok: minVal, stok_gudang: gudangVal, tersedia_pagi: pagiVal, refill_s1: r1Val, refill_s2: r2Val, waste_mikro: wasteVal, opname_s1: op1Val, opname_s2: op2Val,
+        stok_mikro: sisaNyata, pemakaian_hari_ini: pemakaianReal, total_makro: totalAsetReal, status: totalAsetReal <= minVal ? "RESTOCK" : "AMAN",
+        tgl_update: document.getElementById("fStkTanggal").value || getLocalTodayDate(), jam_update: document.getElementById("fStkJam").value || getLocalCurrentTime()
       };
-
-      closeModal('modalStok'); showToast("Menyimpan stok & kalkulasi...");
+      closeModal('modalStok'); showToast("Menyimpan stok...");
       if(editId) await postToGas("update", "STOK", { key: "item_id", val: editId, updates: payload });
       else { payload.item_id = `${prefix}-${Date.now().toString().slice(-4)}`; await postToGas("insert", "STOK", payload); }
       await fetchAllData();
@@ -1001,43 +814,23 @@
       document.getElementById("boxSetoranText").innerText = formatRupiah(t - k);
       document.getElementById("boxModalText").innerText = formatRupiah(m);
     }
-
     function toggleHandoverNotesLabel() {
-      const thp = document.getElementById("fStTahap").value;
-      document.getElementById("handoverNotesHeader").innerText = thp.includes("Closing") ? "3. Catatan Kasir Closing Shift 2" : "3. Catatan Operasional Shift 1 untuk Shift 2";
+      document.getElementById("handoverNotesHeader").innerText = document.getElementById("fStTahap").value.includes("Closing") ? "3. Catatan Kasir Closing Shift 2" : "3. Catatan Operasional Shift 1 untuk Shift 2";
     }
-
     function openNewHandoverShift(sNum) {
-      document.getElementById("fStEditId").value = "";
-      document.getElementById("fStShiftNum").value = sNum;
-      document.getElementById("fStTanggal").value = getLocalTodayDate();
-      document.getElementById("fStJam").value = getLocalCurrentTime();
-      document.getElementById("fStModal").value = "110.000";
-      document.getElementById("fStTunai").value = "0";
-      document.getElementById("fStNonTunai").value = "0";
-      document.getElementById("fStOnline").value = "0";
-      document.getElementById("fStPengeluaran").value = "0";
-      document.getElementById("fStKetPengeluaran").value = "";
-
-      if (sNum === 1) {
-        document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 1 (Sore 16:30)";
-        document.getElementById("fStTahap").value = "Shift 1 → 2 (Sore 16:30)";
-      } else {
-        document.getElementById("modalHandoverTitle").innerText = "Form Serah Terima: Shift 2 (Closing 00:00)";
-        document.getElementById("fStTahap").value = "Shift 2 → 1 (Closing 00:00)";
-      }
-      toggleHandoverNotesLabel();
-      calcCashDenom();
-      openModal('modalHandover');
+      document.getElementById("fStEditId").value = ""; document.getElementById("fStShiftNum").value = sNum;
+      document.getElementById("fStTanggal").value = getLocalTodayDate(); document.getElementById("fStJam").value = getLocalCurrentTime();
+      document.getElementById("fStModal").value = "110.000"; document.getElementById("fStTunai").value = "0"; document.getElementById("fStNonTunai").value = "0";
+      document.getElementById("fStOnline").value = "0"; document.getElementById("fStPengeluaran").value = "0"; document.getElementById("fStKetPengeluaran").value = "";
+      document.getElementById("modalHandoverTitle").innerText = sNum === 1 ? "Form Serah Terima: Shift 1 (Sore 16:30)" : "Form Serah Terima: Shift 2 (Closing 00:00)";
+      document.getElementById("fStTahap").value = sNum === 1 ? "Shift 1 → 2 (Sore 16:30)" : "Shift 2 → 1 (Closing 00:00)";
+      toggleHandoverNotesLabel(); calcCashDenom(); openModal('modalHandover');
     }
-
     function editHandoverModal(id) {
       const st = (localData.SERAH_TERIMA || []).find(x => x.id === id); if(!st) return;
       document.getElementById("modalHandoverTitle").innerText = "Edit Serah Terima: " + id; document.getElementById("fStEditId").value = id;
-      document.getElementById("fStTanggal").value = cleanDateForInput(st.tanggal); 
-      document.getElementById("fStJam").value = st.jam || getLocalCurrentTime(); 
-      document.getElementById("fStTahap").value = st.tahap;
-      document.getElementById("fStShiftNum").value = st.shift || (st.tahap.includes("Shift 1") ? "1" : "2");
+      document.getElementById("fStTanggal").value = cleanDateForInput(st.tanggal); document.getElementById("fStJam").value = st.jam || getLocalCurrentTime();
+      document.getElementById("fStTahap").value = st.tahap; document.getElementById("fStShiftNum").value = st.shift || (st.tahap.includes("Shift 1") ? "1" : "2");
       document.getElementById("fStModal").value = cleanMoney(st.kas_modal_stay).toLocaleString('id-ID'); document.getElementById("fStTunai").value = cleanMoney(st.penjualan_tunai).toLocaleString('id-ID');
       document.getElementById("fStNonTunai").value = cleanMoney(st.non_tunai_qris).toLocaleString('id-ID'); document.getElementById("fStOnline").value = cleanMoney(st.online_food).toLocaleString('id-ID');
       document.getElementById("fStPengeluaran").value = cleanMoney(st.pengeluaran_kas_kecil).toLocaleString('id-ID'); document.getElementById("fStKetPengeluaran").value = st.keterangan_pengeluaran || "";
@@ -1045,26 +838,19 @@
       document.getElementById("fStCatatan").value = st.catatan_evaluasi || "";
       toggleHandoverNotesLabel(); calcCashDenom(); openModal('modalHandover');
     }
-
     async function submitHandoverForm() {
-      const editId = document.getElementById("fStEditId").value, t = cleanMoney(document.getElementById("fStTunai").value);
-      const nt = cleanMoney(document.getElementById("fStNonTunai").value), onl = cleanMoney(document.getElementById("fStOnline").value);
+      const editId = document.getElementById("fStEditId").value, t = cleanMoney(document.getElementById("fStTunai").value), nt = cleanMoney(document.getElementById("fStNonTunai").value), onl = cleanMoney(document.getElementById("fStOnline").value);
       const m = cleanMoney(document.getElementById("fStModal").value), k = cleanMoney(document.getElementById("fStPengeluaran").value);
-      const thp = document.getElementById("fStTahap").value;
-      const sNum = document.getElementById("fStShiftNum").value || (thp.includes("Shift 1") ? "1" : "2");
-
+      const thp = document.getElementById("fStTahap").value, sNum = document.getElementById("fStShiftNum").value || (thp.includes("Shift 1") ? "1" : "2");
       const payload = {
-        tanggal: document.getElementById("fStTanggal").value || getLocalTodayDate(), 
-        jam: document.getElementById("fStJam").value || getLocalCurrentTime(),
+        tanggal: document.getElementById("fStTanggal").value || getLocalTodayDate(), jam: document.getElementById("fStJam").value || getLocalCurrentTime(),
         tahap: thp, shift: sNum, petugas_serah: currentUser.username, petugas_terima: sNum === "1" ? "Shift 2" : "Opening Besok",
         penjualan_tunai: t, non_tunai_qris: nt, online_food: onl, total_omset_shift: t + nt + onl,
-        kas_modal_stay: m, pengeluaran_kas_kecil: k, keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value,
-        uang_setor_bersih: t - k, prep_barista: document.getElementById("fStPrepBar").value, prep_kitchen: document.getElementById("fStPrepKit").value,
-        prep_server: document.getElementById("fStPrepSrv").value, catatan_evaluasi: document.getElementById("fStCatatan").value
+        kas_modal_stay: m, pengeluaran_kas_kecil: k, keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value, uang_setor_bersih: t - k,
+        prep_barista: document.getElementById("fStPrepBar").value, prep_kitchen: document.getElementById("fStPrepKit").value, prep_server: document.getElementById("fStPrepSrv").value, catatan_evaluasi: document.getElementById("fStCatatan").value
       };
-
       closeModal('modalHandover'); showToast("Menyimpan serah terima...");
-      if(editId) { await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload }); }
+      if(editId) await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
       else { payload.id = `ST-S${sNum}-${Date.now().toString().slice(-5)}`; await postToGas("insert", "SERAH_TERIMA", payload); }
       await fetchAllData();
     }
@@ -1074,22 +860,14 @@
       const perm = getTabPermission("serah-terima");
       document.getElementById("stTableBody").innerHTML = (localData.SERAH_TERIMA || []).map(st => {
         const isS1 = String(st.tahap).includes("Shift 1") || String(st.shift) === "1";
-        const badge = isS1 ? `<span class="tag tag-safe">SHIFT 1 (SORE)</span>` : `<span class="tag tag-restock">SHIFT 2 (CLOSING)</span>`;
         return `
           <tr>
-            <td><code>${st.id}</code></td><td>${st.tanggal} ${st.jam || ''}</td><td>${badge}</td><td>${st.petugas_serah}</td>
+            <td><code>${st.id}</code></td><td>${st.tanggal} ${st.jam || ''}</td><td><span class="tag ${isS1 ? 'tag-safe':'tag-restock'}">${isS1 ? 'SHIFT 1':'SHIFT 2'}</span></td><td>${st.petugas_serah}</td>
             <td><strong>${formatRupiah(st.total_omset_shift || (cleanMoney(st.penjualan_tunai)+cleanMoney(st.non_tunai_qris)+cleanMoney(st.online_food)))}</strong></td>
             <td>${formatRupiah(st.penjualan_tunai)}</td><td>${formatRupiah(st.non_tunai_qris)}</td><td>${formatRupiah(st.pengeluaran_kas_kecil)}</td>
-            <td style="font-size:0.7rem;">${st.keterangan_pengeluaran||'-'}</td>
-            <td style="font-weight:700;color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
-            <td style="font-weight:700;color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td>
-            <td style="font-size:0.7rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
-            <td>
-              ${perm.canEdit ? `
-                <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editHandoverModal('${st.id}')">Edit</button>
-                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>` : ''}
-              ` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}
-            </td>
+            <td style="font-size:0.7rem;">${st.keterangan_pengeluaran||'-'}</td><td style="font-weight:700;color:var(--warning);">${formatRupiah(st.uang_setor_bersih || (cleanMoney(st.penjualan_tunai)-cleanMoney(st.pengeluaran_kas_kecil)))}</td>
+            <td style="font-weight:700;color:var(--success);">${formatRupiah(st.kas_modal_stay || 110000)}</td><td style="font-size:0.7rem;">${st.prep_barista||st.prep_kitchen||st.catatan_evaluasi||'-'}</td>
+            <td>${perm.canEdit ? `<button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editHandoverModal('${st.id}')">Edit</button>${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteHandoverItem('${st.id}')">Hapus</button>` : ''}` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}</td>
           </tr>
         `;
       }).join('');
@@ -1099,38 +877,29 @@
     function editDailyReportModal(id) {
       const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
       document.getElementById("modalDrTitle").innerText = "Edit Report: " + id; document.getElementById("fDrEditId").value = id;
-      document.getElementById("fDrTanggal").value = cleanDateForInput(dr.tanggal); 
-      document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
+      document.getElementById("fDrTanggal").value = cleanDateForInput(dr.tanggal); document.getElementById("fDrRevS1").value = cleanMoney(dr.rev_shift1).toLocaleString('id-ID');
       document.getElementById("fDrRevS2").value = cleanMoney(dr.rev_shift2).toLocaleString('id-ID'); document.getElementById("fDrQrisEdc").value = cleanMoney(dr.qris_edc).toLocaleString('id-ID');
       document.getElementById("fDrOnlineFood").value = cleanMoney(dr.online_food).toLocaleString('id-ID'); document.getElementById("fDrTarget").value = (cleanMoney(dr.target_harian) || 5000000).toLocaleString('id-ID');
       document.getElementById("fDrKasKeluar").value = cleanMoney(dr.total_kas_keluar).toLocaleString('id-ID'); document.getElementById("fDrKetKasKeluar").value = dr.rincian_pengeluaran || "";
       document.getElementById("fDrBelanjaBar").value = dr.belanja_barista || ""; document.getElementById("fDrBelanjaKit").value = dr.belanja_kitchen || ""; document.getElementById("fDrBelanjaSrv").value = dr.belanja_server || "";
-      document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || ""; document.getElementById("fDrWaste").value = dr.waste_bahan || "";
-      document.getElementById("fDrEvaluasi").value = dr.evaluasi_harian || "";
+      document.getElementById("fDrKalibrasi").value = dr.kalibrasi_beans || ""; document.getElementById("fDrWaste").value = dr.waste_bahan || ""; document.getElementById("fDrEvaluasi").value = dr.evaluasi_harian || "";
       openModal('modalDailyReport');
     }
 
     function autoPullDailyReportData() {
       const tgl = document.getElementById("fDrTanggal").value || getLocalTodayDate();
-      const handovers = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === tgl);
-
+      const hList = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === tgl);
       let s1 = 0, s2 = 0, qris = 0, online = 0, keluar = 0, ketKeluar = [], evalText = [];
-      handovers.forEach(h => {
+      hList.forEach(h => {
         const omset = cleanMoney(h.penjualan_tunai) + cleanMoney(h.non_tunai_qris) + cleanMoney(h.online_food);
-        if (String(h.tahap).includes("Shift 1") || String(h.shift) === "1") s1 += omset;
-        else s2 += omset;
-        qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food);
-        keluar += cleanMoney(h.pengeluaran_kas_kecil);
+        if (String(h.tahap).includes("Shift 1") || String(h.shift) === "1") s1 += omset; else s2 += omset;
+        qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food); keluar += cleanMoney(h.pengeluaran_kas_kecil);
         if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
         if(h.catatan_evaluasi) evalText.push(h.catatan_evaluasi);
       });
-
-      document.getElementById("fDrRevS1").value = s1.toLocaleString('id-ID');
-      document.getElementById("fDrRevS2").value = s2.toLocaleString('id-ID');
-      document.getElementById("fDrQrisEdc").value = qris.toLocaleString('id-ID');
-      document.getElementById("fDrOnlineFood").value = online.toLocaleString('id-ID');
-      document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID');
-      document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
+      document.getElementById("fDrRevS1").value = s1.toLocaleString('id-ID'); document.getElementById("fDrRevS2").value = s2.toLocaleString('id-ID');
+      document.getElementById("fDrQrisEdc").value = qris.toLocaleString('id-ID'); document.getElementById("fDrOnlineFood").value = online.toLocaleString('id-ID');
+      document.getElementById("fDrKasKeluar").value = keluar.toLocaleString('id-ID'); document.getElementById("fDrKetKasKeluar").value = ketKeluar.join('; ') || "-";
 
       const logs = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === tgl);
       const wLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi"));
@@ -1138,13 +907,12 @@
       document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
 
       const restockList = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), konv = cleanMoney(s.isi_konversi) || 1;
-        const total = (gudang * konv) + (op2 > 0 ? op2 : (op1 > 0 ? op1 : cleanMoney(s.tersedia_pagi)));
+        const total = (cleanMoney(s.stok_gudang) * (cleanMoney(s.isi_konversi) || 1)) + (cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || cleanMoney(s.tersedia_pagi));
         return total <= cleanMoney(s.min_stok);
       }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || 'Semua stok aman.';
       document.getElementById("fDrRestockList").value = restockList;
       if(evalText.length) document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
-      showToast("Data Shift 1 & Shift 2 berhasil ditarik!");
+      showToast("Data Shift 1 & 2 berhasil ditarik!");
     }
 
     async function submitDailyReportForm() {
@@ -1159,7 +927,6 @@
         belanja_barista: document.getElementById("fDrBelanjaBar").value, belanja_kitchen: document.getElementById("fDrBelanjaKit").value, belanja_server: document.getElementById("fDrBelanjaSrv").value,
         evaluasi_harian: document.getElementById("fDrEvaluasi").value, pelapor: currentUser.username
       };
-
       closeModal('modalDailyReport'); showToast("Menyimpan Daily Report...");
       if(editId) await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
       else { payload.report_id = "REP-" + Date.now().toString().slice(-6); await postToGas("insert", "DAILY_REPORT", payload); }
@@ -1172,44 +939,32 @@
       document.getElementById("drTableBody").innerHTML = (localData.DAILY_REPORT || []).map(dr => `
         <tr>
           <td><code>${dr.report_id}</code></td><td>${dr.tanggal}</td><td><strong>${formatRupiah(dr.total_omset)}</strong></td>
-          <td>${formatRupiah(dr.qris_edc)}</td><td>${formatRupiah(dr.target_harian)}</td>
-          <td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td><td>${formatRupiah(dr.total_kas_keluar)}</td>
-          <td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_barista||'-'}</td>
-          <td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_kitchen||'-'}</td>
-          <td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_server||'-'}</td>
-          <td>
-            ${perm.canEdit ? `
-              <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>
-              ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>` : ''}
-            ` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}
-          </td>
+          <td>${formatRupiah(dr.qris_edc)}</td><td>${formatRupiah(dr.target_harian)}</td><td><span class="tag tag-safe">${cleanPercent(dr.capaian_pct)}</span></td>
+          <td>${formatRupiah(dr.total_kas_keluar)}</td><td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_barista||'-'}</td>
+          <td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_kitchen||'-'}</td><td style="font-size:0.68rem;color:var(--warning);">${dr.belanja_server||'-'}</td>
+          <td>${perm.canEdit ? `<button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editDailyReportModal('${dr.report_id}')">Edit</button>${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteDailyReportItem('${dr.report_id}')">Hapus</button>` : ''}` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}</td>
         </tr>
       `).join('');
     }
 
     function sendWhatsAppDaily() {
-      const todayStr = getLocalTodayDate();
-      const todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
+      const todayStr = getLocalTodayDate(), todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
       const dr = (localData.DAILY_REPORT || []).find(d => cleanDateForInput(d.tanggal) === todayStr) || {};
-      const handovers = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === todayStr);
+      const hList = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === todayStr);
       let tunai = 0, qris = 0, online = 0, modal = 110000, keluar = 0, ketKeluar = [];
-      handovers.forEach(h => {
+      hList.forEach(h => {
         tunai += cleanMoney(h.penjualan_tunai); qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food);
         modal = cleanMoney(h.kas_modal_stay) || modal; keluar += cleanMoney(h.pengeluaran_kas_kecil);
         if(h.keterangan_pengeluaran) ketKeluar.push(h.keterangan_pengeluaran);
       });
-
       const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === todayStr);
-      const s1Staff = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
-      const s2Staff = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
-      const offStaff = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
-
+      const s1 = roster.filter(j => j.shift === '1').map(x=>x.nama).join(', ') || '-';
+      const s2 = roster.filter(j => j.shift === '2').map(x=>x.nama).join(', ') || '-';
+      const off = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
       const logs = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === todayStr);
       const wItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste / spoil';
-
       const restockItems = (localData.STOK || []).filter(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), konv = cleanMoney(s.isi_konversi) || 1;
-        const total = (gudang * konv) + (op2 > 0 ? op2 : (op1 > 0 ? op1 : cleanMoney(s.tersedia_pagi)));
+        const total = (cleanMoney(s.stok_gudang) * (cleanMoney(s.isi_konversi) || 1)) + (cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || cleanMoney(s.tersedia_pagi));
         return total <= cleanMoney(s.min_stok);
       }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || '• Semua stok aman';
 
@@ -1218,58 +973,32 @@
         `📅 Tanggal: ${todayFormatted}\n` +
         `👤 Pelapor: ${currentUser ? currentUser.nama_lengkap : 'Admin'} (${currentUser ? currentUser.role : 'MANAJEMEN'})\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*1. OMSET REVENUE:*\n` +
-        `• Shift 1: ${formatRupiah(dr.rev_shift1 || 0)}\n` +
-        `• Shift 2: ${formatRupiah(dr.rev_shift2 || 0)}\n` +
+        `*1. OMSET REVENUE:*\n• Shift 1: ${formatRupiah(dr.rev_shift1 || 0)}\n• Shift 2: ${formatRupiah(dr.rev_shift2 || 0)}\n` +
         `• *TOTAL: ${formatRupiah((cleanMoney(dr.rev_shift1) + cleanMoney(dr.rev_shift2)) || (tunai + qris + online))}*\n` +
         `  - Tunai: ${formatRupiah(tunai)}\n  - Non-Tunai: ${formatRupiah(qris)}\n  - Online: ${formatRupiah(online)}\n\n` +
-        `*2. KAS LACI (IMPREST):*\n` +
-        `• Modal Stay: ${formatRupiah(modal)}\n` +
-        `• Kas Keluar: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
+        `*2. KAS LACI (IMPREST):*\n• Modal Stay: ${formatRupiah(modal)}\n• Kas Keluar: ${formatRupiah(keluar)} (${ketKeluar.join('; ') || 'Operasional'})\n` +
         `• *Setor Bersih Amplop: ${formatRupiah(tunai - keluar)}*\n\n` +
         `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*3. 🛒 KEBUTUHAN BELANJA BESOK PAGI:*\n` +
-        `☕ *Barista:* ${dr.belanja_barista || 'Aman'}\n` +
-        `🍳 *Kitchen:* ${dr.belanja_kitchen || 'Aman'}\n` +
-        `🍽️ *Server:* ${dr.belanja_server || 'Aman'}\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*4. ⚠️ STOK RESTOCK:*\n${restockItems}\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*5. ROSTER TIM:*\n• S1: ${s1Staff}\n• S2: ${s2Staff}\n• Off: ${offStaff}\n\n` +
-        `━━━━━━━━━━━━━━━━━━━━━━\n` +
-        `*6. QC, WASTE & SPOIL:*\n${wItems}\n\n` +
-        `*7. EVALUASI:* ${dr.evaluasi_harian || 'Operasional lancar.'}\n\n` +
+        `*3. 🛒 BELANJA BESOK:*\n☕ *Barista:* ${dr.belanja_barista || 'Aman'}\n🍳 *Kitchen:* ${dr.belanja_kitchen || 'Aman'}\n🍽️ *Server:* ${dr.belanja_server || 'Aman'}\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n*4. ⚠️ STOK RESTOCK:*\n${restockItems}\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n*5. ROSTER TIM:*\n• S1: ${s1}\n• S2: ${s2}\n• Off: ${off}\n\n` +
+        `━━━━━━━━━━━━━━━━━━━━━━\n*6. QC, WASTE:*\n${wItems}\n\n*7. EVALUASI:* ${dr.evaluasi_harian || 'Operasional lancar.'}\n\n` +
         `_Laporan resmi sah terkirim melalui Sistem Terintegrasi Kafe._`;
 
       window.open("https://api.whatsapp.com/send?text=" + encodeURIComponent(msg), '_blank');
     }
 
     function calcModalMenuPreview() {
-      const hpp = cleanMoney(document.getElementById("fMenuHpp").value);
-      const jual = cleanMoney(document.getElementById("fMenuHarga").value);
-
-      const marginRp = Math.max(0, jual - hpp);
-      const marginPct = jual > 0 ? ((marginRp / jual) * 100).toFixed(1) : "0.0";
+      const hpp = cleanMoney(document.getElementById("fMenuHpp").value), jual = cleanMoney(document.getElementById("fMenuHarga").value);
+      const marginRp = Math.max(0, jual - hpp), marginPct = jual > 0 ? ((marginRp / jual) * 100).toFixed(1) : "0.0";
       const foodCostPct = jual > 0 ? ((hpp / jual) * 100).toFixed(1) : "0.0";
-
       document.getElementById("fMenuPreviewMarginRp").innerText = formatRupiah(marginRp);
       document.getElementById("fMenuPreviewMarginPct").innerText = `${marginPct}%`;
       document.getElementById("fMenuPreviewFoodCost").innerText = `${foodCostPct}%`;
-
-      const tagStatus = document.getElementById("fMenuPreviewStatus");
-      const fcNum = parseFloat(foodCostPct);
-      if (fcNum <= 35) {
-        tagStatus.className = "tag tag-safe";
-        tagStatus.innerText = `SANGAT SEHAT (${foodCostPct}%)`;
-      } else if (fcNum <= 40) {
-        tagStatus.className = "tag";
-        tagStatus.style.background = "rgba(245,158,11,0.2)";
-        tagStatus.style.color = "var(--warning)";
-        tagStatus.innerText = `STANDAR (${foodCostPct}%)`;
-      } else {
-        tagStatus.className = "tag tag-restock";
-        tagStatus.innerText = `BOROS / WASPADA (${foodCostPct}%)`;
-      }
+      const tagStatus = document.getElementById("fMenuPreviewStatus"), fcNum = parseFloat(foodCostPct);
+      if (fcNum <= 35) { tagStatus.className = "tag tag-safe"; tagStatus.innerText = `SANGAT SEHAT (${foodCostPct}%)`; }
+      else if (fcNum <= 40) { tagStatus.className = "tag"; tagStatus.style.background = "rgba(245,158,11,0.2)"; tagStatus.style.color = "var(--warning)"; tagStatus.innerText = `STANDAR (${foodCostPct}%)`; }
+      else { tagStatus.className = "tag tag-restock"; tagStatus.innerText = `BOROS / WASPADA (${foodCostPct}%)`; }
     }
 
     function filterMenuCategory(cat) {
@@ -1281,42 +1010,28 @@
       const data = (localData.MENU || []).filter(m => m.jenis === jenis);
       const perm = getTabPermission("menu");
       document.getElementById("menuTableBody").innerHTML = data.map(m => {
-        const hpp = cleanMoney(m.hpp), jual = cleanMoney(m.harga_jual);
-        const marginRp = cleanMoney(m.margin_rp) || (jual - hpp);
+        const hpp = cleanMoney(m.hpp), jual = cleanMoney(m.harga_jual), marginRp = cleanMoney(m.margin_rp) || (jual - hpp);
         return `
           <tr>
             <td><code>${m.menu_id}</code></td><td>${m.kategori}</td><td onclick="editMenuModal('${m.menu_id}')" style="cursor:pointer;"><strong>${m.nama_produk}</strong></td>
             <td>${formatRupiah(hpp)}</td><td>${formatRupiah(jual)}</td><td>${formatRupiah(marginRp)}</td>
             <td>${cleanPercent(m.margin_pct) || ((marginRp/jual)*100).toFixed(1)+'%'}</td><td>${cleanPercent(m.food_cost_pct) || ((hpp/jual)*100).toFixed(1)+'%'}</td>
-            <td>
-              ${perm.canEdit ? `
-                <button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editMenuModal('${m.menu_id}')">Edit</button>
-                ${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>` : ''}
-              ` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}
-            </td>
+            <td>${perm.canEdit ? `<button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editMenuModal('${m.menu_id}')">Edit</button>${currentUser && currentUser.level >= 2 ? `<button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteMenuItem('${m.menu_id}')">Hapus</button>` : ''}` : '<span style="color:var(--text-muted);font-size:0.68rem;">Lihat</span>'}</td>
           </tr>
         `;
       }).join('');
     }
-    function openNewMenuModal() { 
-      document.getElementById("modalMenuTitle").innerText = "Tambah Menu Baru"; 
-      document.getElementById("fMenuEditId").value = ""; 
-      document.getElementById("fMenuNama").value = ""; 
-      document.getElementById("fMenuKategori").value = ""; 
-      document.getElementById("fMenuHpp").value = "5.000"; 
-      document.getElementById("fMenuHarga").value = "22.000"; 
-      calcModalMenuPreview();
-      openModal('modalMenu'); 
+    function openNewMenuModal() {
+      document.getElementById("modalMenuTitle").innerText = "Tambah Menu Baru"; document.getElementById("fMenuEditId").value = "";
+      document.getElementById("fMenuNama").value = ""; document.getElementById("fMenuKategori").value = ""; document.getElementById("fMenuHpp").value = "5.000"; document.getElementById("fMenuHarga").value = "22.000";
+      calcModalMenuPreview(); openModal('modalMenu'); 
     }
     function editMenuModal(id) {
       const item = (localData.MENU || []).find(m => m.menu_id === id); if(!item) return;
       document.getElementById("modalMenuTitle").innerText = "Edit Menu: " + id; document.getElementById("fMenuEditId").value = id;
-      document.getElementById("fMenuJenis").value = item.jenis; document.getElementById("fMenuKategori").value = item.kategori;
-      document.getElementById("fMenuNama").value = item.nama_produk; 
-      document.getElementById("fMenuHpp").value = cleanMoney(item.hpp).toLocaleString('id-ID');
-      document.getElementById("fMenuHarga").value = cleanMoney(item.harga_jual).toLocaleString('id-ID'); 
-      calcModalMenuPreview();
-      openModal('modalMenu'); 
+      document.getElementById("fMenuJenis").value = item.jenis; document.getElementById("fMenuKategori").value = item.kategori; document.getElementById("fMenuNama").value = item.nama_produk;
+      document.getElementById("fMenuHpp").value = cleanMoney(item.hpp).toLocaleString('id-ID'); document.getElementById("fMenuHarga").value = cleanMoney(item.harga_jual).toLocaleString('id-ID');
+      calcModalMenuPreview(); openModal('modalMenu'); 
     }
     async function submitMenuForm() {
       const editId = document.getElementById("fMenuEditId").value, jenis = document.getElementById("fMenuJenis").value;
@@ -1338,43 +1053,30 @@
         </tr>
       `).join('');
     }
-
     function openNewUserModal() {
       document.getElementById("modalUserTitle").innerText = "Tambah Karyawan"; document.getElementById("fUserEditId").value = "";
       document.getElementById("fUserUsername").value = ""; document.getElementById("fUserNamaLengkap").value = ""; document.getElementById("fUserPin").value = "1234";
-      renderTabPermissionCheckboxes("kalender:edit,checklist:edit,stok:edit");
-      openModal('modalUser');
+      renderTabPermissionCheckboxes("kalender:edit,checklist:edit,stok:edit"); openModal('modalUser');
     }
-
     function editUserModal(id) {
       const u = (localData.USERS || []).find(x => x.user_id === id); if(!u) return;
       document.getElementById("modalUserTitle").innerText = "Edit Karyawan: " + u.username; document.getElementById("fUserEditId").value = u.user_id;
       document.getElementById("fUserUsername").value = u.username; document.getElementById("fUserNamaLengkap").value = u.nama_lengkap;
       document.getElementById("fUserRole").value = u.role; document.getElementById("fUserDivisi").value = u.divisi; document.getElementById("fUserPin").value = u.pin;
-      renderTabPermissionCheckboxes(u.akses_tabs || "");
-      openModal('modalUser');
+      renderTabPermissionCheckboxes(u.akses_tabs || ""); openModal('modalUser');
     }
-
     function renderTabPermissionCheckboxes(permStr) {
-      const container = document.getElementById("boxTabPermissionsMatrix");
-      container.innerHTML = TAB_DEFINITIONS.map(t => {
+      const c = document.getElementById("boxTabPermissionsMatrix");
+      c.innerHTML = TAB_DEFINITIONS.map(t => {
         let isChecked = false, isEdit = true;
         if (permStr && permStr.trim() !== "") {
-          const parts = permStr.split(',').map(s => s.trim());
-          for (let p of parts) {
-            if (p === t.id || p.startsWith(t.id + ":")) {
-              isChecked = true;
-              isEdit = p.includes(":view") ? false : true;
-              break;
-            }
+          for (let p of permStr.split(',').map(s => s.trim())) {
+            if (p === t.id || p.startsWith(t.id + ":")) { isChecked = true; isEdit = !p.includes(":view"); break; }
           }
         }
         return `
           <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding:0.25rem 0;">
-            <label style="display:flex;align-items:center;gap:0.35rem;cursor:pointer;">
-              <input type="checkbox" id="chkActive_${t.id}" ${isChecked ? 'checked' : ''} onchange="toggleModeRadios('${t.id}', this.checked)">
-              <span>${t.label}</span>
-            </label>
+            <label style="display:flex;align-items:center;gap:0.35rem;cursor:pointer;"><input type="checkbox" id="chkActive_${t.id}" ${isChecked ? 'checked' : ''} onchange="toggleModeRadios('${t.id}', this.checked)"><span>${t.label}</span></label>
             <div style="display:flex;gap:0.5rem;align-items:center;">
               <label style="font-size:0.68rem;color:var(--text-muted);cursor:pointer;"><input type="radio" name="mode_${t.id}" id="modeEdit_${t.id}" value="edit" ${isEdit ? 'checked' : ''} ${!isChecked ? 'disabled' : ''}> Bisa Edit</label>
               <label style="font-size:0.68rem;color:var(--text-muted);cursor:pointer;"><input type="radio" name="mode_${t.id}" id="modeView_${t.id}" value="view" ${!isEdit ? 'checked' : ''} ${!isChecked ? 'disabled' : ''}> Hanya Lihat</label>
@@ -1383,54 +1085,32 @@
         `;
       }).join('');
     }
-
-    function toggleModeRadios(tabId, isChecked) {
-      document.getElementById(`modeEdit_${tabId}`).disabled = !isChecked;
-      document.getElementById(`modeView_${tabId}`).disabled = !isChecked;
-    }
-
+    function toggleModeRadios(tabId, isChecked) { document.getElementById(`modeEdit_${tabId}`).disabled = !isChecked; document.getElementById(`modeView_${tabId}`).disabled = !isChecked; }
     function collectTabPermissionsString() {
-      let result = [];
+      let r = [];
       TAB_DEFINITIONS.forEach(t => {
         const chk = document.getElementById(`chkActive_${t.id}`);
-        if (chk && chk.checked) {
-          const isView = document.getElementById(`modeView_${t.id}`).checked;
-          result.push(`${t.id}:${isView ? 'view' : 'edit'}`);
-        }
+        if (chk && chk.checked) r.push(`${t.id}:${document.getElementById(`modeView_${t.id}`).checked ? 'view' : 'edit'}`);
       });
-      return result.join(',');
+      return r.join(',');
     }
-
     function syncUserLevel() {
-      const r = document.getElementById("fUserRole").value, divSel = document.getElementById("fUserDivisi");
-      if(r === "BARISTA" || r === "HEAD") divSel.value = "BARISTA";
-      else if(r === "KITCHEN") divSel.value = "KITCHEN";
-      else if(r === "SERVER") divSel.value = "SERVER";
-      else divSel.value = "MANAJEMEN";
+      const r = document.getElementById("fUserRole").value, d = document.getElementById("fUserDivisi");
+      if(r === "BARISTA" || r === "HEAD") d.value = "BARISTA"; else if(r === "KITCHEN") d.value = "KITCHEN"; else if(r === "SERVER") d.value = "SERVER"; else d.value = "MANAJEMEN";
     }
-
     async function submitUserForm() {
       const editId = document.getElementById("fUserEditId").value, r = document.getElementById("fUserRole").value;
       let level = 1;
       if(r === "HEAD") level = 2; else if(r === "PURCHASING" || r === "HRD") level = 3; else if(r === "MANAGER") level = 4; else if(r === "OWNER") level = 5; else if(r === "RAJA_UTAMA") level = 6;
-      
-      const allowedTabs = collectTabPermissionsString();
-
       const payload = {
-        username: document.getElementById("fUserUsername").value.toLowerCase().trim(),
-        nama_lengkap: document.getElementById("fUserNamaLengkap").value,
-        role: r, level: level, divisi: document.getElementById("fUserDivisi").value,
-        pin: document.getElementById("fUserPin").value.trim(),
-        status: "Aktif",
-        akses_perusahaan: level >= 4 ? "YA" : "TIDAK",
-        akses_tabs: allowedTabs
+        username: document.getElementById("fUserUsername").value.toLowerCase().trim(), nama_lengkap: document.getElementById("fUserNamaLengkap").value,
+        role: r, level: level, divisi: document.getElementById("fUserDivisi").value, pin: document.getElementById("fUserPin").value.trim(),
+        status: "Aktif", akses_perusahaan: level >= 4 ? "YA" : "TIDAK", akses_tabs: collectTabPermissionsString()
       };
-
-      closeModal('modalUser'); showToast("Menyimpan karyawan & matriks hak akses...");
+      closeModal('modalUser'); showToast("Menyimpan karyawan...");
       if(editId) await postToGas("update", "USERS", { key: "user_id", val: editId, updates: payload });
       else { payload.user_id = "USR-" + Date.now().toString().slice(-4); payload.tipe_kerja = "Tetap"; await postToGas("insert", "USERS", payload); }
       await fetchAllData();
-      showToast("Matriks hak akses berhasil tersinkron ke Sheet!");
     }
     async function deleteUserItem(id) { if(confirm(`Hapus karyawan ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "USERS", { key: "user_id", val: id }); await fetchAllData(); } }
 
@@ -1438,33 +1118,18 @@
       document.getElementById("infoWebhookUrl").innerText = API_URL;
       document.getElementById("infoSheetName").innerText = metaInfo.sheet_name || "HOLLO OPERASIONAL";
       document.getElementById("infoSheetId").innerText = metaInfo.sheet_id || "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q";
-      
       const isSuper = (currentUser && currentUser.level === 6);
-      const wSheet = document.getElementById("boxSheetActionWrap");
-      if (isSuper) {
-        wSheet.innerHTML = `<a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/d/1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q/edit'}" target="_blank" class="btn btn-solid" style="width:100%;justify-content:center;text-decoration:none;">🔗 Buka Google Sheet di Tab Baru ↗</a>`;
-      } else {
-        wSheet.innerHTML = `<div style="background:var(--bg);padding:0.4rem;border-radius:4px;font-size:0.72rem;color:var(--text-muted);text-align:center;">🔒 File Database Terkunci Khusus Owner / Superadmin</div>`;
-      }
-
-      const wHook = document.getElementById("boxWebhookActionWrap");
-      wHook.innerHTML = `<button class="btn" style="flex:1;" onclick="testPingConnection()">🔌 Tes Ping</button><button class="btn btn-solid" style="flex:1;" onclick="updateWebhookPrompt()">⚙ Ganti URL</button>`;
+      document.getElementById("boxSheetActionWrap").innerHTML = isSuper ? `<a href="${metaInfo.sheet_url && metaInfo.sheet_url !== '#' ? metaInfo.sheet_url : 'https://docs.google.com/spreadsheets/d/1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q/edit'}" target="_blank" class="btn btn-solid" style="width:100%;justify-content:center;text-decoration:none;">🔗 Buka Google Sheet di Tab Baru ↗</a>` : `<div style="background:var(--bg);padding:0.4rem;border-radius:4px;font-size:0.72rem;color:var(--text-muted);text-align:center;">🔒 File Database Terkunci Khusus Owner</div>`;
+      document.getElementById("boxWebhookActionWrap").innerHTML = `<button class="btn" style="flex:1;" onclick="testPingConnection()">🔌 Tes Ping</button><button class="btn btn-solid" style="flex:1;" onclick="updateWebhookPrompt()">⚙ Ganti URL</button>`;
 
       const tables = [
-        { name: "DASHBOARD", desc: "Native KPI & Grafik Omset/Stok", count: 1 },
-        { name: "STOK", desc: "Inventaris Stok Gudang & Divisi", count: (localData.STOK || []).length },
-        { name: "SERAH_TERIMA", desc: "Rekap Kasir & Uang Imprest", count: (localData.SERAH_TERIMA || []).length },
-        { name: "LOG_KALENDER", desc: "Log Waste, Kalibrasi & Kejadian", count: (localData.LOG_KALENDER || []).length },
-        { name: "DAILY_REPORT", desc: "Laporan Harian & Belanja Besok", count: (localData.DAILY_REPORT || []).length },
-        { name: "JADWAL", desc: "Roster Shift & Jadwal Tim", count: (localData.JADWAL || []).length },
-        { name: "CHECKLIST", desc: "Daftar Tugas Harian Stasiun", count: (localData.CHECKLIST || []).length },
-        { name: "MENU", desc: "Katalog Produk, HPP & Margin", count: (localData.MENU || []).length },
+        { name: "DASHBOARD", desc: "Native KPI & Grafik Omset/Stok", count: 1 }, { name: "STOK", desc: "Inventaris Stok Gudang & Divisi", count: (localData.STOK || []).length },
+        { name: "SERAH_TERIMA", desc: "Rekap Kasir & Uang Imprest", count: (localData.SERAH_TERIMA || []).length }, { name: "LOG_KALENDER", desc: "Log Waste, Kalibrasi & Kejadian", count: (localData.LOG_KALENDER || []).length },
+        { name: "DAILY_REPORT", desc: "Laporan Harian & Belanja Besok", count: (localData.DAILY_REPORT || []).length }, { name: "JADWAL", desc: "Roster Shift & Jadwal Tim", count: (localData.JADWAL || []).length },
+        { name: "CHECKLIST", desc: "Daftar Tugas Harian Stasiun", count: (localData.CHECKLIST || []).length }, { name: "MENU", desc: "Katalog Produk, HPP & Margin", count: (localData.MENU || []).length },
         { name: "USERS", desc: "Master Vault PIN & Akses Karyawan", count: (localData.USERS || []).length }
       ];
-
-      document.getElementById("infoTablesBody").innerHTML = tables.map(t => `
-        <tr><td><code>${t.name}</code></td><td>${t.desc}</td><td><span class="tag tag-safe">ONLINE</span></td><td><strong>${t.count} Baris</strong></td></tr>
-      `).join('');
+      document.getElementById("infoTablesBody").innerHTML = tables.map(t => `<tr><td><code>${t.name}</code></td><td>${t.desc}</td><td><span class="tag tag-safe">ONLINE</span></td><td><strong>${t.count} Baris</strong></td></tr>`).join('');
     }
 
     async function testPingConnection() {
@@ -1478,45 +1143,19 @@
           if (json.sheet_id) metaInfo.sheet_id = json.sheet_id;
           renderInfoSistemView();
           alert(`✅ KONEKSI BERHASIL!\n\nPesan: ${json.message}\nSheet: ${json.sheet_name}\nURL: ${json.sheet_url}`);
-        } else { alert("❌ PING GAGAL: " + json.message); }
+        } else alert("❌ PING GAGAL: " + json.message);
       } catch (e) { alert("❌ GAGAL MENGHUBUNGI APPS SCRIPT!\nPastikan Webhook URL benar dan diset 'Anyone'."); }
     }
 
     function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
-    function jumpToCurrentMonth() {
-      calDate = new Date();
-      pickerYear = calDate.getFullYear();
-      closeModal('modalMonthPicker');
-      renderCalendar();
-    }
-
-    function openMonthPickerModal() {
-      pickerYear = calDate.getFullYear();
-      document.getElementById("txtPickerYear").innerText = pickerYear;
-      renderMonthPickerGrid();
-      openModal('modalMonthPicker');
-    }
-
-    function changePickerYear(delta) {
-      pickerYear += delta;
-      document.getElementById("txtPickerYear").innerText = pickerYear;
-      renderMonthPickerGrid();
-    }
-
-    function selectPickerMonth(mIndex) {
-      calDate.setFullYear(pickerYear);
-      calDate.setMonth(mIndex);
-      closeModal('modalMonthPicker');
-      renderCalendar();
-    }
-
+    function jumpToCurrentMonth() { calDate = new Date(); pickerYear = calDate.getFullYear(); closeModal('modalMonthPicker'); renderCalendar(); }
+    function openMonthPickerModal() { pickerYear = calDate.getFullYear(); document.getElementById("txtPickerYear").innerText = pickerYear; renderMonthPickerGrid(); openModal('modalMonthPicker'); }
+    function changePickerYear(delta) { pickerYear += delta; document.getElementById("txtPickerYear").innerText = pickerYear; renderMonthPickerGrid(); }
+    function selectPickerMonth(mIndex) { calDate.setFullYear(pickerYear); calDate.setMonth(mIndex); closeModal('modalMonthPicker'); renderCalendar(); }
     function renderMonthPickerGrid() {
       const mNames = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-      const grid = document.getElementById("gridMonthButtons");
       const curM = (calDate.getFullYear() === pickerYear) ? calDate.getMonth() : -1;
-      grid.innerHTML = mNames.map((name, idx) => `
-        <button class="month-picker-btn ${curM === idx ? 'active' : ''}" onclick="selectPickerMonth(${idx})">${name}</button>
-      `).join('');
+      document.getElementById("gridMonthButtons").innerHTML = mNames.map((name, idx) => `<button class="month-picker-btn ${curM === idx ? 'active' : ''}" onclick="selectPickerMonth(${idx})">${name}</button>`).join('');
     }
 
     function renderCalendar() {
@@ -1548,17 +1187,11 @@
       activeInspectDate = dateStr;
       document.getElementById("inspectDateTitle").innerText = `Detail Tanggal: ${dateStr}`;
       const perm = getTabPermission("kalender");
-
       const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === dateStr);
       document.getElementById("inspectRosterList").innerHTML = roster.length ? roster.map(r => `
         <div style="font-size:0.72rem;padding:0.3rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
           <div><strong>${r.nama}</strong> (${r.divisi}) — Shift ${r.shift} <span class="tag ${r.status_hadir==='Hadir'?'tag-safe':'tag-restock'}">${r.status_hadir}</span></div>
-          ${perm.canEdit ? `
-            <div style="display:flex;gap:0.2rem;">
-              <button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editRosterModal('${r.id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button>
-            </div>
-          ` : ''}
+          ${perm.canEdit ? `<div style="display:flex;gap:0.2rem;"><button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editRosterModal('${r.id}')">Edit</button><button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteRosterItem('${r.id}')">Hapus</button></div>` : ''}
         </div>
       `).join('') : '<div style="font-size:0.72rem;color:var(--text-muted);">Belum ada jadwal staff.</div>';
 
@@ -1566,12 +1199,7 @@
       document.getElementById("inspectLogList").innerHTML = logs.length ? logs.map(l => `
         <div style="font-size:0.72rem;padding:0.3rem;background:var(--elevated);border:1px solid var(--border);border-radius:4px;display:flex;justify-content:space-between;align-items:center;">
           <div><div style="font-weight:700;">[${l.kategori}] ${l.divisi} — ${l.item_terkait||''} (${l.jumlah_angka ? l.jumlah_angka + ' ' + (l.satuan||'') : ''})</div><div style="color:var(--text-muted);font-size:0.65rem;">${l.detail} (PIC: ${l.pic})</div></div>
-          ${perm.canEdit ? `
-            <div style="display:flex;gap:0.2rem;">
-              <button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editLogModal('${l.log_id}')">Edit</button>
-              <button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button>
-            </div>
-          ` : ''}
+          ${perm.canEdit ? `<div style="display:flex;gap:0.2rem;"><button class="btn" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="editLogModal('${l.log_id}')">Edit</button><button class="btn btn-danger" style="padding:0.1rem 0.3rem;font-size:0.62rem;" onclick="deleteLogItem('${l.log_id}')">Hapus</button></div>` : ''}
         </div>
       `).join('') : '<div style="font-size:0.72rem;color:var(--text-muted);">Tidak ada log / catatan.</div>';
 
@@ -1584,47 +1212,24 @@
     function editRosterModal(id) {
       const r = (localData.JADWAL || []).find(x => x.id === id); if(!r) return;
       document.getElementById("modalRosterTitle").innerText = "Edit Jadwal: " + r.nama; document.getElementById("fJdwEditId").value = r.id;
-      document.getElementById("fJdwTanggal").value = cleanDateForInput(r.tanggal); 
-      document.getElementById("fJdwUser").value = r.username;
+      document.getElementById("fJdwTanggal").value = cleanDateForInput(r.tanggal); document.getElementById("fJdwUser").value = r.username;
       document.getElementById("fJdwShift").value = r.shift; document.getElementById("fJdwStatus").value = r.status_hadir; document.getElementById("fJdwCatatan").value = r.catatan;
       openModal('modalRoster');
     }
     async function deleteRosterItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "JADWAL", { key: "id", val: id }); await fetchAllData(); openDayInspector(activeInspectDate); renderCalendar(); } }
 
     function updateLogCategoryAndItems() {
-      const div = document.getElementById("fLogDivisi").value;
-      const catSel = document.getElementById("fLogKategori");
-
+      const div = document.getElementById("fLogDivisi").value, catSel = document.getElementById("fLogKategori");
       if (div === "KITCHEN") {
-        catSel.innerHTML = `
-          <option value="Spoil (Basi / Rusak / Expired / Thawing)">Spoil (Basi / Rusak / Expired / Thawing)</option>
-          <option value="Waste Masak (Trim / Afkir / Gosong)">Waste Masak (Trim / Afkir / Gosong)</option>
-          <option value="Bongkar Kemasan ke Dapur (Refill Stasiun)">Bongkar Kemasan ke Dapur (Refill Stasiun)</option>
-          <option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option>
-          <option value="Insiden Kompor / Alat Kitchen">Insiden Kompor / Alat Kitchen</option>
-          <option value="Lainnya">Lainnya</option>
-        `;
+        catSel.innerHTML = `<option value="Spoil (Basi / Rusak / Expired / Thawing)">Spoil (Basi / Rusak / Expired / Thawing)</option><option value="Waste Masak (Trim / Afkir / Gosong)">Waste Masak (Trim / Afkir / Gosong)</option><option value="Bongkar Kemasan ke Dapur (Refill Stasiun)">Bongkar Kemasan ke Dapur (Refill Stasiun)</option><option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option><option value="Insiden Kompor / Alat Kitchen">Insiden Kompor / Alat Kitchen</option><option value="Lainnya">Lainnya</option>`;
       } else if (div === "BARISTA") {
-        catSel.innerHTML = `
-          <option value="Kalibrasi Espresso (Dial-In)">Kalibrasi Espresso (Dial-In)</option>
-          <option value="Waste Bahan (Tumpah / Afkir / Salah Buat)">Waste Bahan (Tumpah / Afkir / Salah Buat)</option>
-          <option value="Bongkar Pack ke Bar (Refill Stasiun)">Bongkar Pack ke Bar (Refill Stasiun)</option>
-          <option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option>
-          <option value="Insiden Mesin / Grinder">Insiden Mesin / Grinder</option>
-          <option value="Lainnya">Lainnya</option>
-        `;
+        catSel.innerHTML = `<option value="Kalibrasi Espresso (Dial-In)">Kalibrasi Espresso (Dial-In)</option><option value="Waste Bahan (Tumpah / Afkir / Salah Buat)">Waste Bahan (Tumpah / Afkir / Salah Buat)</option><option value="Bongkar Pack ke Bar (Refill Stasiun)">Bongkar Pack ke Bar (Refill Stasiun)</option><option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option><option value="Insiden Mesin / Grinder">Insiden Mesin / Grinder</option><option value="Lainnya">Lainnya</option>`;
       } else if (div === "SERVER") {
-        catSel.innerHTML = `
-          <option value="Pecah Belah / Kerusakan Alat">Pecah Belah / Kerusakan Alat</option>
-          <option value="Ambil Perlengkapan dari Gudang">Ambil Perlengkapan dari Gudang</option>
-          <option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option>
-          <option value="Lainnya">Lainnya</option>
-        `;
+        catSel.innerHTML = `<option value="Pecah Belah / Kerusakan Alat">Pecah Belah / Kerusakan Alat</option><option value="Ambil Perlengkapan dari Gudang">Ambil Perlengkapan dari Gudang</option><option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option><option value="Lainnya">Lainnya</option>`;
       } else {
         catSel.innerHTML = `<option value="Barang Masuk (Restock Gudang)">Barang Masuk (Restock Gudang)</option><option value="Audit Selisih Opname">Audit Selisih Opname</option><option value="Lainnya">Lainnya</option>`;
       }
-      updateLogItemDropdown();
-      handleLogCategoryChange();
+      updateLogItemDropdown(); handleLogCategoryChange();
     }
 
     function handleLogCategoryChange() {
@@ -1632,7 +1237,6 @@
       const isStock = (kat.includes("Barang Masuk") || kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi") || kat.includes("Bongkar") || kat.includes("Refill"));
       document.getElementById("fLogStockSection").style.display = isStock ? "block" : "none";
       document.getElementById("fLogNonStockSection").style.display = isStock ? "none" : "block";
-
       const lQty = document.getElementById("labelQtyLog");
       if (kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi")) lQty.innerText = "JUMLAH DIBUANG / RUSAK / KALIBRASI (MEMOTONG STASIUN)";
       else if (kat.includes("Barang Masuk")) lQty.innerText = "JUMLAH KEMASAN MASUK (MENAMBAH GUDANG MAKRO)";
@@ -1642,60 +1246,42 @@
     }
 
     function updateLogItemDropdown() {
-      const div = document.getElementById("fLogDivisi").value;
-      const select = document.getElementById("fLogItemSelect");
+      const div = document.getElementById("fLogDivisi").value, select = document.getElementById("fLogItemSelect");
       const filtered = (localData.STOK || []).filter(s => s.divisi === div);
       select.innerHTML = filtered.length ? filtered.map(s => {
-        const satMakro = s.satuan_makro || 'pack';
-        const satMikro = s.satuan_mikro || s.satuan || 'gram';
-        const konv = cleanMoney(s.isi_konversi) || 1;
-        const g = cleanMoney(s.stok_gudang);
-        const m = cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || cleanMoney(s.tersedia_pagi);
-        return `<option value="${s.item_id}" data-nama="${s.nama_barang}" data-satuan="${satMikro}" data-satmakro="${satMakro}" data-konv="${konv}" data-gudang="${g}" data-mikro="${m}">
-          ${s.nama_barang} (Gudang: ${g} ${satMakro} | Stasiun: ${m} ${satMikro})
-        </option>`;
+        const satMakro = s.satuan_makro || 'pack', satMikro = s.satuan_mikro || s.satuan || 'gram';
+        const konv = cleanMoney(s.isi_konversi) || 1, g = cleanMoney(s.stok_gudang), m = cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || cleanMoney(s.tersedia_pagi);
+        return `<option value="${s.item_id}" data-nama="${s.nama_barang}" data-satuan="${satMikro}" data-satmakro="${satMakro}" data-konv="${konv}" data-gudang="${g}" data-mikro="${m}">${s.nama_barang} (Gudang: ${g} ${satMakro} | Stasiun: ${m} ${satMikro})</option>`;
       }).join('') : '<option value="">[Tidak ada barang di divisi ini]</option>';
       handleLogItemSelectChange();
     }
 
     function handleLogItemSelectChange() {
-      const kat = document.getElementById("fLogKategori").value;
-      const select = document.getElementById("fLogItemSelect");
+      const kat = document.getElementById("fLogKategori").value, select = document.getElementById("fLogItemSelect");
       const opt = select.options[select.selectedIndex];
-      if (kat.includes("Barang Masuk") || kat.includes("Bongkar") || kat.includes("Refill")) {
-        document.getElementById("fLogSatuan").value = opt ? opt.getAttribute("data-satmakro") || "pack" : "pack";
-      } else {
-        document.getElementById("fLogSatuan").value = opt ? opt.getAttribute("data-satuan") || "gram" : "gram";
-      }
+      document.getElementById("fLogSatuan").value = (kat.includes("Barang Masuk") || kat.includes("Bongkar") || kat.includes("Refill")) ? (opt ? opt.getAttribute("data-satmakro") || "pack" : "pack") : (opt ? opt.getAttribute("data-satuan") || "gram" : "gram");
       updateLogEffectNotice();
     }
 
     function updateLogEffectNotice() {
-      const kat = document.getElementById("fLogKategori").value;
-      const jml = cleanMoney(document.getElementById("fLogJumlahVal").value);
-      const textEl = document.getElementById("logEffectText");
-      const box = document.getElementById("logEffectBox");
-      const select = document.getElementById("fLogItemSelect");
-      const opt = select.options[select.selectedIndex];
-
-      const curG = opt ? Number(opt.getAttribute("data-gudang") || 0) : 0;
-      const curM = opt ? Number(opt.getAttribute("data-mikro") || 0) : 0;
-      const konv = opt ? Number(opt.getAttribute("data-konv") || 1) : 1;
-      const sMak = opt ? opt.getAttribute("data-satmakro") || "pack" : "pack";
-      const sMik = opt ? opt.getAttribute("data-satuan") || "gram" : "gram";
+      const kat = document.getElementById("fLogKategori").value, jml = cleanMoney(document.getElementById("fLogJumlahVal").value);
+      const textEl = document.getElementById("logEffectText"), box = document.getElementById("logEffectBox");
+      const opt = document.getElementById("fLogItemSelect").options[document.getElementById("fLogItemSelect").selectedIndex];
+      const curG = opt ? Number(opt.getAttribute("data-gudang") || 0) : 0, curM = opt ? Number(opt.getAttribute("data-mikro") || 0) : 0;
+      const konv = opt ? Number(opt.getAttribute("data-konv") || 1) : 1, sMak = opt ? opt.getAttribute("data-satmakro") || "pack" : "pack", sMik = opt ? opt.getAttribute("data-satuan") || "gram" : "gram";
 
       if (kat.includes("Barang Masuk")) {
         box.style.borderLeftColor = "var(--success)";
         textEl.innerText = `📦 Otomatis MENAMBAH Gudang Makro: ${curG} + ${jml} = ${curG + jml} ${sMak} (Setara ${(curG + jml) * konv} ${sMik}).`;
       } else if (kat.includes("Bongkar") || kat.includes("Refill")) {
         box.style.borderLeftColor = "var(--warning)";
-        textEl.innerText = `🔄 BONGKAR KEMASAN: Gudang berkurang ${jml} ${sMak} (sisa ${Math.max(0, curG - jml)} ${sMak}), Stasiun Dapur bertambah ${jml * konv} ${sMik} (menjadi ${curM + (jml * konv)} ${sMik}).`;
+        textEl.innerText = `🔄 BONGKAR: Gudang berkurang ${jml} ${sMak} (sisa ${Math.max(0, curG - jml)}), Stasiun Dapur bertambah ${jml * konv} ${sMik} (menjadi ${curM + (jml * konv)}).`;
       } else if (kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi")) {
         box.style.borderLeftColor = "var(--danger)";
-        textEl.innerText = `📉 Otomatis MEMOTONG Stasiun Kerja (Mikro): ${curM} - ${jml} = ${Math.max(0, curM - jml)} ${sMik} (Tercatat sebagai afkir/rusak).`;
+        textEl.innerText = `📉 Otomatis MEMOTONG Stasiun Kerja: ${curM} - ${jml} = ${Math.max(0, curM - jml)} ${sMik} (Afkir/rusak).`;
       } else {
         box.style.borderLeftColor = "var(--accent)";
-        textEl.innerText = `ℹ️ Dicatat sebagai buku log operasional harian.`;
+        textEl.innerText = `ℹ️ Dicatat sebagai buku log harian.`;
       }
     }
 
@@ -1708,31 +1294,25 @@
 
     function editLogModal(id) {
       const l = (localData.LOG_KALENDER || []).find(x => x.log_id === id); if(!l) return;
-      document.getElementById("modalLogTitle").innerText = "Edit Log: " + l.log_id;
-      document.getElementById("fLogEditId").value = l.log_id; 
-      document.getElementById("fLogTanggal").value = cleanDateForInput(l.tanggal); 
-      document.getElementById("fLogJam").value = l.jam || getLocalCurrentTime(); 
-      document.getElementById("fLogDivisi").value = l.divisi;
-      updateLogCategoryAndItems();
+      document.getElementById("modalLogTitle").innerText = "Edit Log: " + l.log_id; document.getElementById("fLogEditId").value = l.log_id;
+      document.getElementById("fLogTanggal").value = cleanDateForInput(l.tanggal); document.getElementById("fLogJam").value = l.jam || getLocalCurrentTime();
+      document.getElementById("fLogDivisi").value = l.divisi; updateLogCategoryAndItems();
       document.getElementById("fLogKategori").value = l.kategori; handleLogCategoryChange();
       if (l.item_id) document.getElementById("fLogItemSelect").value = l.item_id;
       document.getElementById("fLogJumlahVal").value = l.jumlah_angka || ""; document.getElementById("fLogSatuan").value = l.satuan || ""; document.getElementById("fLogDetail").value = l.detail;
       updateLogEffectNotice(); openModal('modalLog');
     }
 
-    async function deleteLogItem(id) { 
-      if(confirm(`Hapus log ${id}? Stok akan otomatis disesuaikan!`)) { 
-        showToast("Menghapus log..."); 
-        await postToGas("delete", "LOG_KALENDER", { key: "log_id", val: id }); 
-        await fetchAllData(); 
-        openDayInspector(activeInspectDate); 
-        renderCalendar(); 
-        showToast("Log dihapus!");
-      } 
+    async function deleteLogItem(id) {
+      if(confirm(`Hapus log ${id}? Stok otomatis disesuaikan!`)) {
+        showToast("Menghapus log...");
+        await postToGas("delete", "LOG_KALENDER", { key: "log_id", val: id });
+        await fetchAllData(); openDayInspector(activeInspectDate); renderCalendar(); showToast("Log dihapus!");
+      }
     }
 
     function openNewRosterModal() { document.getElementById("modalRosterTitle").innerText = "Tambah Jadwal"; document.getElementById("fJdwEditId").value = ""; document.getElementById("fJdwTanggal").value = getLocalTodayDate(); openModal('modalRoster'); }
-    function openNewLogModal() { document.getElementById("modalLogTitle").innerText = "Tambah Log Operasional"; document.getElementById("fLogEditId").value = ""; document.getElementById("fLogTanggal").value = getLocalTodayDate(); document.getElementById("fLogJam").value = getLocalCurrentTime(); document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = ""; updateLogCategoryAndItems(); openModal('modalLog'); }
+    function openNewLogModal() { document.getElementById("modalLogTitle").innerText = "Tambah Log"; document.getElementById("fLogEditId").value = ""; document.getElementById("fLogTanggal").value = getLocalTodayDate(); document.getElementById("fLogJam").value = getLocalCurrentTime(); document.getElementById("fLogJumlahVal").value = ""; document.getElementById("fLogDetail").value = ""; updateLogCategoryAndItems(); openModal('modalLog'); }
 
     async function submitRosterForm() {
       const editId = document.getElementById("fJdwEditId").value, u = document.getElementById("fJdwUser").value;
@@ -1746,24 +1326,32 @@
 
     async function submitLogForm() {
       const editId = document.getElementById("fLogEditId").value, kat = document.getElementById("fLogKategori").value;
-      const itemSelect = document.getElementById("fLogItemSelect");
-      const opt = itemSelect ? itemSelect.options[itemSelect.selectedIndex] : null;
+      const itemSelect = document.getElementById("fLogItemSelect"), opt = itemSelect ? itemSelect.options[itemSelect.selectedIndex] : null;
       const isStock = (kat.includes("Barang Masuk") || kat.includes("Waste") || kat.includes("Spoil") || kat.includes("Kalibrasi") || kat.includes("Bongkar") || kat.includes("Refill"));
       const itemId = (isStock && opt) ? opt.value : "";
       const itemName = isStock ? (opt ? opt.getAttribute("data-nama") : "Bahan") : document.getElementById("fLogItemManual").value;
       const jumlah = cleanMoney(document.getElementById("fLogJumlahVal").value), satuan = document.getElementById("fLogSatuan").value;
-
       const payload = {
-        tanggal: document.getElementById("fLogTanggal").value || getLocalTodayDate(), 
-        jam: document.getElementById("fLogJam").value || getLocalCurrentTime(),
+        tanggal: document.getElementById("fLogTanggal").value || getLocalTodayDate(), jam: document.getElementById("fLogJam").value || getLocalCurrentTime(),
         divisi: document.getElementById("fLogDivisi").value, kategori: kat, item_terkait: itemName, item_id: itemId, jumlah_angka: jumlah, satuan: satuan,
         detail: document.getElementById("fLogDetail").value, pic: currentUser.username, tindak_lanjut: "Tercatat & Terkoneksi Stok"
       };
-
       closeModal('modalLog'); showToast("Menyimpan log...");
-      if(editId) { await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload }); }
+      if(editId) await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
       else { payload.log_id = "LOG-" + Date.now().toString().slice(-5); await postToGas("insert", "LOG_KALENDER", payload); }
-      await fetchAllData(); renderCalendar(); showToast("Log & Stok otomatis tersinkron!");
+      await fetchAllData(); renderCalendar(); showToast("Log & Stok tersinkron!");
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = "flex"; }
+    function closeModal(id) { document.getElementById(id).style.display = "none"; }
+    function toggleTheme() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      document.documentElement.setAttribute("data-theme", isDark ? "light" : "dark");
+      document.getElementById("themeBtn").innerText = isDark ? "Dark" : "Light";
+    }
+    function showToast(msg) {
+      const t = document.getElementById("toast"); t.innerText = msg; t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 3000);
     }
 
     window.onload = () => {
