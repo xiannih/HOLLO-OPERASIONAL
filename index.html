@@ -276,7 +276,7 @@
     <section id="view-info-sistem" style="display:none;">
       <div class="card" style="border-left:4px solid var(--accent);">
         <h2 style="font-family:'Space Grotesk',sans-serif;font-size:1.2rem;">HOLLO COFFEE & ROASTERY'S</h2>
-        <p style="font-size:0.75rem;color:var(--text-muted);">Executive F&B Operations Suite — V23 Engine</p>
+        <p style="font-size:0.75rem;color:var(--text-muted);">Executive F&B Operations Suite — V24 Engine</p>
       </div>
       <div class="card" style="border:1px dashed var(--accent);background:var(--elevated);">
         <h4 style="font-size:0.8rem;text-transform:uppercase;margin-bottom:0.4rem;color:var(--warning);">⚡ Pusat Pengelolaan Database & Tambah Item Mandiri</h4>
@@ -695,8 +695,7 @@
       const gudang = cleanMoney(item.stok_gudang), min = cleanMoney(item.min_stok), konv = cleanMoney(item.isi_konversi) || 1;
       const satMakro = item.satuan_makro || 'pack', satMikro = item.satuan_mikro || item.satuan || 'gram';
       const mikroT = cleanMoney(item.tersedia_pagi) + cleanMoney(item.refill_s1) + cleanMoney(item.refill_s2);
-      const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-      const waste = wLogs.length ? wLogs.reduce((sum, l) => sum + cleanMoney(l.jumlah_angka), 0) : cleanMoney(item.waste_mikro);
+      const waste = cleanMoney(item.waste_mikro); // V24.1: waste dari Sheet (backend yang memelihara via log)
       const sisaDivisi = op2Val > 0 ? op2Val : (op1Val > 0 ? op1Val : Math.max(0, mikroT - waste));
       const pemakaian = Math.max(0, mikroT - sisaDivisi);
       const totalAset = (gudang * konv) + sisaDivisi;
@@ -713,8 +712,7 @@
     function calcStokDerived(s) {
       const gudang = cleanMoney(s.stok_gudang), konv = cleanMoney(s.isi_konversi) || 1, min = cleanMoney(s.min_stok);
       const op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
-      const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-      const waste = wLogs.length ? wLogs.reduce((acc, x) => acc + cleanMoney(x.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
+      const waste = cleanMoney(s.waste_mikro); // V24.1: waste dari Sheet (backend yang memelihara via log)
       const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
       const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
       const pemakaian = Math.max(0, mikroT - sisa);
@@ -800,8 +798,7 @@
       document.getElementById("fStkSatuanMikro").value = item.satuan_mikro || item.satuan || "gram"; document.getElementById("fStkMin").value = cleanMoney(item.min_stok).toLocaleString('id-ID');
       document.getElementById("fStkGudang").value = cleanMoney(item.stok_gudang).toLocaleString('id-ID'); document.getElementById("fStkPagi").value = cleanMoney(item.tersedia_pagi).toLocaleString('id-ID');
       document.getElementById("fStkRefillS1").value = cleanMoney(item.refill_s1).toLocaleString('id-ID'); document.getElementById("fStkRefillS2").value = cleanMoney(item.refill_s2).toLocaleString('id-ID');
-      const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-      document.getElementById("fStkWaste").value = (wLogs.length ? wLogs.reduce((acc, l) => acc + cleanMoney(l.jumlah_angka), 0) : cleanMoney(item.waste_mikro)).toLocaleString('id-ID');
+      document.getElementById("fStkWaste").value = cleanMoney(item.waste_mikro).toLocaleString('id-ID'); // V24.1
       document.getElementById("fStkOpnameS1").value = item.opname_s1 ? cleanMoney(item.opname_s1).toLocaleString('id-ID') : "";
       document.getElementById("fStkOpnameS2").value = item.opname_s2 ? cleanMoney(item.opname_s2).toLocaleString('id-ID') : "";
       calcModalStokPreview(); openModal('modalStok');
