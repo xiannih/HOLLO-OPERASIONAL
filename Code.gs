@@ -107,8 +107,10 @@ function repairAndSyncDatabase() {
     ];
     shUsers.getRange(2, 1, userSeed.length, userHeaders.length).setValues(userSeed);
   }
-  // Pastikan PIN boy tetap string '0000'
-  shUsers.getRange(2, 8).setNumberFormat("@").setValue("0000");
+  // V24.3: PIN boy TIDAK lagi dipaksa '0000'. Dulu baris ini mereset PIN
+  // RAJA_UTAMA setiap repair dijalankan — rotasi PIN akan hilang diam-diam.
+  // Sekarang hanya format kolomnya yang dipastikan teks.
+  shUsers.getRange(2, 8).setNumberFormat("@");
 
   // 3. MENU (11 KOLOM)
   const shMenu = getOrCreateSheet(ss, "MENU");
