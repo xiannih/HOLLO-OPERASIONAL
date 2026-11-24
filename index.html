@@ -385,8 +385,20 @@
     }
     function genId(prefix) { return prefix + "-" + Date.now() + "-" + Math.floor(100 + Math.random() * 900); }
     function formatRupiah(v) { return "Rp " + Math.round(cleanMoney(v)).toLocaleString('id-ID'); }
-    function formatLiveRupiahInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = Math.round(v).toLocaleString('id-ID'); }
-    function formatLiveNumberInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = v.toLocaleString('id-ID'); }
+    // V24.4: formatter ketik langsung TIDAK boleh memakai cleanMoney — cleanMoney menafsirkan
+    // string hasil formatnya sendiri ("1.500" + satu digit -> "1.5000" terbaca 1,5) sehingga
+    // angka di atas 4 digit runtuh & kalkulasi berhenti. Di sini: rupiah = digit murni;
+    // angka = konvensi id-ID (titik ribuan, koma desimal) dari digit mentah.
+    function formatLiveRupiahInput(i) { const raw = i.value; if(raw.trim() === '') return; const d = raw.replace(/[^\d]/g, ''); if(!d) { i.value = ''; return; } i.value = Number(d).toLocaleString('id-ID'); }
+    function formatLiveNumberInput(i) {
+      const raw = i.value; if(raw.trim() === '') return;
+      let s = String(raw).replace(/Rp/gi, '').replace(/\s/g, ''); const neg = s.startsWith('-'); if(neg) s = s.slice(1);
+      const parts = s.split(','), intD = (parts[0] || '').replace(/[^\d]/g, '');
+      if(!intD && parts.length === 1) return;
+      let out = intD ? Number(intD).toLocaleString('id-ID') : '0';
+      if(parts.length > 1) out += ',' + parts.slice(1).join('').replace(/[^\d]/g, '').slice(0, 3);
+      i.value = (neg ? '-' : '') + out;
+    }
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
     function dayString(d) { return String(d).padStart(2,'0'); }
 
