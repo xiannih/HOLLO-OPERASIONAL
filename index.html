@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- HOLLO Web App - Patched V24: perbaikan bug audit 24 Nov 2026. Data sheet tidak diubah oleh file ini. -->
 <html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
@@ -31,6 +32,7 @@
     .card-val{font-size:1.35rem;font-family:'Space Grotesk',sans-serif;font-weight:700;}
     .charts-grid{display:grid;grid-template-columns:2fr 1fr;gap:0.85rem;margin-bottom:1rem;}
     .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.3rem;}
+    .cal-day-name{font-size:0.65rem;font-weight:700;color:var(--text-muted);text-align:center;padding:0.2rem 0;}
     .cal-cell{background:var(--surface);border:1px solid var(--border);border-radius:6px;min-height:75px;padding:0.35rem;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;}
     .cal-cell:hover{border-color:var(--accent);background:var(--elevated);}
     .cal-badge{font-size:0.6rem;padding:0.1rem 0.2rem;border-radius:3px;font-weight:600;background:rgba(255,255,255,0.08);}
@@ -73,8 +75,8 @@
     <div class="lock-card">
       <div style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;">HOLLO COFFEE & ROASTERY'S</div>
       <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:1.25rem;">Executive Operations Suite</div>
-      <div class="form-group"><label>Username</label><input type="text" id="loginUser" value="boy"></div>
-      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" value="0000" maxlength="6" style="letter-spacing:0.3em;font-size:1.1rem;text-align:center;"></div>
+      <div class="form-group"><label>Username</label><input type="text" id="loginUser" autocomplete="username"></div>
+      <div class="form-group"><label>PIN Akses</label><input type="password" id="loginPin" maxlength="6" autocomplete="current-password" style="letter-spacing:0.3em;font-size:1.1rem;text-align:center;"></div>
       <button class="btn btn-solid" style="width:100%;padding:0.65rem;" onclick="handlePinLogin()">Buka Akses Sistem</button>
     </div>
   </div>
@@ -123,7 +125,7 @@
         <div style="font-size:0.72rem;color:var(--text-muted);" id="dashDateBadge">● Menampilkan Data Hari Ini</div>
       </div>
       <div class="kpi-grid">
-        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.68rem;color:var(--text-muted);">Target: Rp 150.000.000</div></div>
+        <div class="card"><div class="card-title">Capaian Target MTD</div><div class="card-val" id="kpiTargetMtd">Rp 0</div><div style="font-size:0.68rem;color:var(--text-muted);" id="kpiTargetLabel">Target: Rp 150.000.000</div></div>
         <div class="card"><div class="card-title" id="kpiSalesTitle">Omset Hari Terpilih</div><div class="card-val" id="kpiSalesToday">Rp 0</div><div style="font-size:0.68rem;color:var(--success);">Tunai + QRIS + Online</div></div>
         <div class="card"><div class="card-title">Stok Perlu Restock</div><div class="card-val" id="kpiRestockCount" style="color:var(--danger)">0 Item</div><div style="font-size:0.68rem;color:var(--text-muted);">Batas minimum</div></div>
         <div class="card"><div class="card-title">Checklist Selesai</div><div class="card-val" id="kpiChecklistProgress">0%</div><div style="font-size:0.68rem;color:var(--text-muted);">Seluruh Stasiun</div></div>
@@ -325,7 +327,7 @@
   <div class="modal-backdrop" id="modalMonthPicker"><div class="modal" style="max-width:340px;text-align:center;"><h3 style="font-family:'Space Grotesk',sans-serif;font-size:1rem;margin-bottom:0.4rem;">Pilih Bulan & Tahun</h3><div style="display:flex;justify-content:center;align-items:center;gap:0.8rem;margin-bottom:0.6rem;"><button class="btn" onclick="changePickerYear(-1)">◀</button><span id="txtPickerYear" style="font-size:1rem;font-weight:700;">2026</span><button class="btn" onclick="changePickerYear(1)">▶</button></div><div class="month-picker-grid" id="gridMonthButtons"></div><div style="display:flex;justify-content:space-between;margin-top:1rem;"><button class="btn" onclick="jumpToCurrentMonth()">Bulan Sekarang</button><button class="btn btn-solid" onclick="closeModal('modalMonthPicker')">Tutup</button></div></div></div>
   <div class="modal-backdrop" id="modalDashCalendarPicker"><div class="modal" style="max-width:360px;text-align:center;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;"><h3 id="popCalMonthTitle" style="font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Pilih Tanggal</h3><div style="display:flex;gap:0.25rem;"><button class="btn" onclick="changePopCalMonth(-1)">◀</button><button class="btn" onclick="changePopCalMonth(1)">▶</button></div></div><div class="mini-cal-grid" id="popCalendarGrid"></div><div style="display:flex;justify-content:space-between;margin-top:0.85rem;"><button class="btn" onclick="selectTodayInPopCal()">Hari Ini</button><button class="btn btn-solid" onclick="closeModal('modalDashCalendarPicker')">Tutup</button></div></div></div>
   <div class="modal-backdrop" id="modalDayInspector"><div class="modal"><h3 id="inspectDateTitle" style="margin-bottom:0.75rem;font-family:'Space Grotesk',sans-serif;font-size:0.95rem;">Detail Tanggal</h3><div style="margin-bottom:0.85rem;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;"><h4 style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Roster Kerja & Shift</h4><button class="btn" id="btnDayAddStaff" style="padding:0.15rem 0.4rem;font-size:0.68rem;" onclick="openRosterForCurrentInspectDate()">+ Tambah Staff</button></div><div id="inspectRosterList" style="display:flex;flex-direction:column;gap:0.25rem;"></div></div><div style="margin-bottom:0.85rem;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;"><h4 style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;">Log Insiden, Waste & Spoil</h4><button class="btn" id="btnDayAddLog" style="padding:0.15rem 0.4rem;font-size:0.68rem;" onclick="openLogForCurrentInspectDate()">+ Tambah Catatan</button></div><div id="inspectLogList" style="display:flex;flex-direction:column;gap:0.25rem;"></div></div><div style="display:flex;justify-content:flex-end;"><button class="btn" onclick="closeModal('modalDayInspector')">Tutup</button></div></div></div>
-  <div class="modal-backdrop" id="modalRoster"><div class="modal"><h3 id="modalRosterTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Jadwal Staff</h3><input type="hidden" id="fJdwEditId"><div class="form-group"><label>Tanggal</label><input type="date" id="fJdwTanggal"></div><div class="form-group"><label>Karyawan</label><select id="fJdwUser"></select></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Shift</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div><div class="form-group"><label>Status</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div></div><div class="form-group"><label>Catatan</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista S1"></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div></div></div>
+  <div class="modal-backdrop" id="modalRoster"><div class="modal"><h3 id="modalRosterTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Jadwal Staff</h3><input type="hidden" id="fJdwEditId"><div class="form-group"><label>Tanggal</label><input type="date" id="fJdwTanggal"></div><div class="form-group"><label>Karyawan</label><select id="fJdwUser"></select></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Shift</label><select id="fJdwShift"><option value="1">Shift 1 (08:30 - 16:30)</option><option value="2">Shift 2 (16:30 - 00:00)</option><option value="-">Libur (Off)</option></select></div><div class="form-group"><label>Status</label><select id="fJdwStatus"><option value="Hadir">Hadir</option><option value="Libur">Libur</option><option value="Izin">Izin</option><option value="Sakit">Sakit</option></select></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Jam Masuk</label><input type="time" id="fJdwJamMasuk" value="08:30"></div><div class="form-group"><label>Jam Pulang</label><input type="time" id="fJdwJamPulang" value="16:30"></div></div><div class="form-group"><label>Catatan</label><input type="text" id="fJdwCatatan" placeholder="Contoh: Barista S1"></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalRoster')">Batal</button><button class="btn btn-solid" onclick="submitRosterForm()">Simpan</button></div></div></div>
   <div class="modal-backdrop" id="modalLog"><div class="modal"><h3 id="modalLogTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Catat Log Operasional</h3><input type="hidden" id="fLogEditId"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tanggal</label><input type="date" id="fLogTanggal"></div><div class="form-group"><label>Jam</label><input type="time" id="fLogJam"></div></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Divisi</label><select id="fLogDivisi" onchange="updateLogCategoryAndItems()"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option><option value="MANAJEMEN">MANAJEMEN</option></select></div><div class="form-group"><label>Shift</label><select id="fLogShift"><option value="1">Shift 1</option><option value="2">Shift 2</option></select></div><div class="form-group"><label>Kategori</label><select id="fLogKategori" onchange="handleLogCategoryChange()"></select></div></div><div id="fLogStockSection"><div class="form-group"><label>Pilih Bahan dari Stok</label><select id="fLogItemSelect" onchange="handleLogItemSelectChange()"></select></div><div style="display:grid;grid-template-columns:2fr 1fr;gap:0.4rem;"><div class="form-group"><label id="labelQtyLog" style="color:var(--warning);">JUMLAH BAHAN</label><input type="number" id="fLogJumlahVal" placeholder="Contoh: 100" oninput="updateLogEffectNotice()"></div><div class="form-group"><label>Satuan</label><input type="text" id="fLogSatuan" readonly></div></div><div class="calc-box" id="logEffectBox" style="border-left:3px solid var(--accent);"><span id="logEffectText">ℹ️ Jumlah ini otomatis sinkron dengan Stok.</span></div></div><div id="fLogNonStockSection" style="display:none;"><div class="form-group"><label>Nama Alat / Kejadian</label><input type="text" id="fLogItemManual" placeholder="Grinder / Kompor"></div></div><div class="form-group"><label>Detail Keterangan Kejadian</label><textarea id="fLogDetail" rows="2" placeholder="Tuliskan alasan..."></textarea></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalLog')">Batal</button><button class="btn btn-solid" onclick="submitLogForm()">Simpan</button></div></div></div>
   <div class="modal-backdrop" id="modalStok"><div class="modal"><h3 id="modalStokTitle" style="margin-bottom:0.75rem;font-size:0.95rem;">Kelola Barang: Makro Gudang & Mikro Stasiun</h3><input type="hidden" id="fStkEditId"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tanggal</label><input type="date" id="fStkTanggal"></div><div class="form-group"><label>Jam</label><input type="time" id="fStkJam"></div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Divisi</label><select id="fStkDivisi"><option value="BARISTA">BARISTA</option><option value="KITCHEN">KITCHEN</option><option value="SERVER">SERVER</option></select></div><div class="form-group"><label>Kategori</label><input type="text" id="fStkKategori" placeholder="Biji Kopi / Karbo"></div></div><div class="form-group"><label>Nama Barang</label><input type="text" id="fStkNama" placeholder="BBB-Beans Dark Roast"></div><div class="section-title">1. Satuan Pembelian (Makro) & Konversi (Mikro)</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Satuan Makro</label><input type="text" id="fStkSatuanMakro" placeholder="pack / dus" oninput="calcModalStokPreview()"></div><div class="form-group"><label>Isi Konversi</label><input type="number" id="fStkIsiKonversi" value="1000" oninput="calcModalStokPreview()"></div><div class="form-group"><label>Satuan Mikro</label><input type="text" id="fStkSatuanMikro" placeholder="gram / ml / pcs" oninput="calcModalStokPreview()"></div></div><div class="section-title">2. Stok Gudang & Batas Min</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Stok Gudang (Makro Segel)</label><input type="text" id="fStkGudang" value="2" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Batas Min (Mikro)</label><input type="text" id="fStkMin" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div></div><div class="section-title">3. Persediaan Terbuka Stasiun (Mikro)</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tersedia Pagi</label><input type="text" id="fStkPagi" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Refill S1</label><input type="text" id="fStkRefillS1" value="500" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Refill S2</label><input type="text" id="fStkRefillS2" value="0" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div></div><div class="section-title">4. Sensus Opname & Waste/Spoil</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Waste / Spoil</label><input type="text" id="fStkWaste" value="100" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Opname S1 (16:30)</label><input type="text" id="fStkOpnameS1" value="550" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div><div class="form-group"><label>Opname S2 (00:00)</label><input type="text" id="fStkOpnameS2" value="250" placeholder="Closing" oninput="formatLiveNumberInput(this);calcModalStokPreview();"></div></div><div class="calc-box"><div class="calc-row"><span>Rasio:</span><span id="fStkPreviewKonversi" style="color:var(--warning);">1 pack = 1.000 gram</span></div><div class="calc-row"><span>Persediaan Harian:</span><span id="fStkPreviewTersedia">1.000 gram</span></div><div class="calc-row"><span>Estimasi Pemakaian:</span><span id="fStkPreviewPemakaian" style="color:var(--warning);font-weight:700;">750 gram</span></div><div class="calc-row total"><span>Total Aset Fisik:</span><span id="fStkPreviewTotal" style="color:var(--accent);">2.250 gram</span></div><div class="calc-row" style="margin-top:0.25rem;"><span>Status:</span><span id="fStkPreviewStatus" class="tag tag-safe">AMAN</span></div></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalStok')">Batal</button><button class="btn btn-solid" onclick="submitStokForm()">Simpan Barang</button></div></div></div>
   <div class="modal-backdrop" id="modalHandover"><div class="modal"><h3 id="modalHandoverTitle" style="margin-bottom:0.5rem;font-size:0.95rem;">Form Serah Terima Kasir</h3><input type="hidden" id="fStEditId"><input type="hidden" id="fStShiftNum" value="1"><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tanggal</label><input type="date" id="fStTanggal"></div><div class="form-group"><label>Jam</label><input type="time" id="fStJam"></div></div><div class="form-group"><label>Tahap Shift</label><select id="fStTahap" onchange="toggleHandoverNotesLabel()"><option value="Shift 1 → 2 (Sore 16:30)">Shift 1 → 2 (Sore 16:30)</option><option value="Shift 2 → 1 (Closing 00:00)">Shift 2 → 1 (Closing 00:00)</option></select></div><div class="section-title">1. Omset Penjualan Shift Ini</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Tunai</label><input type="text" id="fStTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div><div class="form-group"><label>QRIS / EDC</label><input type="text" id="fStNonTunai" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div><div class="form-group"><label>Online</label><input type="text" id="fStOnline" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div></div><div class="calc-row" style="background:var(--elevated);padding:0.35rem;border-radius:4px;font-weight:700;"><span>Total Omset Shift:</span><span id="fStOmsetShiftText" style="color:var(--success);">Rp 0</span></div><div class="section-title">2. Rekap Kas Laci (Imprest)</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Modal Laci Stay</label><input type="text" id="fStModal" value="110.000" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div><div class="form-group"><label>Kas Keluar</label><input type="text" id="fStPengeluaran" value="0" oninput="formatLiveRupiahInput(this);calcCashDenom();"></div></div><div class="form-group"><label>Keterangan Kas Keluar</label><input type="text" id="fStKetPengeluaran" placeholder="Beli es / lakban"></div><div class="calc-box"><div class="calc-row"><span>Uang Setoran Tunai Bersih:</span><span id="boxSetoranText" style="color:var(--warning);font-weight:700;">Rp 0</span></div><div class="calc-row"><span>Modal Tetap Tinggal di Laci:</span><span id="boxModalText" style="color:var(--success);font-weight:700;">Rp 110.000</span></div></div><div class="section-title" id="handoverNotesHeader">3. Catatan Shift</div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.4rem;"><div class="form-group"><label>Prep Barista</label><textarea id="fStPrepBar" rows="2"></textarea></div><div class="form-group"><label>Prep Kitchen</label><textarea id="fStPrepKit" rows="2"></textarea></div><div class="form-group"><label>Prep Server</label><textarea id="fStPrepSrv" rows="2"></textarea></div></div><div class="form-group"><label>Catatan Kasir</label><textarea id="fStCatatan" rows="1"></textarea></div><div style="display:flex;justify-content:flex-end;gap:0.35rem;"><button class="btn" onclick="closeModal('modalHandover')">Batal</button><button class="btn btn-solid" onclick="submitHandoverForm()">Simpan</button></div></div></div>
@@ -339,9 +341,11 @@
   <script>
     // 1 URL EXEC TUNGGAL & RESMI (LANGSUNG TERHUBUNG KE SHEET ANDA)
     const API_URL = "https://script.google.com/macros/s/AKfycbwNuSJL-a_eDu7OO0Bqxc5hLoeMvOY6RUJr7jVJdpI6V2qCq9Fy1ekzzV541iyznv2E/exec";
-    const STORAGE_KEY_USER = "HOLLO_STABLE_USER";
+    const STORAGE_KEY_USER = "HOLLO_SESSION_USER";
+    const STORAGE_KEY_TOKEN = "HOLLO_SESSION_TOKEN";
 
-    let currentUser = JSON.parse(localStorage.getItem(STORAGE_KEY_USER)) || null;
+    let currentUser = JSON.parse(sessionStorage.getItem(STORAGE_KEY_USER)) || null;
+    let authToken = sessionStorage.getItem(STORAGE_KEY_TOKEN) || null;
     let localData = { DATA_PERUSAHAAN: [], USERS: [], JADWAL: [], LOG_KALENDER: [], MENU: [], STOK: [], CHECKLIST: [], SERAH_TERIMA: [], DAILY_REPORT: [] };
     let metaInfo = { sheet_name: "HOLLO OPERASIONAL", sheet_url: "https://docs.google.com/spreadsheets/d/1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q/edit", sheet_id: "1Whq7IcWzikqyj-ZlRUnNx4ULf-Mb2FBuszdWMucdR0Q" };
 
@@ -360,31 +364,48 @@
     ];
     const tabNavMap = { "dashboard":"tabDashboard","kalender":"tabKalender","checklist":"tabChecklist","stok":"tabStok","serah-terima":"tabSerahTerima","daily-report":"tabDailyReport","menu":"tabMenu","perusahaan":"tabPerusahaan","info-sistem":"tabInfoSistem" };
 
-    function cleanMoney(v) { if (!v) return 0; if (typeof v === 'number') return v; let s = String(v).trim().replace(/Rp/gi, '').trim(); if (s.includes('.') && s.includes(',')) s = (s.lastIndexOf(',') > s.lastIndexOf('.')) ? s.split(',')[0].replace(/\./g, '') : s.split('.')[0].replace(/,/g, ''); else if (s.includes(',')) s = s.replace(/,/g, ''); else if (s.includes('.')) s = s.replace(/\./g, ''); const n = parseFloat(s); return isNaN(n) ? 0 : n; }
+    function cleanMoney(v) {
+      // V24: bedakan pemisah ribuan vs desimal. "1.000"/"1,000" = 1000, "2.5"/"2,5" = 2.5, "150,000,000" = 150000000.
+      if (v === null || v === undefined || v === '') return 0;
+      if (typeof v === 'number') return v;
+      let s = String(v).trim().replace(/Rp/gi, '').replace(/\s/g, '');
+      if (!s) return 0;
+      const neg = s.startsWith('-'); if (neg) s = s.slice(1);
+      const hasDot = s.includes('.'), hasComma = s.includes(',');
+      if (hasDot && hasComma) {
+        if (s.lastIndexOf(',') > s.lastIndexOf('.')) s = s.replace(/\./g, '').replace(',', '.');
+        else s = s.replace(/,/g, '');
+      } else if (hasComma) {
+        s = /^\d{1,3}(,\d{3})+$/.test(s) ? s.replace(/,/g, '') : s.replace(',', '.');
+      } else if (hasDot) {
+        s = /^\d{1,3}(\.\d{3})+$/.test(s) ? s.replace(/\./g, '') : s;
+      }
+      const n = parseFloat(s);
+      return isNaN(n) ? 0 : (neg ? -n : n);
+    }
+    function genId(prefix) { return prefix + "-" + Date.now() + "-" + Math.floor(100 + Math.random() * 900); }
     function formatRupiah(v) { return "Rp " + Math.round(cleanMoney(v)).toLocaleString('id-ID'); }
     function formatLiveRupiahInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = Math.round(v).toLocaleString('id-ID'); }
     function formatLiveNumberInput(i) { const v = cleanMoney(i.value); if(v === 0 && i.value.trim() === '') return; i.value = v.toLocaleString('id-ID'); }
     function cleanPercent(v) { if(!v) return "0.0%"; if(typeof v === 'string' && v.includes('%')) return v; const n = parseFloat(v); return (n <= 1 ? n * 100 : n).toFixed(1) + "%"; }
     function dayString(d) { return String(d).padStart(2,'0'); }
 
-    // LOGIN BYPASS LANGSUNG SUPERADMIN
+    // V24: TIDAK ada bypass login. Semua login diverifikasi server (verify_pin) dan menerima token sesi.
     function handlePinLogin() {
       const u = document.getElementById("loginUser").value.trim().toLowerCase();
       const p = document.getElementById("loginPin").value.trim();
       if (!u || !p) { alert("Isi username dan PIN!"); return; }
-
-      if (u === "boy" && (p === "0000" || p === "0")) {
-        currentUser = { username: "boy", role: "RAJA_UTAMA", level: 6, nama_lengkap: "Boy", divisi: "MANAJEMEN", akses_perusahaan: "YA", akses_tabs: "dashboard:edit,kalender:edit,checklist:edit,stok:edit,serah-terima:edit,daily-report:edit,menu:edit,perusahaan:edit,info-sistem:edit" };
-        localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
-        unlockPortal();
-        showToast("Selamat datang, Superadmin!");
-        return;
-      }
       showToast("Memverifikasi...");
       fetch(`${API_URL}?action=verify_pin&username=${encodeURIComponent(u)}&pin=${encodeURIComponent(p)}`)
         .then(r => r.json())
         .then(j => {
-          if (j.success) { currentUser = j.user; localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser)); unlockPortal(); }
+          if (j.success) {
+            currentUser = j.user; authToken = j.token || null;
+            sessionStorage.setItem(STORAGE_KEY_USER, JSON.stringify(currentUser));
+            if (authToken) sessionStorage.setItem(STORAGE_KEY_TOKEN, authToken);
+            document.getElementById("loginPin").value = "";
+            unlockPortal();
+          }
           else alert(j.message);
         }).catch(() => alert("Gagal koneksi ke Apps Script. Pastikan Webhook aktif."));
     }
@@ -401,9 +422,12 @@
 
     function getTabPermission(tabId) {
       if (!currentUser) return { active: false, canEdit: false };
-      if (currentUser.level === 6 || currentUser.role === "RAJA_UTAMA") return { active: true, canEdit: true };
+      // V24: tab perusahaan juga wajib akses_perusahaan = YA (atau level >= 4)
+      if (tabId === "perusahaan" && !(currentUser.akses_perusahaan === "YA" || Number(currentUser.level) >= 4)) return { active: false, canEdit: false };
+      if (Number(currentUser.level) === 6 || currentUser.role === "RAJA_UTAMA") return { active: true, canEdit: true };
       const s = currentUser.akses_tabs || "";
-      if (!s.trim()) return { active: true, canEdit: true };
+      // V24: akses kosong BUKAN akses penuh. Hanya dashboard yang boleh dilihat.
+      if (!s.trim()) return tabId === "dashboard" ? { active: true, canEdit: false } : { active: false, canEdit: false };
       for (let p of s.split(',').map(x => x.trim())) {
         if (p === tabId || p.startsWith(tabId + ":")) return { active: true, canEdit: !p.includes(":view") };
       }
@@ -433,10 +457,12 @@
       document.getElementById("handoverActionWrap").style.display = getTabPermission("serah-terima").canEdit ? "flex" : "none";
     }
 
-    function logout() { localStorage.removeItem(STORAGE_KEY_USER); currentUser = null; document.getElementById("gatekeeper").style.display = "flex"; }
+    function logout() { sessionStorage.removeItem(STORAGE_KEY_USER); sessionStorage.removeItem(STORAGE_KEY_TOKEN); currentUser = null; authToken = null; if (typeof clockTimer !== "undefined" && clockTimer) { clearInterval(clockTimer); clockTimer = null; } document.getElementById("gatekeeper").style.display = "flex"; }
 
+    let clockTimer = null;
     function startLiveClock() {
-      setInterval(() => {
+      if (clockTimer) clearInterval(clockTimer);
+      clockTimer = setInterval(() => {
         const n = new Date();
         document.getElementById("liveClock").innerText = n.toLocaleTimeString('id-ID');
         const m = n.getHours() * 60 + n.getMinutes();
@@ -446,6 +472,7 @@
         else if (m >= 1020 && m < 1380) p = "SHIFT 2 (OPERASIONAL)";
         else if (m >= 1380 && m < 1440) p = "CLOSING SHIFT 2 (23:00)";
         else if (m >= 0 && m < 30) p = "CLOSE ORDER KASIR (00:00)";
+        else if (m >= 30 && m < 510) p = "TUTUP (PREP 08:30)";
         document.getElementById("liveShiftIndicator").innerText = p;
       }, 1000);
     }
@@ -469,6 +496,7 @@
       if(action === "insert") b.data = payloadOrData;
       else if(action === "update") { b.key = payloadOrData.key; b.val = payloadOrData.val; b.updates = payloadOrData.updates; }
       else if(action === "delete") { b.key = payloadOrData.key; b.val = payloadOrData.val; }
+      b.auth_token = authToken || "";
       const res = await fetch(API_URL, { method: "POST", body: JSON.stringify(b) });
       const json = await res.json();
       if(!json.success) throw new Error(json.message || json.error);
@@ -478,19 +506,20 @@
     async function fetchAllData() {
       showToast("Menyinkronkan...");
       try {
-        const res = await fetch(`${API_URL}?action=read_all`);
+        const res = await fetch(`${API_URL}?action=read_all&token=${encodeURIComponent(authToken || "")}`);
         const json = await res.json();
+        if (!json.success && json.message && json.message.includes("Sesi")) { logout(); alert("Sesi berakhir / tidak valid. Silakan login ulang."); return; }
         if (json.success) {
           localData = json.data;
           if (json.meta) metaInfo = json.meta;
-          renderDashboard(); renderChecklistStations(); renderStokTable(); renderHandoverTable();
+          try { renderDashboard(); } catch(e) { console.error(e); } renderChecklistStations(); renderStokTable(); renderHandoverTable();
           renderDailyReportTable(); renderMenuTable('Minuman');
           if (currentUser && currentUser.level >= 4) renderVaultTable();
           populateUserDropdowns(); updateLogItemDropdown();
           renderInfoSistemView();
           showToast("Data tersinkronisasi!");
         }
-      } catch (e) { console.error(e); }
+      } catch (e) { console.error(e); showToast("Gagal sinkron data. Periksa koneksi / API."); }
     }
 
     function refreshAllData() { fetchAllData(); }
@@ -503,7 +532,7 @@
       if (!confirm("Jalankan penyelarasan kolom Google Sheet? Seluruh data riwayat Anda dijamin aman 100%!")) return;
       showToast("Menyelaraskan struktur sheet...");
       try {
-        const res = await fetch(`${API_URL}?action=repair_db`);
+        const res = await fetch(`${API_URL}?action=repair_db&token=${encodeURIComponent(authToken || "")}`);
         const json = await res.json();
         if (json.success) { alert("✅ BERHASIL:\n" + json.message); fetchAllData(); }
         else alert("Gagal: " + json.error);
@@ -511,7 +540,7 @@
     }
 
     function openDashCalendarPickerModal() { renderPopCalendar(); openModal('modalDashCalendarPicker'); }
-    function changePopCalMonth(delta) { popCalDate.setMonth(popCalDate.getMonth() + delta); renderPopCalendar(); }
+    function changePopCalMonth(delta) { popCalDate = new Date(popCalDate.getFullYear(), popCalDate.getMonth() + delta, 1); renderPopCalendar(); }
     function selectTodayInPopCal() { selectedTrackingDate = getLocalTodayDate(); document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate; closeModal('modalDashCalendarPicker'); renderDashboard(); }
     function selectPopCalDate(d) { selectedTrackingDate = d; document.getElementById("btnDashSelectedDateText").innerText = selectedTrackingDate; closeModal('modalDashCalendarPicker'); renderDashboard(); }
 
@@ -547,21 +576,18 @@
       document.getElementById("kpiSalesToday").innerText = formatRupiah(sDate);
 
       let mtd = 0;
-      (localData.DAILY_REPORT || []).forEach(d => mtd += cleanMoney(d.total_omset));
+      const mtdMonth = selectedTrackingDate.slice(0, 7);
+      (localData.DAILY_REPORT || []).forEach(d => { if (cleanDateForInput(d.tanggal).slice(0, 7) === mtdMonth) mtd += cleanMoney(d.total_omset); });
       document.getElementById("kpiTargetMtd").innerText = formatRupiah(mtd || sDate);
+      const corpTarget = (localData.DATA_PERUSAHAAN || []).find(x => x.PARAMETER_KUNCI === "TARGET_BULANAN");
+      if (corpTarget) document.getElementById("kpiTargetLabel").innerText = "Target: " + formatRupiah(corpTarget.NILAI);
 
-      const restock = (localData.STOK || []).filter(s => {
-        const g = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
-        const konv = cleanMoney(s.isi_konversi) || 1;
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-        const waste = wLogs.length ? wLogs.reduce((acc, x) => acc + cleanMoney(x.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
-        const mikro = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
-        const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikro - waste));
-        return ((g * konv) + sisa) <= cleanMoney(s.min_stok);
-      }).length;
+      const restock = (localData.STOK || []).filter(s => calcStokDerived(s).status === "RESTOCK").length;
       document.getElementById("kpiRestockCount").innerText = `${restock} Item`;
 
-      const allTasks = localData.CHECKLIST || [];
+      const allTasksAll = localData.CHECKLIST || [];
+      const tasksForDate = allTasksAll.filter(c => cleanDateForInput(c.tanggal) === selectedTrackingDate);
+      const allTasks = tasksForDate.length ? tasksForDate : allTasksAll;
       const barTasks = allTasks.filter(c => c.station.includes('BARISTA'));
       const kitTasks = allTasks.filter(c => c.station.includes('KITCHEN'));
       const srvTasks = allTasks.filter(c => c.station.includes('SERVER'));
@@ -608,7 +634,9 @@
       if (lvl === 1) stList = [uDiv === "BARISTA" ? 'BARISTA & KASIR' : (uDiv === "KITCHEN" ? 'KITCHEN' : 'SERVER')];
 
       container.innerHTML = stList.map(st => {
-        const tasks = (localData.CHECKLIST || []).filter(c => c.station === st);
+        const allSt = (localData.CHECKLIST || []).filter(c => c.station === st);
+        const datedSt = allSt.filter(c => cleanDateForInput(c.tanggal) === getLocalTodayDate());
+        const tasks = datedSt.length ? datedSt : allSt;
         return `
           <div class="card">
             <div style="font-size:0.8rem;font-weight:700;border-bottom:1px solid var(--border-subtle);padding-bottom:0.4rem;display:flex;justify-content:space-between;">
@@ -650,10 +678,12 @@
     async function submitTaskForm() {
       const editId = document.getElementById("fTaskEditId").value;
       const payload = { station: document.getElementById("fTaskStation").value, shift: document.getElementById("fTaskShift").value, fase: document.getElementById("fTaskFase").value, jam_target: document.getElementById("fTaskJam").value, tugas: document.getElementById("fTaskUraian").value };
-      closeModal('modalTask'); showToast("Menyimpan tugas...");
-      if(editId) await postToGas("update", "CHECKLIST", { key: "task_id", val: editId, updates: payload });
-      else { payload.task_id = "CHK-" + Date.now().toString().slice(-5); payload.tanggal = getLocalTodayDate(); payload.status = "Belum"; payload.petugas = currentUser.username; await postToGas("insert", "CHECKLIST", payload); }
-      await fetchAllData();
+      showToast("Menyimpan tugas...");
+      try {
+        if(editId) await postToGas("update", "CHECKLIST", { key: "task_id", val: editId, updates: payload });
+        else { payload.task_id = genId("CHK"); payload.tanggal = getLocalTodayDate(); payload.status = "Belum"; payload.petugas = currentUser.username; await postToGas("insert", "CHECKLIST", payload); }
+        closeModal('modalTask'); await fetchAllData();
+      } catch(e) { alert("Gagal menyimpan tugas: " + e.message); }
     }
     async function deleteTaskItem(id) { if(confirm(`Hapus tugas ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "CHECKLIST", { key: "task_id", val: id }); await fetchAllData(); } }
 
@@ -679,21 +709,29 @@
       tagEl.innerText = status;
     }
 
+    // V24: SATU rumus stok untuk semua layar (dashboard, tabel stok, daily report, WhatsApp)
+    function calcStokDerived(s) {
+      const gudang = cleanMoney(s.stok_gudang), konv = cleanMoney(s.isi_konversi) || 1, min = cleanMoney(s.min_stok);
+      const op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2);
+      const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(s.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
+      const waste = wLogs.length ? wLogs.reduce((acc, x) => acc + cleanMoney(x.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
+      const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
+      const sisa = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
+      const pemakaian = Math.max(0, mikroT - sisa);
+      const totalAset = (gudang * konv) + sisa;
+      return { gudang, konv, min, waste, mikroT, sisa, pemakaian, totalAset, status: totalAset <= min ? "RESTOCK" : "AMAN" };
+    }
+
     function renderStokTable() {
       const filter = document.getElementById("stokFilter").value;
       const data = (filter === "SEMUA") ? (localData.STOK || []) : (localData.STOK || []).filter(s => s.divisi === filter);
       const perm = getTabPermission("stok");
 
       document.getElementById("stokTableBody").innerHTML = data.map(s => {
-        const gudang = cleanMoney(s.stok_gudang), op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = cleanMoney(s.min_stok), konv = cleanMoney(s.isi_konversi) || 1;
+        const d = calcStokDerived(s);
+        const gudang = d.gudang, op1 = cleanMoney(s.opname_s1), op2 = cleanMoney(s.opname_s2), min = d.min, konv = d.konv;
         const satMakro = s.satuan_makro || 'pack', satMikro = s.satuan_mikro || s.satuan || 'gram';
-        const mikroT = cleanMoney(s.tersedia_pagi) + cleanMoney(s.refill_s1) + cleanMoney(s.refill_s2);
-        const wLogs = (localData.LOG_KALENDER || []).filter(l => String(l.item_id).trim() === String(item.item_id).trim() && (String(l.kategori).includes("Waste") || String(l.kategori).includes("Spoil") || String(l.kategori).includes("Kalibrasi")));
-        const waste = wLogs.length ? wLogs.reduce((acc, l) => acc + cleanMoney(l.jumlah_angka), 0) : cleanMoney(s.waste_mikro);
-        const sisaDivisi = op2 > 0 ? op2 : (op1 > 0 ? op1 : Math.max(0, mikroT - waste));
-        const pemakaian = Math.max(0, mikroT - sisaDivisi);
-        const totalAset = (gudang * konv) + sisaDivisi;
-        const status = totalAset <= min ? "RESTOCK" : "AMAN";
+        const waste = d.waste, sisaDivisi = d.sisa, pemakaian = d.pemakaian, totalAset = d.totalAset, status = d.status;
 
         return `
           <tr>
@@ -786,10 +824,12 @@
         stok_mikro: sisaNyata, pemakaian_hari_ini: pemakaianReal, total_makro: totalAsetReal, status: totalAsetReal <= minVal ? "RESTOCK" : "AMAN",
         tgl_update: document.getElementById("fStkTanggal").value || getLocalTodayDate(), jam_update: document.getElementById("fStkJam").value || getLocalCurrentTime()
       };
-      closeModal('modalStok'); showToast("Menyimpan stok...");
-      if(editId) await postToGas("update", "STOK", { key: "item_id", val: editId, updates: payload });
-      else { payload.item_id = `${prefix}-${Date.now().toString().slice(-4)}`; await postToGas("insert", "STOK", payload); }
-      await fetchAllData();
+      showToast("Menyimpan stok...");
+      try {
+        if(editId) await postToGas("update", "STOK", { key: "item_id", val: editId, updates: payload });
+        else { payload.item_id = genId(prefix); await postToGas("insert", "STOK", payload); }
+        closeModal('modalStok'); await fetchAllData();
+      } catch(e) { alert("Gagal menyimpan stok: " + e.message); }
     }
     async function deleteStokItem(id) { if(confirm(`Hapus barang ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "STOK", { key: "item_id", val: id }); await fetchAllData(); } }
 
@@ -835,10 +875,12 @@
         kas_modal_stay: m, pengeluaran_kas_kecil: k, keterangan_pengeluaran: document.getElementById("fStKetPengeluaran").value, uang_setor_bersih: t - k,
         prep_barista: document.getElementById("fStPrepBar").value, prep_kitchen: document.getElementById("fStPrepKit").value, prep_server: document.getElementById("fStPrepSrv").value, catatan_evaluasi: document.getElementById("fStCatatan").value
       };
-      closeModal('modalHandover'); showToast("Menyimpan serah terima...");
-      if(editId) await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
-      else { payload.id = `ST-S${sNum}-${Date.now().toString().slice(-5)}`; await postToGas("insert", "SERAH_TERIMA", payload); }
-      await fetchAllData();
+      showToast("Menyimpan serah terima...");
+      try {
+        if(editId) await postToGas("update", "SERAH_TERIMA", { key: "id", val: editId, updates: payload });
+        else { payload.id = genId("ST-S" + sNum); await postToGas("insert", "SERAH_TERIMA", payload); }
+        closeModal('modalHandover'); await fetchAllData();
+      } catch(e) { alert("Gagal menyimpan serah terima: " + e.message); }
     }
     async function deleteHandoverItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "SERAH_TERIMA", { key: "id", val: id }); await fetchAllData(); } }
 
@@ -859,7 +901,7 @@
       }).join('');
     }
 
-    function openNewDailyReportModal() { document.getElementById("modalDrTitle").innerText = "Simpan Report"; document.getElementById("fDrEditId").value = ""; document.getElementById("fDrTanggal").value = getLocalTodayDate(); autoPullDailyReportData(); openModal('modalDailyReport'); }
+    function openNewDailyReportModal() { document.getElementById("modalDrTitle").innerText = "Simpan Report"; document.getElementById("fDrEditId").value = ""; document.getElementById("fDrTanggal").value = getLocalTodayDate(); const ct = (localData.DATA_PERUSAHAAN || []).find(x => x.PARAMETER_KUNCI === "TARGET_HARIAN"); if (ct) document.getElementById("fDrTarget").value = cleanMoney(ct.NILAI).toLocaleString('id-ID'); autoPullDailyReportData(); openModal('modalDailyReport'); }
     function editDailyReportModal(id) {
       const dr = (localData.DAILY_REPORT || []).find(x => x.report_id === id); if(!dr) return;
       document.getElementById("modalDrTitle").innerText = "Edit Report: " + id; document.getElementById("fDrEditId").value = id;
@@ -890,12 +932,10 @@
       const logs = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === tgl);
       const wLogs = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi"));
       document.getElementById("fDrWaste").value = wLogs.length ? wLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "Tidak ada waste";
-      document.getElementById("fDrKalibrasi").value = "Dial-in optimal 26s";
+      const kalLogs = logs.filter(l => String(l.kategori).includes("Kalibrasi"));
+      document.getElementById("fDrKalibrasi").value = kalLogs.length ? kalLogs.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan||''})`).join('; ') : "";
 
-      const restockList = (localData.STOK || []).filter(s => {
-        const total = (cleanMoney(s.stok_gudang) * (cleanMoney(s.isi_konversi) || 1)) + (cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || cleanMoney(s.tersedia_pagi));
-        return total <= cleanMoney(s.min_stok);
-      }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || 'Semua stok aman.';
+      const restockList = (localData.STOK || []).filter(s => calcStokDerived(s).status === "RESTOCK").map(s => `• ${s.nama_barang} (Sisa: ${calcStokDerived(s).sisa} ${s.satuan_mikro||s.satuan})`).join('\n') || 'Semua stok aman.';
       document.getElementById("fDrRestockList").value = restockList;
       if(evalText.length) document.getElementById("fDrEvaluasi").value = evalText.join(' | ');
       showToast("Data Shift 1 & 2 berhasil ditarik!");
@@ -913,10 +953,12 @@
         belanja_barista: document.getElementById("fDrBelanjaBar").value, belanja_kitchen: document.getElementById("fDrBelanjaKit").value, belanja_server: document.getElementById("fDrBelanjaSrv").value,
         evaluasi_harian: document.getElementById("fDrEvaluasi").value, pelapor: currentUser.username
       };
-      closeModal('modalDailyReport'); showToast("Menyimpan Daily Report...");
-      if(editId) await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
-      else { payload.report_id = "REP-" + Date.now().toString().slice(-6); await postToGas("insert", "DAILY_REPORT", payload); }
-      await fetchAllData();
+      showToast("Menyimpan Daily Report...");
+      try {
+        if(editId) await postToGas("update", "DAILY_REPORT", { key: "report_id", val: editId, updates: payload });
+        else { payload.report_id = genId("REP"); await postToGas("insert", "DAILY_REPORT", payload); }
+        closeModal('modalDailyReport'); await fetchAllData();
+      } catch(e) { alert("Gagal menyimpan Daily Report: " + e.message); }
     }
     async function deleteDailyReportItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "DAILY_REPORT", { key: "report_id", val: id }); await fetchAllData(); } }
 
@@ -937,6 +979,7 @@
       const todayStr = getLocalTodayDate(), todayFormatted = new Date().toLocaleDateString('id-ID', { dateStyle: 'full' });
       const dr = (localData.DAILY_REPORT || []).find(d => cleanDateForInput(d.tanggal) === todayStr) || {};
       const hList = (localData.SERAH_TERIMA || []).filter(h => cleanDateForInput(h.tanggal) === todayStr);
+      if (!dr.report_id && !hList.length) { alert("Daily Report & Serah Terima hari ini belum ada datanya. Buat dulu sebelum kirim WhatsApp, supaya laporan tidak kosong."); return; }
       let tunai = 0, qris = 0, online = 0, modal = 110000, keluar = 0, ketKeluar = [];
       hList.forEach(h => {
         tunai += cleanMoney(h.penjualan_tunai); qris += cleanMoney(h.non_tunai_qris); online += cleanMoney(h.online_food);
@@ -949,10 +992,7 @@
       const off = roster.filter(j => j.status_hadir === 'Libur').map(x=>x.nama).join(', ') || '-';
       const logs = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === todayStr);
       const wItems = logs.filter(l => l.kategori.includes("Waste") || l.kategori.includes("Spoil") || l.kategori.includes("Kalibrasi")).map(x => `• ${x.item_terkait}: ${x.detail} (${x.jumlah_angka} ${x.satuan||''})`).join('\n') || '• Tidak ada waste / spoil';
-      const restockItems = (localData.STOK || []).filter(s => {
-        const total = (cleanMoney(s.stok_gudang) * (cleanMoney(s.isi_konversi) || 1)) + (cleanMoney(s.opname_s2) || cleanMoney(s.opname_s1) || cleanMoney(s.tersedia_pagi));
-        return total <= cleanMoney(s.min_stok);
-      }).map(s => `• ${s.nama_barang} (Sisa: ${(cleanMoney(s.opname_s2)||cleanMoney(s.opname_s1)||cleanMoney(s.tersedia_pagi))} ${s.satuan_mikro||s.satuan})`).join('\n') || '• Semua stok aman';
+      const restockItems = (localData.STOK || []).filter(s => calcStokDerived(s).status === "RESTOCK").map(s => `• ${s.nama_barang} (Sisa: ${calcStokDerived(s).sisa} ${s.satuan_mikro||s.satuan})`).join('\n') || '• Semua stok aman';
 
       const msg = 
         `*LAPORAN OPERASIONAL HARIAN — HOLLO COFFEE*\n` +
@@ -993,7 +1033,7 @@
       renderMenuTable(cat);
     }
     function renderMenuTable(jenis) {
-      const data = (localData.MENU || []).filter(m => m.jenis === jenis);
+      const data = (localData.MENU || []).filter(m => m.jenis === jenis || (jenis === "Minuman" ? (m.divisi === "BARISTA" && m.jenis !== "Makanan") : (m.divisi === "KITCHEN" && m.jenis !== "Minuman")));
       const perm = getTabPermission("menu");
       document.getElementById("menuTableBody").innerHTML = data.map(m => {
         const hpp = cleanMoney(m.hpp), jual = cleanMoney(m.harga_jual), marginRp = cleanMoney(m.margin_rp) || (jual - hpp);
@@ -1022,10 +1062,12 @@
     async function submitMenuForm() {
       const editId = document.getElementById("fMenuEditId").value, jenis = document.getElementById("fMenuJenis").value;
       const payload = { jenis: jenis, divisi: jenis === "Minuman" ? "BARISTA" : "KITCHEN", kategori: document.getElementById("fMenuKategori").value, nama_produk: document.getElementById("fMenuNama").value, hpp: cleanMoney(document.getElementById("fMenuHpp").value), harga_jual: cleanMoney(document.getElementById("fMenuHarga").value) };
-      closeModal('modalMenu'); showToast("Menyimpan menu...");
-      if(editId) await postToGas("update", "MENU", { key: "menu_id", val: editId, updates: payload });
-      else { payload.menu_id = "MNU-" + Date.now().toString().slice(-4); await postToGas("insert", "MENU", payload); }
-      await fetchAllData();
+      showToast("Menyimpan menu...");
+      try {
+        if(editId) await postToGas("update", "MENU", { key: "menu_id", val: editId, updates: payload });
+        else { payload.menu_id = genId("MNU"); await postToGas("insert", "MENU", payload); }
+        closeModal('modalMenu'); await fetchAllData();
+      } catch(e) { alert("Gagal menyimpan menu: " + e.message); }
     }
     async function deleteMenuItem(id) { if(confirm(`Hapus menu ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "MENU", { key: "menu_id", val: id }); await fetchAllData(); } }
 
@@ -1033,7 +1075,7 @@
       document.getElementById("vaultTableBody").innerHTML = (localData.USERS || []).map(u => `
         <tr>
           <td><code>${u.user_id}</code></td><td><strong>${u.username}</strong></td><td onclick="editUserModal('${u.user_id}')" style="cursor:pointer;">${u.nama_lengkap}</td>
-          <td>${u.role}</td><td>Level ${u.level}</td><td>${u.divisi}</td><td><code>${currentUser.level === 6 ? u.pin : '••••'}</code></td>
+          <td>${u.role}</td><td>Level ${u.level}</td><td>${u.divisi}</td><td><code>••••</code></td>
           <td style="font-size:0.68rem;color:var(--text-muted);max-width:200px;overflow:hidden;text-overflow:ellipsis;">${u.akses_tabs || 'Default'}</td>
           <td><button class="btn" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="editUserModal('${u.user_id}')">Edit</button><button class="btn btn-danger" style="padding:0.15rem 0.35rem;font-size:0.68rem;" onclick="deleteUserItem('${u.user_id}')">Hapus</button></td>
         </tr>
@@ -1041,14 +1083,14 @@
     }
     function openNewUserModal() {
       document.getElementById("modalUserTitle").innerText = "Tambah Karyawan"; document.getElementById("fUserEditId").value = "";
-      document.getElementById("fUserUsername").value = ""; document.getElementById("fUserNamaLengkap").value = ""; document.getElementById("fUserPin").value = "1234";
+      document.getElementById("fUserUsername").value = ""; document.getElementById("fUserNamaLengkap").value = ""; document.getElementById("fUserPin").value = "";
       renderTabPermissionCheckboxes("kalender:edit,checklist:edit,stok:edit"); openModal('modalUser');
     }
     function editUserModal(id) {
       const u = (localData.USERS || []).find(x => x.user_id === id); if(!u) return;
       document.getElementById("modalUserTitle").innerText = "Edit Karyawan: " + u.username; document.getElementById("fUserEditId").value = u.user_id;
       document.getElementById("fUserUsername").value = u.username; document.getElementById("fUserNamaLengkap").value = u.nama_lengkap;
-      document.getElementById("fUserRole").value = u.role; document.getElementById("fUserDivisi").value = u.divisi; document.getElementById("fUserPin").value = u.pin;
+      document.getElementById("fUserRole").value = u.role; document.getElementById("fUserDivisi").value = u.divisi; document.getElementById("fUserPin").value = ""; document.getElementById("fUserPin").placeholder = "Kosongkan bila PIN tidak berubah";
       renderTabPermissionCheckboxes(u.akses_tabs || ""); openModal('modalUser');
     }
     function renderTabPermissionCheckboxes(permStr) {
@@ -1082,10 +1124,12 @@
     }
     function syncUserLevel() {
       const r = document.getElementById("fUserRole").value, d = document.getElementById("fUserDivisi");
-      if(r === "BARISTA" || r === "HEAD") d.value = "BARISTA"; else if(r === "KITCHEN") d.value = "KITCHEN"; else if(r === "SERVER") d.value = "SERVER"; else d.value = "MANAJEMEN";
+      if(r === "BARISTA") d.value = "BARISTA"; else if(r === "KITCHEN") d.value = "KITCHEN"; else if(r === "SERVER") d.value = "SERVER"; else if(r === "HEAD") { /* V24: HEAD bisa divisi apa saja, jangan ubah pilihan divisi */ } else d.value = "MANAJEMEN";
     }
     async function submitUserForm() {
       const editId = document.getElementById("fUserEditId").value, r = document.getElementById("fUserRole").value;
+      const unameCheck = document.getElementById("fUserUsername").value.toLowerCase().trim();
+      if ((localData.USERS || []).some(x => String(x.username).toLowerCase() === unameCheck && x.user_id !== editId)) { alert("Username sudah dipakai karyawan lain!"); return; }
       let level = 1;
       if(r === "HEAD") level = 2; else if(r === "PURCHASING" || r === "HRD") level = 3; else if(r === "MANAGER") level = 4; else if(r === "OWNER") level = 5; else if(r === "RAJA_UTAMA") level = 6;
       const payload = {
@@ -1093,10 +1137,15 @@
         role: r, level: level, divisi: document.getElementById("fUserDivisi").value, pin: document.getElementById("fUserPin").value.trim(),
         status: "Aktif", akses_perusahaan: level >= 4 ? "YA" : "TIDAK", akses_tabs: collectTabPermissionsString()
       };
-      closeModal('modalUser'); showToast("Menyimpan karyawan...");
-      if(editId) await postToGas("update", "USERS", { key: "user_id", val: editId, updates: payload });
-      else { payload.user_id = "USR-" + Date.now().toString().slice(-4); payload.tipe_kerja = "Tetap"; await postToGas("insert", "USERS", payload); }
-      await fetchAllData();
+      // V24: PIN tidak lagi dikirim server ke frontend. Kosong saat edit = PIN lama dipertahankan; kosong saat tambah = wajib diisi.
+      if (editId && !payload.pin) delete payload.pin;
+      if (!editId && !payload.pin) { alert("PIN wajib diisi untuk karyawan baru!"); return; }
+      showToast("Menyimpan karyawan...");
+      try {
+        if(editId) await postToGas("update", "USERS", { key: "user_id", val: editId, updates: payload });
+        else { payload.user_id = genId("USR"); payload.tipe_kerja = "Tetap"; await postToGas("insert", "USERS", payload); }
+        closeModal('modalUser'); await fetchAllData();
+      } catch(e) { alert("Gagal menyimpan karyawan: " + e.message); }
     }
     async function deleteUserItem(id) { if(confirm(`Hapus karyawan ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "USERS", { key: "user_id", val: id }); await fetchAllData(); } }
 
@@ -1133,7 +1182,7 @@
       } catch (e) { alert("❌ GAGAL MENGHUBUNGI APPS SCRIPT!\nPastikan Webhook URL benar dan diset 'Anyone'."); }
     }
 
-    function changeMonth(delta) { calDate.setMonth(calDate.getMonth() + delta); renderCalendar(); }
+    function changeMonth(delta) { calDate = new Date(calDate.getFullYear(), calDate.getMonth() + delta, 1); renderCalendar(); }
     function jumpToCurrentMonth() { calDate = new Date(); pickerYear = calDate.getFullYear(); closeModal('modalMonthPicker'); renderCalendar(); }
     function openMonthPickerModal() { pickerYear = calDate.getFullYear(); document.getElementById("txtPickerYear").innerText = pickerYear; renderMonthPickerGrid(); openModal('modalMonthPicker'); }
     function changePickerYear(delta) { pickerYear += delta; document.getElementById("txtPickerYear").innerText = pickerYear; renderMonthPickerGrid(); }
@@ -1151,6 +1200,8 @@
       const grid = document.getElementById("calendarGrid");
       grid.innerHTML = ['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(d => `<div class="cal-day-name">${d}</div>`).join('');
       const totalDays = new Date(y, m + 1, 0).getDate();
+      const firstOffset = (new Date(y, m, 1).getDay() + 6) % 7;
+      for (let i = 0; i < firstOffset; i++) grid.innerHTML += `<div></div>`;
       for (let day = 1; day <= totalDays; day++) {
         const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${dayString(day)}`;
         const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === dateStr);
@@ -1199,7 +1250,7 @@
       const r = (localData.JADWAL || []).find(x => x.id === id); if(!r) return;
       document.getElementById("modalRosterTitle").innerText = "Edit Jadwal: " + r.nama; document.getElementById("fJdwEditId").value = r.id;
       document.getElementById("fJdwTanggal").value = cleanDateForInput(r.tanggal); document.getElementById("fJdwUser").value = r.username;
-      document.getElementById("fJdwShift").value = r.shift; document.getElementById("fJdwStatus").value = r.status_hadir; document.getElementById("fJdwCatatan").value = r.catatan;
+      document.getElementById("fJdwShift").value = r.shift; document.getElementById("fJdwStatus").value = r.status_hadir; document.getElementById("fJdwJamMasuk").value = r.jam_masuk || "08:30"; document.getElementById("fJdwJamPulang").value = r.jam_pulang || "16:30"; document.getElementById("fJdwCatatan").value = r.catatan;
       openModal('modalRoster');
     }
     async function deleteRosterItem(id) { if(confirm(`Hapus ${id}?`)) { showToast("Menghapus..."); await postToGas("delete", "JADWAL", { key: "id", val: id }); await fetchAllData(); openDayInspector(activeInspectDate); renderCalendar(); } }
@@ -1303,11 +1354,13 @@
     async function submitRosterForm() {
       const editId = document.getElementById("fJdwEditId").value, u = document.getElementById("fJdwUser").value;
       const userObj = (localData.USERS || []).find(x => x.username === u) || {};
-      const payload = { tanggal: document.getElementById("fJdwTanggal").value, shift: document.getElementById("fJdwShift").value, username: u, nama: userObj.nama_lengkap || u, divisi: userObj.divisi || "BARISTA", status_hadir: document.getElementById("fJdwStatus").value, catatan: document.getElementById("fJdwCatatan").value };
-      closeModal('modalRoster'); showToast("Menyimpan jadwal...");
-      if(editId) await postToGas("update", "JADWAL", { key: "id", val: editId, updates: payload });
-      else { payload.id = "JDW-" + Date.now().toString().slice(-5); await postToGas("insert", "JADWAL", payload); }
-      await fetchAllData(); renderCalendar();
+      const payload = { tanggal: document.getElementById("fJdwTanggal").value, shift: document.getElementById("fJdwShift").value, username: u, nama: userObj.nama_lengkap || u, divisi: userObj.divisi || "BARISTA", status_hadir: document.getElementById("fJdwStatus").value, jam_masuk: document.getElementById("fJdwJamMasuk").value, jam_pulang: document.getElementById("fJdwJamPulang").value, catatan: document.getElementById("fJdwCatatan").value };
+      showToast("Menyimpan jadwal...");
+      try {
+        if(editId) await postToGas("update", "JADWAL", { key: "id", val: editId, updates: payload });
+        else { payload.id = genId("JDW"); await postToGas("insert", "JADWAL", payload); }
+        closeModal('modalRoster'); await fetchAllData(); renderCalendar();
+      } catch(e) { alert("Gagal menyimpan jadwal: " + e.message); }
     }
 
     async function submitLogForm() {
@@ -1319,13 +1372,15 @@
       const jumlah = cleanMoney(document.getElementById("fLogJumlahVal").value), satuan = document.getElementById("fLogSatuan").value;
       const payload = {
         tanggal: document.getElementById("fLogTanggal").value || getLocalTodayDate(), jam: document.getElementById("fLogJam").value || getLocalCurrentTime(),
-        divisi: document.getElementById("fLogDivisi").value, kategori: kat, item_terkait: itemName, item_id: itemId, jumlah_angka: jumlah, satuan: satuan,
+        divisi: document.getElementById("fLogDivisi").value, shift: document.getElementById("fLogShift").value, kategori: kat, item_terkait: itemName, item_id: itemId, jumlah_angka: jumlah, satuan: satuan,
         detail: document.getElementById("fLogDetail").value, pic: currentUser.username, tindak_lanjut: "Tercatat & Terkoneksi Stok"
       };
-      closeModal('modalLog'); showToast("Menyimpan log...");
-      if(editId) await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
-      else { payload.log_id = "LOG-" + Date.now().toString().slice(-5); await postToGas("insert", "LOG_KALENDER", payload); }
-      await fetchAllData(); renderCalendar(); showToast("Log & Stok tersinkron!");
+      showToast("Menyimpan log...");
+      try {
+        if(editId) await postToGas("update", "LOG_KALENDER", { key: "log_id", val: editId, updates: payload });
+        else { payload.log_id = genId("LOG"); await postToGas("insert", "LOG_KALENDER", payload); }
+        closeModal('modalLog'); await fetchAllData(); renderCalendar(); showToast("Log & Stok tersinkron!");
+      } catch(e) { alert("Gagal menyimpan log: " + e.message); }
     }
 
     function openModal(id) { document.getElementById(id).style.display = "flex"; }
@@ -1342,19 +1397,10 @@
 
     // ONLOAD TUNGGAL LANGSUNG JALAN
     window.onload = () => {
-      if (currentUser) unlockPortal();
-      else document.getElementById("gatekeeper").style.display = "flex";
+      // V24: sesi lama tanpa token tidak berlaku, wajib login ulang agar token diterbitkan server.
+      if (currentUser && authToken) unlockPortal();
+      else { currentUser = null; document.getElementById("gatekeeper").style.display = "flex"; }
     };
   </script>
 </body>
 </html>
-```
-
----
-
-### Perhatikan Ini Saat Paste ke GitHub:
-1. Pastikan baris paling bawah di GitHub Anda tertulis:
-   ```html
-     </script>
-   </body>
-   </html>
