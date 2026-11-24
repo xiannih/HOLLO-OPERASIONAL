@@ -957,9 +957,9 @@
       document.getElementById("fDrRestockList").value = restockList;
       // V24.6: kehadiran & libur dari kalender/roster tanggal tsb
       const roster = (localData.JADWAL || []).filter(j => cleanDateForInput(j.tanggal) === tgl);
-      const hadirTxt = ["1", "2"].map(sh => { const nm = roster.filter(j => String(j.shift) === sh && j.status_hadir !== "Libur").map(x => x.nama || x.username); return nm.length ? `S${sh}: ${nm.join(", ")}` : ""; }).filter(Boolean).join(" | ");
+      const hadirTxt = ["1", "2"].map(sh => { const nm = [...new Set(roster.filter(j => String(j.shift) === sh && j.status_hadir !== "Libur").map(x => x.nama || x.username))]; return nm.length ? `S${sh}: ${nm.join(", ")}` : ""; }).filter(Boolean).join(" | "); // V24.7: nama unik
       document.getElementById("fDrTimHadir").value = hadirTxt || "Belum ada roster";
-      document.getElementById("fDrTimLibur").value = roster.filter(j => j.status_hadir === "Libur").map(x => x.nama || x.username).join(", ") || "-";
+      document.getElementById("fDrTimLibur").value = [...new Set(roster.filter(j => j.status_hadir === "Libur").map(x => x.nama || x.username))].join(", ") || "-"; // V24.7: nama unik
       // V24.6: ringkasan status stok (aman vs restock)
       const allStok = localData.STOK || [], kritis = allStok.filter(x => calcStokDerived(x).status === "RESTOCK");
       document.getElementById("fDrStatusStok").value = `Aman: ${allStok.length - kritis.length} item | Restock: ${kritis.length} item` + (kritis.length ? `\nKritis: ${kritis.map(x => `${x.nama_barang} (sisa ${calcStokDerived(x).sisa} ${x.satuan_mikro || x.satuan})`).join("; ")}` : "");

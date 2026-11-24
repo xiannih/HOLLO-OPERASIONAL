@@ -605,6 +605,19 @@ function doPost(e) {
     }
 
     if (action === "insert") {
+      // V24.7: Tolak insert bila ID sudah ada — cegah baris duplikat dari klik ganda / kirim ulang.
+      const KEYMAP_ = { USERS: "user_id", MENU: "menu_id", STOK: "item_id", JADWAL: "id", CHECKLIST: "task_id", LOG_KALENDER: "log_id", SERAH_TERIMA: "id", DAILY_REPORT: "report_id" };
+      const keyCol_ = KEYMAP_[payload.sheet];
+      if (keyCol_ && payload.data && payload.data[keyCol_] !== undefined && String(payload.data[keyCol_]).trim() !== "") {
+        const kIdx_ = headers.indexOf(keyCol_);
+        if (kIdx_ >= 0) {
+          for (let r = 1; r < data.length; r++) {
+            if (String(data[r][kIdx_]).trim() === String(payload.data[keyCol_]).trim()) {
+              return jsonResp({ success: false, message: "ID sudah dipakai: " + payload.data[keyCol_] + " (baris duplikat ditolak)" });
+            }
+          }
+        }
+      }
       let row = [];
       const newRowNum = sh.getLastRow() + 1;
 
