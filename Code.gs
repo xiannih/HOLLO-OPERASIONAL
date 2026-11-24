@@ -240,7 +240,7 @@ function repairAndSyncDatabase() {
     shSt.getRange(2, 8, Math.max(shSt.getLastRow() - 1, 1), 8).setNumberFormat("Rp #,##0");
   }
 
-  // 9. DAILY_REPORT (22 KOLOM)
+  // 9. DAILY_REPORT (26 KOLOM — V24.6: +tim_hadir, tim_libur, status_stok, isu_harian)
   const shDr = getOrCreateSheet(ss, "DAILY_REPORT");
   const drHeaders = [
     "report_id", "tanggal", "rev_shift1", "rev_shift2", "total_omset",
@@ -248,7 +248,8 @@ function repairAndSyncDatabase() {
     "total_kas_keluar", "rincian_pengeluaran",
     "kalibrasi_beans", "waste_bahan", "barang_masuk", "insiden_alat",
     "belanja_barista", "belanja_kitchen", "belanja_server",
-    "crew_meals", "komplimen_barter", "evaluasi_harian", "pelapor"
+    "crew_meals", "komplimen_barter", "evaluasi_harian", "pelapor",
+    "tim_hadir", "tim_libur", "status_stok", "isu_harian"
   ];
   const extraDr = cleanAndFormatSheet(shDr, drHeaders);
   if (extraDr) extraNotes.push(extraDr);
