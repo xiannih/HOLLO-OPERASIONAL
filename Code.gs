@@ -437,7 +437,7 @@ function applyLogStockEffect_(ss, logObj, sign) {
   const sItemIdx = sHeaders.indexOf("item_id");
   const sWasteIdx = sHeaders.indexOf("waste_mikro");
   const sGudangIdx = sHeaders.indexOf("stok_gudang");
-  const sRefillIdx = sHeaders.indexOf("refill_s1");
+  const sRefillIdx = sHeaders.indexOf(String(logObj.shift || "1") === "2" ? "refill_s2" : "refill_s1"); // V24.2: refill masuk kolom shift-nya
   const sKonvIdx = sHeaders.indexOf("isi_konversi");
   if (sItemIdx === -1) return;
 

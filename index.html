@@ -938,6 +938,14 @@
       showToast("Data Shift 1 & 2 berhasil ditarik!");
     }
 
+    // V24.2: ringkasan log per kategori untuk kolom Daily Report di Sheet
+    function drLogsText_() {
+      const tgl = document.getElementById("fDrTanggal").value || getLocalTodayDate();
+      const keys = Array.prototype.slice.call(arguments);
+      const ls = (localData.LOG_KALENDER || []).filter(l => cleanDateForInput(l.tanggal) === tgl && keys.some(k => String(l.kategori || "").includes(k)));
+      return ls.length ? ls.map(x => `${x.item_terkait} (${x.jumlah_angka} ${x.satuan || ""})`.trim()).join("; ") : "";
+    }
+
     async function submitDailyReportForm() {
       const editId = document.getElementById("fDrEditId").value, s1 = cleanMoney(document.getElementById("fDrRevS1").value), s2 = cleanMoney(document.getElementById("fDrRevS2").value);
       const target = cleanMoney(document.getElementById("fDrTarget").value) || 5000000, total = s1 + s2;
@@ -947,6 +955,7 @@
         target_harian: target, capaian_pct: target > 0 ? ((total/target)*100).toFixed(1)+'%' : '100%',
         total_kas_keluar: cleanMoney(document.getElementById("fDrKasKeluar").value), rincian_pengeluaran: document.getElementById("fDrKetKasKeluar").value,
         kalibrasi_beans: document.getElementById("fDrKalibrasi").value, waste_bahan: document.getElementById("fDrWaste").value,
+        barang_masuk: drLogsText_("Barang Masuk"), insiden_alat: drLogsText_("Insiden", "Pecah Belah"),
         belanja_barista: document.getElementById("fDrBelanjaBar").value, belanja_kitchen: document.getElementById("fDrBelanjaKit").value, belanja_server: document.getElementById("fDrBelanjaSrv").value,
         evaluasi_harian: document.getElementById("fDrEvaluasi").value, pelapor: currentUser.username
       };
@@ -1030,7 +1039,7 @@
       renderMenuTable(cat);
     }
     function renderMenuTable(jenis) {
-      const data = (localData.MENU || []).filter(m => m.jenis === jenis || (jenis === "Minuman" ? (m.divisi === "BARISTA" && m.jenis !== "Makanan") : (m.divisi === "KITCHEN" && m.jenis !== "Minuman")));
+      const data = (localData.MENU || []).filter(m => String(m.jenis || "").trim().toLowerCase() === jenis.toLowerCase() || (jenis === "Minuman" ? (m.divisi === "BARISTA" && String(m.jenis || "").trim().toLowerCase() !== "makanan") : (m.divisi === "KITCHEN" && String(m.jenis || "").trim().toLowerCase() !== "minuman"))); // V24.2: toleran kapital/spasi
       const perm = getTabPermission("menu");
       document.getElementById("menuTableBody").innerHTML = data.map(m => {
         const hpp = cleanMoney(m.hpp), jual = cleanMoney(m.harga_jual), marginRp = cleanMoney(m.margin_rp) || (jual - hpp);
